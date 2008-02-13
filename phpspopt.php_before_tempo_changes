@@ -1,0 +1,252 @@
+<?php
+
+    define("DEBUG", 1);
+    define("VERBOSE", 0);
+
+    header("Content-type:text/plain");
+
+    require 'notevalues.php';
+    require 'classes/midi.class.php';
+    require 'songnames.php';
+
+    global $songname, $timebase;
+    $songname = "";
+
+    $mid = new Midi;
+    $mid->importMid('mids/strutter.mid');
+    $timebase = $mid->getTimebase();
+
+    $expert = filterDifficulty($mid->getTrackTxt(1), $NOTES['EXPERT']);
+    $timetrack = parseTimeTrack($mid->getTrackTxt(0));
+    $measures = makeMeasureTable($timetrack, $expert);
+    
+    //echo "\n\n\n" . $mid->getTrackTxt(0);
+
+
+
+function makeMeasureTable($timetrack, $notetrack) {
+    $ret = array();
+    $measure = $curTime = 0;
+    global $timebase;
+    
+    for ($i = 0; $i < count($timetrack); $i++) {
+        $duration = 0;
+        if (is_array($timetrack[$i+1])) {
+            $duration = $timetrack[$i+1]["time"] - $timetrack[$i]["time"];
+        }
+        else {
+            $duration = $notetrack["TrkEnd"] - $timetrack[$i]["time"];
+        }
+        
+        $measDur = $timebase * $timetrack[$i]["numerator"];
+        $numMeas = $duration / $measDur;
+        
+        $oldMeasure = $measure;
+        for (; $measure < $oldMeasure + $numMeas; $measure++) {
+            $ret[$measure]["offset"] = $curTime;
+            $ret[$measure]["numerator"] = $timetrack[$i]["numerator"];
+            $ret[$measure]["denominator"] = $timetrack[$i]["denominator"];
+            $ret[$measure]["tempo"] = $timetrack[$i]["tempo"];
+            $ret[$measure]["bpm"] = (int)(60000000/$timetrack[$i]["tempo"]);
+            $ret[$measure]["notes"] = array();
+            $curTime += $measDur;
+        }
+    }
+    
+    if (DEBUG >= 1) {
+        print_r(array_values($ret));
+    }
+    
+    return $ret;
+}
+
+
+function parseTimeTrack($tracktxt) {
+    global $songname;
+    
+    $ret = array();
+    $loop = 0;
+    $index = -1;
+    $lastTempo = 0;
+    $lastNum = $lastDenom = 4;
+    
+    
+    $trk = explode("\n", $tracktxt);
+    
+    foreach ($trk as $line) {
+        $loop++;
+        $info = explode(" ", $line);
+        
+        if ($info[1] == "Meta") {
+            if ($info[2] == "TrkName") {
+                preg_match('/.*\"(.*)\"$/', $line, $matches);
+                $songname = $matches[1];
+            }
+            continue;
+        }
+        
+        if ($info[1] != "Tempo" && $info[1] != "TimeSig") {
+            continue;
+        }
+        
+        if (arrayTimeExists($ret, $info[0], 0) == false) {
+            $index++;
+        }
+        
+        if ($info[1] == "Tempo") {
+            $ret[$index]["time"] = $info[0];
+            $lastTempo = $ret[$index]["tempo"] = $info[2];
+            $ret[$index]["numerator"] = $lastNum;
+            $ret[$index]["denominator"] = $lastDenom;
+        } else if ($info[1] == "TimeSig") {
+            $ret[$index]["time"] = $info[0];
+            $ret[$index]["tempo"] = $lastTempo;
+            $lastNum = $ret[$index]["numerator"] = $info[2][0];
+            $lastDenom = $ret[$index]["denominator"] = $info[2][2];
+        }
+    }
+    
+    if (DEBUG == 2) {
+        print_r(array_values($ret));
+    }
+    
+    return $ret;
+}
+
+
+function filterDifficulty($tracktxt, $difNotes) {
+    
+    /* Stuff that will eventually need to be addressed:
+    
+    5) Valid non-sustained notes must have a corresponding note-off event. If a note endpoint is a second note-on event and the duration of the note is less than 161 pulses, the game considers the note to be an invalid note and it is ignored for all purposes (as exhibited by Cheat on the Church) 
+    5) [sic] If a player section note-off event occurs more than 15 (30?) pulses prior to the endpoint of a sustained note, the sustained note is ignored by the game for all purposes, even in single player mode (as exhibited in the solo of You Got Another Thing Comin')
+
+    */
+    
+    
+    $notes = array();
+    
+    $track = explode("\n", $tracktxt);
+    $index = 0;
+    $SP = false;
+    $SPphrase = 0;
+    $p1 = false;
+    $p2 = false;
+    
+    foreach ($track as $line) {
+        if ($line == "MTrk") continue;
+        $info = explode(" ", $line);
+        
+        if ($info[1] == "Meta") {
+            if ($info[2] == "TrkEnd") {
+                $notes["TrkEnd"] = $info[0];
+            }
+            continue;
+        }
+        
+        $note = substr($info[3], 2);
+        $vel = substr($info[4], 2);
+        
+        // filter out stuff for the difficulty we're interested in
+        if ($note >= $difNotes["G"] && $note <= $difNotes["P2"]) {
+            // see if we already have something at this time index
+            if (arrayTimeExists($notes, $info[0], CHORD) == false && ($info[1] == "On" && $vel == 100)) {
+                $index++;
+                $chord = 0;
+            }
+            
+            // check for star power
+            if ($note == $difNotes["STAR"] && ($info[1] == "On" && $vel == 100)) {
+                 $SP = true;
+                 $SPphrase++;
+                 if (DEBUG == 2 && VERBOSE) echo "SP phrase $SPphrase start at " . $info[0] . "\n";
+            }
+            else if ($note == $difNotes["STAR"] && ($info[1] == "Off" || ($info[1] == "On" && $vel == 0))) {
+                $SP = false;
+                if (DEBUG == 2 && VERBOSE) echo "SP phrase $SPphrase end at " . $info[0] . "\n";
+            }
+            else if ($note != $difNotes["STAR"]) {
+                
+                // check for player1/player2 stuff
+                if ($note == $difNotes["P1"] && ($info[1] == "On" && $vel == 100)) {
+                    $p1 = true;
+                    if (DEBUG == 2 && VERBOSE) echo "Player 1 on at " . $info[0] . "\n";
+                }
+                else if ($note == $difNotes["P1"] && ($info[1] == "Off" || ($info[1] == "On" && $vel == 0))) {
+                    $p1 = false;
+                    if (DEBUG == 2 && VERBOSE) echo "Player 1 off at " . $info[0] . "\n";
+                }
+                if ($note == $difNotes["P2"] && ($info[1] == "On" && $vel == 100)) {
+                    $p2 = true;
+                    if (DEBUG == 2 && VERBOSE) echo "Player 2 on at " . $info[0] . "\n";
+                }
+                else if ($note == $difNotes["P2"] && ($info[1] == "Off" || ($info[1] == "On" && $vel == 0))) {
+                    $p2 = false;
+                    if (DEBUG == 2 && VERBOSE) echo "Player 2 off at " . $info[0] . "\n";
+                }
+                else  if ($note != $difNotes["P1"] && $note != $difNotes["P2"]) {
+                    
+                    // regular note
+                    if ($info[1] == 'On' && $vel == 100) {
+                        if (!isset($notes[$index]["time"])) $notes[$index]["time"] = $info[0];
+                        $notes[$index]["count"] = $chord;
+                        $notes[$index]["note"][$chord++] = $note;
+                    }
+                    
+                    // sustain check
+                    if (($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) &&
+                        $info[0] > $notes[$index]["time"] + SUSTAIN
+                        && is_array($notes[$index]["note"])
+                        && !isset($notes[$index]["duration"])) {
+                            $notes[$index]["duration"] = $info[0] - $notes[$index]["time"];
+                    }
+                    // make sure end events are for real notes
+                    else if ($info[1] == "On" && $vel == 0 && is_array($notes[$index]["note"]) && !isset($notes[$index]["duration"])) {
+                        $notes[$index]["duration"] = 0;
+                    }
+                    
+                    // star power
+                    if (is_array($notes[$index]["note"])) {
+                        if ($SP) {
+                            $notes[$index]["phrase"] = $SPphrase;
+                        }
+                        else {
+                            $notes[$index]["phrase"] = 0;
+                        }
+                        
+                        $notes[$index]["player1"] = $p1;
+                        $notes[$index]["player2"] = $p2;
+                    }
+                }
+            }
+        }
+    }
+    
+    if (DEBUG == 2) {
+        print_r(array_values($notes));
+    }
+    
+    return $notes;
+}
+
+
+function arrayTimeExists($array, $time, $window) {
+    // $window is how much tolerance we have
+    if (!is_array($array)) {
+        return false;
+    }
+
+    foreach ($array as $item) {
+        //if (($item["time"] >= ($time - (($item["count"] + 1) * $window))) && ($item["time"] <= ($time + ($item["count"]+1) * $window))) {
+        if ($item["time"] >= ($time - ($item["count"] + 1) * $window) && $item["time"] <= $time) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+
+
+?>
