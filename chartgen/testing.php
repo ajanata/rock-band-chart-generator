@@ -6,7 +6,12 @@
 
 
 
-    parseFile("../mids/dontfearthereaper.mid", "EXPERT", "RB", "GUITAR");
+    //parseFile("../mids/dontfearthereaper.mid", "EXPERT", "RB", "GUITAR");
+
+	list ($measures, $notetrack, $songname, $events) = parseFile("../mids/rb/thehandthatfeeds.mid", "HARD", "RB", "DRUMS");
+
+
+print_r($measures);
 
 
 

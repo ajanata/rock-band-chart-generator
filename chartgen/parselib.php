@@ -3,7 +3,7 @@
     define("DEBUG", 0);
     define("VERBOSE", 0);
     define("OMGVERBOSE", 0);
-	define("PARSELIBVERSION", "0.3.2");
+	define("PARSELIBVERSION", "0.4.0");
 
     header("Content-type:text/plain");
 
@@ -68,7 +68,8 @@
             }
         }
         
-        $notetrack = filterDifficulty($mid->getTrackTxt($tracknum), $NOTES[$game][$difficulty]);
+        // $events is start/end times for phrases, fills, and solos
+        list($notetrack, $events) = filterDifficulty($mid->getTrackTxt($tracknum), $NOTES[$game][$difficulty]);
         $timetrack = parseTimeTrack($mid->getTrackTxt(0));
         $measures = makeMeasureTable($timetrack, $notetrack);
         list($measures, $notetrack) = putNotesInMeasures($measures, $notetrack);
@@ -77,7 +78,7 @@
         $measures = getSectionNames($measures, $mid->getTrackTxt($eventsTrack));
 
 
-        return array($measures, $notetrack, $songname);
+        return array($measures, $notetrack, $songname, $events);
     }
     
     
@@ -111,6 +112,7 @@ function calcBaseScores($measures, $notetrack, $config, $drums = false, $goesTo6
     $over = 0;
     $overChord = 0;
     $overScore = 0;
+    $hadAFill = false;
     
     $totalOverScore = 0;
     
@@ -121,41 +123,27 @@ function calcBaseScores($measures, $notetrack, $config, $drums = false, $goesTo6
         
         if ($drums) {
             $total = 0;
-            // fuck all that other code XD
-
             // base score with multiplier doesn't really mean anything with drums
             // and there aren't sustains either for rounding issues...
-            /*
-            for ($i = 0; $i < count($meas["notes"]); $i++) {
-                for ($j = 0; $j < count($notetrack[$meas["notes"][$i]]["note"]); $j++) {
-                    $streak++;;
-                    $oldmult = $mult;
-                    if ($streak == $config["multi"][0] || $streak == $config["multi"][1] || $streak == $config["multi"][2]) {
-                       // multiplier change
-                       $mult++;
-                   }
-                   if ($goesTo6 && ($streak == $config["multi"][3] || $streak == $config["multi"][4])) {
-                       $mult++;
-                   }
-                   
-                   $mScore += $config["gem_score"];
-                   $total += $oldmult * $config["gem_score"];
-                }
-            }
-            */
             
             // so just add gem_score * gem count to both scores :)
+            
+            //if ($mindex == 11) echo "WTF: " . count($meas["notes"]) . "\n";
             for ($i = 0; $i < count($meas["notes"]); $i++) {
+                //if ($mindex == 11 && $i == 0) print_r($notetrack[$meas["notes"][$i]]["note"]);
+                //if ($mindex == 11) echo $i . " " . count($notetrack[$meas["notes"][$i]]["note"]) . " ";
+                
                 $mScore += $config["gem_score"] * count($notetrack[$meas["notes"][$i]]["note"]);
+                //if ($mindex == 11) echo $mScore . " " . $total . "\n";
                 if (!$notetrack[$meas["notes"][$i]]["fill"]) {
                     $total += $config["gem_score"] * count($notetrack[$meas["notes"][$i]]["note"]);
                 }
             }
             
-
-               
-            
+            //if ($mindex == 11) echo $mScore . " " . $total . "\n";
+         
         }
+        // not drums
         else {
             // take care of leftovers from last measure first
             if ($over > 0) {
@@ -183,58 +171,69 @@ function calcBaseScores($measures, $notetrack, $config, $drums = false, $goesTo6
             
         
             for ($i = 0; $i < count($meas["notes"]); $i++) {
-                $streak++;
                 $note = &$notetrack[$meas["notes"][$i]];
-                $oldmult = $mult;
-                
-                if ($streak == $config["multi"][0] || $streak == $config["multi"][1] || $streak == $config["multi"][2]) {
-                    // multiplier change
-                    $mult++;
+                if (isset($note["fill"]) && $note["fill"]) {
+                    // in a fill, so the notes don't count for anything for guitar parts
+                    // so uh don't do anything? :)
+                    $hadAFill = true;
                 }
-                if ($goesTo6 && ($streak == $config["multi"][3] || $streak == $config["multi"][4])) {
-                    $mult++;
+                else if ($hadAFill) {
+                    // notes after the BRE count for streak but not for points
+                    $streak++;
                 }
-                
-                $over = 0;
-                if (($note["time"] + $note["duration"]) > ($meas["time"] + $timebase*$meas["numerator"])) {
-                    $over = (($note["time"] + $note["duration"]) - ($meas["time"] + $timebase*$meas["numerator"]) ) / $timebase;
+                else {
+                    // score the note
+                    $streak++;
+                    $oldmult = $mult;
+                    
+                    if ($streak == $config["multi"][0] || $streak == $config["multi"][1] || $streak == $config["multi"][2]) {
+                        // multiplier change
+                        $mult++;
+                    }
+                    if ($goesTo6 && ($streak == $config["multi"][3] || $streak == $config["multi"][4])) {
+                        $mult++;
+                    }
+                    
+                    $over = 0;
+                    if (($note["time"] + $note["duration"]) > ($meas["time"] + $timebase*$meas["numerator"])) {
+                        $over = (($note["time"] + $note["duration"]) - ($meas["time"] + $timebase*$meas["numerator"]) ) / $timebase;
+                    }
+                    
+                    // measure score
+                    
+                    $gems = $config["gem_score"] * count($note["note"]);
+                    $ticks = floor($config["ticks_per_beat"] * ($note["duration"] / $timebase) + EPS);
+                    if ($over > 0) {
+                        $mTicks = floor($ticks * ($meas["time"] + $timebase*$meas["numerator"] - $note["time"])
+                                    / $note["duration"]);
+                        $overScore = $ticks - $mTicks;
+                        $overScore *= ($config["chord_sustain_bonus"] ? count($note["note"]) : 1);
+                        $ticks = $mTicks;
+                    }
+                    $ticks *= ($config["chord_sustain_bonus"] ? count($note["note"]) : 1);
+                    $mScore += $gems + $ticks;
+                    
+                                
+                    // $sustain ? $chordsize * int ( 25 * ($eb-$sb) + $EPS ) : 0;
+                    
+                    
+                    // total score
+                    
+                    $totalTicks = floor($config["ticks_per_beat"] * ($note["duration"] / $timebase) + 0.5 + EPS);
+                    if ($over > 0) {
+                        $totalMTicks = floor($totalTicks * ($meas["time"] + $timebase*$meas["numerator"] - $note["time"])
+                                            / $note["duration"]);
+                        $totalOverScore = $totalTicks - $totalMTicks;
+                        $totalOverScore *= ($config["chord_sustain_bonus"] ? count($note["note"]) : 1);
+                        $totalTicks = $totalMTicks;
+                    }
+                    $totalTicks *= ($config["chord_sustain_bonus"] ? count($note["note"]) : 1);
+                    $total += ($oldmult * $gems) + ($oldmult * $totalTicks);
+                                
+                    //$mult * ($sustain ? $chordsize * int ( 25 * ($eb-$sb) + 0.5 + $EPS ) : 0);
+                    
+                    $overChord = $config["chord_sustain_bonus"] ? count($note["note"]) : 1;
                 }
-                
-                // measure score
-                
-                $gems = $config["gem_score"] * count($note["note"]);
-                $ticks = floor($config["ticks_per_beat"] * ($note["duration"] / $timebase) + EPS);
-                if ($over > 0) {
-                    $mTicks = floor($ticks * ($meas["time"] + $timebase*$meas["numerator"] - $note["time"])
-                                / $note["duration"]);
-                    $overScore = $ticks - $mTicks;
-                    $overScore *= ($config["chord_sustain_bonus"] ? count($note["note"]) : 1);
-                    $ticks = $mTicks;
-                }
-                $ticks *= ($config["chord_sustain_bonus"] ? count($note["note"]) : 1);
-                $mScore += $gems + $ticks;
-                
-                            
-                // $sustain ? $chordsize * int ( 25 * ($eb-$sb) + $EPS ) : 0;
-                
-                
-                // total score
-                
-                $totalTicks = floor($config["ticks_per_beat"] * ($note["duration"] / $timebase) + 0.5 + EPS);
-                if ($over > 0) {
-                    $totalMTicks = floor($totalTicks * ($meas["time"] + $timebase*$meas["numerator"] - $note["time"])
-                                        / $note["duration"]);
-                    $totalOverScore = $totalTicks - $totalMTicks;
-                    $totalOverScore *= ($config["chord_sustain_bonus"] ? count($note["note"]) : 1);
-                    $totalTicks = $totalMTicks;
-                }
-                $totalTicks *= ($config["chord_sustain_bonus"] ? count($note["note"]) : 1);
-                $total += ($oldmult * $gems) + ($oldmult * $totalTicks);
-                            
-                //$mult * ($sustain ? $chordsize * int ( 25 * ($eb-$sb) + 0.5 + $EPS ) : 0);
-                
-                $overChord = $config["chord_sustain_bonus"] ? count($note["note"]) : 1;
-                
             }
         }
         
@@ -461,9 +460,13 @@ function filterDifficulty($tracktxt, $difNotes) {
     
     
     $notes = array();
+    $events = array();
     
     $track = explode("\n", $tracktxt);
     $index = 0;
+    $eventIndex = 0;
+    // indexes
+    $lastStar = $lastFill = $lastSolo = $lastP1 = $lastP2 = 0;
     $lastRealNote = -1;
     $SP = false;
     $SPphrase = 0;
@@ -489,52 +492,76 @@ function filterDifficulty($tracktxt, $difNotes) {
         // filter out stuff for the difficulty we're interested in
         // last bit is hack for RB which has it out of order
         if (($note >= $difNotes["G"] && $note <= $difNotes["P2"]) || $note == $difNotes["STAR"] 
-                || ($note >= $difNotes["FILL"]["G"] && $note <= $difNotes["FILL"]["O"])) {
+                || ($note >= $difNotes["FILL"]["G"] && $note <= $difNotes["FILL"]["O"])
+                || $note == $difNotes["SOLO"]) {
             
             // check for star power
             if ($note == $difNotes["STAR"] && ($info[1] == "On" && $vel >= 100)) {
                  $SP = true;
                  $SPphrase++;
+                 $lastStar = $eventIndex++;
+                 $events[$lastStar]["type"] = "star";
+                 $events[$lastStar]["start"] = $info[0];
                  if (DEBUG == 2 && VERBOSE) echo "SP phrase $SPphrase start at " . $info[0] . "\n";
             }
             else if ($note == $difNotes["STAR"] && ($info[1] == "Off" || ($info[1] == "On" && $vel == 0))) {
                 $SP = false;
+                $events[$lastStar]["end"] = $info[0];
                 if (DEBUG == 2 && VERBOSE) echo "SP phrase $SPphrase end at " . $info[0] . "\n";
             }
             else if (isset($difNotes["SOLO"]) && $note == $difNotes["SOLO"] && ($info[1] == "On" && $vel >= 100)) {
                 // solo section (rock band)
                 $solo = true;
+                $lastSolo = $eventIndex++;
+                $events[$lastSolo]["type"] = "solo";
+                $events[$lastSolo]["start"] = $info[0];
             }
             else if (isset($difNotes["SOLO"]) && $note == $difNotes["SOLO"] && ($info[1] == "Off" || ($info[1] == "On" && $vel == 0))) {
                 $solo = false;
+                $events[$lastSolo]["end"] = $info[0];
             }
-            else if (is_array($difNotes["FILL"]) && ($note >= $difNotes["FILL"]["G"] && $note <= $difNotes["FILL"]["O"])
+            // FIXME: hax
+            else if (is_array($difNotes["FILL"]) && ($note == $difNotes["FILL"]["G"] /* && $note <= $difNotes["FILL"]["O"]*/)
                         && ($info[1] == "On" && $vel >= 100)) {
                             // fill section (rock band)
                             $fill = true;
+                            $lastFill = $eventIndex++;
+                            $events[$lastFill]["type"] = "fill";
+                            $events[$lastFill]["start"] = $info[0];
             }
-            else if (is_array($difNotes["FILL"]) && ($note >= $difNotes["FILL"]["G"] && $note <= $difNotes["FILL"]["O"])
+            else if (is_array($difNotes["FILL"]) && ($note == $difNotes["FILL"]["G"] /*&& $note <= $difNotes["FILL"]["O"]*/)
                         && ($info[1] == "Off" || ($info[1] == "On" && $vel == 0))) {
                             $fill = false;
+                            $events[$lastFill]["end"] = $info[0];
             }
-            
+            else if (is_array($difNotes["FILL"]) && ($note >= $difNotes["FILL"]["R"] && $note <= $difNotes["FILL"]["O"])) {
+                continue;
+            }
             else { //if ($note != $difNotes["STAR"]) {
                 
                 // check for player1/player2 stuff
                 if ($note == $difNotes["P1"] && ($info[1] == "On" && $vel >= 100)) {
                     $p1 = true;
+                    $lastP1 = $eventIndex++;
+                    $events[$lastP1]["type"] = "p1";
+                    $events[$lastP1]["start"] = $info[0];
                     if (DEBUG == 2 && VERBOSE) echo "Player 1 on at " . $info[0] . "\n";
                 }
                 else if ($note == $difNotes["P1"] && ($info[1] == "Off" || ($info[1] == "On" && $vel == 0))) {
                     $p1 = false;
+                    $events[$lastP1]["end"] = $info[0];
                     if (DEBUG == 2 && VERBOSE) echo "Player 1 off at " . $info[0] . "\n";
                 }
                 if ($note == $difNotes["P2"] && ($info[1] == "On" && $vel >= 100)) {
                     $p2 = true;
+                    $lastP2 = $eventIndex++;
+                    $events[$lastP2]["type"] = "p2";
+                    $events[$lastP2]["start"] = $info[0];
                     if (DEBUG == 2 && VERBOSE) echo "Player 2 on at " . $info[0] . "\n";
                 }
                 else if ($note == $difNotes["P2"] && ($info[1] == "Off" || ($info[1] == "On" && $vel == 0))) {
                     $p2 = false;
+                    $events[$lastP2]["end"] = $info[0];
                     if (DEBUG == 2 && VERBOSE) echo "Player 2 off at " . $info[0] . "\n";
                 }
                 else  if ($note != $difNotes["P1"] && $note != $difNotes["P2"]) {
@@ -549,6 +576,7 @@ function filterDifficulty($tracktxt, $difNotes) {
                     // regular note
                     if ($info[1] == "On" && $vel >= 100) {
                         if (!isset($notes[$index]["time"])) $notes[$index]["time"] = (int)$info[0];
+                        $notes[$index]["phrase"] = ($SP ? $SPphrase : 0);
                         $notes[$index]["count"] = $chord;
                         $notes[$index]["note"][$chord++] = $note;
                         
@@ -617,12 +645,14 @@ function filterDifficulty($tracktxt, $difNotes) {
                     
                     // star power
                     if (is_array($notes[$index]["note"])) {
+                        
                         if ($SP) {
                             $notes[$index]["phrase"] = $SPphrase;
                         }
-                        else {
+                        else if (!isset($notes[$index]["phrase"])) {
                             $notes[$index]["phrase"] = 0;
                         }
+                        
                         
                         $notes[$index]["player1"] = $p1;
                         $notes[$index]["player2"] = $p2;
@@ -643,7 +673,7 @@ function filterDifficulty($tracktxt, $difNotes) {
         print_r(array_values($notes));
     }
     
-    return $notes;
+    return array($notes, $events);
 }
 
 

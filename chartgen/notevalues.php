@@ -3,7 +3,7 @@
     define('EPS', 1.0e-10);
 
     // notes closer than 30 pulses are a chord
-    define('CHORD', 30);
+    define('CHORD', 15);
 
 
     // notes longer than 160 pulses are sustains
@@ -138,6 +138,11 @@
     $NOTES["RB"]["MEDIUM"]["FILL"] = $NOTES["RB"]["EASY"]["FILL"];
     $NOTES["RB"]["HARD"]["FILL"] = $NOTES["RB"]["EASY"]["FILL"];
     $NOTES["RB"]["EXPERT"]["FILL"] = $NOTES["RB"]["EASY"]["FILL"];
+
+    $NOTES["RB"]["EASY"]["SOLO"] = $NOTES["RB"]["EXPERT"]["SOLO"];
+    $NOTES["RB"]["MEDIUM"]["SOLO"] = $NOTES["RB"]["EXPERT"]["SOLO"];
+    $NOTES["RB"]["HARD"]["SOLO"] = $NOTES["RB"]["EXPERT"]["SOLO"];
+
     
     // notes 120-124 denote the free-fill sections (GRYBO -- they always seem identical to me)
     

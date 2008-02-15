@@ -5,7 +5,7 @@
 	define("PXPERBEAT", 60);
 	define("STAFFHEIGHT", 12);
 	define("DRAWPLAYERLINES", 0);
-	define("CHARTGENVERSION", "0.2.0");
+	define("CHARTGENVERSION", "0.3.5");
 
 	require_once "parselib.php";
 	require_once "notevalues.php";
@@ -74,7 +74,7 @@
 	//////////
 	// call to makeChart here
 	
-	$im = makeChart("../mids/" . $game . "/" . $file . ".mid", $diff, $game, $instrument);
+	list ($im, $basecore) = makeChart("../mids/" . $game . "/" . $file . ".mid", $diff, $game, $instrument, (isset($NAMES[$file]) ? $NAMES[$file] : $file));
 	
 	
 	header("Content-type: image/png");
