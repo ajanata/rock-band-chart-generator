@@ -67,9 +67,8 @@
     fwrite($indexFile, "<html>\n<head>\n<title>Blank Charts for $game " . strtolower($instrument) . "</title>\n</head>\n");
     fwrite($indexFile, <<<EOT
 <body>
-<p>These charts are blank. They have not been verified against the game and may be faulty. There are some known glitches (especially with the overlines either covering too much or not enough empty space). If you see something horribly wrong please <a href="http://rockband.scorehero.com/forum/privmsg.php?mode=post&u=52545">send me a message</a> on ScoreHero.</p>
+<p>These charts are blank. They have not been verified against the game and may be faulty. If you see something horribly wrong please <a href="http://rockband.scorehero.com/forum/privmsg.php?mode=post&u=52545">send me a message</a> on ScoreHero.</p>
 <p>They are in alphabetical order. Probably easier to find a song this way anyway.</p>
-<p>Sometimes the overlines either cover too much (overdrive, solos) or too little (solos, fills) empty space. Fills that end in the middle of a measure tend to extend to the next note (or at least beat). Keep this in mind for drums squeezing. Overlines that should extend into the next measure(s) due to sustains but the measure otherwise contains no notes do not get extended. There are bound to be other glitches with the overlines as well, and I will fix them as time permits.</p>
 <table border="1">
 
 EOT
@@ -82,11 +81,11 @@ EOT
         fwrite($indexFile, "<tr><td>" . (isset($NAMES[$x]) ? $NAMES[$x] : $x) . "</td>");
         foreach ($DIFFICULTIES as $diff) {
             echo $diff . "... ";
-            list ($im, $basecore) = makeChart(MIDIPATH . strtolower($game) . "/" . $file, $diff, strtolower($game), strtolower($instrument), (isset($NAMES[$x]) ? $NAMES[$x] : $x));
+            list ($im, $basescore) = makeChart(MIDIPATH . strtolower($game) . "/" . $file, $diff, strtolower($game), strtolower($instrument), (isset($NAMES[$x]) ? $NAMES[$x] : $x));
         	imagepng($im,  OUTDIR . strtolower($game) . "/" . strtolower($instrument) . "/" . $x . "_"
         	           . strtolower($instrument) . "_" . $diff . "_blank.png");
         	imagedestroy($im);
-        	fwrite($indexFile, "<td><a href=\"" . $x . "_" . strtolower($instrument) ."_" . $diff . "_blank.png\">$diff</a></td>");
+        	fwrite($indexFile, "<td><a href=\"" . $x . "_" . strtolower($instrument) ."_" . $diff . "_blank.png\">$diff ( $basescore )</a></td>");
         }
         fwrite($indexFile, "</tr>\n");
     }

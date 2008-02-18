@@ -54,12 +54,18 @@ function makeChart($file, $diff, $game, $instrument, $name = null) {
 	global $timesig; $timesig = &$downbeatline;
 	global $player1; $player1 = imagecolorallocate($im, 255, 0, 0);
 	global $player2; $player2 = imagecolorallocate($im, 0, 0, 255);
-	global $solo; $solo = imagecolorallocatealpha($im, 0, 0, 255, 110);
-	global $fill; $fill = imagecolorallocatealpha($im, 255, 210, 0, 86);
+	global $solo;
+	//$solo = imagecolorallocatealpha($im, 0, 0, 255, 110);
+	$solo = imagecolorallocate($im, 224, 224, 255);
+	global $fill;
+	//$fill = imagecolorallocatealpha($im, 255, 210, 0, 86);
+	$fill = imagecolorallocate($im, 255, 255, 153);
 	global $whammy; $whammy = imagecolorallocate($im, 0, 0, 192);
-	global $phrase; $phrase = imagecolorallocatealpha($im, 0, 255, 0, 86);
+	global $phrase;
+	//$phrase = imagecolorallocatealpha($im, 0, 255, 0, 86);
+	$phrase = imagecolorallocate($im, 192, 255, 192);
 	
-	global $noteColors, $silver, $lightsilver;
+    global $noteColors, $silver, $lightsilver;
     $noteColors = array();
     $noteColors[] = imagecolorallocate($im, 0, 192, 0);
     $noteColors[] = imagecolorallocate($im, 255, 0, 0);
@@ -84,13 +90,14 @@ function makeChart($file, $diff, $game, $instrument, $name = null) {
 	imagestring($im, 2, WIDTH - 200, $HEIGHT - 13, "chartlib " . CHARTLIBVERSION . " -- parselib " . PARSELIBVERSION, $gray);
 	
 	// key
+	imagefilledrectangle($im, WIDTH-185, 0, WIDTH, 15 + DRAWPLAYERLINES*15, $lightsilver);
     imagestring($im, 3, WIDTH-180, 0, "Color Key", $black);
-    imagestring($im, 2, WIDTH-100, 0, "Phrase", $phrase);
-    imagestring($im, 2, WIDTH-60, 0, "Solo", $solo);
-    imagestring($im, 2, WIDTH-30, 0, "Fill", $fill);
+    imagestring($im, 3, WIDTH-110, 0, "Phrase", $phrase);
+    imagestring($im, 3, WIDTH-64, 0, "Solo", $solo);
+    imagestring($im, 3, WIDTH-30, 0, "Fill", $fill);
     if (DRAWPLAYERLINES) {
-        imagestring($im, 2, WIDTH-100, 15, "Player 1", $player1);
-        imagestring($im, 2, WIDTH-50, 15, "Player 2", $player2);
+        imagestring($im, 3, WIDTH-110, 15, "Player 1", $player1);
+        imagestring($im, 3, WIDTH-50, 15, "Player 2", $player2);
     }
 	
 	
@@ -170,6 +177,20 @@ function drawMeasure ($im, $x, $y, $meas, $notes, $events, $game, $drums = false
                $c = $solo;
                $bY = $y - 20;
                $beY = $y + 20 + STAFFHEIGHT*(4-$drums);
+               
+               // need to draw the number of notes in the solo too
+               /*
+               if ($e["end"] > $meas["time"] && $e["end"] <= $meas["time"] + $timebase*$meas["numerator"]) {
+                   $tX = $e["end"] - $meas["time"];
+                   $tX /= $timebase;
+                   $tX *= PXPERBEAT;
+                   $tX += $x;
+                   $tY = $y;
+                   $tY -= 30;
+                   imagestring($im, 2, $tX, $tY, $e["notes"], $black);
+               }
+               */
+               
                break;
            case "star":
                $c = $phrase;
@@ -210,7 +231,18 @@ function drawMeasure ($im, $x, $y, $meas, $notes, $events, $game, $drums = false
 	       else {
     	       imageline($im, $bX, $bY, $beX, $beY, $c);
 	       }
-	   }
+	       
+	       // draw number of notes in solo
+	       if ($e["type"] == "solo") {
+	           $tX = $e["end"] - $meas["time"];
+                $tX /= $timebase;
+                $tX *= PXPERBEAT;
+                $tX += $x;
+                $tY = $y;
+                $tY -= 30;
+                imagestring($im, 2, $tX, $tY, $e["notes"], $black);
+	       }
+   }
 	   else if ($e["start"] < $meas["time"] && $e["end"] > $meas["time"] + $timebase*$meas["numerator"]) {
 	       // goes through entire measure
 	       $bX = $x;
@@ -234,6 +266,17 @@ function drawMeasure ($im, $x, $y, $meas, $notes, $events, $game, $drums = false
 	       }
 	       else {
     	       imageline($im, $bX, $bY, $beX, $beY, $c);
+	       }
+	       
+	       // draw number of notes in solo
+	       if ($e["type"] == "solo") {
+	           $tX = $e["end"] - $meas["time"];
+               $tX /= $timebase;
+               $tX *= PXPERBEAT;
+               $tX += $x;
+               $tY = $y;
+               $tY -= 30;
+               imagestring($im, 2, $tX, $tY, $e["notes"], $black);
 	       }
 	   }
 	   else if ($e["start"] >= $meas["time"] && $e["start"] <= $meas["time"] + $timebase*$meas["numerator"] && $e["end"] >= $meas["time"] + $timebase*$meas["numerator"]) {

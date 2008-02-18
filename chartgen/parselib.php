@@ -467,6 +467,7 @@ function filterDifficulty($tracktxt, $difNotes) {
     $eventIndex = 0;
     // indexes
     $lastStar = $lastFill = $lastSolo = $lastP1 = $lastP2 = 0;
+    $soloNotes = 0;
     $lastRealNote = -1;
     $SP = false;
     $SPphrase = 0;
@@ -512,12 +513,14 @@ function filterDifficulty($tracktxt, $difNotes) {
             else if (isset($difNotes["SOLO"]) && $note == $difNotes["SOLO"] && ($info[1] == "On" && $vel >= 100)) {
                 // solo section (rock band)
                 $solo = true;
+                $soloNotes = 0;
                 $lastSolo = $eventIndex++;
                 $events[$lastSolo]["type"] = "solo";
                 $events[$lastSolo]["start"] = $info[0];
             }
             else if (isset($difNotes["SOLO"]) && $note == $difNotes["SOLO"] && ($info[1] == "Off" || ($info[1] == "On" && $vel == 0))) {
                 $solo = false;
+                $events[$lastSolo]["notes"] = $soloNotes;
                 $events[$lastSolo]["end"] = $info[0];
             }
             // FIXME: hax
@@ -657,6 +660,8 @@ function filterDifficulty($tracktxt, $difNotes) {
                         $notes[$index]["player1"] = $p1;
                         $notes[$index]["player2"] = $p2;
                         if (isset($difNotes["SOLO"])) {
+                            if ($solo && $info[1] == "On" && $vel >= 100) $soloNotes++;
+                            //echo $soloNotes . " ";
                             $notes[$index]["solo"] = $solo;
                         }
                         
