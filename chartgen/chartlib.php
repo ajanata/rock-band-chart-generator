@@ -59,7 +59,7 @@ function makeChart($file, $diff, $game, $instrument, $name = null) {
 	$solo = imagecolorallocate($im, 224, 224, 255);
 	global $fill;
 	//$fill = imagecolorallocatealpha($im, 255, 210, 0, 86);
-	$fill = imagecolorallocate($im, 255, 255, 153);
+	$fill = imagecolorallocate($im, 255, 255, 204);
 	global $whammy; $whammy = imagecolorallocate($im, 0, 0, 192);
 	global $phrase;
 	//$phrase = imagecolorallocatealpha($im, 0, 255, 0, 86);
@@ -184,10 +184,10 @@ function drawMeasure ($im, $x, $y, $meas, $notes, $events, $game, $drums = false
                    $tX = $e["end"] - $meas["time"];
                    $tX /= $timebase;
                    $tX *= PXPERBEAT;
-                   $tX += $x;
+                   $tX += $x + 2;
                    $tY = $y;
-                   $tY -= 30;
-                   imagestring($im, 2, $tX, $tY, $e["notes"], $black);
+                   $tY -= 35;
+                   imagestring($im, 2, $tX, $tY, $e["notes"] . " notes", $black);
                }
                */
                
@@ -237,10 +237,10 @@ function drawMeasure ($im, $x, $y, $meas, $notes, $events, $game, $drums = false
 	           $tX = $e["end"] - $meas["time"];
                 $tX /= $timebase;
                 $tX *= PXPERBEAT;
-                $tX += $x;
+                $tX += $x + 2;
                 $tY = $y;
-                $tY -= 30;
-                imagestring($im, 2, $tX, $tY, $e["notes"], $black);
+                $tY -= 35;
+                imagestring($im, 2, $tX, $tY, $e["notes"] . " notes", $black);
 	       }
    }
 	   else if ($e["start"] < $meas["time"] && $e["end"] > $meas["time"] + $timebase*$meas["numerator"]) {
@@ -273,10 +273,10 @@ function drawMeasure ($im, $x, $y, $meas, $notes, $events, $game, $drums = false
 	           $tX = $e["end"] - $meas["time"];
                $tX /= $timebase;
                $tX *= PXPERBEAT;
-               $tX += $x;
+               $tX += $x + 2;
                $tY = $y;
-               $tY -= 30;
-               imagestring($im, 2, $tX, $tY, $e["notes"], $black);
+               $tY -= 35;
+               imagestring($im, 2, $tX, $tY, $e["notes"] . " notes", $black);
 	       }
 	   }
 	   else if ($e["start"] >= $meas["time"] && $e["start"] <= $meas["time"] + $timebase*$meas["numerator"] && $e["end"] >= $meas["time"] + $timebase*$meas["numerator"]) {

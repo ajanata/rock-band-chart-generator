@@ -90,7 +90,7 @@ function getSectionNames($measures, $eventstrk) {
     
     foreach ($events as $event) {
         $e = explode(" ", $event);
-        if ($e[1] == "Meta" && $e[2] == "Text" && $e[3] == "\"[section") {
+        if (isset($e[1]) && $e[1] == "Meta" && $e[2] == "Text" && $e[3] == "\"[section") {
             $section = substr($e[4], 0, strlen($e[4]) - 2);
             while ($measures[$mIndex]["time"] < $e[0]) $mIndex++;
             $measures[$mIndex]["section"] = $section;
@@ -265,7 +265,7 @@ function putNotesInMeasures($measures, $notetrack) {
         if ($notekey == "TrkEnd") continue;
         if ($notekey != (int)$notekey) continue;
         
-        while (is_array($measures[$index]) && $note["time"] >= $measures[$index]["time"]) {
+        while (isset($measures[$index]) && is_array($measures[$index]) && $note["time"] >= $measures[$index]["time"]) {
             //echo "measures[$index+1][time] = " . $measures[$index+1]["time"] . "   note[time] = " . $note["time"] . "\n";
             $index++;
         }
@@ -278,7 +278,7 @@ function putNotesInMeasures($measures, $notetrack) {
         
         for ($i = 0; $i < count($measures[$index]["tempos"]); $i++) {
             // find the tempo region we're in
-            if (!(is_array($measures[$index]["tempos"][$i+1]))) {
+            if (isset($measures[$index]["tempos"][$i+1]) && !(is_array($measures[$index]["tempos"][$i+1]))) {
                 // this is the last one so we have to be in it
                 //$notetrack[$j1]["tempo"] = $measures[$index]["tempos"][$i]["tempo"];
                 $notetrack[$notekey]["bpm"] = $measures[$index]["tempos"][$i]["bpm"];
@@ -286,6 +286,7 @@ function putNotesInMeasures($measures, $notetrack) {
             else {
                 // there is still at least one more after this, do some checking
                 if ($note["time"] >= $measures[$index]["tempos"][$i]["time"] &&
+                    isset($measures[$index]["tempos"][$i+1]["time"]) &&
                     $note["time"] <  $measures[$index]["tempos"][$i+1]["time"]) {
                         $notetrack[$notekey]["tempo"] = $measures[$index]["tempos"][$i]["tempo"];
                         $notetrack[$notekey]["bpm"] = $measures[$index]["tempos"][$i]["bpm"];
@@ -313,12 +314,13 @@ function makeMeasureTable($timetrack, $notetrack) {
     
     while ($curTime < $notetrack["TrkEnd"]) {
         $duration = 0;
-        if (is_array($timetrack["tempos"][$tempoIndex+1]) && is_array($timetrack["sigs"][$sigIndex+1])) {
+        if (isset($timetrack["tempos"][$tempoIndex+1]) && is_array($timetrack["tempos"][$tempoIndex+1]) &&
+                isset($timetrack["sigs"][$sigIndex+1]) && is_array($timetrack["sigs"][$sigIndex+1])) {
             // both of them have entries left
             if ($timetrack["sigs"][$sigIndex+1]["time"] <= $timetrack["tempos"][$tempoIndex+1]["time"]) {
                 // time sig change before tempo change
                 
-                if (is_array($timetrack["sigs"][$sigIndex+2])) {
+                if (isset($timetrack["sigs"][$sigIndex+2]) &&  is_array($timetrack["sigs"][$sigIndex+2])) {
                     // still more time sig changes, so see if the next one is before the next tempo change
                     $duration = (($timetrack["sigs"][$sigIndex+2]["time"] < $timetrack["tempos"][$tempoIndex+1]["time"])
                                     ? $timetrack["sigs"][$sigIndex+2]["time"] : $timetrack["tempos"][$tempoIndex+1]["time"]) - $curTime;
@@ -332,7 +334,7 @@ function makeMeasureTable($timetrack, $notetrack) {
             else {
                 // tempo change before time sig change
                 
-                if (is_array($timetrack["tempos"][$tempoIndex+2])) {
+                if (isset($timetrack["tempos"][$tempoIndex+2]) && is_array($timetrack["tempos"][$tempoIndex+2])) {
                     // still more tempo changes, so see if the next one is before the next time sig change
                     $duration = (($timetrack["tempos"][$tempoIndex+2]["time"] < $timetrack["sigs"][$sigIndex+1]["time"])
                                     ? $timetrack["tempos"][$tempoIndex+2]["time"] : $timetrack["sigs"][$sigIndex+1]["time"]) - $curTime;
@@ -344,11 +346,11 @@ function makeMeasureTable($timetrack, $notetrack) {
                 $tempoIndex++;
             }
         }
-        else if (is_array($timetrack["sigs"][$sigIndex+2])) {
+        else if (isset($timetrack["sigs"][$sigIndex+2]) && is_array($timetrack["sigs"][$sigIndex+2])) {
             $duration = $timetrack["sigs"][$sigIndex+1]["time"] - $curTime;
             $sigIndex++;
         }
-        else if (is_array($timetrack["tempos"][$tempoIndex+2])) {
+        else if (isset($timetrack["tempos"][$tempoIndex+2]) && is_array($timetrack["tempos"][$tempoIndex+2])) {
             $duration = $timetrack["tempos"][$tempoIndex+2]["time"] - $curTime;
             $lastTempo = $timetrack["tempos"][$tempoIndex+1];
             $tempoIndex++;
@@ -371,13 +373,14 @@ function makeMeasureTable($timetrack, $notetrack) {
             $measEnd = $curTime + $measDur;
             $measTempo = 0;
 
-            if (!($timetrack["tempos"][$tempoIndex+1]["time"] == $curTime)) {
+            if (!(isset($timetrack["tempos"][$tempoIndex+1]["time"]) && $timetrack["tempos"][$tempoIndex+1]["time"] == $curTime)) {
                 // add the last tempo to this measure since there isn't a tempo change
                 // at the beginning of the measure
                 $ret[$measure]["tempos"][] = $lastTempo;
             }
 
-            while (is_array($timetrack["tempos"][$tempoIndex+1]) && $timetrack["tempos"][$tempoIndex+1]["time"] < $measEnd) {
+            while (isset($timetrack["tempos"][$tempoIndex+1]) && is_array($timetrack["tempos"][$tempoIndex+1]) &&
+                    $timetrack["tempos"][$tempoIndex+1]["time"] < $measEnd) {
                 // add this tempo change to the measure
                 $ret[$measure]["tempos"][/*$measTempo++*/] = $timetrack["tempos"][$tempoIndex+1];
                 $lastTempo = $timetrack["tempos"][$tempoIndex+1];
@@ -412,7 +415,8 @@ function parseTimeTrack($tracktxt) {
     foreach ($trk as $line) {
         $loop++;
         $info = explode(" ", $line);
-        
+
+        if (!isset($info[1])) continue;        
         if ($info[1] == "Meta") {
             if ($info[2] == "TrkName") {
                 preg_match('/.*\"(.*)\"$/', $line, $matches);
@@ -424,7 +428,7 @@ function parseTimeTrack($tracktxt) {
         if ($info[1] != "Tempo" && $info[1] != "TimeSig") {
             continue;
         }
-        
+
         
         if ($info[1] == "TimeSig") {
             $sigIndex++;
@@ -480,6 +484,7 @@ function filterDifficulty($tracktxt, $difNotes) {
         if ($line == "MTrk") continue;
         $info = explode(" ", $line);
         
+        if (!isset($info[1])) continue;
         if ($info[1] == "Meta") {
             if ($info[2] == "TrkEnd") {
                 $notes["TrkEnd"] = (int)$info[0];
@@ -487,6 +492,7 @@ function filterDifficulty($tracktxt, $difNotes) {
             continue;
         }
         
+        if (!isset($info[3]) || !isset($info[4])) continue;
         $note = (int)substr($info[3], 2);
         $vel = (int)substr($info[4], 2);
         
@@ -498,12 +504,17 @@ function filterDifficulty($tracktxt, $difNotes) {
             
             // check for star power
             if ($note == $difNotes["STAR"] && ($info[1] == "On" && $vel >= 100)) {
-                 $SP = true;
-                 $SPphrase++;
-                 $lastStar = $eventIndex++;
-                 $events[$lastStar]["type"] = "star";
-                 $events[$lastStar]["start"] = $info[0];
-                 if (DEBUG == 2 && VERBOSE) echo "SP phrase $SPphrase start at " . $info[0] . "\n";
+                // see if notes are already at this time
+                if (arrayTimeExists($notes, $info[0], 0)) {
+                    $notes[$index]["phrase"] = $SPphrase;
+                }
+                
+                $SP = true;
+                $SPphrase++;
+                $lastStar = $eventIndex++;
+                $events[$lastStar]["type"] = "star";
+                $events[$lastStar]["start"] = $info[0];
+                if (DEBUG == 2 && VERBOSE) echo "SP phrase $SPphrase start at " . $info[0] . "\n";
             }
             else if ($note == $difNotes["STAR"] && ($info[1] == "Off" || ($info[1] == "On" && $vel == 0))) {
                 $SP = false;
