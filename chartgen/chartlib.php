@@ -64,7 +64,7 @@ function makeChart($file, $diff, $game, $instrument, $name = null) {
 	global $phrase;
 	//$phrase = imagecolorallocatealpha($im, 0, 255, 0, 86);
 	$phrase = imagecolorallocate($im, 192, 255, 192);
-	
+
     global $noteColors, $silver, $lightsilver;
     $noteColors = array();
     $noteColors[] = imagecolorallocate($im, 0, 192, 0);

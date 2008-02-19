@@ -68,6 +68,8 @@
             }
         }
         
+    //echo $mid->getTrackTxt($tracknum);
+        
         // $events is start/end times for phrases, fills, and solos
         list($notetrack, $events) = filterDifficulty($mid->getTrackTxt($tracknum), $NOTES[$game][$difficulty]);
         $timetrack = parseTimeTrack($mid->getTrackTxt(0));
@@ -504,17 +506,18 @@ function filterDifficulty($tracktxt, $difNotes) {
             
             // check for star power
             if ($note == $difNotes["STAR"] && ($info[1] == "On" && $vel >= 100)) {
-                // see if notes are already at this time
-                if (arrayTimeExists($notes, $info[0], 0)) {
-                    $notes[$index]["phrase"] = $SPphrase;
-                }
-                
                 $SP = true;
                 $SPphrase++;
                 $lastStar = $eventIndex++;
                 $events[$lastStar]["type"] = "star";
                 $events[$lastStar]["start"] = $info[0];
                 if (DEBUG == 2 && VERBOSE) echo "SP phrase $SPphrase start at " . $info[0] . "\n";
+
+                // see if notes are already at this time
+                if (arrayTimeExists($notes, $info[0], 0)) {
+                    //echo $info[0] . " " . $notes[$index]["time"] . "\n";
+                    $notes[$index]["phrase"] = $SPphrase;
+                }
             }
             else if ($note == $difNotes["STAR"] && ($info[1] == "Off" || ($info[1] == "On" && $vel == 0))) {
                 $SP = false;
