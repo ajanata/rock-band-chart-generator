@@ -8,10 +8,10 @@
 
     //parseFile("../mids/dontfearthereaper.mid", "EXPERT", "RB", "GUITAR");
 
-	list ($measures, $notetrack, $songname, $events) = parseFile("../mids/rb/foreplaylongtime.mid", "EXPERT", "RB", "GUITAR");
+	list ($measures, $notetrack, $songname, $events) = parseFile("../mids/rb/waveofmutilation.mid", "EXPERT", "RB", "GUITAR");
 
 
-print_r($notetrack);
+//print_r($notetrack);
 
 
 

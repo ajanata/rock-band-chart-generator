@@ -81,11 +81,11 @@ EOT
         fwrite($indexFile, "<tr><td>" . (isset($NAMES[$x]) ? $NAMES[$x] : $x) . "</td>");
         foreach ($DIFFICULTIES as $diff) {
             echo $diff . "... ";
-            list ($im, $basescore) = makeChart(MIDIPATH . strtolower($game) . "/" . $file, $diff, strtolower($game), strtolower($instrument), (isset($NAMES[$x]) ? $NAMES[$x] : $x));
+            list ($im, $measures) = makeChart(MIDIPATH . strtolower($game) . "/" . $file, $diff, strtolower($game), strtolower($instrument), (isset($NAMES[$x]) ? $NAMES[$x] : $x));
         	imagepng($im,  OUTDIR . strtolower($game) . "/" . strtolower($instrument) . "/" . $x . "_"
         	           . strtolower($instrument) . "_" . $diff . "_blank.png");
         	imagedestroy($im);
-        	fwrite($indexFile, "<td><a href=\"" . $x . "_" . strtolower($instrument) ."_" . $diff . "_blank.png\">$diff ( $basescore )</a></td>");
+        	fwrite($indexFile, "<td><a href=\"" . $x . "_" . strtolower($instrument) ."_" . $diff . "_blank.png\">$diff</a></td>");
         }
         fwrite($indexFile, "</tr>\n");
     }
