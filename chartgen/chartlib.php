@@ -71,7 +71,7 @@ function makeChart($file, $diff, $game, $instrument, $name = null) {
     $noteColors[] = imagecolorallocate($im, 0, 192, 0);
     $noteColors[] = imagecolorallocate($im, 255, 0, 0);
     $noteColors[] = imagecolorallocate($im, 253, 233, 16);
-    $noteColors[] = imagecolorallocate($im, 0, 0, 192);
+    $noteColors[] = imagecolorallocate($im, 0, 0, 255);
     $noteColors[] = imagecolorallocate($im, 255, 127, 0);
     $silver = imagecolorallocate($im, 168, 168, 168);
     $lightsilver = imagecolorallocate($im, 212, 212, 212);
@@ -94,8 +94,10 @@ function makeChart($file, $diff, $game, $instrument, $name = null) {
 	imagefilledrectangle($im, WIDTH-185, 0, WIDTH, 15 + DRAWPLAYERLINES*15, $silver);
     imagestring($im, 3, WIDTH-180, 0, "Color Key", $black);
     imagestring($im, 3, WIDTH-110, 0, "Phrase", $phrase);
-    imagestring($im, 3, WIDTH-64, 0, "Solo", $solo);
-    imagestring($im, 3, WIDTH-30, 0, "Fill", $fill);
+    if ($game == "RB" ) {
+        imagestring($im, 3, WIDTH-64, 0, "Solo", $solo);
+        imagestring($im, 3, WIDTH-30, 0, "Fill", $fill);
+    }
     if (DRAWPLAYERLINES) {
         imagestring($im, 3, WIDTH-110, 15, "Player 1", $player1);
         imagestring($im, 3, WIDTH-50, 15, "Player 2", $player2);
@@ -583,7 +585,74 @@ function drawNote($im, $x, $y, $meas, $note, $game, $drums = false) {
                
             }
             else {
-               // TODO: draw GH notes
+              
+                $drawColor = $noteColors[$n];
+                
+                // draw the sustains first so we get the entire black ring
+                
+                if (isset($note["duration"]) && $note["duration"] > 0) {
+                    $eX = $note["time"] + $note["duration"] - $meas["time"];
+                    $eX /= $timebase;
+                    // $eX is end beat of the note w.r.t. start beat of measure
+                    
+                    if ($eX > $meas["numerator"]) {
+                        // this sustain goes into the next measure
+                        $l = count($leftovers);
+                        $leftovers[$l]["note"] = $n;
+                        $leftovers[$l]["duration"] = $eX - $meas["numerator"];
+                        $leftovers[$l]["phrase"] = $note["phrase"];
+                        $leftovers[$l]["color"] = $drawColor;
+                        $eX = $meas["numerator"];
+                    }
+                    
+                    $eX *= PXPERBEAT;
+                    $eX += $x;
+                    imagesetthickness($im, 3);
+                    imageline($im, $nX+1, $nY, $eX, $nY, $drawColor);
+                }
+               
+                if ($note["phrase"] == 0) {
+                    imagesetthickness($im, 1);
+                    imagefilledellipse($im, $nX, $nY, 7, 7, $drawColor);
+                    imageellipse($im, $nX, $nY, 7, 7, $black);
+
+                }
+                else {
+                    // note is a star note
+                    
+                    imagesetthickness($im, 1);
+                    imagefilledellipse($im, $nX, $nY, 5, 5, $drawColor);
+
+                    // top
+                    imageline($im, $nX, $nY - 5, $nX - 2, $nY - 2, $black);
+                    imageline($im, $nX, $nY - 5, $nX + 2, $nY - 2, $black);
+                    
+                    // right
+                    imageline($im, $nX + 2, $nY - 2, $nX + 5, $nY - 2, $black);
+                    imageline($im, $nX + 5, $nY - 2, $nX + 2, $nY + 1, $black);
+                    
+                    // bottom right
+                    imageline($im, $nX + 2, $nY + 1, $nX + 2, $nY + 4, $black);
+                    imageline($im, $nX + 2, $nY + 4, $nX, $nY + 2, $black);
+                    
+                    // bottom left
+                    imageline($im, $nX, $nY + 2, $nX - 2, $nY + 4, $black);
+                    imageline($im, $nX - 2, $nY + 4, $nX - 2, $nY + 1, $black);
+                    
+                    // left
+                    imageline($im, $nX - 2, $nY + 1, $nX - 5, $nY - 2, $black);
+                    imageline($im, $nX - 5, $nY - 2, $nX - 2, $nY - 2, $black);
+                    
+                    
+                    // fix up the color fill
+                    imageline($im, $nX, $nY, $nX, $nY - 4, $drawColor);
+                    imageline($im, $nX, $nY - 1, $nX - 3, $nY - 1, $drawColor);
+                    imageline($im, $nX, $nY - 1, $nX + 3, $nY - 1, $drawColor);
+                    imageline($im, $nX - 1, $nY - 2, $nX - 1, $nY + 2, $drawColor);
+                    imageline($im, $nX + 1, $nY - 2, $nX + 1, $nY + 2, $drawColor);
+                }
+               
+               
                
                
             }

@@ -1,12 +1,4 @@
 <?php
-
-/*
-    $NAMES["strutter"] = "Strutter";
-    $NAMES["danicalifornia"] = "Dani California";
-    $NAMES["whenyouwereyoung"] = "When You Were Young";
-    $NAMES["highwaystar"] = "Highway Star";
-*/
-
     // GH1
     
     
@@ -70,7 +62,7 @@
     $NAMES["maps"] = "Maps";
     $NAMES["missqueen"] = "Mississippi Queen";
     $NAMES["nexttoyou"] = "Next To You";
-    $NAMES["nightmare"] = "Nighmare";
+    $NAMES["nightmare"] = "Nightmare";
     $NAMES["orangecrush"] = "Orange Crush";
     $NAMES["outside"] = "Outside";
     $NAMES["paranoid"] = "Paranoid";

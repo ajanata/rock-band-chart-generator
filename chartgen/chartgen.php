@@ -12,8 +12,6 @@
 	require_once "songnames.php";
 	require_once "chartlib.php";
 	
-
-
 	
 	if (!isset($_GET["file"])) {
 		echo "File not specified - Use query string parameter, i.e., chartgen.php?file=danicalifornia (no extension)";
