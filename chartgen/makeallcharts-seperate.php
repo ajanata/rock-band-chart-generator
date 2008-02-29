@@ -107,7 +107,7 @@ EOT
                 $absbasescore += $m["mscore"];
             }
             $basescore = $measures[count($measures)-1]["cscore"];
-            $bonusscore = $measures[count($measures)-1]["bscore"];
+            $bonusscore = (isset($measures[count($measures)-1]["bscore"]) ? $measures[count($measures)-1]["bscore"] : 0);
             
         	imagepng($im,  OUTDIR . strtolower($game) . "/" . strtolower($instrument) . "/" . $x . "_"
         	           . strtolower($instrument) . "_" . $diff . "_blank.png");
@@ -115,7 +115,7 @@ EOT
         	fwrite($indexen[$i], "<td>" . $absbasescore . "</td>");
         	fwrite($indexen[$i], "<td>" . $basescore . "</td>");
         	fwrite($indexen[$i], "<td>" . $bonusscore . "</td>");
-        	fwrite($indexen[$i], "<td>" . $measures[count($measures)-1]["fillnotescore"] . "</td>");
+        	fwrite($indexen[$i], "<td>" . (isset($measures[count($measures)-1]["fillnotescore"]) ? $measures[count($measures)-1]["fillnotescore"] : " ") . "</td>");
 	        fwrite($indexen[$i], "</tr>\n");
         }
     }

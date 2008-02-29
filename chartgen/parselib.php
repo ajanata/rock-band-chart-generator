@@ -117,6 +117,7 @@ function calcBaseScores($measures, $notetrack, $events, $config, $drums = false,
     $overScore = 0;
     $hadAFill = false;
     $fillNoteScore = 0;
+    $BREscore = 0;
     
     $totalOverScore = 0;
     
@@ -247,15 +248,50 @@ function calcBaseScores($measures, $notetrack, $events, $config, $drums = false,
                     }
                 }
                 else if ($e["type"] == "fill") {
-                    if ($e["end"] >= $meas["time"] && $e["end"] < $meas["time"] + $timebase*$meas["numerator"]) {
+                    //if ($e["end"] >= $meas["time"] && $e["end"] < $meas["time"] + $timebase*$meas["numerator"]) {
+                    if (($e["start"] >= $meas["time"] && $e["start"] <= ($meas["time"] + $meas["numerator"]*$timebase))
+                       || ($meas["time"] <= $e["end"] && ($meas["time"] + $meas["numerator"]*$timebase) >= $e["end"])
+                       || ($e["start"] <= $meas["time"] && $e["end"] >= ($meas["time"] + $timebase*$meas["numerator"]))) {
+                        
+                        /*
                         $breScore = ($e["end"] - $e["start"]) / $timebase / $meas["tempos"][0]["bpm"] / 1.5 * 60 * (150*5);
                         $leftoverTime = ($e["end"] - $e["start"]) / $timebase / $meas["tempos"][0]["bpm"];
                         while ($leftoverTime > 1.5) $leftoverTime -= 1.5;
                         $breScore += $leftoverTime * (150*5);
                         $totalWithBonuses += (int)$breScore;
                         $e["brescore"] = (int)$breScore;
+                        */
+                        
+                        $measLength = 0;
+                        for ($xyzzy = 0; $xyzzy < count($meas["tempos"]); $xyzzy++) {
+                            $t = $meas["tempos"][$xyzzy];
+                            // start
+                            $thisLength = $t["time"] - $meas["time"];
+                            if ($xyzzy + 1 == count($meas["tempos"])) {
+                                // this is the last tempo, so use measure end time
+                                echo "$thisLength ";
+                                $thisLength += ($meas["time"] + $meas["numerator"] * $timebase) - $t["time"];
+                                echo "$thisLength \n";
+                            }
+                            else {
+                                echo "case 2 $thisLength ";
+                                $thisLength += $meas["tempos"][$xyzzy+1]["time"] - $t["time"];
+                                echo "$thisLength \n";
+                            }
+                            $thisLength /= $timebase;
+                            $thisLength /= $t["bpm"];
+                            $measLength += $thisLength * 60;
+                        }
+                        
+                        $BREscore += 500 * $measLength;
 
+                            //echo "$BREscore   $measLength \n";
+                        
                         $hadAFill = true;
+                    }
+                    if ($meas["time"] <= $e["end"] && ($meas["time"] + $meas["numerator"]*$timebase) >= $e["end"]) {
+                        // last measure with the BRE
+                        $totalWithBonuses += 750 + (int)$BREscore;
                     }
                 }
             }
@@ -269,6 +305,13 @@ function calcBaseScores($measures, $notetrack, $events, $config, $drums = false,
         
     }
     
+    if ($BREscore > 0) {
+        foreach ($events as &$e) {
+            if ($e["type"] != "fill") continue;
+            $e["brescore"] = 750 + (int)$BREscore;
+        }
+        
+    }
     
     return array($measures, $events);
 }
@@ -314,7 +357,7 @@ function putNotesInMeasures($measures, $notetrack) {
                 // there is still at least one more after this, do some checking
                 if ($note["time"] >= $measures[$index]["tempos"][$i]["time"] &&
                     isset($measures[$index]["tempos"][$i+1]["time"]) &&
-                    $note["time"] <  $measures[$index]["tempos"][$i+1]["time"]) {
+                    $note["time"] < $measures[$index]["tempos"][$i+1]["time"]) {
                         $notetrack[$notekey]["tempo"] = $measures[$index]["tempos"][$i]["tempo"];
                         $notetrack[$notekey]["bpm"] = $measures[$index]["tempos"][$i]["bpm"];
                 }
