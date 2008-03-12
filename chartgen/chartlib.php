@@ -1,6 +1,6 @@
 <?php
 	
-	define("CHARTLIBVERSION", "0.4.1");
+	define("CHARTLIBVERSION", "0.4.2");
 
  
  
@@ -14,8 +14,9 @@ function makeChart($file, $diff, $game, $instrument, $name = null) {
 	$x = 25;
 	$y = 75;
 	
+	// calculate image height
 	// something needs done about evenly matched measures
-	for ($i = 0; $i < count($measures) - 1; $i++) {
+	for ($i = 0; $i < count($measures); $i++) {
    	    // this looks really weird doesn't it?
    	   if ($x + PXPERBEAT * $measures[$i]["numerator"] > WIDTH - 25) {
 	       $x = 25;
@@ -56,14 +57,12 @@ function makeChart($file, $diff, $game, $instrument, $name = null) {
 	global $player1; $player1 = imagecolorallocate($im, 255, 0, 0);
 	global $player2; $player2 = imagecolorallocate($im, 0, 0, 255);
 	global $solo;
-	//$solo = imagecolorallocatealpha($im, 0, 0, 255, 110);
 	$solo = imagecolorallocate($im, 224, 224, 255);
 	global $fill;
-	//$fill = imagecolorallocatealpha($im, 255, 210, 0, 86);
-	$fill = imagecolorallocate($im, 255, 255, 204);
+//	$fill = imagecolorallocate($im, 255, 255, 180);
+    $fill = imagecolorallocate($im, 255, 200, 200);
 	global $whammy; $whammy = imagecolorallocate($im, 0, 0, 192);
 	global $phrase;
-	//$phrase = imagecolorallocatealpha($im, 0, 255, 0, 86);
 	$phrase = imagecolorallocate($im, 192, 255, 192);
 
     global $noteColors, $silver, $lightsilver;
@@ -450,7 +449,7 @@ function drawMeasure ($im, $x, $y, $meas, $notes, $events, $game, $drums = false
 		}
 		
 		// see if this note has whammy beats
-		if ($notes[$note]["phrase"] > 0 && $notes[$note]["duration"]) {
+		if ($notes[$note]["phrase"] > 0 && isset($notes[$note]["duration"]) && $notes[$note]["duration"]) {
 		    if ($notes[$note]["time"] + $notes[$note]["duration"] > $meas["time"] + $timebase*$meas["numerator"]) {
 		        // this sustain goes to the next measure
 		        $overwhammies += (($notes[$note]["time"] + $notes[$note]["duration"]) - ($meas["time"] + $timebase*$meas["numerator"])) / $timebase;

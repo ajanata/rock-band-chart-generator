@@ -87,5 +87,37 @@
     $NAMES["whenyouwereyoung"] = "When You Were Young";
     $NAMES["wontgetfooled"] = "Won't Get Fooled Again";
     $NAMES["wontgetfooled_short"] = "Won't Get Fooled Again (Short)";
+    
+    
+    // Rock Band DLC
+
+    $NAMES["allthesmallthings"] = "All the Small Things";
+    $NAMES["andjusticeforall"] = "...And Justice for All";
+    $NAMES["bangagong"] = "Bang a Gong";
+    $NAMES["beethovensc"] = "Beethoven's C***";
+    $NAMES["blackened"] = "Blackened";
+    $NAMES["cantstandlosingyou"] = "Can't Stand Losing You";
+    $NAMES["collector"] = "The Collector";
+    $NAMES["dontlookbackinanger"] = "Don't Look Back in Anger";
+    $NAMES["everfalleninlove"] = "Ever Fallen In Love";
+    $NAMES["fortunateson"] = "Fortunate Son";
+    $NAMES["hardtohandle"] = "Hard to Handle";
+    $NAMES["ifoughtthelaw"] = "I Fought the Law";
+    $NAMES["lasttraintoclarksville"] = "Last Train to Clarksville";
+    $NAMES["liveforever"] = "Live Forever";
+    $NAMES["marchofthepigs"] = "March of the Pigs";
+    $NAMES["movealong"] = "Move Along";
+    $NAMES["perfectdrug"] = "The Perfect Drug";
+    $NAMES["ridethelightning"] = "Ride the Lightning";
+    $NAMES["rockawaybeach"] = "Rockaway Beach";
+    $NAMES["rockrebellion"] = "Rock Rebellion";
+    $NAMES["roxanne"] = "Roxanne";
+    $NAMES["shake"] = "Shake";
+    $NAMES["shockwave"] = "Shockwave";
+    $NAMES["sprode"] = "Sprode";
+    $NAMES["synchronicity2"] = "Synchronicity II";
+    $NAMES["thekill"] = "The Kill";
+    $NAMES["warpigs"] = "War Pigs";
+    $NAMES["wonderwall"] = "Wonderwall";
 
 ?>

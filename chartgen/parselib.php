@@ -269,14 +269,14 @@ function calcBaseScores($measures, $notetrack, $events, $config, $drums = false,
                             $thisLength = $t["time"] - $meas["time"];
                             if ($xyzzy + 1 == count($meas["tempos"])) {
                                 // this is the last tempo, so use measure end time
-                                echo "$thisLength ";
+                                //echo "$thisLength ";
                                 $thisLength += ($meas["time"] + $meas["numerator"] * $timebase) - $t["time"];
-                                echo "$thisLength \n";
+                                //echo "$thisLength \n";
                             }
                             else {
-                                echo "case 2 $thisLength ";
+                                //echo "case 2 $thisLength ";
                                 $thisLength += $meas["tempos"][$xyzzy+1]["time"] - $t["time"];
-                                echo "$thisLength \n";
+                                //echo "$thisLength \n";
                             }
                             $thisLength /= $timebase;
                             $thisLength /= $t["bpm"];
@@ -301,10 +301,13 @@ function calcBaseScores($measures, $notetrack, $events, $config, $drums = false,
         
         $meas["mscore"] = (int)$mScore;
         $meas["cscore"] = (int)$total;
+        $meas["streak"] = $streak;
         if ($fillNoteScore > 0) $meas["fillnotescore"] = $fillNoteScore;
         
     }
     
+    // disabled BRE score for now because it's horribly broken
+    /*
     if ($BREscore > 0) {
         foreach ($events as &$e) {
             if ($e["type"] != "fill") continue;
@@ -312,6 +315,7 @@ function calcBaseScores($measures, $notetrack, $events, $config, $drums = false,
         }
         
     }
+    */
     
     return array($measures, $events);
 }

@@ -67,8 +67,9 @@
     fwrite($indexFile, "<html>\n<head>\n<title>Blank Charts for $game " . strtolower($instrument) . "</title>\n</head>\n");
     fwrite($indexFile, <<<EOT
 <body>
-<p>These charts are blank. They have not been verified against the game and may be faulty. If you see something horribly wrong please <a href="http://rockband.scorehero.com/forum/privmsg.php?mode=post&u=52545">send me a message</a> on ScoreHero.</p>
+<p>These charts are blank. They have not been verified against the game and may be faulty. If you see something horribly wrong please <a href="http://rockband.scorehero.com/forum/privmsg.php?mode=post&u=52545">send me a message</a> on ScoreHero. Relevant discussion threads for <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=4773">drums</a> and <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=5062">guitar/bass</a>.</p>
 <p>They are in alphabetical order. Probably easier to find a song this way anyway.</p>
+<p>The black numbers at the bottom right of ever measure is the total number of points in the measure; the red numbers are the total number of points in the measure not in a fill.</p>
 <table border="1">
 
 EOT
