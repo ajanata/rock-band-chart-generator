@@ -99,8 +99,8 @@ function makeChart($file, $diff, $game, $instrument, $name = null) {
         imagestring($im, 3, WIDTH-30, 0, "Fill", $fill);
     }
     if (DRAWPLAYERLINES) {
-        imagestring($im, 3, WIDTH-110, 15, "Player 1", $player1);
-        imagestring($im, 3, WIDTH-50, 15, "Player 2", $player2);
+        imagestring($im, 3, WIDTH-120, 15, "Player 1", $player1);
+        imagestring($im, 3, WIDTH-60, 15, "Player 2", $player2);
     }
 	
 	
