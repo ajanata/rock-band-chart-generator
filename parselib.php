@@ -1,107 +1,237 @@
 <?php
 
-    define("DEBUG", 0);
-    define("VERBOSE", 0);
-    define("OMGVERBOSE", 0);
-	define("PARSELIBVERSION", "0.4.7");
+define("DEBUG", 0);
+define("VERBOSE", 0);
+define("OMGVERBOSE", 0);
+define("PARSELIBVERSION", "0.7.0");
 
-    header("Content-type:text/plain");
-
-    require_once 'notevalues.php';
-    require_once '../classes/midi.class.php';
-    require_once 'songnames.php';
+require_once 'notevalues.php';
+require_once 'classes/midi.class.php';
+require_once 'songnames.php';
 
 
-    function parseFile($file, $difficulty, $game, $instrument) {
-        global $songname, $timebase, $CONFIG, $NOTES;
-        $songname = "";
-
-        $mid = new Midi;
-        $mid->importMid($file);
-        $timebase = $mid->getTimebase();
+// returns (songname, events[guitar...vocals], timetrack, measures[guitar...drums][easy...expert], notetracks[guitar...drums][easy...expert], vocals)
+// measures has one or more of guitar, coop, bass, drums.
+// vocals will be null if not rock band
+function parseFile($file, $game) {
+    global $timebase, $CONFIG, $NOTES;
     
-        $tracknum = 0;
-        $trackname = "";
-        switch ($game) {
-            case "RB":
-                switch ($instrument) {
-                    case "GUITAR":
-                        $trackname = "PART GUITAR";
-                        break;
-                    case "BASS":
-                        $trackname = "PART BASS";
-                        break;
-                    case "DRUMS":
-                        $trackname = "PART DRUMS";
-                        break;
-                    case "VOX":
-                        $trackname = "PART VOCALS";
-                }
-                break;
-            case "GH1":
-                $trackname = "T1 GEMS";     // GH1 only has one instrument
-                break;
-            default:
-                switch ($instrument) {
-                    case "GUITAR":
-                        $trackname = "PART GUITAR";
-                        break;
-                    case "BASS":
-                        $trackname = "PART BASS";      // check this
-                        break;
-                    case "COOP":
-                        $trackname = "PART GUITAR COOP";      // check this too
-                        break;
-                }
-        }
-        
-        
-        $eventsTrack = 0;
-        for ($i = 1; $i < $mid->getTrackCount(); $i++) {
-            $temp = $mid->getMsg($i, 0);
-            //echo substr($temp, 16); 
-            if (substr($temp, 16) == $trackname . "\"") {
-                $tracknum = $i;
-            }
-            if (substr($temp, 16) == "EVENTS\"") {
-                $eventsTrack = $i;
-            }
-        }
-        
-    //echo $mid->getTrackTxt($tracknum);
-        
-        // $events is start/end times for phrases, fills, and solos
-        list($notetrack, $events) = filterDifficulty($mid->getTrackTxt($tracknum), $NOTES[$game][$difficulty]);
-        $timetrack = parseTimeTrack($mid->getTrackTxt(0));
-        $measures = makeMeasureTable($timetrack, $notetrack);
-        list($measures, $notetrack) = putNotesInMeasures($measures, $notetrack);
+    $songname = "";
+
+    $mid = new Midi;
+    $mid->importMid($file);
+    $timebase = $mid->getTimebase();
+
+    $game = strtoupper($game);
     
-        list ($measures, $events) = calcBaseScores($measures, $notetrack, $events, $CONFIG[$game], ($instrument=="DRUMS"), ($instrument=="BASS" && $game=="RB"));
-        $measures = getSectionNames($measures, $mid->getTrackTxt($eventsTrack));
-
-
-        return array($measures, $notetrack, $songname, $events);
+    $eventsTrack = $guitarTrack = $guitarCoopTrack = $bassTrack = $drumsTrack = $vocalsTrack = 0;
+    for ($i = 1; $i < $mid->getTrackCount(); $i++) {
+        $temp = $mid->getMsg($i, 0);
+        //echo substr($temp, 16); 
+        if (substr($temp, 16) == "PART GUITAR\"") {
+            $guitarTrack = $i;
+        }
+        if (substr($temp, 16) == "PART GUITAR COOP\"") {
+            $guitarTrack = $i;
+        }
+        if (substr($temp, 16) == "T1 GEMS\"") {
+            $guitarTrack = $i;
+        }
+        if (substr($temp, 16) == "PART BASS\"") {
+            $bassTrack = $i;
+        }
+        if (substr($temp, 16) == "PART DRUMS\"") {
+            $drumsTrack = $i;
+        }
+        if (substr($temp, 16) == "PART VOCALS\"") {
+            $vocalsTrack = $i;
+        }
+        if (substr($temp, 16) == "EVENTS\"") {
+            $eventsTrack = $i;
+        }
     }
     
+
+    // common to all games
+    list ($timetrack, $songname) = parseTimeTrack($mid->getTrackTxt(0));
+
+
+    /*
+        New logic:
+            - get time track
+            - parse into structure notes for every instrument for every difficulty
+            - parse into structure events (phrases, solos, fills, player on/off)
+            - lolwut vocals
+            - apply events to notes
+                - check for stuff that makes notes invalid
+            - stick notes into measures
+            - calculate scores
+    
+    */
+
+
+    $events = array();
+    $measures = array();
+    $notetracks = array();
+    $vocals = ($game == "RB" ? array() : null);
+
+    switch ($game) {
+        case "RB":
+            $notetracks["guitar"] = parseNoteTrack($mid->getTrackTxt($guitarTrack), $NOTES[$game]);
+            $notetracks["bass"] = parseNoteTrack($mid->getTrackTxt($bassTrack), $NOTES[$game]);
+            $notetracks["drums"] = parseNoteTrack($mid->getTrackTxt($drumsTrack), $NOTES[$game]);
+
+            $events["guitar"] = parsePhraseEvents($mid->getTrackTxt($guitarTrack), $NOTES[$game]);
+            $events["bass"] = parsePhraseEvents($mid->getTrackTxt($bassTrack), $NOTES[$game]);
+            $events["drums"] = parsePhraseEvents($mid->getTrackTxt($drumsTrack), $NOTES[$game]);
+            $events["vocals"] = parsePhraseEvents($mid->getTrackTxt($vocalsTrack), $NOTES[$game]);
+            
+            $vocals = parseVocals($mid->getTrackTxt($vocalsTrack));
+
+            //$notetracks["guitar"] = applyEventsToNotetrack($notetracks["guitar"], $events["guitar"]);
+            //$notetracks["bass"] = applyEventsToNotetrack($notetracks["bass"], $events["bass"]);
+            //$notetracks["drums"] = applyEventsToNotetrack($notetracks["drums"], $events["drums"]);
+            $notetracks = applyEventsToNoteTracks($notetracks, $events);
+            
+            $measures = makeMeasureTable($timetrack, $notetracks["bass"]["easy"]["TrkEnd"]);
+            
+            $measures = putNotesInMeasures($measures, $notetracks);
+            
+            list ($measures, $events) = calcBaseScores($measures, $notetracks, $events, $CONFIG[$game]);
+            
+            $events = getSectionNames($events, $mid->getTrackTxt($eventsTrack));
+
+
+            break;
+        case "GH1":
+
+
+            break;
+        default:
+            // gh2 and gh80s are the same
+            // gh3 should be, too, but I'm not worrying about it now
+            
+            $notetracks["guitar"] = parseNoteTrack($mid->getTrackTxt($guitarTrack), $NOTES[$game]);
+            
+            
+            
+            
+    }
+
+
+
+    /*
+    
+    // $events is start/end times for phrases, fills, and solos
+    list($notetrack, $events) = filterDifficulty($mid->getTrackTxt($tracknum), $NOTES[$game][$difficulty]);
+    $timetrack = parseTimeTrack($mid->getTrackTxt(0));
+    $measures = makeMeasureTable($timetrack, $notetrack);
+    list($measures, $notetrack) = putNotesInMeasures($measures, $notetrack);
+
+    list ($measures, $events) = calcBaseScores($measures, $notetrack, $events, $CONFIG[$game], ($instrument=="DRUMS"), ($instrument=="BASS" && $game=="RB"));
+    $measures = getSectionNames($measures, $mid->getTrackTxt($eventsTrack));
+    
+    */
+
+    //return array($measures, $notetrack, $songname, $events);
+
+
+// returns (songname, events[guitar...vocals], timetrack, measures[guitar...drums][easy...expert], notetracks[guitar...drums][easy...expert], vocals)
+
+    return array($songname, $events, $timetrack, $measures, $notetracks, $vocals);
+}
     
     
-function getSectionNames($measures, $eventstrk) {
     
-    $events = explode("\n", $eventstrk);
-    $mIndex = 0;
     
-    foreach ($events as $event) {
+    
+function parseTimeTrack($tracktxt) {
+    $ret = array();
+    $ret["sigs"] = array();
+    $ret["tempos"] = array();
+    $loop = 0;
+    $tempoIndex = -1;
+    $sigIndex = -1;
+    $songname = "";
+    
+    
+    $trk = explode("\n", $tracktxt);
+    
+    foreach ($trk as $line) {
+        $loop++;
+        $info = explode(" ", $line);
+
+        if (!isset($info[1])) continue;        
+        if ($info[1] == "Meta") {
+            if ($info[2] == "TrkName") {
+                preg_match('/.*\"(.*)\"$/', $line, $matches);
+                $songname = $matches[1];
+            }
+            continue;
+        }
+        
+        if ($info[1] != "Tempo" && $info[1] != "TimeSig") {
+            continue;
+        }
+
+        
+        if ($info[1] == "TimeSig") {
+            $sigIndex++;
+            $ret["sigs"][$sigIndex]["time"] = $info[0];
+            $ret["sigs"][$sigIndex]["numerator"] = $info[2][0];
+            $ret["sigs"][$sigIndex]["denominator"] = $info[2][2];
+        }
+        else {
+            $tempoIndex++;
+            $ret["tempos"][$tempoIndex]["time"] = $info[0];
+            $ret["tempos"][$tempoIndex]["tempo"] = $info[2];
+            $ret["tempos"][$tempoIndex]["bpm"] = round(60000000/$info[2]);
+        }
+        
+    }
+    
+    if (DEBUG >= 1 && VERBOSE == 1) {
+        var_dump(array_values($ret));
+    }
+    
+    return array($ret, $songname);
+}
+
+
+function getSectionNames($events, $eventstrk) {
+    
+    $foo = explode("\n", $eventstrk);
+    $index = count($events);
+    
+    foreach ($foo as $event) {
         $e = explode(" ", $event);
         if (isset($e[1]) && $e[1] == "Meta" && $e[2] == "Text" && $e[3] == "\"[section") {
             $section = substr($e[4], 0, strlen($e[4]) - 2);
-            while ($measures[$mIndex]["time"] < $e[0]) $mIndex++;
-            $measures[$mIndex]["section"] = $section;
+            
+            $events[$index]["type"] = "section";
+            $events[$index]["at"] = $e[0];
+            $events[$index]["section"] = $section;
+            $index++;
         }
-        
     }
-    
-    return $measures;
+    return $events;
 }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
     
     
 
@@ -473,58 +603,6 @@ function makeMeasureTable($timetrack, $notetrack) {
 }
 
 
-function parseTimeTrack($tracktxt) {
-    global $songname;
-    
-    $ret = array();
-    $ret["sigs"] = array();
-    $ret["tempos"] = array();
-    $loop = 0;
-    $tempoIndex = -1;
-    $sigIndex = -1;
-    
-    
-    $trk = explode("\n", $tracktxt);
-    
-    foreach ($trk as $line) {
-        $loop++;
-        $info = explode(" ", $line);
-
-        if (!isset($info[1])) continue;        
-        if ($info[1] == "Meta") {
-            if ($info[2] == "TrkName") {
-                preg_match('/.*\"(.*)\"$/', $line, $matches);
-                $songname = $matches[1];
-            }
-            continue;
-        }
-        
-        if ($info[1] != "Tempo" && $info[1] != "TimeSig") {
-            continue;
-        }
-
-        
-        if ($info[1] == "TimeSig") {
-            $sigIndex++;
-            $ret["sigs"][$sigIndex]["time"] = $info[0];
-            $ret["sigs"][$sigIndex]["numerator"] = $info[2][0];
-            $ret["sigs"][$sigIndex]["denominator"] = $info[2][2];
-        }
-        else {
-            $tempoIndex++;
-            $ret["tempos"][$tempoIndex]["time"] = $info[0];
-            $ret["tempos"][$tempoIndex]["tempo"] = $info[2];
-            $ret["tempos"][$tempoIndex]["bpm"] = round(60000000/$info[2]);
-        }
-        
-    }
-    
-    if (DEBUG >= 1 && VERBOSE == 1) {
-        var_dump(array_values($ret));
-    }
-    
-    return $ret;
-}
 
 
 function filterDifficulty($tracktxt, $difNotes) {

@@ -2,7 +2,7 @@
 
     define('EPS', 1.0e-10);
 
-    // notes closer than 30 pulses are a chord
+    // notes closer than 15 pulses are a chord
     define('CHORD', 15);
 
 
