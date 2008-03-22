@@ -91,15 +91,16 @@ function parseFile($file, $game) {
             //$notetracks["guitar"] = applyEventsToNotetrack($notetracks["guitar"], $events["guitar"]);
             //$notetracks["bass"] = applyEventsToNotetrack($notetracks["bass"], $events["bass"]);
             //$notetracks["drums"] = applyEventsToNotetrack($notetracks["drums"], $events["drums"]);
-            $notetracks = applyEventsToNoteTracks($notetracks, $events);
             
-            $measures = makeMeasureTable($timetrack, $notetracks["bass"]["easy"]["TrkEnd"]);
+            #$notetracks = applyEventsToNoteTracks($notetracks, $events);
             
-            $measures = putNotesInMeasures($measures, $notetracks);
+            #$measures = makeMeasureTable($timetrack, $notetracks["bass"]["easy"]["TrkEnd"]);
             
-            list ($measures, $events) = calcBaseScores($measures, $notetracks, $events, $CONFIG[$game]);
+            #$measures = putNotesInMeasures($measures, $notetracks);
             
-            $events = getSectionNames($events, $mid->getTrackTxt($eventsTrack));
+            #list ($measures, $events) = calcBaseScores($measures, $notetracks, $events, $CONFIG[$game]);
+            
+            #$events = getSectionNames($events, $mid->getTrackTxt($eventsTrack));
 
 
             break;
@@ -220,8 +221,432 @@ function getSectionNames($events, $eventstrk) {
     
     
     
+function parseNoteTrack($txt, $gameNotes) {
+    
+    $notes = array();
+        
+    foreach (array("easy", "medium", "hard", "expert") as $diff) {
+        $notes[$diff] = array();
+    
+        // TODO
+    
+    }
+    
+    return $notes;
+}
     
     
+    
+    // TODO: This could break horribly if there's a song with different solo/star power/p1/p2 stuff for different difficulties
+function parsePhraseEvents($txt, $gameNotes) {
+    
+    $track = explode("\n", $txt);
+    $events = array();
+    
+    $index = $lastFill = 0;
+    
+    $lastStar = array("e" => 0, "m" => 0, "h" => 0, "x" => 0);
+    $spNum = array("e" => 0, "m" => 0, "h" => 0, "x" => 0);
+    $lastP1 = array("e" => 0, "m" => 0, "h" => 0, "x" => 0);
+    $lastP2 = array("e" => 0, "m" => 0, "h" => 0, "x" => 0);
+    $lastSolo = array("e" => 0, "m" => 0, "h" => 0, "x" => 0);
+
+    foreach ($track as $line) {
+        if ($line == "MTrk") continue;
+        $info = explode(" ", $line);
+        
+        if (!isset($info[1])) continue;
+        if ($info[1] == "Meta") {
+            if ($info[2] == "TrkEnd") {
+                $notes["TrkEnd"] = (int)$info[0];
+            }
+            continue;
+        }
+        
+        if (!isset($info[3]) || !isset($info[4])) continue;
+        $note = (int)substr($info[3], 2);
+        $vel = (int)substr($info[4], 2);
+
+
+
+        if ($note == $gameNotes["EASY"]["STAR"]) {
+            // star power phrase
+            if ($info[1] = "On" && $vel > 0) {
+                // phrase start
+                $events[$index]["type"] = "star";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["phrase"] = $spNum["e"]++;
+                $events[$index]["difficulty"] = "easy";
+                $lastStar["e"] = $index++;
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // phrase end
+                $events[$lastStar["e"]]["end"] = $info[0];
+            }
+        } // star easy
+        
+
+        if ($note == $gameNotes["MEDIUM"]["STAR"]) {
+            // star power phrase
+            if ($info[1] = "On" && $vel > 0) {
+                // phrase start
+                $events[$index]["type"] = "star";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["phrase"] = $spNum++;
+                $events[$index]["difficulty"] = "medium";
+                $lastStar["m"] = $index++;
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // phrase end
+                $events[$lastStar["m"]]["end"] = $info[0];
+            }
+        } // star medium
+        
+        
+        if ($note == $gameNotes["HARD"]["STAR"]) {
+            // star power phrase
+            if ($info[1] = "On" && $vel > 0) {
+                // phrase start
+                $events[$index]["type"] = "star";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["phrase"] = $spNum++;
+                $events[$index]["difficulty"] = "hard";
+                $lastStar["h"] = $index++;
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // phrase end
+                $events[$lastStar["h"]]["end"] = $info[0];
+            }
+        } // star hard
+        
+        
+        if ($note == $gameNotes["EXPERT"]["STAR"]) {
+            // star power phrase
+            if ($info[1] = "On" && $vel > 0) {
+                // phrase start
+                $events[$index]["type"] = "star";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["phrase"] = $spNum++;
+                $events[$index]["difficulty"] = "expert";
+                $lastStar["x"] = $index++;
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // phrase end
+                $events[$lastStar["x"]]["end"] = $info[0];
+            }
+        } // star expert
+
+        
+        /////// solo
+        
+        if ($note == $gameNotes["EASY"]["SOLO"]) {
+            
+            // solo
+            if ($info[1] == "On" && $vel > 0) {
+                // start
+                $events[$index]["type"] = "solo";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["difficulty"] = "easy";
+                $lastSolo["e"] = $index++;
+                
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // end
+                $events[$lastSolo["e"]]["end"] = $info[0];
+                
+            }
+        } // solo easy
+        
+
+        if ($note == $gameNotes["MEDIUM"]["SOLO"]) {
+            
+            // solo
+            if ($info[1] == "On" && $vel > 0) {
+                // start
+                $events[$index]["type"] = "solo";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["difficulty"] = "medium";
+                $lastSolo["m"] = $index++;
+                
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // end
+                $events[$lastSolo["m"]]["end"] = $info[0];
+                
+            }
+        } // solo medium
+        
+   
+        if ($note == $gameNotes["HARD"]["SOLO"]) {
+            
+            // solo
+            if ($info[1] == "On" && $vel > 0) {
+                // start
+                $events[$index]["type"] = "solo";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["difficulty"] = "hard";
+                $lastSolo["h"] = $index++;
+                
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // end
+                $events[$lastSolo["h"]]["end"] = $info[0];
+                
+            }
+        } // solo hard
+        
+       
+        if ($note == $gameNotes["EXPERT"]["SOLO"]) {
+            
+            // solo
+            if ($info[1] == "On" && $vel > 0) {
+                // start
+                $events[$index]["type"] = "solo";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["difficulty"] = "expert";
+                $lastSolo["x"] = $index++;
+                
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // end
+                $events[$lastSolo["x"]]["end"] = $info[0];
+                
+            }
+        } // solo expert
+        
+         
+        // TODO: look at the other fill notes
+        // note: by definition, all difficulties have the same fill notes
+        if ($note == $gameNotes["EASY"]["FILL"]["G"]) {
+           
+            if ($info[1] == "On" && $vel > 0) {
+                // start
+                $events[$index]["type"] = "fill";
+                $events[$index]["start"] = $info[0];
+                $lastFill = $index++;
+               
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // end
+                $events[$lastFill]["end"] = $info[0];
+               
+            }
+        } // fill
+        
+        
+        
+        ///////////////// player 1
+
+        if ($note == $gameNotes["EASY"]["P1"]) {
+            if ($info[1] = "On" && $vel > 0) {
+                // phrase start
+                $events[$index]["type"] = "player1";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["difficulty"] = "easy";
+                $lastP1["e"] = $index++;
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // phrase end
+                $events[$lastP1["e"]]["end"] = $info[0];
+            }
+        } // p1 easy
+        
+
+        if ($note == $gameNotes["MEDIUM"]["P1"]) {
+            if ($info[1] = "On" && $vel > 0) {
+                // phrase start
+                $events[$index]["type"] = "player1";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["difficulty"] = "medium";
+                $lastP1["m"] = $index++;
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // phrase end
+                $events[$lastP1["m"]]["end"] = $info[0];
+            }
+        } // p1 medium
+        
+        
+        if ($note == $gameNotes["HARD"]["P1"]) {
+            if ($info[1] = "On" && $vel > 0) {
+                // phrase start
+                $events[$index]["type"] = "player1";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["difficulty"] = "hard";
+                $lastP1["h"] = $index++;
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // phrase end
+                $events[$lastP1["h"]]["end"] = $info[0];
+            }
+        } // p1 hard
+        
+        
+        if ($note == $gameNotes["EXPERT"]["P1"]) {
+            if ($info[1] = "On" && $vel > 0) {
+                // phrase start
+                $events[$index]["type"] = "player1";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["difficulty"] = "expert";
+                $lastP1["x"] = $index++;
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // phrase end
+                $events[$lastP1["x"]]["end"] = $info[0];
+            }
+        } // p1 expert
+
+        
+        ///////////////// player 2
+
+        if ($note == $gameNotes["EASY"]["P2"]) {
+            if ($info[1] = "On" && $vel > 0) {
+                // phrase start
+                $events[$index]["type"] = "player2";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["difficulty"] = "easy";
+                $lastP2["e"] = $index++;
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // phrase end
+                $events[$lastP2["e"]]["end"] = $info[0];
+            }
+        } // p2 easy
+        
+
+        if ($note == $gameNotes["MEDIUM"]["P2"]) {
+            if ($info[1] = "On" && $vel > 0) {
+                // phrase start
+                $events[$index]["type"] = "player2";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["difficulty"] = "medium";
+                $lastP2["m"] = $index++;
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // phrase end
+                $events[$lastP2["m"]]["end"] = $info[0];
+            }
+        } // p2 medium
+        
+        
+        if ($note == $gameNotes["HARD"]["P2"]) {
+            if ($info[1] = "On" && $vel > 0) {
+                // phrase start
+                $events[$index]["type"] = "player2";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["difficulty"] = "hard";
+                $lastP2["h"] = $index++;
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // phrase end
+                $events[$lastP2["h"]]["end"] = $info[0];
+            }
+        } // p2 hard
+        
+        
+        if ($note == $gameNotes["EXPERT"]["P2"]) {
+            if ($info[1] = "On" && $vel > 0) {
+                // phrase start
+                $events[$index]["type"] = "player2";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["difficulty"] = "expert";
+                $lastP2["x"] = $index++;
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // phrase end
+                $events[$lastP2["x"]]["end"] = $info[0];
+            }
+        } // p2 expert
+
+    } // foreach
+    
+    return $events;
+}
+    
+    
+    
+function parseVocals($txt) {
+    
+    $track = explode("\n", $txt);
+    $vox = array();
+    $index = $lastIndex = 0;
+    
+    
+    foreach ($track as $line) {
+        if ($line == "MTrk") continue;
+        $info = explode(" ", $line);
+        
+        if (!isset($info[1])) continue;
+        
+        if ($info[1] == "Meta" && $info[2] == "Text") continue;
+        
+        if ($info[1] == "Meta" && $info[2] == "Lyric") {
+            $lyric = str_replace("\"", "", $info[3]);
+            // !== as in !(===) as in not identical
+            $talky = (strpos($lyric, "#") !== false);
+            
+            $i = arrayTimeExists($vox, $info[0], 0);
+            if ($i === false) {
+                $i = $index++;
+            }
+            
+            $vox[$i]["lyric"] = str_replace("#", "", $lyric);
+            $vox[$i]["talky"] = $talky;
+            $vox[$i]["time"] = (int)$info[0];
+
+            continue;
+        }
+
+        if ($info[1] == "Meta") {
+            if ($info[2] == "TrkEnd") {
+                $vox["TrkEnd"] = (int)$info[0];
+            }
+            continue;
+        }
+
+        if (!isset($info[3]) || !isset($info[4])) continue;
+        $note = (int)substr($info[3], 2);
+        $vel = (int)substr($info[4], 2);
+        
+        if ($info[1] == "On" && $vel > 0) {
+            // note start
+            if ($note == 96) {
+                // percussion note
+                // there will not be a lyric here
+                $vox[$index]["time"] = (int)$info[0];
+                $vox[$index++]["percussion"] = true;
+            }
+            else if (($note >= 36) && ($note <= 95)) {
+                // pitch
+                $i = arrayTimeExists($vox, $info[0], 0);
+                if ($i === false) {
+                    $i = $index++;
+                }
+                
+                $vox[$i]["time"] = (int)$info[0];
+                $vox[$i]["pitch"] = $note;
+                $vox[$i]["velocity"] = $vel;
+                $lastIndex = $i;
+            
+            }
+        } // on note
+        
+        
+        if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+            // note end
+            if ($note == 96) {
+                // we don't care about percussion off events
+            }
+            else if (($note >= 36) && ($note <= 95)) {
+                // pitch
+                $vox[$lastIndex]["duration"] = (int)$info[0] - $vox[$lastIndex]["time"];
+            }
+        } // off note
+        
+    } // foreach
+    
+    return $vox;
+}
     
     
     
@@ -858,10 +1283,10 @@ function arrayTimeExists($array, $time, $window) {
         return false;
     }
 
-    foreach ($array as $item) {
+    foreach ($array as $index => $item) {
         //if (($item["time"] >= ($time - (($item["count"] + 1) * $window))) && ($item["time"] <= ($time + ($item["count"]+1) * $window))) {
-        if ($item["time"] >= ($time - ($item["count"] + 1) * $window) && $item["time"] <= $time) {
-            return true;
+        if ($item["time"] >= ($time - ((isset($item["count"]) ? $item["count"] : 0) + 1) * $window) && $item["time"] <= $time) {
+            return $index;
         }
     }
 

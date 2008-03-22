@@ -1,5 +1,16 @@
 <?php
 
+
+/*
+18:39:45 < elx> under page setup
+18:39:51 < elx> uncheck horizontal and vertical centering
+18:40:00 < elx> portrait orientation
+18:41:01 < elx> set all margins to 0 (they will result to a small number, thats alright)
+18:41:52 < elx> under scaling, set fit to 1 by x pages
+18:42:15 < elx> you will need to adjust x depending on the length of the chart, use print preview to make sure the chart isnt being smashed
+18:42:19 < elx> and thats it
+*/
+
 	define("WIDTH", 1010);
 	define("PXPERBEAT", 60);
 	define("STAFFHEIGHT", 12);
