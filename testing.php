@@ -6,18 +6,38 @@
 
     require_once 'classes/midi.class.php';
 
-    #$mid = new Midi;
-    #$mid->importMid("mids/rb/whenyouwereyoung.mid");
 
-    #echo "Time Signature Track\n";
-    #echo $mid->getTrackTxt(0);
+	define("WIDTH", 1010);
+	define("PXPERBEAT", 60);
+	define("STAFFHEIGHT", 12);
+	define("DRAWPLAYERLINES", 0);
+
+    require_once "chartlib.php";
     
-    #echo "\n\n\n\n\nVocals Track\n";
-    #echo $mid->getTrackTxt(4);
+    
+
+
+
+
+
+  /* */
+    $mid = new Midi;
+    $mid->importMid("mids/rb/cantletgo.mid");
+
+    echo "Time Signature Track\n";
+    echo $mid->getTrackTxt(0);
+    
+    echo "\n\n\n\n\nVocals Track\n";
+    echo $mid->getTrackTxt(1);
+    
+    exit;
+
+  /* */
+
 
 # (songname, events[guitar...vocals], timetrack, measures[guitar...drums][easy...expert], notetracks[guitar...drums][easy...expert], vocals)
 
-    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/rb/danicalifornia.mid", "RB");
+    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/rb/highwaystar.mid", "RB");
 
 //	list ($measures, $notetrack, $songname, $events) = parseFile("../mids/rb/shouldistay.mid", "EASY", "RB", "GUITAR");
 
@@ -25,6 +45,16 @@
 
 //print_r($notetrack);
 
+echo "=== Measures\n\n";
+print_r($measures);
+
+echo "\n\n=== Time Track\n\n";
+print_r($timetrack);
+
+echo "\n\n=== Events\n\n";
+print_r($events);
+
+echo "\n\n=== Vocals\n\n";
 print_r($vocals);
 
 

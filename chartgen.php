@@ -1,10 +1,10 @@
 <?php
 
 
-	define("WIDTH", 1010);
-	define("PXPERBEAT", 60);
+	define("WIDTH", 1170);
+	define("PXPERBEAT", 70);
 	define("STAFFHEIGHT", 12);
-	define("DRAWPLAYERLINES", 0);
+	define("DRAWPLAYERLINES", 1);
 	define("CHARTGENVERSION", "0.3.7");
 
 	require_once "parselib.php";
@@ -19,22 +19,10 @@
 	}
 	
 	$file = preg_replace("-[\./]-", "", $_GET["file"]);
-	if (!file_exists("../mids/" . strtolower($_GET["game"]) . "/" . $file . ".mid")) {
+	if (!file_exists("mids/" . strtolower($_GET["game"]) . "/" . $file . ".mid")) {
 	   die("Specified file does not exist.");
 	}
 
-
-	if (!isset($_GET["difficulty"])) {
-		echo "Difficulty not specified - Use query string paramenter, i.e., chartgen.php?difficulty=expert";
-		exit;
-	}
-	
-	$diff = strtolower($_GET["difficulty"]);
-	// don't ask why I typed those out of order
-	if (!($diff == "easy" || $diff == "medium" || $diff == "expert" || $diff == "hard")) {
-	   die("Invalid difficulty -- specify one of easy, medium, hard, or expert.");
-	}
-	
 
 	
 	if (!isset($_GET["game"])) {
@@ -56,10 +44,10 @@
 	//global $instrument;
 	$instrument = strtolower($_GET["instrument"]);
 	if ($game == "rb") {
-	   if (!($instrument == "guitar" || $instrument == "bass" || $instrument == "drums" || $instrument == "vox")) {
-	       die("Invalid instrument for rock band -- specify one of guitar, bass, drums, or vox.");
+	   if (!($instrument == "guitar" || $instrument == "bass" || $instrument == "drums" || $instrument == "vocals")) {
+	       die("Invalid instrument for rock band -- specify one of guitar, bass, drums, or vocals.");
 	   }
-	   if ($instrument == "vox") die("Not yet implemented.");
+	   //if ($instrument == "vocals") die("Not yet implemented.");
 	}
 	else {
 	   if (!($instrument == "guitar" || $instrument == "bass" || $instrument == "coop")) {
@@ -69,10 +57,23 @@
 	}
 	
 	
+	
+	if ($instrument != "vocals" && !isset($_GET["difficulty"])) {
+		echo "Difficulty not specified - Use query string paramenter, i.e., chartgen.php?difficulty=expert";
+		exit;
+	}
+	
+	$diff = (isset($_GET["difficulty"]) ? strtolower($_GET["difficulty"]) : "");
+	// don't ask why I typed those out of order
+	if ($instrument != "vocals" && !($diff == "easy" || $diff == "medium" || $diff == "expert" || $diff == "hard")) {
+	   die("Invalid difficulty -- specify one of easy, medium, hard, or expert.");
+	}
+	
+	
 	//////////
 	// call to makeChart here
 	
-	list ($im, $basecore) = makeChart("../mids/" . $game . "/" . $file . ".mid", $diff, $game, $instrument, (isset($NAMES[$file]) ? $NAMES[$file] : $file));
+	list ($im, $basecore) = makeChart("mids/" . $game . "/" . $file . ".mid", $diff, $game, $instrument, (isset($NAMES[$file]) ? $NAMES[$file] : $file));
 	
 	
 	header("Content-type: image/png");
