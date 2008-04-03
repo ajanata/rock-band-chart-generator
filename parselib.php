@@ -224,23 +224,6 @@ function getSectionNames($events, $eventstrk) {
     
     
     
-    
-function parseNoteTrack($txt, $gameNotes) {
-    
-    $notes = array();
-        
-    foreach (array("easy", "medium", "hard", "expert") as $diff) {
-        $notes[$diff] = array();
-    
-        // TODO
-    
-    }
-    
-    return $notes;
-}
-    
-    
-    
     // TODO: This could break horribly if there's a song with different solo/star power/p1/p2 stuff for different difficulties
 function parsePhraseEvents($txt, $gameNotes) {
     
@@ -600,9 +583,9 @@ function parseVocals($txt) {
                 $i = $index++;
             }
             
-            $lyric = str_replace("#", "", $lyric);
-            $lyric = str_replace("^", "", $lyric);
-            $lyric = str_replace("*", "", $lyric);
+            #$lyric = str_replace("#", "", $lyric);
+            #$lyric = str_replace("^", "", $lyric);
+            #$lyric = str_replace("*", "", $lyric);
             
             $vox[$i]["lyric"] = $lyric;
             $vox[$i]["talky"] = $talky;
@@ -759,6 +742,128 @@ function makeMeasureTable($timetrack, $trkend) {
 }
 
 
+function parseNoteTrack($txt, $gameNotes) {
+    
+    $ret["easy"] = array();
+    $ret["medium"] = array();
+    $ret["hard"] = array();
+    $ret["expert"] = array();
+
+    $track = explode("\n", $txt);
+    $events = array();
+    
+    $index = 0;
+    
+    $lastNoteOn = array("e" => 0, "m" => 0, "h" => 0, "x" => 0);
+
+    foreach ($track as $line) {
+        if ($line == "MTrk") continue;
+        $info = explode(" ", $line);
+        
+        if (!isset($info[1])) continue;
+        if ($info[1] == "Meta") {
+            if ($info[2] == "TrkEnd") {
+                $ret["TrkEnd"] = (int)$info[0];
+                $ret["easy"]["TrkEnd"] = (int)$info[0];
+                $ret["medium"]["TrkEnd"] = (int)$info[0];
+                $ret["hard"]["TrkEnd"] = (int)$info[0];
+                $ret["expert"]["TrkEnd"] = (int)$info[0];
+            }
+            continue;
+        }
+        
+        if (!isset($info[3]) || !isset($info[4])) continue;
+        $note = (int)substr($info[3], 2);
+        $vel = (int)substr($info[4], 2);
+        
+        switch($note) {
+            case $gameNotes["EASY"]["G"]:
+            case $gameNotes["EASY"]["R"]:
+            case $gameNotes["EASY"]["Y"]:
+            case $gameNotes["EASY"]["B"]:
+            case $gameNotes["EASY"]["O"]:
+                // easy
+                
+                
+                
+                break;
+                
+            case $gameNotes["MEDIUM"]["G"]:
+            case $gameNotes["MEDIUM"]["R"]:
+            case $gameNotes["MEDIUM"]["Y"]:
+            case $gameNotes["MEDIUM"]["B"]:
+            case $gameNotes["MEDIUM"]["O"]:
+                // medium
+                
+                
+                
+                break;
+                
+            case $gameNotes["HARD"]["G"]:
+            case $gameNotes["HARD"]["R"]:
+            case $gameNotes["HARD"]["Y"]:
+            case $gameNotes["HARD"]["B"]:
+            case $gameNotes["HARD"]["O"]:
+                // hard
+                
+                
+                
+                
+                break;
+            
+            case $gameNotes["EXPERT"]["G"]:
+            case $gameNotes["EXPERT"]["R"]:
+            case $gameNotes["EXPERT"]["Y"]:
+            case $gameNotes["EXPERT"]["B"]:
+            case $gameNotes["EXPERT"]["O"]:
+                // expert
+                
+                
+                
+                break;
+        } // switch note
+    
+    
+    
+    
+    } // foreach
+    
+    
+}   // parseNoteTrack
+
+
+function arrayTimeExists($array, $time, $window) {
+    // $window is how much tolerance we have
+    if (!is_array($array)) {
+        return false;
+    }
+
+    foreach ($array as $index => $item) {
+        //if (($item["time"] >= ($time - (($item["count"] + 1) * $window))) && ($item["time"] <= ($time + ($item["count"]+1) * $window))) {
+        if ($item["time"] >= ($time - ((isset($item["count"]) ? $item["count"] : 0) + 1) * $window) && $item["time"] <= $time) {
+            return $index;
+        }
+    }
+
+    return false;
+}
+
+
+
+
+
+
+
+
+
+
+
+ 
+    
+    
+    
+    
+    
     
     
     
@@ -1295,21 +1400,6 @@ function filterDifficulty($tracktxt, $difNotes) {
 }
 
 
-function arrayTimeExists($array, $time, $window) {
-    // $window is how much tolerance we have
-    if (!is_array($array)) {
-        return false;
-    }
-
-    foreach ($array as $index => $item) {
-        //if (($item["time"] >= ($time - (($item["count"] + 1) * $window))) && ($item["time"] <= ($time + ($item["count"]+1) * $window))) {
-        if ($item["time"] >= ($time - ((isset($item["count"]) ? $item["count"] : 0) + 1) * $window) && $item["time"] <= $time) {
-            return $index;
-        }
-    }
-
-    return false;
-}
 
 
 

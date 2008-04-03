@@ -5,7 +5,7 @@
 	define("PXPERBEAT", 70);
 	define("STAFFHEIGHT", 12);
 	define("DRAWPLAYERLINES", 1);
-	define("CHARTGENVERSION", "0.3.7");
+	define("CHARTGENVERSION", "0.5.0");
 
 	require_once "parselib.php";
 	require_once "notevalues.php";
@@ -36,7 +36,7 @@
 	}
 	
 	
-	
+	/*
 	if (!isset($_GET["instrument"])) {
 		echo "Game not specified - Use query string parameter, i.e., chartgen.php?instrument=guitar (or bass (will read rhythm charts), or drums (RB), or vox (RB), or coop (GH))";
 		exit;
@@ -55,17 +55,18 @@
 	   }
 	   if ($instrument != "guitar") die ("Not yet implemented.");
 	}
+	*/
 	
 	
-	
-	if ($instrument != "vocals" && !isset($_GET["difficulty"])) {
+	if ((isset($_GET["guitar"]) || isset($_GET["bass"]) || isset($_GET["drums"])) && !isset($_GET["difficulty"])) {
 		echo "Difficulty not specified - Use query string paramenter, i.e., chartgen.php?difficulty=expert";
 		exit;
 	}
 	
 	$diff = (isset($_GET["difficulty"]) ? strtolower($_GET["difficulty"]) : "");
 	// don't ask why I typed those out of order
-	if ($instrument != "vocals" && !($diff == "easy" || $diff == "medium" || $diff == "expert" || $diff == "hard")) {
+	if ((isset($_GET["guitar"]) || isset($_GET["bass"]) || isset($_GET["drums"])) && !($diff == "easy" || $diff == "medium"
+	       || $diff == "expert" || $diff == "hard")) {
 	   die("Invalid difficulty -- specify one of easy, medium, hard, or expert.");
 	}
 	
@@ -73,7 +74,8 @@
 	//////////
 	// call to makeChart here
 	
-	list ($im, $basecore) = makeChart("mids/" . $game . "/" . $file . ".mid", $diff, $game, $instrument, (isset($NAMES[$file]) ? $NAMES[$file] : $file));
+	list ($im, $basecore) = makeChart("mids/" . $game . "/" . $file . ".mid", $diff, $game, isset($_GET["guitar"]),
+	       isset($_GET["bass"]), isset($_GET["drums"]), isset($_GET["vocals"]), (isset($NAMES[$file]) ? $NAMES[$file] : $file));
 	
 	
 	header("Content-type: image/png");

@@ -22,13 +22,13 @@
 
   /* */
     $mid = new Midi;
-    $mid->importMid("mids/rb/cantletgo.mid");
+    $mid->importMid("mids/rb/hitcharide.mid");
 
-    echo "Time Signature Track\n";
-    echo $mid->getTrackTxt(0);
+    #echo "Time Signature Track\n";
+    #echo $mid->getTrackTxt(0);
     
-    echo "\n\n\n\n\nVocals Track\n";
-    echo $mid->getTrackTxt(1);
+    #echo "\n\n\n\n\nGuitar Track\n";
+    echo $mid->getTrackTxt(2);
     
     exit;
 
