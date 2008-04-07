@@ -116,7 +116,7 @@
     $NAMES["everfalleninlove"] = "Ever Fallen In Love";
     $NAMES["fortunateson"] = "Fortunate Son";
     $NAMES["franklinstower"] = "Franklin's Tower";
-    $NAMES["gimmiethreesteps"] = "Gimmie Three Steps";
+    $NAMES["gimmethreesteps"] = "Gimme Three Steps";
     $NAMES["hardtohandle"] = "Hard to Handle";
     $NAMES["heroes"] = "Heroes";
     $NAMES["ifoughtthelaw"] = "I Fought the Law";
@@ -149,6 +149,7 @@
     $NAMES["siva"] = "Siva";
     $NAMES["songwithamission"] = "Song with a Mission";
     $NAMES["sprode"] = "Sprode";
+    $NAMES["stillalive"] = "Still Alive";
     $NAMES["sugarmagnolia"] = "Sugar Magnolia";
     $NAMES["sweetleaf"] = "Sweet Leaf";
     $NAMES["synchronicity2"] = "Synchronicity II";

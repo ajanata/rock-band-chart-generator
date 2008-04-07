@@ -20,7 +20,7 @@
 
 
 
-  /* */
+  /* * /
     $mid = new Midi;
     $mid->importMid("mids/rb/hitcharide.mid");
 
@@ -32,12 +32,12 @@
     
     exit;
 
-  /* */
+  / * */
 
 
 # (songname, events[guitar...vocals], timetrack, measures[guitar...drums][easy...expert], notetracks[guitar...drums][easy...expert], vocals)
 
-    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/rb/highwaystar.mid", "RB");
+    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/rb/waveofmutilation.mid", "RB");
 
 //	list ($measures, $notetrack, $songname, $events) = parseFile("../mids/rb/shouldistay.mid", "EASY", "RB", "GUITAR");
 
@@ -47,6 +47,9 @@
 
 echo "=== Measures\n\n";
 print_r($measures);
+
+echo "=== Notes\n\n";
+print_r($notetracks);
 
 echo "\n\n=== Time Track\n\n";
 print_r($timetrack);

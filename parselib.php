@@ -10,7 +10,7 @@ require_once 'classes/midi.class.php';
 require_once 'songnames.php';
 
 
-// returns (songname, events[guitar...vocals], timetrack, measures[guitar...drums][easy...expert], notetracks[guitar...drums][easy...expert], vocals)
+// returns (songname, events[guitar...vocals], timetrack, measures[guitar...drums]notes[easy...expert], notetracks[guitar...drums][easy...expert], vocals)
 // measures has one or more of guitar, coop, bass, drums.
 // vocals will be null if not rock band
 function parseFile($file, $game) {
@@ -77,13 +77,13 @@ function parseFile($file, $game) {
 
     switch ($game) {
         case "RB":
-            #$notetracks["guitar"] = parseNoteTrack($mid->getTrackTxt($guitarTrack), $NOTES[$game]);
-            #$notetracks["bass"] = parseNoteTrack($mid->getTrackTxt($bassTrack), $NOTES[$game]);
-            #$notetracks["drums"] = parseNoteTrack($mid->getTrackTxt($drumsTrack), $NOTES[$game]);
+            $notetracks["guitar"] = parseNoteTrack($mid->getTrackTxt($guitarTrack), $NOTES[$game]);
+            $notetracks["bass"] = parseNoteTrack($mid->getTrackTxt($bassTrack), $NOTES[$game]);
+            $notetracks["drums"] = parseNoteTrack($mid->getTrackTxt($drumsTrack), $NOTES[$game]);
 
-            #$events["guitar"] = parsePhraseEvents($mid->getTrackTxt($guitarTrack), $NOTES[$game]);
-            #$events["bass"] = parsePhraseEvents($mid->getTrackTxt($bassTrack), $NOTES[$game]);
-            #$events["drums"] = parsePhraseEvents($mid->getTrackTxt($drumsTrack), $NOTES[$game]);
+            $events["guitar"] = parsePhraseEvents($mid->getTrackTxt($guitarTrack), $NOTES[$game]);
+            $events["bass"] = parsePhraseEvents($mid->getTrackTxt($bassTrack), $NOTES[$game]);
+            $events["drums"] = parsePhraseEvents($mid->getTrackTxt($drumsTrack), $NOTES[$game]);
             $events["vocals"] = parsePhraseEvents($mid->getTrackTxt($vocalsTrack), $NOTES[$game]);
             
             $vocals = parseVocals($mid->getTrackTxt($vocalsTrack));
@@ -752,9 +752,9 @@ function parseNoteTrack($txt, $gameNotes) {
     $track = explode("\n", $txt);
     $events = array();
     
-    $index = 0;
-    
-    $lastNoteOn = array("e" => 0, "m" => 0, "h" => 0, "x" => 0);
+    $index = array("e" => -1, "m" => -1, "h" => -1, "x" => -1);
+    $lastRealNote = array("e" => -1, "m" => -1, "h" => -1, "x" => -1);
+    $chord = array("e" => 0, "m" => 0, "h" => 0, "x" => 0);
 
     foreach ($track as $line) {
         if ($line == "MTrk") continue;
@@ -783,8 +783,8 @@ function parseNoteTrack($txt, $gameNotes) {
             case $gameNotes["EASY"]["B"]:
             case $gameNotes["EASY"]["O"]:
                 // easy
-                
-                
+                dealWithNote((int)$info[0], $info[1], $note, $vel, $gameNotes, $ret["easy"], $chord["e"], $index["e"], $lastRealNote["e"]);
+                //($time, $type, $note, $vel, $gameNotes, &$notetrack, &$chord, &$index, &$lastRealNote)
                 
                 break;
                 
@@ -794,8 +794,7 @@ function parseNoteTrack($txt, $gameNotes) {
             case $gameNotes["MEDIUM"]["B"]:
             case $gameNotes["MEDIUM"]["O"]:
                 // medium
-                
-                
+                dealWithNote((int)$info[0], $info[1], $note, $vel, $gameNotes, $ret["medium"], $chord["m"], $index["m"], $lastRealNote["m"]);                
                 
                 break;
                 
@@ -805,9 +804,7 @@ function parseNoteTrack($txt, $gameNotes) {
             case $gameNotes["HARD"]["B"]:
             case $gameNotes["HARD"]["O"]:
                 // hard
-                
-                
-                
+                dealWithNote((int)$info[0], $info[1], $note, $vel, $gameNotes, $ret["hard"], $chord["h"], $index["h"], $lastRealNote["h"]);                
                 
                 break;
             
@@ -817,10 +814,76 @@ function parseNoteTrack($txt, $gameNotes) {
             case $gameNotes["EXPERT"]["B"]:
             case $gameNotes["EXPERT"]["O"]:
                 // expert
-                
-                
+                dealWithNote((int)$info[0], $info[1], $note, $vel, $gameNotes, $ret["expert"], $chord["x"], $index["x"], $lastRealNote["x"]);
                 
                 break;
+                                
+                /*
+                
+                // check for a chord
+                if (arrayTimeExists($ret["expert"], $info[0], CHORD) === false && ($info[1] == "On" && $vel > 0)) {
+                    $index["x"]++;
+                    $chord["x"] = 0;
+                }
+                
+                // regular note
+                if ($info[1] == "On" && $vel > 0) {
+                    if (!isset($ret["expert"][$index["x"]]["time"])) $ret["expert"][$index["x"]]["time"] = (int) $info[0];
+
+                    $ret["expert"][$index["x"]]["count"] = $chord["x"];
+                    $ret["expert"][$index["x"]]["note"][$chord["x"]++] = noteValToCanonical($note, $gameNotes);
+                    
+                    if ($chord["x"] == 1) {
+                        if ($lastRealNote["x"] != -1 && !isset($ret["expert"][$lastRealNote["x"]]["duration"])) {
+                            // no end event, make sure it's at least 161 pulses long
+                            if ($info[0] - $ret["expert"][$lastRealNote["x"]]["time"] <= 161) {
+                                // that last note should be ignored!
+                                //unset($ret["expert"][$lastRealNote["x"]]);
+                            }
+                            else {
+                                // it's long enough to be a real note
+                                // now see if it's a sustain
+                                if ($info[0] - $ret["expert"][$lastRealNote["x"]]["time"] <= 240) {
+                                    // not a sustain
+                                    $ret["expert"][$lastRealNote["x"]]["duration"] = 0;
+                                }
+                                else {
+                                    // it's a sustain until this note
+                                    $ret["expert"][$lastRealNote["x"]]["duration"] = $info[0] - $ret["expert"][$lastRealNote["x"]]["time"];
+                                }
+                            }
+                        } // last note didn't have an end event
+                        $lastRealNote["x"] = $index["x"];
+                    } // chord == 1
+                } // regular note on
+                
+                // sustain check
+                if (($info[0] == "Off" || ($info[1] == "On" && $vel == 0))
+                    && $info[0] > $ret["expert"][$index["x"]]["time"] + SUSTAIN
+                    && is_array($ret["expert"][$index["x"]]["note"])
+                    ) {
+                        if (isset($ret["expert"][$index["x"]]["duration"])) {
+                            if ($ret["expert"][$index["x"]]["duration"] > ($info[0] - $ret["expert"][$index["x"]]["time"])) {
+                                if (VERBOSE) echo "Changing duration of note " . $index["x"] . " from " . $ret["expert"][$index["x"]]["duration"];
+                                if (VERBOSE) echo " to " . ($info[0] - $ret["expert"][$index["x"]]["time"]) . "\n";
+                                
+                                $ret["expert"][$index["x"]]["duration"] = $info[0] - $ret["expert"][$index["x"]]["time"];
+                            }
+                        }
+                        else {
+                            $ret["expert"][$index["x"]]["duration"] = $info[0] - $ret["expert"][$index["x"]]["time"];
+                        }
+                }
+                
+                // make sure end events are for real notes
+                else if ((($info[0] == "On" && $vel == 0) || $info[0] == "Off") && isset($ret["expert"][$index["x"]]["note"])
+                    && is_array($ret["expert"][$index["x"]]["note"]) && !isset($ret["expert"][$index["x"]]["duration"])) {
+                        $ret["expert"][$index["x"]]["duration"] = 0;
+                }
+                
+                break;
+                */
+                
         } // switch note
     
     
@@ -828,8 +891,115 @@ function parseNoteTrack($txt, $gameNotes) {
     
     } // foreach
     
-    
+    return $ret;
 }   // parseNoteTrack
+
+
+function dealWithNote($time, $type, $note, $vel, $gameNotes, &$notetrack, &$chord, &$index, &$lastRealNote) {
+
+    // check for a chord
+    if (arrayTimeExists($notetrack, $time, CHORD) === false && ($type == "On" && $vel > 0)) {
+        $index++;
+        $chord = 0;
+    }
+    
+    // regular note
+    if ($type== "On" && $vel > 0) {
+        if (!isset($notetrack[$index]["time"])) $notetrack[$index]["time"] = $time;
+
+        $notetrack[$index]["count"] = $chord;
+        $notetrack[$index]["note"][$chord++] = noteValToCanonical($note, $gameNotes);
+        
+        if ($chord == 1) {
+            if ($lastRealNote != -1 && !isset($notetrack[$lastRealNote]["duration"])) {
+                // no end event, make sure it's at least 161 pulses long
+                if ($info[0] - $notetrack[$lastRealNote]["time"] <= 161) {
+                    // that last note should be ignored!
+                    //unset($notetrack[$lastRealNote]);
+                }
+                else {
+                    // it's long enough to be a real note
+                    // now see if it's a sustain
+                    if ($time - $notetrack[$lastRealNote]["time"] <= 240) {
+                        // not a sustain
+                        $notetrack[$lastRealNote]["duration"] = 0;
+                    }
+                    else {
+                        // it's a sustain until this note
+                        $notetrack[$lastRealNote]["duration"] = $time - $notetrack[$lastRealNote]["time"];
+                    }
+                }
+            } // last note didn't have an end event
+            $lastRealNote = $index;
+        } // chord == 1
+    } // regular note on
+    
+    // sustain check
+    if (($type == "Off" || ($type == "On" && $vel == 0))
+        && $time > $notetrack[$index]["time"] + SUSTAIN
+        && is_array($notetrack[$index]["note"])
+        ) {
+            if (isset($notetrack[$index]["duration"])) {
+                if ($notetrack[$index]["duration"] > ($time - $notetrack[$index]["time"])) {
+                    if (VERBOSE) echo "Changing duration of note " . $index . " from " . $notetrack[$index]["duration"];
+                    if (VERBOSE) echo " to " . ($time - $notetrack[$index]["time"]) . "\n";
+                    
+                    $notetrack[$index]["duration"] = $time - $notetrack[$index]["time"];
+                }
+            }
+            else {
+                $notetrack[$index]["duration"] = $time - $notetrack[$index]["time"];
+            }
+    }
+    
+    // make sure end events are for real notes
+    else if ((($type == "On" && $vel == 0) || $type == "Off") && isset($notetrack[$index]["note"])
+        && is_array($notetrack[$index]["note"]) && !isset($notetrack[$index]["duration"])) {
+            $notetrack[$index]["duration"] = 0;
+    }
+    
+}
+
+
+
+function noteValToCanonical($note, $gameNotes) {
+
+    switch ($note) {
+        case $gameNotes["EASY"]["G"]:
+        case $gameNotes["MEDIUM"]["G"]:
+        case $gameNotes["HARD"]["G"]:
+        case $gameNotes["EXPERT"]["G"]:
+            return 0;
+        
+        case $gameNotes["EASY"]["R"]:
+        case $gameNotes["MEDIUM"]["R"]:
+        case $gameNotes["HARD"]["R"]:
+        case $gameNotes["EXPERT"]["R"]:
+            return 1;
+        
+        case $gameNotes["EASY"]["Y"]:
+        case $gameNotes["MEDIUM"]["Y"]:
+        case $gameNotes["HARD"]["Y"]:
+        case $gameNotes["EXPERT"]["Y"]:
+                return 2;
+        
+        case $gameNotes["EASY"]["B"]:
+        case $gameNotes["MEDIUM"]["B"]:
+        case $gameNotes["HARD"]["B"]:
+        case $gameNotes["EXPERT"]["B"]:
+                return 3;
+        
+        case $gameNotes["EASY"]["O"]:
+        case $gameNotes["MEDIUM"]["O"]:
+        case $gameNotes["HARD"]["O"]:
+        case $gameNotes["EXPERT"]["O"]:
+                return 4;
+        
+        default:
+            return -1;
+    }
+        
+} // noteValToName
 
 
 function arrayTimeExists($array, $time, $window) {
