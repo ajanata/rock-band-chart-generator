@@ -96,7 +96,7 @@ function parseFile($file, $game) {
             
             $measures = makeMeasureTable($timetrack, $vocals["TrkEnd"]);
             
-            #$measures = putNotesInMeasures($measures, $notetracks);
+            list ($measures, $notetracks) = putNotesInMeasures($measures, $notetracks);
             
             #list ($measures, $events) = calcBaseScores($measures, $notetracks, $events, $CONFIG[$game]);
             
@@ -334,6 +334,7 @@ function parsePhraseEvents($txt, $gameNotes) {
                 $events[$index]["type"] = "solo";
                 $events[$index]["start"] = $info[0];
                 $events[$index]["difficulty"] = "easy";
+                $events[$index]["notes"] = -1;
                 $lastSolo["e"] = $index++;
                 
             }
@@ -353,6 +354,7 @@ function parsePhraseEvents($txt, $gameNotes) {
                 $events[$index]["type"] = "solo";
                 $events[$index]["start"] = $info[0];
                 $events[$index]["difficulty"] = "medium";
+                $events[$index]["notes"] = -1;
                 $lastSolo["m"] = $index++;
                 
             }
@@ -372,6 +374,7 @@ function parsePhraseEvents($txt, $gameNotes) {
                 $events[$index]["type"] = "solo";
                 $events[$index]["start"] = $info[0];
                 $events[$index]["difficulty"] = "hard";
+                $events[$index]["notes"] = -1;
                 $lastSolo["h"] = $index++;
                 
             }
@@ -391,6 +394,7 @@ function parsePhraseEvents($txt, $gameNotes) {
                 $events[$index]["type"] = "solo";
                 $events[$index]["start"] = $info[0];
                 $events[$index]["difficulty"] = "expert";
+                $events[$index]["notes"] = -1;
                 $lastSolo["x"] = $index++;
                 
             }
@@ -711,6 +715,10 @@ function makeMeasureTable($timetrack, $trkend) {
             $ret[$measure]["numerator"] = $timetrack["sigs"][$sigIndex]["numerator"];
             $ret[$measure]["denominator"] = $timetrack["sigs"][$sigIndex]["denominator"];
             $ret[$measure]["notes"] = array();
+            $ret[$measure]["notes"]["easy"] = array();
+            $ret[$measure]["notes"]["medium"] = array();
+            $ret[$measure]["notes"]["hard"] = array();
+            $ret[$measure]["notes"]["expert"] = array();
    
             
             $measEnd = $curTime + $measDur;
@@ -739,7 +747,7 @@ function makeMeasureTable($timetrack, $trkend) {
     }
     
     return array("guitar" => $ret, "bass" => $ret, "drums" => $ret);
-}
+} // makeMeasureTable
 
 
 function parseNoteTrack($txt, $gameNotes) {
@@ -825,78 +833,7 @@ function parseNoteTrack($txt, $gameNotes) {
                 dealWithNote((int)$info[0], $info[1], $note, $vel, $gameNotes, $ret["expert"], $chord["x"], $index["x"], $lastRealNote["x"]);
                 
                 break;
-                                
-                /*
-                
-                // check for a chord
-                if (arrayTimeExists($ret["expert"], $info[0], CHORD) === false && ($info[1] == "On" && $vel > 0)) {
-                    $index["x"]++;
-                    $chord["x"] = 0;
-                }
-                
-                // regular note
-                if ($info[1] == "On" && $vel > 0) {
-                    if (!isset($ret["expert"][$index["x"]]["time"])) $ret["expert"][$index["x"]]["time"] = (int) $info[0];
-
-                    $ret["expert"][$index["x"]]["count"] = $chord["x"];
-                    $ret["expert"][$index["x"]]["note"][$chord["x"]++] = noteValToCanonical($note, $gameNotes);
-                    
-                    if ($chord["x"] == 1) {
-                        if ($lastRealNote["x"] != -1 && !isset($ret["expert"][$lastRealNote["x"]]["duration"])) {
-                            // no end event, make sure it's at least 161 pulses long
-                            if ($info[0] - $ret["expert"][$lastRealNote["x"]]["time"] <= 161) {
-                                // that last note should be ignored!
-                                //unset($ret["expert"][$lastRealNote["x"]]);
-                            }
-                            else {
-                                // it's long enough to be a real note
-                                // now see if it's a sustain
-                                if ($info[0] - $ret["expert"][$lastRealNote["x"]]["time"] <= 240) {
-                                    // not a sustain
-                                    $ret["expert"][$lastRealNote["x"]]["duration"] = 0;
-                                }
-                                else {
-                                    // it's a sustain until this note
-                                    $ret["expert"][$lastRealNote["x"]]["duration"] = $info[0] - $ret["expert"][$lastRealNote["x"]]["time"];
-                                }
-                            }
-                        } // last note didn't have an end event
-                        $lastRealNote["x"] = $index["x"];
-                    } // chord == 1
-                } // regular note on
-                
-                // sustain check
-                if (($info[0] == "Off" || ($info[1] == "On" && $vel == 0))
-                    && $info[0] > $ret["expert"][$index["x"]]["time"] + SUSTAIN
-                    && is_array($ret["expert"][$index["x"]]["note"])
-                    ) {
-                        if (isset($ret["expert"][$index["x"]]["duration"])) {
-                            if ($ret["expert"][$index["x"]]["duration"] > ($info[0] - $ret["expert"][$index["x"]]["time"])) {
-                                if (VERBOSE) echo "Changing duration of note " . $index["x"] . " from " . $ret["expert"][$index["x"]]["duration"];
-                                if (VERBOSE) echo " to " . ($info[0] - $ret["expert"][$index["x"]]["time"]) . "\n";
-                                
-                                $ret["expert"][$index["x"]]["duration"] = $info[0] - $ret["expert"][$index["x"]]["time"];
-                            }
-                        }
-                        else {
-                            $ret["expert"][$index["x"]]["duration"] = $info[0] - $ret["expert"][$index["x"]]["time"];
-                        }
-                }
-                
-                // make sure end events are for real notes
-                else if ((($info[0] == "On" && $vel == 0) || $info[0] == "Off") && isset($ret["expert"][$index["x"]]["note"])
-                    && is_array($ret["expert"][$index["x"]]["note"]) && !isset($ret["expert"][$index["x"]]["duration"])) {
-                        $ret["expert"][$index["x"]]["duration"] = 0;
-                }
-                
-                break;
-                */
-                
         } // switch note
-    
-    
-    
-    
     } // foreach
     
     return $ret;
@@ -917,6 +854,7 @@ function dealWithNote($time, $type, $note, $vel, $gameNotes, &$notetrack, &$chor
 
         $notetrack[$index]["count"] = $chord;
         $notetrack[$index]["note"][$chord++] = noteValToCanonical($note, $gameNotes);
+        $notetrack[$index]["phrase"] = 0;
         
         if ($chord == 1) {
             if ($lastRealNote != -1 && !isset($notetrack[$lastRealNote]["duration"])) {
@@ -989,19 +927,19 @@ function noteValToCanonical($note, $gameNotes) {
         case $gameNotes["MEDIUM"]["Y"]:
         case $gameNotes["HARD"]["Y"]:
         case $gameNotes["EXPERT"]["Y"]:
-                return 2;
+            return 2;
         
         case $gameNotes["EASY"]["B"]:
         case $gameNotes["MEDIUM"]["B"]:
         case $gameNotes["HARD"]["B"]:
         case $gameNotes["EXPERT"]["B"]:
-                return 3;
+            return 3;
         
         case $gameNotes["EASY"]["O"]:
         case $gameNotes["MEDIUM"]["O"]:
         case $gameNotes["HARD"]["O"]:
         case $gameNotes["EXPERT"]["O"]:
-                return 4;
+            return 4;
         
         default:
             return -1;
@@ -1016,8 +954,9 @@ function arrayTimeExists($array, $time, $window) {
         return false;
     }
 
+    // binary search could help this :)
+    
     foreach ($array as $index => $item) {
-        //if (($item["time"] >= ($time - (($item["count"] + 1) * $window))) && ($item["time"] <= ($time + ($item["count"]+1) * $window))) {
         if ($item["time"] >= ($time - ((isset($item["count"]) ? $item["count"] : 0) + 1) * $window) && $item["time"] <= $time) {
             return $index;
         }
@@ -1025,6 +964,69 @@ function arrayTimeExists($array, $time, $window) {
 
     return false;
 }
+
+
+
+
+function putNotesInMeasures($measures, $notetracks) {
+    global $timebase;
+    
+    foreach ($notetracks as $instrument => &$insttrack) {
+        
+        if ($instrument != "guitar" && $instrument != "bass" && $instrument != "drums") continue;
+        
+        foreach ($insttrack as $difficulty => &$notetrack) {
+    
+            if ($difficulty == "TrkEnd") continue;
+                
+            $target = count($notetrack);
+            
+            $last = -1;
+            
+            foreach ($notetrack as $notekey => &$note) {
+                
+                $index = 0;
+        
+                if ($notekey == "TrkEnd") continue;
+                if ($notekey != (int)$notekey) continue;
+                
+                while (isset($measures[$instrument][$index]) && is_array($measures[$instrument][$index])
+                    && $note["time"] >= $measures[$instrument][$index]["time"]) {
+                        $index++;
+                }
+                $index--;
+                
+                // should also put the measure number, at least, into the note
+                // probably the tempo too
+                $notetrack[$notekey]["measure"] = $index;
+                
+                for ($i = 0; $i < count($measures[$instrument][$index]["tempos"]); $i++) {
+                    // find the tempo region we're in
+                    if (isset($measures[$instrument][$index]["tempos"][$i+1]) && !(is_array($measures[$instrument][$index]["tempos"][$i+1]))) {
+                        // this is the last one so we have to be in it
+                        $notetrack[$instrument][$notekey]["bpm"] = $measures[$instrument][$index]["tempos"][$i]["bpm"];
+                    }
+                    else {
+                        // there is still at least one more after this, do some checking
+                        if ($note["time"] >= $measures[$instrument][$index]["tempos"][$i]["time"] &&
+                            isset($measures[$instrument][$index]["tempos"][$i+1]["time"]) &&
+                            $note["time"] < $measures[$instrument][$index]["tempos"][$i+1]["time"]) {
+                                $notetrack[$notekey]["tempo"] = $measures[$instrument][$index]["tempos"][$i]["tempo"];
+                                $notetrack[$notekey]["bpm"] = $measures[$instrument][$index]["tempos"][$i]["bpm"];
+                        }
+                    }
+                }
+                
+                
+                $measures[$instrument][$index]["notes"][$difficulty][] = $notekey;
+            } // notetrack as note
+        } // difftrack as notetrack
+    } // notetracks as difftrack
+    
+    if (DEBUG) print_r($measures);
+    
+    return array($measures, $notetracks);
+} // putNotesInMeasures
 
 
 
@@ -1272,60 +1274,6 @@ function calcBaseScores($measures, $notetrack, $events, $config, $drums = false,
 
 
 
-function putNotesInMeasures($measures, $notetrack) {
-    global $timebase;
-    
-    // $index = 0;
-    
-    $target = count($notetrack);
-    
-    $last = -1;
-    
-    foreach ($notetrack as $notekey => $note) {
-        
-        $index = 0;
-
-
-        if ($notekey == "TrkEnd") continue;
-        if ($notekey != (int)$notekey) continue;
-        
-        while (isset($measures[$index]) && is_array($measures[$index]) && $note["time"] >= $measures[$index]["time"]) {
-            //echo "measures[$index+1][time] = " . $measures[$index+1]["time"] . "   note[time] = " . $note["time"] . "\n";
-            $index++;
-        }
-        //if (is_array($measures[$index])) $index--;
-        $index--;
-        
-        // should also put the measure number, at least, into the note
-        // probably the tempo too
-        $notetrack[$notekey]["measure"] = $index;
-        
-        for ($i = 0; $i < count($measures[$index]["tempos"]); $i++) {
-            // find the tempo region we're in
-            if (isset($measures[$index]["tempos"][$i+1]) && !(is_array($measures[$index]["tempos"][$i+1]))) {
-                // this is the last one so we have to be in it
-                //$notetrack[$j1]["tempo"] = $measures[$index]["tempos"][$i]["tempo"];
-                $notetrack[$notekey]["bpm"] = $measures[$index]["tempos"][$i]["bpm"];
-            }
-            else {
-                // there is still at least one more after this, do some checking
-                if ($note["time"] >= $measures[$index]["tempos"][$i]["time"] &&
-                    isset($measures[$index]["tempos"][$i+1]["time"]) &&
-                    $note["time"] < $measures[$index]["tempos"][$i+1]["time"]) {
-                        $notetrack[$notekey]["tempo"] = $measures[$index]["tempos"][$i]["tempo"];
-                        $notetrack[$notekey]["bpm"] = $measures[$index]["tempos"][$i]["bpm"];
-                }
-            }
-        }
-        
-        
-        $measures[$index]["notes"][] = $notekey; // $note;
-    }
-    
-    if (DEBUG) print_r($measures);
-    
-    return array($measures, $notetrack);
-}
 
 
 
