@@ -4,7 +4,7 @@
 	define("WIDTH", 1170);
 	define("PXPERBEAT", 70);
 	define("STAFFHEIGHT", 12);
-	define("DRAWPLAYERLINES", 1);
+	define("DRAWPLAYERLINES", 0);
 	define("CHARTGENVERSION", "0.5.0");
 
 	require_once "parselib.php";

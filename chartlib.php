@@ -25,7 +25,7 @@ function makeChart($file, $diff, $game, $do_guitar, $do_bass, $do_drums, $do_voc
 	$sections = $events_all["sections"];
 	
 	
-	$instruments = ($do_guitar ? "guitar " : "") . ($do_bass ? "bass " : "") . ($do_drums ? "drums " : "") . ($do_vocals ? "vocals" : "");
+	$instruments =  ($do_vocals ? "vocals " : "") . ($do_guitar ? "guitar " : "") . ($do_bass ? "bass " : "") . ($do_drums ? "drums" : "");
 	
 	$x = 25;
 	$y = 75;
@@ -36,19 +36,19 @@ function makeChart($file, $diff, $game, $do_guitar, $do_bass, $do_drums, $do_voc
    	    // this looks really weird doesn't it?
    	   if ($x + PXPERBEAT * $measures_all["guitar"][$i]["numerator"] > WIDTH - 25) {
 	       $x = 25;
-	       $y += 30 + 5*DRAWPLAYERLINES;
-	       if ($do_guitar) $y += 30 + 5 * STAFFHEIGHT;
-	       if ($do_bass) $y += 30 + 5 * STAFFHEIGHT;
-	       if ($do_drums) $y += 30 + 4 * STAFFHEIGHT;
-	       if ($do_vocals) $y += 30 + 7 * STAFFHEIGHT;
+	       $y += 40 + 5*DRAWPLAYERLINES;
+	       if ($do_guitar) $y += 40 + 5 * STAFFHEIGHT;
+	       if ($do_bass) $y += 40 + 5 * STAFFHEIGHT;
+	       if ($do_drums) $y += 40 + 4 * STAFFHEIGHT;
+	       if ($do_vocals) $y += 50 + 7 * STAFFHEIGHT;
 	   }
 	   if ($x + PXPERBEAT * $measures_all["guitar"][$i]["numerator"] > WIDTH - 50 && $i != count($measures_all["guitar"]) - 1) {
 	       $x = 25;
-	       $y += 30 + 5*DRAWPLAYERLINES;
-	       if ($do_guitar) $y += 30 + 5 * STAFFHEIGHT;
-	       if ($do_bass) $y += 30 + 5 * STAFFHEIGHT;
-	       if ($do_drums) $y += 30 + 4 * STAFFHEIGHT;
-	       if ($do_vocals) $y += 30 + 7 * STAFFHEIGHT;
+	       $y += 40 + 5*DRAWPLAYERLINES;
+	       if ($do_guitar) $y += 40 + 5 * STAFFHEIGHT;
+	       if ($do_bass) $y += 40 + 5 * STAFFHEIGHT;
+	       if ($do_drums) $y += 40 + 4 * STAFFHEIGHT;
+	       if ($do_vocals) $y += 50 + 7 * STAFFHEIGHT;
 	   }
 	   else {
 	       $x += PXPERBEAT * $measures_all["guitar"][$i]["numerator"];
@@ -56,7 +56,13 @@ function makeChart($file, $diff, $game, $do_guitar, $do_bass, $do_drums, $do_voc
 	}
 	
 	global $HEIGHT;
-	$HEIGHT = $y + 125 + 75 * ($do_vocals);
+	//$HEIGHT = $y + 200 + 75 * ($do_vocals) + 50 * ($do_guitar) + 50 * ($do_bass) + 50 * ($do_drums);
+	$y += 40 + 5*DRAWPLAYERLINES;
+    if ($do_guitar) $y += 40 + 5 * STAFFHEIGHT;
+    if ($do_bass) $y += 40 + 5 * STAFFHEIGHT;
+    if ($do_drums) $y += 40 + 4 * STAFFHEIGHT;
+    if ($do_vocals) $y += 50 + 7 * STAFFHEIGHT;
+    $HEIGHT = $y;
 	
 	$im = imagecreate(WIDTH, $HEIGHT) or die("Cannot intialize new GD image");
 	
@@ -140,11 +146,11 @@ function makeChart($file, $diff, $game, $do_guitar, $do_bass, $do_drums, $do_voc
 	   if ($x + PXPERBEAT * $meas["numerator"] > WIDTH - 25) {
 	       $x = 25;
 	       //$y += 110 + 5*DRAWPLAYERLINES - STAFFHEIGHT*($instrument == "drums") + 3*STAFFHEIGHT*($instrument == "vocals");
-	       $y += 30 + 5*DRAWPLAYERLINES;
-	       if ($do_guitar) $y += 30 + 5 * STAFFHEIGHT;
-	       if ($do_bass) $y += 30 + 5 * STAFFHEIGHT;
-	       if ($do_drums) $y += 30 + 4 * STAFFHEIGHT;
-	       if ($do_vocals) $y += 30 + 7 * STAFFHEIGHT;
+	       $y += 40 + 5*DRAWPLAYERLINES;
+	       if ($do_guitar) $y += 40 + 5 * STAFFHEIGHT;
+	       if ($do_bass) $y += 40 + 5 * STAFFHEIGHT;
+	       if ($do_drums) $y += 40 + 4 * STAFFHEIGHT;
+	       if ($do_vocals) $y += 50 + 7 * STAFFHEIGHT;
 	   }
 	   
 	   //drawMeasure($im, $x, $y, $meas, $notetrack, $events, $game, ($instrument == "drums"));
@@ -169,30 +175,44 @@ function makeChart($file, $diff, $game, $do_guitar, $do_bass, $do_drums, $do_voc
 	   }
 	   */
 	   
-        if ($do_guitar) {
-	        // draw lead guitar measure
-            drawMeasureBackground($im, $x, $y, $meas, $events_all["guitar"], $sections, "guitar", $diff);	       
-        }
-        if ($do_bass && $game != "GH1") {
-            // draw bass measure
-        }
-        if ($do_drums && $game == "RB") {
-               // draw drums measure
-        }
+	    $oldy = $y;
+	   
         if ($do_vocals && $game == "RB") {
 	        // draw vocals measure
             drawMeasureBackground($im, $x, $y, $meas, $events_all["vocals"], $sections, "vocals", "expert");
             drawVocals($im, $x, $y, $meas, $vocals, $events_all["vocals"]);
+            
+            $y += 7 * STAFFHEIGHT + 50;
+        }
+        if ($do_guitar) {
+	        // draw lead guitar measure
+            drawMeasureBackground($im, $x, $y, $meas, $events_all["guitar"], $sections, "guitar", $diff);
+            
+            $y += 5 * STAFFHEIGHT + 40;
+        }
+        if ($do_bass && $game != "GH1") {
+            // draw bass measure
+            drawMeasureBackground($im, $x, $y, $meas, $events_all["bass"], $sections, "bass", $diff);
+            
+            $y += 5 * STAFFHEIGHT + 40;            
+        }
+        if ($do_drums && $game == "RB") {
+            // draw drums measure
+            drawMeasureBackground($im, $x, $y, $meas, $events_all["drums"], $sections, "drums", $diff);
+    
+            $y += 4 * STAFFHEIGHT + 40;
         }
 
+        $y = $oldy;
+        
 	   if ($x + PXPERBEAT * $meas["numerator"] > WIDTH - 50) {
 	       $x = 25;
 	       // $y += 110 + 5*DRAWPLAYERLINES - STAFFHEIGHT*($instrument == "drums") + 3*STAFFHEIGHT*($instrument == "vocals");
-	       $y += 30 + 5*DRAWPLAYERLINES;
-           if ($do_guitar) $y += 30 + 5 * STAFFHEIGHT;
-	       if ($do_bass) $y += 30 + 5 * STAFFHEIGHT;
-	       if ($do_drums) $y += 30 + 4 * STAFFHEIGHT;
-	       if ($do_vocals) $y += 30 + 7 * STAFFHEIGHT;
+	       $y += 40 + 5*DRAWPLAYERLINES;
+           if ($do_guitar) $y += 40 + 5 * STAFFHEIGHT;
+	       if ($do_bass) $y += 40 + 5 * STAFFHEIGHT;
+	       if ($do_drums) $y += 40 + 4 * STAFFHEIGHT;
+	       if ($do_vocals) $y += 50 + 7 * STAFFHEIGHT;
 	   }
 	   else {
 	       $x += PXPERBEAT * $meas["numerator"];
@@ -207,13 +227,20 @@ function makeChart($file, $diff, $game, $do_guitar, $do_bass, $do_drums, $do_voc
 
 function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrument, $difficulty) {
     global $timebase, $black;
-    static $oldNum = 0;
-	static $oldDenom = 0;
-	static $oldBPM = 0;
-	static $overwhammies = 0;
+    static $oldNum = array ("guitar" => 0, "bass" => 0, "drums" => 0, "vocals" => 0);
+	static $oldDenom = array ("guitar" => 0, "bass" => 0, "drums" => 0, "vocals" => 0);
+	static $oldBPM = array ("guitar" => 0, "bass" => 0, "drums" => 0, "vocals" => 0);
+
 	if ($meas["number"] == 1) {
 	   // new song, reset all the static variables
-	   $oldNum = $oldDenom = $oldBPM = 0;
+       /*
+       $oldNum = array ("guitar" -> 0, "bass" -> 0, "drums" -> 0, "vocals" -> 0);
+       $oldDenom = array ("guitar" -> 0, "bass" -> 0, "drums" -> 0, "vocals" -> 0);
+       $oldBPM = array ("guitar" -> 0, "bass" -> 0, "drums" -> 0, "vocals" -> 0);
+       */
+       $oldNum[$instrument] = 0;
+       $oldDenom[$instrument] = 0;
+       $oldBPM[$instrument] = 0;
 	}
 
 	   // really freaking ugly hacks
@@ -477,12 +504,13 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	
 	
 	// time signature
-	if ($meas["numerator"] != $oldNum || $meas["denominator"] != $oldDenom) {
-		$oldNum = $meas["numerator"];
-		$oldDenom = $meas["denominator"];
+	if ($meas["numerator"] != $oldNum[$instrument] || $meas["denominator"] != $oldDenom[$instrument]) {
+		$oldNum[$instrument] = $meas["numerator"];
+		$oldDenom[$instrument] = $meas["denominator"];
 		
-		imagestring($im, 5, $x+2, $y+2 - (3 * ($instrument == "drums")) + (9 * ($instrument == "vocals")), $oldNum, $timesig);
-		imagestring($im, 5, $x+2, $y+2 + (STAFFHEIGHT * 2) - (4 * ($instrument == "drums")) + (21 * ($instrument == "vocals")), $oldDenom, $timesig);
+		imagestring($im, 5, $x+2, $y+2 - (3 * ($instrument == "drums")) + (9 * ($instrument == "vocals")), $oldNum[$instrument], $timesig);
+		imagestring($im, 5, $x+2, $y+2 + (STAFFHEIGHT * 2) - (4 * ($instrument == "drums")) + (21 * ($instrument == "vocals")),
+		      $oldDenom[$instrument], $timesig);
 	}
 	
 	
@@ -503,7 +531,7 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	
 	// tempo
 	foreach ($meas["tempos"] as $bpm) {
-		if ($bpm["bpm"] != $oldBPM) {
+		if ($bpm["bpm"] != $oldBPM[$instrument]) {
 		  $bX = $bpm["time"] - $meas["time"];
 		  $bX /= $timebase;
 		  $bX *= PXPERBEAT;
@@ -511,16 +539,10 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 		  imagefilledellipse($im, $bX+2, $y-16, 5, 5, $tempo);
 		  imageline($im, $bX+4, $y-16, $bX+4, $y-22, $tempo);
 		  imagestring($im, 2, $bX+6, $y-25, "=" . $bpm["bpm"], $tempo);
-		  $oldBPM = $bpm["bpm"];
+		  $oldBPM[$instrument] = $bpm["bpm"];
 		}
 	}
 
-
-
-    
-    
-    
-    
 }
 
 

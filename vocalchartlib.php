@@ -45,12 +45,12 @@ function drawVocals($im, $x, $y, $meas, $vox, $events) {
             $nX += $x;
             
             if (isset($lyric["percussion"])) {
-                imagestring($im, 3, $nX - 3, $y + 8 * STAFFHEIGHT + 5, "*", $black);
+                imagestring($im, 3, $nX - 3, $y + 8 * STAFFHEIGHT - 3, "*", $black);
                 $leftovers = array();
             }
             else {
                 #if ($lyric["lyric"] != "+") {
-                    imagestring($im, 2, $nX , $y + 8 * STAFFHEIGHT + 5, $lyric["lyric"], $black);
+                    imagestring($im, 2, $nX , $y + 8 * STAFFHEIGHT - 3, $lyric["lyric"], $black);
                     
                 #}
                 
@@ -63,7 +63,7 @@ function drawVocals($im, $x, $y, $meas, $vox, $events) {
                 
                 $nyOffset = 0;
                 if ($lyric["talky"]) {
-                    $nyOffset = STAFFHEIGHT * 7 + 13;
+                    $nyOffset = STAFFHEIGHT * 7 + 5;
                 }
                 else {
                     //$nyOffset = 100 - $lyric["pitch"];
