@@ -2,7 +2,7 @@
 
 
 	define("WIDTH", 1170);
-	define("PXPERBEAT", 70);
+	define("PXPERBEAT", 35);
 	define("STAFFHEIGHT", 12);
 	define("DRAWPLAYERLINES", 0);
 	define("CHARTGENVERSION", "0.5.0");

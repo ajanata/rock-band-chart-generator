@@ -45,10 +45,13 @@
 
 //print_r($notetrack);
 
-echo "=== Measures\n\n";
+echo "=== Song Length\n\n";
+echo getClockTimeBetweenPulses($timetrack, 0, $vocals["TrkEnd"]);
+
+echo "\n\n=== Measures\n\n";
 print_r($measures);
 
-echo "=== Notes\n\n";
+echo "\n\n=== Notes\n\n";
 print_r($notetracks);
 
 echo "\n\n=== Time Track\n\n";

@@ -907,6 +907,49 @@ function dealWithNote($time, $type, $note, $vel, $gameNotes, &$notetrack, &$chor
 }
 
 
+function getClockTimeBetweenPulses($timetrack, $start, $end) {
+    global $timebase;
+    
+    if ($end < $start) {
+        $temp = $end;
+        $end = $start;
+        $start = $end;
+    }
+    
+    $clockTime = 0;
+    
+    foreach ($timetrack["tempos"] as $index => $timeevent) {
+        if ($timeevent["time"] < $start) continue;
+        if ($timeevent["time"] > $end) continue;
+        
+        $duration = 0;
+        
+        if (isset($timetrack["tempos"][$index+1])) {
+            // there is another tempo change after this one, see what it's time is
+            if ($end > $timetrack["tempos"][$index+1]["time"]) {
+                // the next event is still in the range we want
+                $duration = $timetrack["tempos"][$index+1]["time"] - $timeevent["time"];
+            }
+            else {
+                // the range we want ends with the current tempo
+                $duration = $end - $timeevent["time"];
+            }
+        }
+        else {
+            // this is the last tempo event
+            $duration = $end - $timeevent["time"];
+        }
+        
+        // we now have $duration pulses at this tempo
+        
+        $thisClockTime = ($duration / $timebase) / ($timeevent["bpm"] / 60);
+        $clockTime += $thisClockTime;
+        
+    }
+    return $clockTime;
+    
+}
+
 
 function noteValToCanonical($note, $gameNotes) {
 

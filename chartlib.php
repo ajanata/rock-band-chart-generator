@@ -133,7 +133,7 @@ function makeChart($file, $diff, $game, $do_guitar, $do_bass, $do_drums, $do_voc
 	   if ($x + PXPERBEAT * $meas["numerator"] > WIDTH - 25) {
 	       $x = 25;
 	       //$y += 110 + 5*DRAWPLAYERLINES - STAFFHEIGHT*($instrument == "drums") + 3*STAFFHEIGHT*($instrument == "vocals");
-	       $y += 40 + 5*DRAWPLAYERLINES;
+	       #$y += 40 + 5*DRAWPLAYERLINES;
 	       if ($do_guitar) $y += 40 + 5 * STAFFHEIGHT;
 	       if ($do_bass) $y += 40 + 5 * STAFFHEIGHT;
 	       if ($do_drums) $y += 40 + 4 * STAFFHEIGHT;
@@ -176,7 +176,7 @@ function makeChart($file, $diff, $game, $do_guitar, $do_bass, $do_drums, $do_voc
 	   if ($x + PXPERBEAT * $meas["numerator"] > WIDTH - 50) {
 	       $x = 25;
 	       // $y += 110 + 5*DRAWPLAYERLINES - STAFFHEIGHT*($instrument == "drums") + 3*STAFFHEIGHT*($instrument == "vocals");
-	       $y += 40 + 5*DRAWPLAYERLINES;
+	       #$y += 40 + 5*DRAWPLAYERLINES;
            if ($do_guitar) $y += 40 + 5 * STAFFHEIGHT;
 	       if ($do_bass) $y += 40 + 5 * STAFFHEIGHT;
 	       if ($do_drums) $y += 40 + 4 * STAFFHEIGHT;
