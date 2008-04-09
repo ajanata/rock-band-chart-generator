@@ -919,7 +919,7 @@ function getClockTimeBetweenPulses($timetrack, $start, $end) {
     $clockTime = 0;
     
     foreach ($timetrack["tempos"] as $index => $timeevent) {
-        if ($timeevent["time"] < $start) continue;
+        #if ($timeevent["time"] < $start) continue;
         if ($timeevent["time"] > $end) continue;
         
         $duration = 0;
@@ -929,6 +929,7 @@ function getClockTimeBetweenPulses($timetrack, $start, $end) {
             if ($end > $timetrack["tempos"][$index+1]["time"]) {
                 // the next event is still in the range we want
                 $duration = $timetrack["tempos"][$index+1]["time"] - $timeevent["time"];
+                if ($timeevent["time"] + $duration < $start) continue;
             }
             else {
                 // the range we want ends with the current tempo
@@ -941,7 +942,6 @@ function getClockTimeBetweenPulses($timetrack, $start, $end) {
         }
         
         // we now have $duration pulses at this tempo
-        
         $thisClockTime = ($duration / $timebase) / ($timeevent["bpm"] / 60);
         $clockTime += $thisClockTime;
         

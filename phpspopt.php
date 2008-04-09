@@ -13,15 +13,11 @@
         die("This script needs to be run from a command line, not from a web browser.\n");
     }
 
-    if ($argv[1] == "--help") {
+    if ($argc < 5 || $argv[1] == "--help") {
         doHelp();
         exit;
     }
 
-    if ($argc < 5) {
-        die("You must specify which game, instrument, difficulty, and file you wish paths to be generated for on the command line.\n"
-            . "Example: php " . $argv[0] . " rb drums expert 3sand7s\n");
-    }
 
     $game = $argv[1];
     $inst = $argv[2];
@@ -46,23 +42,23 @@
 
     switch ($inst) {
         case "drums":
-            opt_drums($measures["drums"], $notetracks["drums"][$diff]);
+            opt_drums($notetracks["drums"][$diff], $events["drums"], $timetrack, $diff);
             exit;
+            
+        default:
+            die("Invalid instrument, or instrument not coded for yet.");
     }
 
 
-
-
-
-
+    // should never get here
     exit;
 
 
     function doHelp() {
         global $argv;
 ?>
-phpspopt version <?= PHPSPOPTVERSION ?> - parselib version <?= PARSELIBVERSION ?>, chartlib version <?= CHARTLIBVERSION ?>,
-opt_drums version <?= OPTDRUMSVERSION ?>.
+phpspopt version <?= PHPSPOPTVERSION ?> - parselib version <?= PARSELIBVERSION ?>, chartlib version <?= CHARTLIBVERSION ?>
+, opt_drums version <?= OPTDRUMSVERSION ?>.
 (C) 2008 Andy Janata <ajanata@gmail.com> <http://ajanata.com/charts/>
 
 Usage: php <?= $argv[0] ?> { --help | GAME INSTRUMENT DIFFICULTY FILE }
@@ -70,7 +66,7 @@ Usage: php <?= $argv[0] ?> { --help | GAME INSTRUMENT DIFFICULTY FILE }
     GAME        Game to optimize for. One of rb, gh, gh2, or gh80s.
     INSTRUMENT  Instrument to optimize for. One of guitar, bass, or drums.
     DIFFICULTY  Difficulty to optimize for. One of easy, medium, hard, or expert.
-    FILE        File to optimize. Must be in path mids/{game}/{file}.mid        
+    FILE        File to optimize. Must be in path mids/{GAME}/{FILE}.mid        
 
 <?php
         exit;
