@@ -2,19 +2,22 @@
 
     define("FILL_DELAY", 2.43);
 
-    define("OPTDRUMSVERSION", "0.0.0");
+    define("OPTDRUMSVERSION", "0.2.0");
 
-    define("OPTDEBUG", true);
+    define("OPTDEBUG", false);
 
 function opt_drums(&$notetrack, &$events, &$timetrack, $diff) {
-    list ($path, $points) = opt_drums_recurse($notetrack, $events, $timetrack, $diff, 0);
+    $path = opt_drums_recurse($notetrack, $events, $timetrack, $diff, 0);
     
     $total_notes = count_notes($notetrack, 0, $notetrack["TrkEnd"]);
-    $total_notes += $points;
+    $total_notes += $path[0]["total_gain"];
     $total_notes *= 100;
     $total_notes -= 1425;
     
-    echo $path . " -- for " . $points . " increase and $total_notes total score\n";
+    //echo $path . " -- for " . $points . " increase and $total_notes total score\n";
+    print_r($path);
+    echo "for $total_notes total score\n";
+    
     
 }
 
@@ -66,7 +69,7 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, $diff, $start) {
         // no fills or phrases after here, so we can't activate
         // end recursion
         if (OPTDEBUG) echo "opt_drums_recurse ending because no events after $start \n";
-        return array("do nothing", 0);
+        return array(array("text" => "do nothing", "gain" => 0, "total_gain" => 0, "start" => 0, "end" => 0));
     }
     
     // now we need to find two phrases as well as a fill
@@ -92,7 +95,7 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, $diff, $start) {
     if ($phrases < 2) {
         // we don't have enough OD for an activation
         if (OPTDEBUG) echo "opt_drums_recurse ending because not enough phrases after $start ($phrases)\n";
-        return array("do nothing", 0);
+        return array(array("text" => "do nothing", "gain" => 0, "total_gain" => 0, "start" => 0, "end" => 0));
     }
     
     $skipped_notes = 0;
@@ -110,6 +113,10 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, $diff, $start) {
         if ($events[$eventIndex]["type"] == "star" && $events[$eventIndex]["difficulty"] == $diff) {
             $phrases++;
             if (OPTDEBUG) echo "opt_drums_recurse found phrase while looking for fills at " . $events[$eventIndex]["start"] . "\n";
+            if ($phrases >= 6 && count($fills) > 4) {
+                if (OPTDEBUG) echo "opt_drums_recurse stopping looking for fills - got 7 phrases with at least 4 fills\n";
+                break;
+            }
         }
         else if ($events[$eventIndex]["type"] == "fill"
             && getClockTimeBetweenPulses($timetrack, $got_activation_time, $events[$eventIndex]["start"]) > FILL_DELAY) {
@@ -133,14 +140,14 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, $diff, $start) {
     if (count($fills) == 0) {
         // there isn't a fill (this *should* not happen but I guess it could)
         if (OPTDEBUG) echo "opt_drums_recurse ending because no fills after $start \n";
-        return array("do nothing", 0);
+        return array(array("text" => "do nothing", "gain" => 0, "total_gain" => 0, "start" => 0, "end" => 0));
     }
     
     if (OPTDEBUG) echo "opt_drums_recurse found " . count($fills) . " fills\n";
     
     $best_score_gain = 0;
     $best_path = "";
-    
+        
     for ($i = 0; $i < count($fills); $i++) {
         $activation_start = $events[$fills[$i]["index"]]["end"];
         if (($activation_start % $timebase) != 0) {
@@ -152,19 +159,37 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, $diff, $start) {
                 $activation_start, min(1, $fills[$i]["phrases"]/4), $diff);
         $score_gain = count_notes($notetrack, $activation_start + 1, $activation_end);
         $score_gain -= $fills[$i]["skipped_notes"];
+        $my_gain = $score_gain;
         
-        list ($path, $recurse_gain) = opt_drums_recurse($notetrack, $events, $timetrack, $diff, $activation_end + 1);
-        $score_gain += $recurse_gain;
+        $recursepath = opt_drums_recurse($notetrack, $events, $timetrack, $diff, $activation_end + 1);
+        $score_gain += $recursepath[0]["total_gain"];
         
         if ($score_gain > $best_score_gain) {
             $best_score_gain = $score_gain;
-            $best_path = $fills[$i]["phrases"] . " phrases, overrun $overrun, fill #" . $i . " -- " . $path;
+            #$best_path = $fills[$i]["phrases"] . " phrases, overrun $overrun, fill #" . $i . " -- " . $path;
+            $path = array();
+            $path[0] = array();
+
+            $path[0]["text"] = $fills[$i]["phrases"] . " phrases, overrun $overrun, fill #" . $i;
+            $path[0]["start"] = $activation_start;
+            $path[0]["end"] = $activation_end;
+            $path[0]["total_gain"] = $best_score_gain;
+            $path[0]["gain"] = $my_gain;
+            
+            foreach ($recursepath as $new) {
+                if ($new["text"] != "do nothing") {
+                    $index = count($path);
+                    $path[$index] = $new;
+                }
+            }
         }
         
     }
     
     if (OPTDEBUG) echo "opt_drums_recurse final return \"$best_path\" $best_score_gain \n";
-    return array($best_path, $best_score_gain);
+    return $path;
+    //return array(array("text" => $best_path, "gain" => $best_score_gain, "start" => 0, "end" => 0));
+    // return array(array("text" => "do nothing", "gain" => 0, "total_gain" => 0, "start" => 0, "end" => 0));
 }
 
 
@@ -220,8 +245,6 @@ function determine_activation_end(&$notetrack, &$events, &$timetrack, $start, $b
 
 
 function find_phrase_after_time(&$events, &$notetrack, $time, $diff) {
-    #$index = false;
-    
     foreach ($events as $i => $e) {
         if ($e["type"] != "star") continue;
         if ($e["difficulty"] != $diff) continue;
@@ -229,22 +252,11 @@ function find_phrase_after_time(&$events, &$notetrack, $time, $diff) {
         if ($notetrack[$e["last_note"]]["time"] > $time) return $i;
     }
     return false;
-    
-    
-    /*
-    $eventIndex = 0;
-    
-    while ($events[$eventIndex]["start"] < $time) {
-        if (isset($events[$eventIndex+1])) $eventIndex++;
-        else return false;
-    }
-    return $eventIndex;
-    */
 }
 
 
 function count_notes(&$notetrack, $start, $end) {
-    $noteIndex = 0;
+    $noteIndex = 1;
     
     while ($notetrack[$noteIndex]["time"] < $start) {
         if (isset($notetrack[$noteIndex+1])) $noteIndex++;

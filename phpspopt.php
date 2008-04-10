@@ -37,11 +37,13 @@
     }
 
 
-
+    echo "Parsing file...\n";
     list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/" . $game . "/" . $song . ".mid", strtoupper($game));
+
 
     switch ($inst) {
         case "drums":
+            echo "Optimizing $diff drums...\n";
             opt_drums($notetracks["drums"][$diff], $events["drums"], $timetrack, $diff);
             exit;
             

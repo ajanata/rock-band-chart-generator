@@ -907,7 +907,7 @@ function dealWithNote($time, $type, $note, $vel, $gameNotes, &$notetrack, &$chor
 }
 
 
-function getClockTimeBetweenPulses($timetrack, $start, $end) {
+function getClockTimeBetweenPulses(&$timetrack, $start, $end) {
     global $timebase;
     
     if ($end < $start) {
@@ -995,7 +995,7 @@ function noteValToCanonical($note, $gameNotes) {
 } // noteValToName
 
 
-function arrayTimeExists($array, $time, $window) {
+function arrayTimeExists(&$array, $time, $window) {
     // $window is how much tolerance we have
     if (!is_array($array)) {
         return false;
@@ -1129,7 +1129,8 @@ function applyEventsToNotetracks($notetracks, $events) {
 
 
 function findFirstThingAtTime(&$haystack, $time) {
-    $index = 0;
+    if (isset($haystack[0])) $index = 0;
+    else $index = 1;
     
     while ($haystack[$index]["time"] < $time) {
         if (isset($haystack[$index+1])) $index++;
