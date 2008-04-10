@@ -92,7 +92,7 @@ function parseFile($file, $game) {
             //$notetracks["bass"] = applyEventsToNotetrack($notetracks["bass"], $events["bass"]);
             //$notetracks["drums"] = applyEventsToNotetrack($notetracks["drums"], $events["drums"]);
             
-            #$notetracks = applyEventsToNoteTracks($notetracks, $events);
+            list ($notetracks, $events) = applyEventsToNoteTracks($notetracks, $events);
             
             $measures = makeMeasureTable($timetrack, $vocals["TrkEnd"]);
             
@@ -233,7 +233,7 @@ function parsePhraseEvents($txt, $gameNotes) {
     $index = $lastFill = 0;
     
     $lastStar = array("e" => 0, "m" => 0, "h" => 0, "x" => 0);
-    $spNum = array("e" => 0, "m" => 0, "h" => 0, "x" => 0);
+    $spNum = array("e" => 1, "m" => 1, "h" => 1, "x" => 1);
     $lastP1 = array("e" => 0, "m" => 0, "h" => 0, "x" => 0);
     $lastP2 = array("e" => 0, "m" => 0, "h" => 0, "x" => 0);
     $lastSolo = array("e" => 0, "m" => 0, "h" => 0, "x" => 0);
@@ -768,7 +768,7 @@ function parseNoteTrack($txt, $gameNotes) {
     $track = explode("\n", $txt);
     $events = array();
     
-    $index = array("e" => -1, "m" => -1, "h" => -1, "x" => -1);
+    $index = array("e" => 0, "m" => 0, "h" => 0, "x" => 0);
     $lastRealNote = array("e" => -1, "m" => -1, "h" => -1, "x" => -1);
     $chord = array("e" => 0, "m" => 0, "h" => 0, "x" => 0);
 
@@ -925,15 +925,19 @@ function getClockTimeBetweenPulses($timetrack, $start, $end) {
         $duration = 0;
         
         if (isset($timetrack["tempos"][$index+1])) {
-            // there is another tempo change after this one, see what it's time is
+            // there is another tempo change after this one, see what its time is
             if ($end > $timetrack["tempos"][$index+1]["time"]) {
                 // the next event is still in the range we want
-                $duration = $timetrack["tempos"][$index+1]["time"] - $timeevent["time"];
+                $x = $timeevent["time"];
+                if ($timeevent["time"] < $start) $x = $start;
+                $duration = $timetrack["tempos"][$index+1]["time"] - $x;
                 if ($timeevent["time"] + $duration < $start) continue;
             }
             else {
                 // the range we want ends with the current tempo
-                $duration = $end - $timeevent["time"];
+                $x = $timeevent["time"];
+                if ($timeevent["time"] < $start) $x = $start;
+                $duration = $end - $x;
             }
         }
         else {
@@ -1073,12 +1077,66 @@ function putNotesInMeasures($measures, $notetracks) {
 
 
 
+function applyEventsToNotetracks($notetracks, $events) {
+    $foundBRE = false;
+    $breAt = 0;
+    
+    foreach ($events as $inst => &$instevents) {
+        #echo "doing $inst \n";
+        
+        foreach ($instevents as $eventIndex => &$event) {
+            // TODO handle the other events
+            // for now we just care about phrases
+            
+            if ($event["type"] == "star") {
+                #echo "found a star event for " . $event["difficulty"] . "\n";
+                
+                $noteIndex = findFirstThingAtTime($notetracks[$inst][$event["difficulty"]], $event["start"]);
+                if ($noteIndex === false) continue;
+                
+                #echo "first note at $noteIndex \n";
+                
+                // we have the first note in this event
+                while ($notetracks[$inst][$event["difficulty"]][$noteIndex]["time"] < $event["end"]) {
+                    $notetracks[$inst][$event["difficulty"]][$noteIndex]["phrase"] = $event["phrase"];
+                    $noteIndex++;
+                }
+                
+                #echo "last note before $noteIndex \n";
+                
+                // now we're pointing to the note after the last note in the phrase
+                $event["last_note"] = $noteIndex - 1;
+            } // star event
+            
+            // fills on guitar or bass are BREs
+            if ($event["type"] == "fill" && ($inst == "guitar" || $inst == "bass")) {
+                $foundBRE = true;
+                $breAt = $event["start"];
+                $event["type"] = "bre";
+            } // guitar/bass fill
+            
+            if ($event["type"] == "fill" && $foundBRE && $inst == "drums" && $event["start"] == $breAt) {
+                // this fill is a BRE
+                $event["type"] = "bre";
+            } // drum BRE
+            
+        }
+    }
+    
+    return array($notetracks, $events);
+}
 
 
 
-
-
-
+function findFirstThingAtTime(&$haystack, $time) {
+    $index = 0;
+    
+    while ($haystack[$index]["time"] < $time) {
+        if (isset($haystack[$index+1])) $index++;
+        else return false;
+    }
+    return $index;
+}
 
 
  

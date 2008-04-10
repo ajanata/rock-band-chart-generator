@@ -1,5 +1,7 @@
 <?php
 
+    define("FILL_DELAY", 2.43);
+
     define("OPTDRUMSVERSION", "0.0.0");
 
     define("OPTDEBUG", true);
@@ -48,6 +50,7 @@ process_chart(chart section)
 
 function opt_drums_recurse(&$notetrack, &$events, &$timetrack, $diff, $start) {
     global $timebase;
+    if (OPTDEBUG) echo "opt_drums_recurse entered $start \n";
     
     /*
     static $recurse_count = 0;
@@ -57,7 +60,7 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, $diff, $start) {
     
     // figure out number of possible activations
     // get index into phrase/fill array of the first event at or after the start time
-    $eventIndex = find_event_after_time($events, $start);
+    $eventIndex = find_phrase_after_time($events, $notetrack, $start, $diff);
     
     if ($eventIndex === false) {
         // no fills or phrases after here, so we can't activate
@@ -73,11 +76,14 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, $diff, $start) {
     $fillIndex = 0;
     $fills = array();
     
+    if (OPTDEBUG) echo "opt_drums_recurse looking for phrases\n";
+    
     // find 2 phrases first
     while (isset($events[$eventIndex])) {
         if ($events[$eventIndex]["type"] == "star" && $events[$eventIndex]["difficulty"] == $diff) {
             $phrases++;
-            $got_activation_time = $events[$eventIndex]["end"];
+            $got_activation_time = $notetrack[$events[$eventIndex]["last_note"]]["time"];
+            if (OPTDEBUG) echo "opt_drums_recurse found phrase ending at $got_activation_time \n";
         }
         $eventIndex++;
         if ($phrases >= 2) break;
@@ -91,20 +97,33 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, $diff, $start) {
     
     $skipped_notes = 0;
     // now find a fill -- there should definitely be at least one!
+    if (OPTDEBUG) echo "opt_drums_recurse looking for valid fills\n";
     while (isset($events[$eventIndex])) {
         if (OPTDEBUG) {
             if ($events[$eventIndex]["type"] == "fill") {
-                echo "time " . getClockTimeBetweenPulses($timetrack, $got_activation_time, $events[$eventIndex]["start"]) . "\n";
+                echo "opt_drums_recurse fill delay after activation ";
+                echo $got_activation_time . " ". $events[$eventIndex]["start"];
+                echo " time " . getClockTimeBetweenPulses($timetrack, $got_activation_time, $events[$eventIndex]["start"]) . "\n";
             }
         }
         
-        if ($events[$eventIndex]["type"] == "star" && $events[$eventIndex]["difficulty"] == $diff)
+        if ($events[$eventIndex]["type"] == "star" && $events[$eventIndex]["difficulty"] == $diff) {
             $phrases++;
+            if (OPTDEBUG) echo "opt_drums_recurse found phrase while looking for fills at " . $events[$eventIndex]["start"] . "\n";
+        }
         else if ($events[$eventIndex]["type"] == "fill"
-            && getClockTimeBetweenPulses($timetrack, $got_activation_time, $events[$eventIndex]["start"]) > 2.5) {
+            && getClockTimeBetweenPulses($timetrack, $got_activation_time, $events[$eventIndex]["start"]) > FILL_DELAY) {
                 $fills[$fillIndex]["index"] = $eventIndex;
                 $fills[$fillIndex]["phrases"] = $phrases;
-                $skipped_notes += count_notes($notetrack, $events[$eventIndex]["start"], $events[$eventIndex]["end"]);
+
+                $fill_end = $events[$eventIndex]["end"];
+                if (($fill_end % $timebase) != 0) {
+                    $fill_end = (int)($fill_end / $timebase);
+                    $fill_end *= $timebase;
+                    $fill_end += $timebase;
+                }
+
+                $skipped_notes += count_notes($notetrack, $events[$eventIndex]["start"], $fill_end);
                 $fills[$fillIndex]["skipped_notes"] = $skipped_notes;
                 $fillIndex++;
         }
@@ -117,6 +136,8 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, $diff, $start) {
         return array("do nothing", 0);
     }
     
+    if (OPTDEBUG) echo "opt_drums_recurse found " . count($fills) . " fills\n";
+    
     $best_score_gain = 0;
     $best_path = "";
     
@@ -127,7 +148,8 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, $diff, $start) {
             $activation_start *= $timebase;
             $activation_start += $timebase;
         }
-        $activation_end = determine_activation_end($events, $timetrack, $activation_start, min(1, $fills[$i]["phrases"]/4), $diff);
+        list ($activation_end, $overrun) = determine_activation_end($notetrack, $events, $timetrack,
+                $activation_start, min(1, $fills[$i]["phrases"]/4), $diff);
         $score_gain = count_notes($notetrack, $activation_start + 1, $activation_end);
         $score_gain -= $fills[$i]["skipped_notes"];
         
@@ -136,7 +158,7 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, $diff, $start) {
         
         if ($score_gain > $best_score_gain) {
             $best_score_gain = $score_gain;
-            $best_path = $fills[$i]["phrases"] . " phrases, fill #" . $i . " -- " . $path;
+            $best_path = $fills[$i]["phrases"] . " phrases, overrun $overrun, fill #" . $i . " -- " . $path;
         }
         
     }
@@ -146,11 +168,12 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, $diff, $start) {
 }
 
 
-function determine_activation_end(&$events, &$timetrack, $start, $bar_amount, $diff) {
+function determine_activation_end(&$notetrack, &$events, &$timetrack, $start, $bar_amount, $diff) {
     // TO-DO: check the tempo to figure out if it's a funky section that is not 32 beats for a full bar
     // currently only checks for overrunning phrases
     
     global $timebase;
+    $overrun = 0;
     
     $end = $start + ($timebase * 32 * $bar_amount);
     $eventIndex = 0;
@@ -167,26 +190,48 @@ function determine_activation_end(&$events, &$timetrack, $start, $bar_amount, $d
     // now we're looking at the first event that starts after our activation starts
     
     while (isset($events[$eventIndex])) {
-        if ($events[$eventIndex]["end"] > $end) {
+        
+        if ($events[$eventIndex]["start"] > $end) {
             $eventIndex++;
             continue;
         }
         
+        
         if ($events[$eventIndex]["type"] == "star" && $events[$eventIndex]["difficulty"] == $diff) {
+            if ($notetrack[$events[$eventIndex]["last_note"]]["time"] > $end) {
+                if (OPTDEBUG) echo "determine_activation_end phrase at " . $events[$eventIndex]["start"] . " ends at "
+                        . $notetrack[$events[$eventIndex]["last_note"]]["time"] . " which is after activation end at $end \n";
+                $eventIndex++;
+                continue;
+            }
+            
             // we run over this phrase and get another 1/4 bar
             if (OPTDEBUG) echo "determine_activation_end activation at $start overruns phrase at " . $events[$eventIndex]["start"] . "\n";
             $end += $timebase * 8;
+            $overrun++;
         }
         
         $eventIndex++;
     }
     
     if (OPTDEBUG) echo "determine_activation_end activation at $start ends at $end \n";
-    return $end;
+    return array($end, $overrun);
 }
 
 
-function find_event_after_time(&$events, $time) {
+function find_phrase_after_time(&$events, &$notetrack, $time, $diff) {
+    #$index = false;
+    
+    foreach ($events as $i => $e) {
+        if ($e["type"] != "star") continue;
+        if ($e["difficulty"] != $diff) continue;
+        
+        if ($notetrack[$e["last_note"]]["time"] > $time) return $i;
+    }
+    return false;
+    
+    
+    /*
     $eventIndex = 0;
     
     while ($events[$eventIndex]["start"] < $time) {
@@ -194,6 +239,7 @@ function find_event_after_time(&$events, $time) {
         else return false;
     }
     return $eventIndex;
+    */
 }
 
 
