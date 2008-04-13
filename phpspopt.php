@@ -2,6 +2,13 @@
 
     define("PHPSPOPTVERSION", "0.0.0");
 
+	define("WIDTH", 1170);
+	define("PXPERBEAT", 70);
+	define("STAFFHEIGHT", 12);
+	define("DRAWPLAYERLINES", 0);
+	define("CHARTGENVERSION", "0.5.0");
+
+
     require_once "parselib.php";
     require_once "songnames.php";
     require_once "notevalues.php";
@@ -44,7 +51,36 @@
     switch ($inst) {
         case "drums":
             echo "Optimizing $diff drums...\n";
-            opt_drums($notetracks["drums"][$diff], $events["drums"], $timetrack, $diff);
+            /*$path =*/ opt_drums($notetracks["drums"][$diff], $events["drums"], $timetrack, $diff);
+            
+            /*
+            foreach($path as $activation) {
+                #echo "putting activation into events\n";
+                $index = count($events);
+                $events[$inst][$index]["type"] = "activation";
+                $events[$inst][$index]["difficulty"] = $diff;
+                $events[$inst][$index]["start"] = $activation["start"];
+                $events[$inst][$index]["end"] = $activation["end"];
+            }
+            */
+    
+            #print_r($events[$inst]);
+    
+            echo "Generating image...\n";
+        	#list ($im, $basecore) = makeChart("mids/" . $game . "/" . $songname . ".mid", $diff, $game, /*guitar*/ false,
+  	        #       /*bass*/ false, /*drums*/ true, /*vocals*/ false, (isset($NAMES[$songname]) ? $NAMES[$songname] : $songname));
+  	        
+#  	        function makeChartPreparsed($notetracks, $measures_all, $timetrack, $events_all, $vocals, $diff, $game,
+#    $do_guitar, $do_bass, $do_drums, $do_vocals, $songname) {
+
+
+            $im = makeChartPreparsed($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /*guitar*/ false,
+                    /*bass*/ false, /*drums*/ true, /*vocals*/ false, $songname);
+	
+        	imagepng($im, $songname . "_drums_" . $diff . "_optimal.png");
+        	imagedestroy($im);
+
+            
             exit;
             
         default:

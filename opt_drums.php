@@ -18,7 +18,25 @@ function opt_drums(&$notetrack, &$events, &$timetrack, $diff) {
     print_r($path);
     echo "for $total_notes total score\n";
     
+    $oldevents = $events;
+    $events = $path;
     
+    foreach($path as $activation) {
+        $index = count($events);
+        $events[$index]["type"] = "activation";
+        $events[$index]["difficulty"] = $diff;
+        $events[$index]["start"] = $activation["start"];
+        $events[$index]["end"] = $activation["end"];
+    }
+    
+    
+    foreach ($oldevents as $oe) {
+        $events[] = $oe;
+    }
+    
+    
+    #return $path;
+
 }
 
 /*
