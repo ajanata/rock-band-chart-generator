@@ -1,9 +1,10 @@
 <?php
 
-    define("PHPSPOPTVERSION", "0.0.0");
-
-	define("WIDTH", 1170);
-	define("PXPERBEAT", 70);
+    define("PHPSPOPTVERSION", "0.3.0");
+    // 1170
+	define("WIDTH", 900);
+	// 70
+	define("PXPERBEAT", 35);
 	define("STAFFHEIGHT", 12);
 	define("DRAWPLAYERLINES", 0);
 	define("CHARTGENVERSION", "0.5.0");
@@ -45,7 +46,10 @@
 
 
     echo "Parsing file...\n";
-    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/" . $game . "/" . $song . ".mid", strtoupper($game));
+    $ret = parseFile("mids/" . $game . "/" . $song . ".mid", strtoupper($game));
+#    print_r($ret);
+    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = $ret;
+#    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/" . $game . "/" . $song . ".mid", strtoupper($game));
 
 
     switch ($inst) {
@@ -77,7 +81,7 @@
             $im = makeChartPreparsed($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /*guitar*/ false,
                     /*bass*/ false, /*drums*/ true, /*vocals*/ false, $songname);
 	
-        	imagepng($im, $songname . "_drums_" . $diff . "_optimal.png");
+        	imagepng($im, "optimal_paths/rb/drums/" . $diff . "/" . $songname . "_drums_" . $diff . "_optimal.png");
         	imagedestroy($im);
 
             

@@ -73,11 +73,13 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, $diff, $start) {
     global $timebase;
     if (OPTDEBUG) echo "opt_drums_recurse entered $start \n";
     
-    /*
+    $firstRecurse = false;
+    /* * /
     static $recurse_count = 0;
     $recurse_count++;
-    if ($recurse_count > 1000) die("recursed 1000 times -- stopping\n");
-    */
+    if ($recurse_count > 10000) die("recursed 10000 times -- stopping\n");
+    if ($recurse_count == 1) $firstRecurse = true;
+    / * */
     
     // figure out number of possible activations
     // get index into phrase/fill array of the first event at or after the start time
@@ -205,6 +207,7 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, $diff, $start) {
     }
     
     if (OPTDEBUG) echo "opt_drums_recurse final return \"$best_path\" $best_score_gain \n";
+    if ($firstRecurse) echo "Recursed $recurse_count times.\n";
     return $path;
     //return array(array("text" => $best_path, "gain" => $best_score_gain, "start" => 0, "end" => 0));
     // return array(array("text" => "do nothing", "gain" => 0, "total_gain" => 0, "start" => 0, "end" => 0));

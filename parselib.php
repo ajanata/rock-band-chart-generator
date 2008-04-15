@@ -16,6 +16,19 @@ require_once 'songnames.php';
 function parseFile($file, $game) {
     global $timebase, $CONFIG, $NOTES;
     
+    if (file_exists($file . ".parsecache")) {
+        echo "parseFile: Using parse cache file for $file \n";
+        $cache = fopen($file . ".parsecache", 'r');
+        $stat = fstat($cache);
+        echo $stat["size"] . "\n";
+        $serialized = fread($cache, $stat["size"]);
+        //echo $serialized;
+        #print_r(unserialize($serialized));
+        list ($timebase, $unserialized) = unserialize($serialized);
+        return $unserialized;
+    }
+    
+    
     $songname = "";
 
     $mid = new Midi;
@@ -138,6 +151,14 @@ function parseFile($file, $game) {
 
 
 // returns (songname, events[guitar...vocals], timetrack, measures[guitar...drums][easy...expert], notetracks[guitar...drums][easy...expert], vocals)
+
+
+    $cache = fopen($file . ".parsecache", 'w');
+    if ($cache) {
+        fwrite($cache, serialize(array($timebase, array($songname, $events, $timetrack, $measures, $notetracks, $vocals))));
+    }
+
+#    print_r(array($songname, $events, $timetrack, $measures, $notetracks, $vocals));
 
     return array($songname, $events, $timetrack, $measures, $notetracks, $vocals);
 }
