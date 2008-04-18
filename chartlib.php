@@ -11,7 +11,7 @@ function makeChart($file, $diff, $game, $do_guitar, $do_bass, $do_drums, $do_voc
     global $NAMES;
     $game = strtoupper($game);
 	
-	list ($songname, $events_all, $timetrack, $measures_all, $notetracks, $vocals) = parseFile($file, $game);
+	list ($songname, $events_all, $timetrack, $measures_all, $notetracks, $vocals) = parseFile($file, $game/*, true */);
 	
 	
 	$sections = $events_all["sections"];
@@ -161,6 +161,7 @@ function makeChart($file, $diff, $game, $do_guitar, $do_bass, $do_drums, $do_voc
 	        // draw lead guitar measure
             drawMeasureBackground($im, $x, $y, $meas, $events_all["guitar"], $sections, "guitar", $diff);
             drawMeasureNotes($im, $x, $y, $meas, $notetracks["guitar"][$diff], $game, "guitar", $diff);
+            drawMeasureScores($im, $x, $y + STAFFHEIGHT*4, $meas, $diff);
             
             $y += 5 * STAFFHEIGHT + 40;
         }
@@ -168,6 +169,7 @@ function makeChart($file, $diff, $game, $do_guitar, $do_bass, $do_drums, $do_voc
             // draw bass measure
             drawMeasureBackground($im, $x, $y, $measures_all["bass"][$index], $events_all["bass"], $sections, "bass", $diff);
             drawMeasureNotes($im, $x, $y, $measures_all["bass"][$index], $notetracks["bass"][$diff], $game, "bass", $diff);
+            drawMeasureScores($im, $x, $y + STAFFHEIGHT*4, $measures_all["bass"][$index], $diff);
                                     
             $y += 5 * STAFFHEIGHT + 40;            
         }
@@ -175,6 +177,7 @@ function makeChart($file, $diff, $game, $do_guitar, $do_bass, $do_drums, $do_voc
             // draw drums measure
             drawMeasureBackground($im, $x, $y, $measures_all["drums"][$index], $events_all["drums"], $sections, "drums", $diff);
             drawMeasureNotes($im, $x, $y, $measures_all["drums"][$index], $notetracks["drums"][$diff], $game, "drums", $diff);
+            drawMeasureScores($im, $x, $y + STAFFHEIGHT*3, $measures_all["drums"][$index], $diff);
     
             $y += 4 * STAFFHEIGHT + 40;
         }
@@ -715,32 +718,33 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 
 
 
-function drawMeasureScores($im, $x, $y, $meas) {
-    // FIXME this is going to need re-thought
+function drawMeasureScores($im, $x, $y, $meas, $diff) {
+    global $black, $measnum;    
+	global $measscore; if (!$measscore) $measscore = &$black;
+	global $cumscore; if (!$cumscore) $cumscore = &$measnum;
+	global $bonusscore; if (!$bonusscore) $bonusscore = imagecolorallocate($im, 0, 100, 0);
+ 
     
-    /*
-    
+ 
 	// measure score
-	imagestring($im, 2, $x + (PXPERBEAT * $meas["numerator"]) - (strlen($meas["mscore"]) * 6), $y + (STAFFHEIGHT*(4-$drums)) + 2, $meas["mscore"], $measscore);
+	imagestring($im, 2, $x + (PXPERBEAT * $meas["numerator"]) - (strlen($meas["mscore"][$diff]) * 6), $y + 2, $meas["mscore"][$diff], $measscore);
 	
 	
 	// cumulative score
 	// or, for drums, measure score outside of fills, but it doesn't really matter :)
-	imagestring($im, 2, $x + (PXPERBEAT * $meas["numerator"]) - (strlen($meas["cscore"]) * 6), $y + (STAFFHEIGHT*(4-$drums)) + 11, $meas["cscore"], $cumscore);
+	imagestring($im, 2, $x + (PXPERBEAT * $meas["numerator"]) - (strlen($meas["cscore"][$diff]) * 6), $y + 11, $meas["cscore"][$diff], $cumscore);
 	
 	
 	// cumulative score with solo bonuses
-	if (isset($meas["bscore"])) {
-		imagestring($im, 2, $x + (PXPERBEAT * $meas["numerator"]) - ((strlen($meas["cscore"]) + strlen($meas["bscore"]) + 1) * 6), $y + (STAFFHEIGHT*(4-$drums)) + 11, $meas["bscore"], $bonusscore);
+	if (isset($meas["bscore"][$diff])) {
+		imagestring($im, 2, $x + (PXPERBEAT * $meas["numerator"]) -
+		      ((strlen($meas["cscore"][$diff]) + strlen($meas["bscore"][$diff]) + 1) * 6), $y + 11, $meas["bscore"][$diff], $bonusscore);
 	}
-	
-	*/
-
 }
 
 	
 function drawMeasureNotes($im, $x, $y, $meas, $notes, $game, $inst, $diff) {
-    global $timebase;
+    global $timebase, $whammy;
     static $leftovers; if (!is_array($leftovers)) $leftovers = array("guitar" => array(), "bass" => array(), "drums" => array());
     static $overwhammies; if (!is_array($overwhammies)) $overwhammies = array("guitar" => 0, "bass" => 0, "drums" => 0);
     

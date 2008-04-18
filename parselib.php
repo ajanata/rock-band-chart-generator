@@ -13,17 +13,14 @@ require_once 'songnames.php';
 // returns (songname, events[guitar...vocals], timetrack, measures[guitar...drums]notes[easy...expert], notetracks[guitar...drums][easy...expert], vocals)
 // measures has one or more of guitar, coop, bass, drums.
 // vocals will be null if not rock band
-function parseFile($file, $game) {
+function parseFile($file, $game, $ignoreCache = false) {
     global $timebase, $CONFIG, $NOTES;
     
-    if (file_exists($file . ".parsecache")) {
-        echo "parseFile: Using parse cache file for $file \n";
+    if (!$ignoreCache && file_exists($file . ".parsecache")) {
+        #echo "parseFile: Using parse cache file for $file \n";
         $cache = fopen($file . ".parsecache", 'r');
         $stat = fstat($cache);
-        echo $stat["size"] . "\n";
         $serialized = fread($cache, $stat["size"]);
-        //echo $serialized;
-        #print_r(unserialize($serialized));
         list ($timebase, $unserialized) = unserialize($serialized);
         return $unserialized;
     }
@@ -101,17 +98,13 @@ function parseFile($file, $game) {
             
             $vocals = parseVocals($mid->getTrackTxt($vocalsTrack));
 
-            //$notetracks["guitar"] = applyEventsToNotetrack($notetracks["guitar"], $events["guitar"]);
-            //$notetracks["bass"] = applyEventsToNotetrack($notetracks["bass"], $events["bass"]);
-            //$notetracks["drums"] = applyEventsToNotetrack($notetracks["drums"], $events["drums"]);
-            
-            list ($notetracks, $events) = applyEventsToNoteTracks($notetracks, $events);
+            list ($notetracks, $events) = applyEventsToNoteTracks($notetracks, $events, $timetrack);
             
             $measures = makeMeasureTable($timetrack, $vocals["TrkEnd"]);
             
             list ($measures, $notetracks) = putNotesInMeasures($measures, $notetracks);
             
-            #list ($measures, $events) = calcBaseScores($measures, $notetracks, $events, $CONFIG[$game]);
+            $measures = calcScores($measures, $notetracks, $events, $CONFIG[$game], strtolower($game));
             
             $events = getSectionNames($events, $mid->getTrackTxt($eventsTrack));
 
@@ -127,43 +120,20 @@ function parseFile($file, $game) {
             
             $notetracks["guitar"] = parseNoteTrack($mid->getTrackTxt($guitarTrack), $NOTES[$game]);
             
-            
-            
-            
     }
-
-
-
-    /*
-    
-    // $events is start/end times for phrases, fills, and solos
-    list($notetrack, $events) = filterDifficulty($mid->getTrackTxt($tracknum), $NOTES[$game][$difficulty]);
-    $timetrack = parseTimeTrack($mid->getTrackTxt(0));
-    $measures = makeMeasureTable($timetrack, $notetrack);
-    list($measures, $notetrack) = putNotesInMeasures($measures, $notetrack);
-
-    list ($measures, $events) = calcBaseScores($measures, $notetrack, $events, $CONFIG[$game], ($instrument=="DRUMS"), ($instrument=="BASS" && $game=="RB"));
-    $measures = getSectionNames($measures, $mid->getTrackTxt($eventsTrack));
-    
-    */
-
-    //return array($measures, $notetrack, $songname, $events);
 
 
 // returns (songname, events[guitar...vocals], timetrack, measures[guitar...drums][easy...expert], notetracks[guitar...drums][easy...expert], vocals)
 
-
-    $cache = fopen($file . ".parsecache", 'w');
-    if ($cache) {
-        fwrite($cache, serialize(array($timebase, array($songname, $events, $timetrack, $measures, $notetracks, $vocals))));
+    if (!$ignoreCache) {
+        $cache = fopen($file . ".parsecache", 'w');
+        if ($cache) {
+            fwrite($cache, serialize(array($timebase, array($songname, $events, $timetrack, $measures, $notetracks, $vocals))));
+        }
     }
-
-#    print_r(array($songname, $events, $timetrack, $measures, $notetracks, $vocals));
 
     return array($songname, $events, $timetrack, $measures, $notetracks, $vocals);
 }
-    
-    
     
     
     
@@ -1045,7 +1015,7 @@ function putNotesInMeasures($measures, $notetracks) {
         
         foreach ($insttrack as $difficulty => &$notetrack) {
     
-            if ($difficulty == "TrkEnd") continue;
+            if ($difficulty == "TrkEnd" || $difficulty == "") continue;
                 
             $target = count($notetrack);
             
@@ -1098,7 +1068,7 @@ function putNotesInMeasures($measures, $notetracks) {
 
 
 
-function applyEventsToNotetracks($notetracks, $events) {
+function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
     $foundBRE = false;
     $breAt = 0;
     
@@ -1106,8 +1076,7 @@ function applyEventsToNotetracks($notetracks, $events) {
         #echo "doing $inst \n";
         
         foreach ($instevents as $eventIndex => &$event) {
-            // TODO handle the other events
-            // for now we just care about phrases
+            // TODO handle P1/P2 events?
             
             if ($event["type"] == "star") {
                 #echo "found a star event for " . $event["difficulty"] . "\n";
@@ -1130,30 +1099,77 @@ function applyEventsToNotetracks($notetracks, $events) {
             } // star event
             
             // fills on guitar or bass are BREs
-            if ($event["type"] == "fill" && ($inst == "guitar" || $inst == "bass")) {
+            else if ($event["type"] == "fill" && ($inst == "guitar" || $inst == "bass")) {
                 $foundBRE = true;
                 $breAt = $event["start"];
                 $event["type"] = "bre";
+                $breScore = getClockTimeBetweenPulses($timetrack, $event["start"], $event["end"]);
+                $breScore *= 500;
+                $breScore += 750;
+                $event["brescore"] = $breScore;
             } // guitar/bass fill
             
-            if ($event["type"] == "fill" && $foundBRE && $inst == "drums" && $event["start"] == $breAt) {
+            else if ($event["type"] == "fill" && $foundBRE && $inst == "drums" && $event["start"] == $breAt) {
                 // this fill is a BRE
                 $event["type"] = "bre";
+                $breScore = getClockTimeBetweenPulses($timetrack, $event["start"], $event["end"]);
+                $breScore *= 500;
+                $breScore += 750;
+                $event["brescore"] = $breScore;
             } // drum BRE
+            
+            // is this needed for anything? -- yes it is
+            else if ($event["type"] == "fill" && $inst == "drums") {
+                foreach (array("easy", "medium", "hard", "expert") as $margush) {
+                    $fillNotes = 0;
+                    
+                    $noteIndex = findFirstThingAtTime($notetracks[$inst][$margush], $event["start"]);
+                    if ($noteIndex === false) continue;
+                    
+                    // we have the first note in this event
+                    while ($notetracks[$inst][$margush][$noteIndex]["time"] < $event["end"]) {
+                        $notetracks[$inst][$margush][$noteIndex]["fill"] = true;
+                        $noteIndex++;
+                        $fillNotes++;
+                    }
+                    
+                    // now we're pointing to the note after the last note in the fill
+                    $event["last_note"] = $noteIndex - 1;
+                    $event["notes"] = $fillNotes;
+                }
+            } // drum activation fill
+
+            else if ($event["type"] == "solo") {
+                $soloNotes = 0;
+                
+                $noteIndex = findFirstThingAtTime($notetracks[$inst][$event["difficulty"]], $event["start"]);
+                if ($noteIndex === false) continue;
+
+                // we have the first note in this event
+                while ($notetracks[$inst][$event["difficulty"]][$noteIndex]["time"] < $event["end"]) {
+                    $notetracks[$inst][$event["difficulty"]][$noteIndex]["solo"] = true;
+                    $noteIndex++;
+                    $soloNotes++;
+                }
+                
+                // now we're pointing to the note after the last note in the fill
+                $event["last_note"] = $noteIndex - 1;
+                $event["notes"] = $soloNotes;
+            } // solo
             
         }
     }
     
     return array($notetracks, $events);
-}
+} // applyEventsToNotetracks
 
 
 
-function findFirstThingAtTime(&$haystack, $time) {
+function findFirstThingAtTime(&$haystack, $time, $key = "time") {
     if (isset($haystack[0])) $index = 0;
     else $index = 1;
     
-    while ($haystack[$index]["time"] < $time) {
+    while ($haystack[$index][$key] < $time) {
         if (isset($haystack[$index+1])) $index++;
         else return false;
     }
@@ -1162,248 +1178,173 @@ function findFirstThingAtTime(&$haystack, $time) {
 
 
  
+# $measures = calcScores($measures, $notetracks, $events, $CONFIG[$game]);
+function calcScores($measures, $notetracks, $events, $config, $game) {
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-
-function calcBaseScores($measures, $notetrack, $events, $config, $drums = false, $goesTo6 = false) {
     global $timebase;
-    $mult = 1;
-    $oldmult = 1;
-    $total = 0;
-    $totalWithBonuses = 0;
-    $streak = 0;
-    $over = 0;
-    $overChord = 0;
-    $overScore = 0;
-    $hadAFill = false;
-    $fillNoteScore = 0;
-    $BREscore = 0;
     
-    $totalOverScore = 0;
-    
-    foreach ($measures as $mindex => &$meas) {
-        $meas["number"] = $mindex + 1;
-        $mScore = 0;
-        
-        
-        if ($drums) {
+    foreach (array("easy", "medium", "hard", "expert") as $diff) {
+        foreach ($measures as $inst => &$insttrack) {
+            $mult = 1;
+            $oldmult = 1;
             $total = 0;
-            // base score with multiplier doesn't really mean anything with drums
-            // and there aren't sustains either for rounding issues...
+            $totalWithBonuses = 0;
+            $streak = 0;
+            $over = 0;
+            $overChord = 0;
+            $overScore = 0;
+            $hadAFill = false;
+            $fillNoteScore = 0;
             
-            // so just add gem_score * gem count to both scores :)
             
-            for ($i = 0; $i < count($meas["notes"]); $i++) {
-                $mScore += $config["gem_score"] * count($notetrack[$meas["notes"][$i]]["note"]);
-                if (!$notetrack[$meas["notes"][$i]]["fill"]) {
-                    $total += $config["gem_score"] * count($notetrack[$meas["notes"][$i]]["note"]);
-                }
-            }
-        }
-        // not drums
-        else {
-            // take care of leftovers from last measure first
-            if ($over > 0) {
+            foreach ($insttrack as $mindex => &$meas) {
+                $mScore = 0;
                 
-                $newover = 0;
-                $newOverScore = 0;
-                $newTotalOverScore = 0;
-                if ($over > $meas["numerator"]) {
-                    // this sustain goes through the entire measure into the next
-                    $newover = $over - $meas["numerator"];
-                    $newOverScore = $overScore - ($config["ticks_per_beat"] * $meas["numerator"] * $overChord);
-                    $newTotalOverScore = $totalOverScore - ($config["ticks_per_beat"] * $meas["numerator"] * $overChord);
-                    $overScore = $config["ticks_per_beat"] * $meas["numerator"] * $overChord;
-                    $totalOverScore = $overScore;
-                    $over = $meas["numerator"];
-                }
-                
-                $mScore += $overScore;
-                $total += $mult * $totalOverScore;
-                $totalWithBonuses += $mult * $totalOverScore;
-                
-                $over = $newover;
-                $overScore = $newOverScore;
-                $totalOverScore = $newTotalOverScore;
-            }
-            
-        
-            for ($i = 0; $i < count($meas["notes"]); $i++) {
-                $note = &$notetrack[$meas["notes"][$i]];
-                if (isset($note["fill"]) && $note["fill"]) {
-                    // in a fill, so the notes don't count for anything for guitar parts
-                    // so uh don't do anything? :)
-                    $hadAFill = true;
+                if ($inst == "drums") {
+                    // drums are much simpler so get them out of the way first
+                    // no sustains, and base score with multiplier doesn't mean much of anything
+                    // just add gem_score * gem_count to both scores :)
                     
-                    $gems = $config["gem_score"] * count($note["note"]);
-                    $ticks = floor($config["ticks_per_beat"] * ($note["duration"] / $timebase) + EPS);
-                    $ticks *= ($config["chord_sustain_bonus"] ? count($note["note"]) : 1);
-                    $fillNoteScore += $gems + $ticks;
+                    $total = 0;
+                    
+                    //foreach ($meas["notes"] as $diff => $notes) {
+                        //foreach ($notes as $note) {
+                        foreach ($meas["notes"][$diff] as $note) {
+                            $mScore += $config["gem_score"] * count($notetracks[$inst][$diff][$note]["note"]);
+                            
+                            if (!isset($notetracks[$inst][$diff][$note]["fill"]) || !$notetracks[$inst][$diff][$note]["fill"]) {
+                                $total += $config["gem_score"] * count($notetracks[$inst][$diff][$note]["note"]);
+                            }
+                        }
+                    //}
                 }
-                else if ($hadAFill) {
-                    // notes after the BRE count for streak but not for points
-                    $streak++;
-                }
+                // not drums
                 else {
-                    // score the note
-                    $streak++;
-                    $oldmult = $mult;
-                    
-                    if ($streak == $config["multi"][0] || $streak == $config["multi"][1] || $streak == $config["multi"][2]) {
-                        // multiplier change
-                        $mult++;
-                    }
-                    if ($goesTo6 && ($streak == $config["multi"][3] || $streak == $config["multi"][4])) {
-                        $mult++;
-                    }
-                    
-                    $over = 0;
-                    if (($note["time"] + $note["duration"]) > ($meas["time"] + $timebase*$meas["numerator"])) {
-                        $over = (($note["time"] + $note["duration"]) - ($meas["time"] + $timebase*$meas["numerator"]) ) / $timebase;
-                    }
-                    
-                    // measure score
-                    
-                    $gems = $config["gem_score"] * count($note["note"]);
-                    $ticks = floor($config["ticks_per_beat"] * ($note["duration"] / $timebase) + EPS);
+                    // take care of leftovers from last measure first
                     if ($over > 0) {
-                        $mTicks = floor($ticks * ($meas["time"] + $timebase*$meas["numerator"] - $note["time"])
-                                    / $note["duration"]);
-                        $overScore = $ticks - $mTicks;
-                        $overScore *= ($config["chord_sustain_bonus"] ? count($note["note"]) : 1);
-                        $ticks = $mTicks;
-                    }
-                    $ticks *= ($config["chord_sustain_bonus"] ? count($note["note"]) : 1);
-                    $mScore += $gems + $ticks;
-                    
-                                
-                    // $sustain ? $chordsize * int ( 25 * ($eb-$sb) + $EPS ) : 0;
-                    
-                    
-                    // total score
-                    
-                    $totalTicks = floor($config["ticks_per_beat"] * ($note["duration"] / $timebase) + 0.5 + EPS);
-                    if ($over > 0) {
-                        $totalMTicks = floor($totalTicks * ($meas["time"] + $timebase*$meas["numerator"] - $note["time"])
-                                            / $note["duration"]);
-                        $totalOverScore = $totalTicks - $totalMTicks;
-                        $totalOverScore *= ($config["chord_sustain_bonus"] ? count($note["note"]) : 1);
-                        $totalTicks = $totalMTicks;
-                    }
-                    $totalTicks *= ($config["chord_sustain_bonus"] ? count($note["note"]) : 1);
-                    $total += ($oldmult * $gems) + ($oldmult * $totalTicks);
-                    $totalWithBonuses += ($oldmult * $gems) + ($oldmult * $totalTicks);
-                                
-                    //$mult * ($sustain ? $chordsize * int ( 25 * ($eb-$sb) + 0.5 + $EPS ) : 0);
-                    
-                    $overChord = $config["chord_sustain_bonus"] ? count($note["note"]) : 1;
-                }
-            }
-            // see if a solo ended this measure to add in its bonus
-            // also BRE
-            foreach ($events as &$e) {
-                if ($e["type"] == "solo") {
-                    if ($e["end"] >= $meas["time"] && $e["end"] < $meas["time"] + $timebase*$meas["numerator"]) {
-                        $totalWithBonuses += $e["notes"] * 100;
-                    }
-                }
-                else if ($e["type"] == "fill") {
-                    //if ($e["end"] >= $meas["time"] && $e["end"] < $meas["time"] + $timebase*$meas["numerator"]) {
-                    if (($e["start"] >= $meas["time"] && $e["start"] <= ($meas["time"] + $meas["numerator"]*$timebase))
-                       || ($meas["time"] <= $e["end"] && ($meas["time"] + $meas["numerator"]*$timebase) >= $e["end"])
-                       || ($e["start"] <= $meas["time"] && $e["end"] >= ($meas["time"] + $timebase*$meas["numerator"]))) {
-                        
-                        /*
-                        $breScore = ($e["end"] - $e["start"]) / $timebase / $meas["tempos"][0]["bpm"] / 1.5 * 60 * (150*5);
-                        $leftoverTime = ($e["end"] - $e["start"]) / $timebase / $meas["tempos"][0]["bpm"];
-                        while ($leftoverTime > 1.5) $leftoverTime -= 1.5;
-                        $breScore += $leftoverTime * (150*5);
-                        $totalWithBonuses += (int)$breScore;
-                        $e["brescore"] = (int)$breScore;
-                        */
-                        
-                        $measLength = 0;
-                        for ($xyzzy = 0; $xyzzy < count($meas["tempos"]); $xyzzy++) {
-                            $t = $meas["tempos"][$xyzzy];
-                            // start
-                            $thisLength = $t["time"] - $meas["time"];
-                            if ($xyzzy + 1 == count($meas["tempos"])) {
-                                // this is the last tempo, so use measure end time
-                                //echo "$thisLength ";
-                                $thisLength += ($meas["time"] + $meas["numerator"] * $timebase) - $t["time"];
-                                //echo "$thisLength \n";
-                            }
-                            else {
-                                //echo "case 2 $thisLength ";
-                                $thisLength += $meas["tempos"][$xyzzy+1]["time"] - $t["time"];
-                                //echo "$thisLength \n";
-                            }
-                            $thisLength /= $timebase;
-                            $thisLength /= $t["bpm"];
-                            $measLength += $thisLength * 60;
+                        $newOver = 0;
+                        $newOverScore = 0;
+                        $newTotalOverScore = 0;
+                        if ($over > $meas["numerator"]) {
+                            // this sustain goes through the entire measure into the next
+                            $newOver = $over - $meas["numerator"];
+                            $newOverScore = $overScore - ($config["ticks_per_beat"] * $meas["numerator"] * $overChord);
+                            $newTotalOverScore = $totalOverScore - ($config["ticks_per_beat"] * $meas["numerator"] * $overChord);
+                            $overScore = $config["ticks_per_beat"] * $meas["numerator"] * $overChord;
+                            $totalOverScore = $overScore;
+                            $over = $meas["numerator"];
                         }
                         
-                        $BREscore += 500 * $measLength;
-
-                            //echo "$BREscore   $measLength \n";
+                        $mScore += $overScore;
+                        $total += $mult * $totalOverScore;
+                        $totalWithBonuses += $mult * $totalOverScore;
                         
-                        $hadAFill = true;
-                    }
-                    if ($meas["time"] <= $e["end"] && ($meas["time"] + $meas["numerator"]*$timebase) >= $e["end"]) {
-                        // last measure with the BRE
-                        $totalWithBonuses += 750 + (int)$BREscore;
-                    }
-                }
-            }
-            //if (!$goesTo6) $meas["bscore"] = (int)$totalWithBonuses;
-            if ($total != $totalWithBonuses) $meas["bscore"] = (int)$totalWithBonuses;
-        }
-        
-        $meas["mscore"] = (int)$mScore;
-        $meas["cscore"] = (int)$total;
-        $meas["streak"] = $streak;
-        if ($fillNoteScore > 0) $meas["fillnotescore"] = $fillNoteScore;
-        
-    }
+                        $over = $newOver;
+                        $overScore = $newOverScore;
+                        $totalOverScore = $newTotalOverScore;
+                    } // over > 0
+                    
+                    //foreach ($meas["notes"] as $diff => $notes) {
+                        //foreach ($notes as $note) {
+                        foreach ($meas["notes"][$diff] as $note) {
+                            $n = $notetracks[$inst][$diff][$note];
+                            
+                            if (isset($n["fill"]) && $n["fill"]) {
+                                // in a fill, we know we're doing a guitar part, the notes don't count for anything
+                                $hadAFill = true;
+                                
+                                $gems = $config["gem_score"]  * count($n["note"]);
+                                $ticks = floor($config["ticks_per_beat"] * ($n["duration"] / $timebase) + EPS);
+                                $ticks *= ($config["chord_sustain_bonus"] ? count($n["note"]) : 1);
+                                $fillNoteScore += $gems + $ticks;
+                            }
+                            else if ($hadAFill) {
+                                // notes after the BRE acount for streak but not for points
+                                $streak++;
+                            }
+                            else {
+                                // normal note so score it
+                                $streak++;
+                                $oldmult = $mult;
+                                
+                                if ($streak == $config["multi"][0] || $streak == $config["multi"][1] || $streak == $config["multi"][2]) {
+                                        // multiplier change
+                                        $mult++;
+                                }
+                                if ($game == "rb" && $inst == "bass" && ($streak == $config["multi"][3] || $streak == $config["multi"][4])) {
+                                    $mult++;
+                                }
+                                
+                                $over = 0;
+                                if (($n["time"] + $n["duration"]) > ($meas["time"] + $timebase*$meas["numerator"])) {
+                                    $over = (($n["time"] + $n["duration"]) - ($meas["time"] + $timebase*$meas["numerator"])) / $timebase;
+                                }
+                                
+                                // measure score
+                                
+                                $gems = $config["gem_score"] * count($n["note"]);
+                                $ticks = floor($config["ticks_per_beat"] * ($n["duration"] / $timebase) + EPS);
+                                
+                                if ($over > 0) {
+                                    $mTicks = floor($ticks * ($meas["time"] + $timebase*$meas["numerator"] - $n["time"]) / $n["duration"]);
+                                    $overScore = $ticks - $mTicks;
+                                    $overScore *= ($config["chord_sustain_bonus"] ? count($n["note"]) : 1);
+                                    $ticks = $mTicks;
+                                }
     
-    // disabled BRE score for now because it's horribly broken
-    /*
-    if ($BREscore > 0) {
-        foreach ($events as &$e) {
-            if ($e["type"] != "fill") continue;
-            $e["brescore"] = 750 + (int)$BREscore;
-        }
-        
-    }
-    */
+                                $ticks *= ($config["chord_sustain_bonus"] ? count($n["note"]) : 1);
+                                $mScore += $gems + $ticks;
+                                
+                                
+                                // total score
+                                
+                                $totalTicks = floor($config["ticks_per_beat"] * ($n["duration"] / $timebase) + 0.5 + EPS);
+                                if ($over > 0) {
+                                    $totalMTicks = floor($totalTicks *
+                                        ($meas["time"] + $timebase*$meas["numerator"] - $n["time"]) / $n["duration"]);
+                                    $totalOverScore = $totalTicks - $totalMTicks;
+                                    $totalOverScore *= ($config["chord_sustain_bonus"] ? count($n["note"]) : 1);
+                                    $totalTicks = $totalMTicks;
+                                }
+                                $totalTicks *= ($config["chord_sustain_bonus"] ? count($n["note"]) : 1);
+                                
+                                $total += $oldmult * ($gems + $totalTicks);
+                                #($oldmult * $gems) + ($oldmult * $totalTicks);
+                                $totalWithBonuses += $oldmult * ($gems + $totalTicks);
+                                
+                                $overChord = $config["chord_sustain_bonus"] ? count($n["note"]) : 1;
+                            } // normal note
     
-    return array($measures, $events);
+                            
+                        } // notes as note
+                    //} // meas notes as diff => notes
+                } // not drums
+                
+                // see if a solo or BRE ended this measure to add its bonus
+                foreach ($events[$inst] as $e) {
+                    if ($e["type"] == "solo" && $e["difficulty"] == $diff) {
+                        if ($e["end"] >= $meas["time"] && $e["end"] < $meas["time"] + $timebase*$meas["numerator"]) {
+                            $totalWithBonuses += $e["notes"] * 100;
+                        }
+                    }
+                    else if ($e["type"] == "bre" && $e["difficulty"] == $diff) {
+                        if ($e["end"] > $meas["time"] && $e["end"] < $meas["time"] + $timebase*$meas["numerator"]) {
+                            $totalWithBonuses += $e["brescore"];
+                        }
+                    }
+                } // for events
+                
+                if ($total != $totalWithBonuses && $inst != "drums") $meas["bscore"][$diff] = (int) $totalWithBonuses;
+                $meas["mscore"][$diff] = (int) $mScore;
+                $meas["cscore"][$diff] = (int) $total;
+                $meas["streak"][$diff] = $streak;
+                if ($fillNoteScore > 0) $meas["fscore"][$diff] = (int) $fillNoteScore;
+            } // foreach meas
+        } // foreach inst
+    } // foreach diff
+
+    return $measures;
 }
-
-
-
-
-
-
-    
-
-
-
 
 
 ?>

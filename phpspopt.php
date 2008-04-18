@@ -46,10 +46,7 @@
 
 
     echo "Parsing file...\n";
-    $ret = parseFile("mids/" . $game . "/" . $song . ".mid", strtoupper($game));
-#    print_r($ret);
-    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = $ret;
-#    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/" . $game . "/" . $song . ".mid", strtoupper($game));
+    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/" . $game . "/" . $song . ".mid", strtoupper($game));
 
 
     switch ($inst) {
@@ -71,12 +68,6 @@
             #print_r($events[$inst]);
     
             echo "Generating image...\n";
-        	#list ($im, $basecore) = makeChart("mids/" . $game . "/" . $songname . ".mid", $diff, $game, /*guitar*/ false,
-  	        #       /*bass*/ false, /*drums*/ true, /*vocals*/ false, (isset($NAMES[$songname]) ? $NAMES[$songname] : $songname));
-  	        
-#  	        function makeChartPreparsed($notetracks, $measures_all, $timetrack, $events_all, $vocals, $diff, $game,
-#    $do_guitar, $do_bass, $do_drums, $do_vocals, $songname) {
-
 
             $im = makeChartPreparsed($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /*guitar*/ false,
                     /*bass*/ false, /*drums*/ true, /*vocals*/ false, $songname);
