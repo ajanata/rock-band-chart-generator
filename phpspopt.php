@@ -69,7 +69,7 @@
     
             echo "Generating image...\n";
 
-            $im = makeChartPreparsed($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /*guitar*/ false,
+            $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /*guitar*/ false,
                     /*bass*/ false, /*drums*/ true, /*vocals*/ false, $songname);
 	
         	imagepng($im, "optimal_paths/rb/drums/" . $diff . "/" . $songname . "_drums_" . $diff . "_optimal.png");

@@ -110,6 +110,7 @@
     $NAMES["bangagong"] = "Bang a Gong";
     $NAMES["beethovensc"] = "Beethoven's C***";
     $NAMES["blackened"] = "Blackened";
+    $NAMES["blindedbyfear"] = "Blinded by Fear";
     $NAMES["brassinpocket"] = "Brass in Pocket";
     $NAMES["buddyholly"] = "Buddy Holly";
     $NAMES["callingdrlove"] = "Calling Dr. Love";
@@ -123,6 +124,7 @@
     $NAMES["crushcrushcrush"] = "Crushcrushcrush";
     $NAMES["dieallright"] = "Die, All Right!";
     $NAMES["dirtylittlesecret"] = "Dirty Little Secret";
+    $NAMES["doa"] = "D.O.A.";
     $NAMES["dontlookbackinanger"] = "Don't Look Back in Anger";
     $NAMES["elscorcho"] = "El Scorcho";
     $NAMES["everfalleninlove"] = "Ever Fallen In Love";
@@ -173,6 +175,7 @@
     $NAMES["teenagelobotomy"] = "Teenage Lobotomy";
     $NAMES["tenspeed"] = "Ten Speed (Of God's Blood and Burial)";
     $NAMES["thekill"] = "The Kill";
+    $NAMES["thrasher"] = "Thrasher";
     $NAMES["truckin"] = "Truckin";
     $NAMES["truthhitseverybody"] = "Truth Hits Everybody";
     # duplicate from GH2

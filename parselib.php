@@ -3,7 +3,7 @@
 define("DEBUG", 0);
 define("VERBOSE", 0);
 define("OMGVERBOSE", 0);
-define("PARSELIBVERSION", "0.7.0");
+define("PARSELIBVERSION", "0.7.5");
 
 require_once 'notevalues.php';
 require_once 'classes/midi.class.php';
@@ -15,8 +15,11 @@ require_once 'songnames.php';
 // vocals will be null if not rock band
 function parseFile($file, $game, $ignoreCache = false) {
     global $timebase, $CONFIG, $NOTES;
+    global $CACHED;
+    $CACHED = false;
     
     if (!$ignoreCache && file_exists($file . ".parsecache")) {
+        $CACHED = true;
         #echo "parseFile: Using parse cache file for $file \n";
         $cache = fopen($file . ".parsecache", 'r');
         $stat = fstat($cache);
@@ -850,7 +853,7 @@ function dealWithNote($time, $type, $note, $vel, $gameNotes, &$notetrack, &$chor
         if ($chord == 1) {
             if ($lastRealNote != -1 && !isset($notetrack[$lastRealNote]["duration"])) {
                 // no end event, make sure it's at least 161 pulses long
-                if ($info[0] - $notetrack[$lastRealNote]["time"] <= 161) {
+                if ($time - $notetrack[$lastRealNote]["time"] <= 161) {
                     // that last note should be ignored!
                     //unset($notetrack[$lastRealNote]);
                 }
@@ -1106,7 +1109,7 @@ function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
                 $breScore = getClockTimeBetweenPulses($timetrack, $event["start"], $event["end"]);
                 $breScore *= 500;
                 $breScore += 750;
-                $event["brescore"] = $breScore;
+                $event["brescore"] = (int) $breScore;
             } // guitar/bass fill
             
             else if ($event["type"] == "fill" && $foundBRE && $inst == "drums" && $event["start"] == $breAt) {
@@ -1115,7 +1118,7 @@ function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
                 $breScore = getClockTimeBetweenPulses($timetrack, $event["start"], $event["end"]);
                 $breScore *= 500;
                 $breScore += 750;
-                $event["brescore"] = $breScore;
+                $event["brescore"] = (int) $breScore;
             } // drum BRE
             
             // is this needed for anything? -- yes it is
@@ -1146,10 +1149,11 @@ function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
                 if ($noteIndex === false) continue;
 
                 // we have the first note in this event
-                while ($notetracks[$inst][$event["difficulty"]][$noteIndex]["time"] < $event["end"]) {
-                    $notetracks[$inst][$event["difficulty"]][$noteIndex]["solo"] = true;
-                    $noteIndex++;
-                    $soloNotes++;
+                while (isset($notetracks[$inst][$event["difficulty"]][$noteIndex])
+                    && $notetracks[$inst][$event["difficulty"]][$noteIndex]["time"] < $event["end"]) {
+                        $notetracks[$inst][$event["difficulty"]][$noteIndex]["solo"] = true;
+                        $noteIndex++;
+                        $soloNotes++;
                 }
                 
                 // now we're pointing to the note after the last note in the fill
@@ -1327,7 +1331,7 @@ function calcScores($measures, $notetracks, $events, $config, $game) {
                             $totalWithBonuses += $e["notes"] * 100;
                         }
                     }
-                    else if ($e["type"] == "bre" && $e["difficulty"] == $diff) {
+                    else if ($e["type"] == "bre" /* && $e["difficulty"] == $diff */) {
                         if ($e["end"] > $meas["time"] && $e["end"] < $meas["time"] + $timebase*$meas["numerator"]) {
                             $totalWithBonuses += $e["brescore"];
                         }
