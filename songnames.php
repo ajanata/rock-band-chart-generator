@@ -54,7 +54,8 @@
     $NAMES["flirtinwithdisaster"] = "Flirtin' With Disaster";
     $NAMES["foreplaylongtime"] = "Foreplay/Long Time";
     $NAMES["foreplaylongtime_short"] = "Foreplay/Long Time (Short)";
-    $NAMES["gimmieshelter"] = "Gimme Shelter";
+    # NOTE: this is different from the .mid name
+    $NAMES["gimmeshelter"] = "Gimme Shelter";
     $NAMES["gowiththeflow"] = "Go With the Flow";
     $NAMES["greengrass"] = "Green Grass and High Tides";
     $NAMES["greengrass_short"] = "Green Grass and High Tides (short)";

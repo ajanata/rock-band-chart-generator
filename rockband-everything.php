@@ -4,7 +4,7 @@
 	define("PXPERBEAT", 60);
 	define("STAFFHEIGHT", 12);
 	define("DRAWPLAYERLINES", 0);
-	define("CHARTGENVERSION", "7.0.0");
+	define("CHARTGENVERSION", "0.7.0");
 	define("MIDIPATH", "mids/");
 	define("OUTDIR", "charts/");
 

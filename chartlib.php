@@ -553,8 +553,10 @@ function drawMeasureNotes($im, $x, $y, $meas, $notes, $game, $inst, $diff) {
     static $overwhammies; if (!is_array($overwhammies)) $overwhammies = array("guitar" => 0, "bass" => 0, "drums" => 0);
     
     if ($meas["number"] == 1) {
-        $leftovers[$inst] == array();
-        $overwhammies[$inst] = 0;
+        #$leftovers[$inst] == array();
+        $leftovers = array("guitar" => array(), "bass" => array(), "drums" => array());
+        #$overwhammies[$inst] = 0;
+        $overwhammies = array("guitar" => 0, "bass" => 0, "drums" => 0);
     }
     
     $newLeftovers = array();
