@@ -133,6 +133,7 @@
     $NAMES["gimmethreesteps"] = "Gimme Three Steps";
     $NAMES["hardtohandle"] = "Hard to Handle";
     $NAMES["heroes"] = "Heroes";
+    $NAMES["hitcharide"] = "Hitch a Ride";
     $NAMES["ifoughtthelaw"] = "I Fought the Law";
     $NAMES["ineedamiracle"] = "I Need A Miracle";
     $NAMES["interstatelovesong"] = "Interstate Love Song";
@@ -146,18 +147,21 @@
     # duplicate from GH2
     #$NAMES["messageinabottle"] = "Message in a Bottle";
     $NAMES["moonagedaydream"] = "Moonage Daydream";
+    $NAMES["morethanafeeling"] = "More Than a Feeling";
     $NAMES["movealong"] = "Move Along";
     $NAMES["myironlung"] = "My Iron Lung";
     $NAMES["mysharona"] = "My Sharona";
     $NAMES["nib"] = "N.I.B.";
     # duplicate from GH3
     #$NAMES["numberofthebeast"] = "The Number of the Beast";
+    $NAMES["peaceofmind"] = "Peace of Mind";
     $NAMES["perfectdrug"] = "The Perfect Drug";
     $NAMES["queenbitch"] = "Queen Bitch";
     $NAMES["ridethelightning"] = "Ride the Lightning";
     $NAMES["roam"] = "Roam";
-    $NAMES["rockrebellion"] = "Rock Rebellion";
+    $NAMES["rockandrollband"] = "Rock and Roll Band";
     $NAMES["rockawaybeach"] = "Rockaway Beach";
+    $NAMES["rockrebellion"] = "Rock Rebellion";
     $NAMES["roxanne"] = "Roxanne";
     $NAMES["saintsoflosangeles"] = "Saints of Los Angeles";
     $NAMES["sextypething"] = "Sex Type Thing";
@@ -166,6 +170,8 @@
     $NAMES["sicksicksick"] = "Sick, Sick, Sick";
     $NAMES["simpleman"] = "Simple Man";
     $NAMES["siva"] = "Siva";
+    $NAMES["smokin"] = "Smokin'";
+    $NAMES["somethingaboutyou"] = "Something About You";
     $NAMES["songwithamission"] = "Song with a Mission";
     $NAMES["sprode"] = "Sprode";
     $NAMES["stillalive"] = "Still Alive";
