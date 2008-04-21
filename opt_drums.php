@@ -9,17 +9,15 @@
 function opt_drums(&$notetrack, &$events, &$timetrack, $diff) {
     $path = opt_drums_recurse($notetrack, $events, $timetrack, $diff, 0);
     
-    $total_notes = count_notes($notetrack, 0, $notetrack["TrkEnd"]);
+    $total_notes = drums_count_notes($notetrack, 0, $notetrack["TrkEnd"]);
     $total_notes += $path[0]["total_gain"];
     $total_notes *= 100;
     $total_notes -= 1425;
     
-    //echo $path . " -- for " . $points . " increase and $total_notes total score\n";
     print_r($path);
     echo "for $total_notes total score\n";
     
     $oldevents = $events;
-    $events = $path;
     
     foreach($path as $activation) {
         $index = count($events);
@@ -29,14 +27,9 @@ function opt_drums(&$notetrack, &$events, &$timetrack, $diff) {
         $events[$index]["end"] = $activation["end"];
     }
     
-    
     foreach ($oldevents as $oe) {
         $events[] = $oe;
     }
-    
-    
-    #return $path;
-
 }
 
 /*
@@ -69,9 +62,10 @@ process_chart(chart section)
 
 */
 
-function opt_drums_recurse(&$notetrack, &$events, &$timetrack, $diff, $start) {
+function opt_drums_recurse(&$notetrack, &$events, &$timetrack, &$diff, $start) {
     global $timebase;
     if (OPTDEBUG) echo "opt_drums_recurse entered $start \n";
+    if (OPTDEBUG) echo "opt_drums_recurse entry memory usage: " . memory_get_usage() . " -- " . memory_get_usage(true) . "\n";
     
     $firstRecurse = false;
     /* * /
@@ -150,7 +144,7 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, $diff, $start) {
                     $fill_end += $timebase;
                 }
 
-                $skipped_notes += count_notes($notetrack, $events[$eventIndex]["start"], $fill_end);
+                $skipped_notes += drums_count_notes($notetrack, $events[$eventIndex]["start"], $fill_end);
                 $fills[$fillIndex]["skipped_notes"] = $skipped_notes;
                 $fillIndex++;
         }
@@ -175,9 +169,9 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, $diff, $start) {
             $activation_start *= $timebase;
             $activation_start += $timebase;
         }
-        list ($activation_end, $overrun) = determine_activation_end($notetrack, $events, $timetrack,
+        list ($activation_end, $overrun) = drums_determine_activation_end($notetrack, $events, $timetrack,
                 $activation_start, min(1, $fills[$i]["phrases"]/4), $diff);
-        $score_gain = count_notes($notetrack, $activation_start + 1, $activation_end);
+        $score_gain = drums_count_notes($notetrack, $activation_start + 1, $activation_end);
         $score_gain -= $fills[$i]["skipped_notes"];
         $my_gain = $score_gain;
         
@@ -214,9 +208,19 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, $diff, $start) {
 }
 
 
-function determine_activation_end(&$notetrack, &$events, &$timetrack, $start, $bar_amount, $diff) {
+function drums_determine_activation_end(&$notetrack, &$events, &$timetrack, &$start, &$bar_amount, &$diff) {
     // TO-DO: check the tempo to figure out if it's a funky section that is not 32 beats for a full bar
     // currently only checks for overrunning phrases
+
+    static $cache;
+    if (!$cache) $cache = array();
+
+    if (isset($cache[$start . "$" . $bar_amount . "$" . $diff])) {
+        if (OPTDEBUG) echo "drums_determine_activation_end CACHED ".$cache[$start."$".$bar_amount."$".$diff]."activation at $start ends at $end \n";
+        return $cache[$start . "$" . $bar_amount . "$" . $diff];
+    }
+    
+    if (OPTDEBUG) echo "drums_determine_activation_end entry memory usage: " . memory_get_usage() . " -- " . memory_get_usage(true) . "\n";
     
     global $timebase;
     $overrun = 0;
@@ -228,8 +232,9 @@ function determine_activation_end(&$notetrack, &$events, &$timetrack, $start, $b
         if (isset($events[$eventIndex+1])) $eventIndex++;
         else {
             // there are no possible phrases to run over, so we already know the end time
-            if (OPTDEBUG) echo "determine_activation_end activation at $start ends at $end (no events)\n";
-            return $end;
+            if (OPTDEBUG) echo "drums_determine_activation_end activation at $start ends at $end (no events)\n";
+            $cache[$start . "$" . $bar_amount . "$" . $diff] = array($end, 0);
+            return array($end, 0);
         }
     }
     
@@ -245,14 +250,14 @@ function determine_activation_end(&$notetrack, &$events, &$timetrack, $start, $b
         
         if ($events[$eventIndex]["type"] == "star" && $events[$eventIndex]["difficulty"] == $diff) {
             if ($notetrack[$events[$eventIndex]["last_note"]]["time"] > $end) {
-                if (OPTDEBUG) echo "determine_activation_end phrase at " . $events[$eventIndex]["start"] . " ends at "
+                if (OPTDEBUG) echo "drums_determine_activation_end phrase at " . $events[$eventIndex]["start"] . " ends at "
                         . $notetrack[$events[$eventIndex]["last_note"]]["time"] . " which is after activation end at $end \n";
                 $eventIndex++;
                 continue;
             }
             
             // we run over this phrase and get another 1/4 bar
-            if (OPTDEBUG) echo "determine_activation_end activation at $start overruns phrase at " . $events[$eventIndex]["start"] . "\n";
+            if (OPTDEBUG) echo "drums_determine_activation_end activation at $start overruns phrase at " . $events[$eventIndex]["start"] . "\n";
             $end += $timebase * 8;
             $overrun++;
         }
@@ -260,23 +265,41 @@ function determine_activation_end(&$notetrack, &$events, &$timetrack, $start, $b
         $eventIndex++;
     }
     
-    if (OPTDEBUG) echo "determine_activation_end activation at $start ends at $end \n";
+    if (OPTDEBUG) echo "drums_determine_activation_end activation at $start ends at $end \n";
+    $cache[$start . "$" . $bar_amount . "$" . $diff] = array($end, $overrun);
     return array($end, $overrun);
 }
 
 
-function find_phrase_after_time(&$events, &$notetrack, $time, $diff) {
-    foreach ($events as $i => $e) {
+function find_phrase_after_time(&$events, &$notetrack, &$time, &$diff) {
+    static $cache;
+    if (!$cache) $cache = array();
+    
+    if (isset($cache[$time . "$" . $diff])) return $cache[$time . "$" . $diff];
+    
+    foreach ($events as $i => &$e) {
         if ($e["type"] != "star") continue;
         if ($e["difficulty"] != $diff) continue;
         
-        if ($notetrack[$e["last_note"]]["time"] > $time) return $i;
+        if ($notetrack[$e["last_note"]]["time"] > $time) {
+            $cache[$time . "$" . $diff] = $i;
+            return $i;
+        }
     }
+    $cache[$time . "$" . $diff] = false;
     return false;
 }
 
 
-function count_notes(&$notetrack, $start, $end) {
+function drums_count_notes(&$notetrack, $start, $end) {
+    static $cache;
+    if (!$cache) $cache = array();
+    
+    if (isset($cache[$start . "$" . $end])) {
+        if (OPTDEBUG) echo "drums_count_notes CACHED found " . $cache[$start . "$" . $end] . " notes between $start and $end \n";
+        return $cache[$start . "$" . $end];
+    }
+    
     $noteIndex = 1;
     
     while ($notetrack[$noteIndex]["time"] < $start) {
@@ -292,7 +315,8 @@ function count_notes(&$notetrack, $start, $end) {
         else break;
     }
     
-    if (OPTDEBUG) echo "count_notes found $noteCount notes between $start and $end \n";
+    if (OPTDEBUG) echo "drums_count_notes found $noteCount notes between $start and $end \n";
+    $cache[$start . "$" . $end] = $noteCount;
     return $noteCount;
 }
 

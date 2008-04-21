@@ -52,21 +52,9 @@
     switch ($inst) {
         case "drums":
             echo "Optimizing $diff drums...\n";
-            /*$path =*/ opt_drums($notetracks["drums"][$diff], $events["drums"], $timetrack, $diff);
-            
-            /*
-            foreach($path as $activation) {
-                #echo "putting activation into events\n";
-                $index = count($events);
-                $events[$inst][$index]["type"] = "activation";
-                $events[$inst][$index]["difficulty"] = $diff;
-                $events[$inst][$index]["start"] = $activation["start"];
-                $events[$inst][$index]["end"] = $activation["end"];
-            }
-            */
-    
-            #print_r($events[$inst]);
-    
+            // opt_drums mucks around with the events track is is passed
+            opt_drums($notetracks["drums"][$diff], $events["drums"], $timetrack, $diff);
+
             echo "Generating image...\n";
 
             $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /*guitar*/ false,

@@ -22,13 +22,18 @@
 
   /* */
     $mid = new Midi;
-    $mid->importMid("mids/rb/epic.mid");
+    $mid->importMid("mids/rb/messageinabottle.mid");
 
     #echo "Time Signature Track\n";
     #echo $mid->getTrackTxt(0);
     
     #echo "\n\n\n\n\nGuitar Track\n";
-    echo $mid->getTrackTxt(4);
+    #echo $mid->getTrackTxt(4);
+    
+    for ($i = 0; $i < $mid->getTrackCount(); $i++) {
+        echo "\n Track $i \n";
+        echo $mid->getTrackTxt($i);
+    }
     
     exit;
 
@@ -37,7 +42,7 @@
 
 # (songname, events[guitar...vocals], timetrack, measures[guitar...drums][easy...expert], notetracks[guitar...drums][easy...expert], vocals)
 
-    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/rb/epic.mid", "RB", true);
+    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/gh2/strutter.mid", "GH2", true);
 
 //	list ($measures, $notetrack, $songname, $events) = parseFile("../mids/rb/shouldistay.mid", "EASY", "RB", "GUITAR");
 

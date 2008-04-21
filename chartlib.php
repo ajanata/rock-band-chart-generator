@@ -1,6 +1,6 @@
 <?php
 	
-	define("CHARTLIBVERSION", "0.7.6");
+	define("CHARTLIBVERSION", "0.7.7");
 	
 	define("DRAWPULSES", false);
 
@@ -261,6 +261,15 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	   
 	   $c = 0;
 	   $bY = 0;
+	   
+	   /*
+	   if (!isset($e["type"])) {
+	       // this should NEVER happen but apparently it is
+	       echo "\n!!! chartlib event loop: event doesn't have type.\n";
+	       print_r($e);
+	   }
+	   */
+	   
 	   switch ($e["type"]) {
 	       case "fill":
            case "bre":
