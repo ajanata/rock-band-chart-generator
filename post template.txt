@@ -1,0 +1,39 @@
+Last update: 19 April 2008 19:55 EDT: New DLC, BRE estimates work?
+
+
+[size=16][url=http://ajanata.com/charts/rb/drums/]Drums[/url][/size]
+
+Related: [url=http://rockband.scorehero.com/forum/viewtopic.php?t=5062]Guitar/Bass/Guitar+Bass charts[/url] - [url=http://rockband.scorehero.com/forum/viewtopic.php?t=4773]Drum charts[/url] - [url=http://rockband.scorehero.com/forum/viewtopic.php?p=93797]Vocal charts[/url] - [url=http://rockband.scorehero.com/forum/viewtopic.php?p=93800]Vocaltar charts[/url] - [url=http://rockband.scorehero.com/forum/viewtopic.php?p=93803]Full Band charts[/url]
+
+These charts contain per-measure and cumulative scores, OD whammy beats, solo note counts, and BRE estimated upperbound scores. I expect there are still a few bugs here and there, but they are much better than nothing and the last version of my charts. :)
+
+You may also download a .zip file with all of the charts: [url=http://ajanata.com/charts/rb/rbdrumcharts.zip]drums (22 MB)[/url].
+
+
+A big thank you to rkcr, Revelus, and Sully for finding bugs. Thanks also go out to Krim and PeridotWeapon in [url=http://rockband.scorehero.com/forum/viewtopic.php?t=3238]this thread[/url] for information about solo bonuses and Big Rock Ending scoring. Big shoutout to debr for [url=http://rockband.scorehero.com/forum/viewtopic.php?t=1711]documenting Rock Band's .mid format[/url] and helping with some rounding issues.
+
+A huge thank you to [b]Deimos[/b] for assisting with DLC.
+
+
+Notes:[list]
+[*]The "FC Score" column for bass is blank because the BRE score doesn't get store internally anywhere for bass. I'll fix this at some point, but the BRE for bass is indicated on the actual chart (and is the same as guitar).
+[*]Overdrive backgrounds extend the exact range specified in the .mid file. Sometimes this is significantly shorter than the length of a sustained note (see third note in Foreplay/Long Time for example).
+[*]If a solo or BRE ends at the far right of a line, the note count/bonus score can get cut off.
+[/list]
+
+If you find a problem with these charts not outlined above, please send me a private message and I'll look into it.
+
+
+
+
+[b]FAQ[/b]
+(Yes, I have been asked some of these more than once.)
+
+Q. What did you use to make these charts?
+A. I wrote a program in PHP to parse the .mid files (using a [url=http://staff.dasdeck.de/valentin/midi/]library[/url]) and coded the rest from there. 
+
+Q. How long does it take to make the charts?
+A. I completely revamped my code to do every single chart in one go, so it takes significanly less time than it used to. It also stores the parsed .mid files in a (very large file-size) format which it can read nearly instantaneously, instead of taking several seconds to parse the .mid file every time. For the first batch with 147 songs, it took 42 minutes to parse the files and make guitar, bass, guitar+bass, drums, vocals, voxtar, and full band charts; just generating the images from the cached parses took about 16 minutes.
+
+Q: Can I host a mirror for your charts?
+A: I'd really rather you just link to them for now. I don't have any bandwidth issues on my website, and I change them often enough for the time being that it wouldn't be worthwhile. If you absolutely must redistribute them for some reason (f.ex. showing activation points on them), please don't obscure my URL at the bottom of the images.

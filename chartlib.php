@@ -292,10 +292,10 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
                 $c = $phrase;
                 $bY = $y - 10;
                 $beY = $y + 10 + STAFFHEIGHT*(4-($instrument == "drums")) + 2*STAFFHEIGHT*($instrument == "vocals");
-                if ($instrument == "vocals") {
-                    $bY += 10;
-                    $beY -= 10;
-                }
+                #if ($instrument == "vocals") {
+                #    $bY += 10;
+                #    $beY -= 10;
+                #}
                 break;
             case "activation":
                 $c = $activated;
