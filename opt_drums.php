@@ -5,6 +5,7 @@
     define("OPTDRUMSVERSION", "0.2.0");
 
     define("OPTDEBUG", false);
+    define("OPTCACHE", true);
 
 function opt_drums(&$notetrack, &$events, &$timetrack, $diff) {
     $path = opt_drums_recurse($notetrack, $events, $timetrack, $diff, 0);
@@ -63,17 +64,24 @@ process_chart(chart section)
 */
 
 function opt_drums_recurse(&$notetrack, &$events, &$timetrack, &$diff, $start) {
+    static $cache;
+    if (!$cache) $cache = array();
+    
+    if (OPTCACHE && isset($cache[$start . "$" . $diff])) {
+        if (OPTDEBUG) echo "opt_drums_recurse CACHE hit for $start - returning array with " . count($cache[$start . "$" . $diff])
+                . " items\n";
+        return $cache[$start . "$" . $diff];
+    }
+    
     global $timebase;
     if (OPTDEBUG) echo "opt_drums_recurse entered $start \n";
     if (OPTDEBUG) echo "opt_drums_recurse entry memory usage: " . memory_get_usage() . " -- " . memory_get_usage(true) . "\n";
     
     $firstRecurse = false;
-    /* * /
     static $recurse_count = 0;
     $recurse_count++;
-    if ($recurse_count > 10000) die("recursed 10000 times -- stopping\n");
+#    if ($recurse_count > 10000) die("recursed 10000 times -- stopping\n");
     if ($recurse_count == 1) $firstRecurse = true;
-    / * */
     
     // figure out number of possible activations
     // get index into phrase/fill array of the first event at or after the start time
@@ -83,6 +91,7 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, &$diff, $start) {
         // no fills or phrases after here, so we can't activate
         // end recursion
         if (OPTDEBUG) echo "opt_drums_recurse ending because no events after $start \n";
+        $cache[$start . "$" . $diff] = array(array("text" => "do nothing", "gain" => 0, "total_gain" => 0, "start" => 0, "end" => 0));
         return array(array("text" => "do nothing", "gain" => 0, "total_gain" => 0, "start" => 0, "end" => 0));
     }
     
@@ -109,6 +118,7 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, &$diff, $start) {
     if ($phrases < 2) {
         // we don't have enough OD for an activation
         if (OPTDEBUG) echo "opt_drums_recurse ending because not enough phrases after $start ($phrases)\n";
+        $cache[$start . "$" . $diff] = array(array("text" => "do nothing", "gain" => 0, "total_gain" => 0, "start" => 0, "end" => 0));
         return array(array("text" => "do nothing", "gain" => 0, "total_gain" => 0, "start" => 0, "end" => 0));
     }
     
@@ -154,6 +164,7 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, &$diff, $start) {
     if (count($fills) == 0) {
         // there isn't a fill (this *should* not happen but I guess it could)
         if (OPTDEBUG) echo "opt_drums_recurse ending because no fills after $start \n";
+        $cache[$start . "$" . $diff] = array(array("text" => "do nothing", "gain" => 0, "total_gain" => 0, "start" => 0, "end" => 0));
         return array(array("text" => "do nothing", "gain" => 0, "total_gain" => 0, "start" => 0, "end" => 0));
     }
     
@@ -202,6 +213,7 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, &$diff, $start) {
     
     if (OPTDEBUG) echo "opt_drums_recurse final return \"$best_path\" $best_score_gain \n";
     if ($firstRecurse) echo "Recursed $recurse_count times.\n";
+    $cache[$start . "$" . $diff] = $path;
     return $path;
     //return array(array("text" => $best_path, "gain" => $best_score_gain, "start" => 0, "end" => 0));
     // return array(array("text" => "do nothing", "gain" => 0, "total_gain" => 0, "start" => 0, "end" => 0));
@@ -215,7 +227,7 @@ function drums_determine_activation_end(&$notetrack, &$events, &$timetrack, &$st
     static $cache;
     if (!$cache) $cache = array();
 
-    if (isset($cache[$start . "$" . $bar_amount . "$" . $diff])) {
+    if (OPTCACHE && isset($cache[$start . "$" . $bar_amount . "$" . $diff])) {
         if (OPTDEBUG) echo "drums_determine_activation_end CACHED ".$cache[$start."$".$bar_amount."$".$diff]."activation at $start ends at $end \n";
         return $cache[$start . "$" . $bar_amount . "$" . $diff];
     }
@@ -247,7 +259,6 @@ function drums_determine_activation_end(&$notetrack, &$events, &$timetrack, &$st
             continue;
         }
         
-        
         if ($events[$eventIndex]["type"] == "star" && $events[$eventIndex]["difficulty"] == $diff) {
             if ($notetrack[$events[$eventIndex]["last_note"]]["time"] > $end) {
                 if (OPTDEBUG) echo "drums_determine_activation_end phrase at " . $events[$eventIndex]["start"] . " ends at "
@@ -275,7 +286,7 @@ function find_phrase_after_time(&$events, &$notetrack, &$time, &$diff) {
     static $cache;
     if (!$cache) $cache = array();
     
-    if (isset($cache[$time . "$" . $diff])) return $cache[$time . "$" . $diff];
+    if (OPTCACHE && isset($cache[$time . "$" . $diff])) return $cache[$time . "$" . $diff];
     
     foreach ($events as $i => &$e) {
         if ($e["type"] != "star") continue;
@@ -295,7 +306,7 @@ function drums_count_notes(&$notetrack, $start, $end) {
     static $cache;
     if (!$cache) $cache = array();
     
-    if (isset($cache[$start . "$" . $end])) {
+    if (OPTCACHE && isset($cache[$start . "$" . $end])) {
         if (OPTDEBUG) echo "drums_count_notes CACHED found " . $cache[$start . "$" . $end] . " notes between $start and $end \n";
         return $cache[$start . "$" . $end];
     }
@@ -319,12 +330,5 @@ function drums_count_notes(&$notetrack, $start, $end) {
     $cache[$start . "$" . $end] = $noteCount;
     return $noteCount;
 }
-
-
-
-
-
-
-
 
 ?>
