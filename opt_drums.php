@@ -2,7 +2,7 @@
 
     define("FILL_DELAY", 2.43);
 
-    define("OPTDRUMSVERSION", "0.2.0");
+    define("OPTDRUMSVERSION", "0.3.0");
 
     define("OPTDEBUG", false);
     define("OPTCACHE", true);
@@ -137,16 +137,19 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, &$diff, $start) {
         if ($events[$eventIndex]["type"] == "star" && $events[$eventIndex]["difficulty"] == $diff) {
             $phrases++;
             if (OPTDEBUG) echo "opt_drums_recurse found phrase while looking for fills at " . $events[$eventIndex]["start"] . "\n";
+            /*
             if ($phrases >= 6 && count($fills) > 4) {
-                if (OPTDEBUG) echo "opt_drums_recurse stopping looking for fills - got 7 phrases with at least 4 fills\n";
+                if (OPTDEBUG) echo "opt_drums_recurse stopping looking for fills - got 6 phrases with at least 4 fills\n";
                 break;
             }
+            */
         }
         else if ($events[$eventIndex]["type"] == "fill"
             && getClockTimeBetweenPulses($timetrack, $got_activation_time, $events[$eventIndex]["start"]) > FILL_DELAY) {
                 $fills[$fillIndex]["index"] = $eventIndex;
                 $fills[$fillIndex]["phrases"] = $phrases;
 
+                // round the end of a fill to a beat
                 $fill_end = $events[$eventIndex]["end"];
                 if (($fill_end % $timebase) != 0) {
                     $fill_end = (int)($fill_end / $timebase);
@@ -191,7 +194,6 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, &$diff, $start) {
         
         if ($score_gain > $best_score_gain) {
             $best_score_gain = $score_gain;
-            #$best_path = $fills[$i]["phrases"] . " phrases, overrun $overrun, fill #" . $i . " -- " . $path;
             $path = array();
             $path[0] = array();
 
@@ -215,8 +217,6 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, &$diff, $start) {
     if ($firstRecurse) echo "Recursed $recurse_count times.\n";
     $cache[$start . "$" . $diff] = $path;
     return $path;
-    //return array(array("text" => $best_path, "gain" => $best_score_gain, "start" => 0, "end" => 0));
-    // return array(array("text" => "do nothing", "gain" => 0, "total_gain" => 0, "start" => 0, "end" => 0));
 }
 
 
@@ -228,7 +228,7 @@ function drums_determine_activation_end(&$notetrack, &$events, &$timetrack, &$st
     if (!$cache) $cache = array();
 
     if (OPTCACHE && isset($cache[$start . "$" . $bar_amount . "$" . $diff])) {
-        if (OPTDEBUG) echo "drums_determine_activation_end CACHED ".$cache[$start."$".$bar_amount."$".$diff]."activation at $start ends at $end \n";
+        if (OPTDEBUG) echo "drums_determine_activation_end CACHED ".$cache[$start."$".$bar_amount."$".$diff]." activation at $start ends at $end \n";
         return $cache[$start . "$" . $bar_amount . "$" . $diff];
     }
     
@@ -286,7 +286,10 @@ function find_phrase_after_time(&$events, &$notetrack, &$time, &$diff) {
     static $cache;
     if (!$cache) $cache = array();
     
-    if (OPTCACHE && isset($cache[$time . "$" . $diff])) return $cache[$time . "$" . $diff];
+    if (OPTCACHE && isset($cache[$time . "$" . $diff])) {
+        if (OPTDEBUG) echo "find_phrase_after_time CACHED found " . $cache[$time . "$" . $diff] . " for $time \n";
+        return $cache[$time . "$" . $diff];
+    }
     
     foreach ($events as $i => &$e) {
         if ($e["type"] != "star") continue;

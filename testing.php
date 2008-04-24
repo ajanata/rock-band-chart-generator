@@ -16,13 +16,9 @@
     
     
 
-
-
-
-
   /* */
     $mid = new Midi;
-    $mid->importMid("mids/rb/messageinabottle.mid");
+    $mid->importMid("mids/rb/numberofthebeast.mid");
 
     #echo "Time Signature Track\n";
     #echo $mid->getTrackTxt(0);
@@ -31,8 +27,47 @@
     #echo $mid->getTrackTxt(4);
     
     for ($i = 0; $i < $mid->getTrackCount(); $i++) {
-        echo "\n Track $i \n";
-        echo $mid->getTrackTxt($i);
+        echo "\n=== Track $i \n";
+        $trk = $mid->getTrackTxt($i);
+        $track = explode("\n", $trk);
+        foreach ($track as $line) {
+            if (strpos($line, "PART") !== false) {
+                echo $line . "\n";
+                continue;
+            }
+            if ($line == "MTrk") continue;
+            $info = explode(" ", $line);
+            
+            if (!isset($info[1])) continue;
+            if ($info[1] == "Meta") {
+                echo $line . "\n";
+                continue;
+            }
+            
+            if (!isset($info[3]) || !isset($info[4])) continue;
+            $note = (int)substr($info[3], 2);
+            $xyzzy = false;
+            
+            #if ($note >= 40 && $note <= 59) $xyzzy = true;
+            #if ($note == 12 || $note == 13) $xyzzy = true;
+            
+            foreach(array("EASY", "MEDIUM", "HARD", "EXPERT") as $diff) {
+                foreach ($NOTES["RB"][$diff] as $n) {
+                    if (is_array($n)) {
+                        foreach ($n as $m) {
+                            if ($m == $note) $xyzzy = true;
+                        }
+                        continue;
+                    }
+                    else {
+                        if ($n == $note) $xyzzy = true;
+                    }
+                }
+            }
+            
+            if (!$xyzzy) echo $line . "\n";
+        }
+
     }
     
     exit;
@@ -42,7 +77,7 @@
 
 # (songname, events[guitar...vocals], timetrack, measures[guitar...drums][easy...expert], notetracks[guitar...drums][easy...expert], vocals)
 
-    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/gh2/strutter.mid", "GH2", true);
+    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/rb/numberofthebeast.mid", "RB", true);
 
 //	list ($measures, $notetrack, $songname, $events) = parseFile("../mids/rb/shouldistay.mid", "EASY", "RB", "GUITAR");
 

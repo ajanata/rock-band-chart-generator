@@ -3,7 +3,7 @@
 define("DEBUG", 0);
 define("VERBOSE", 0);
 define("OMGVERBOSE", 0);
-define("PARSELIBVERSION", "0.7.5");
+define("PARSELIBVERSION", "0.7.6");
 
 require_once 'notevalues.php';
 require_once 'classes/midi.class.php';
@@ -103,11 +103,11 @@ function parseFile($file, $game, $ignoreCache = false) {
 
             list ($notetracks, $events) = applyEventsToNoteTracks($notetracks, $events, $timetrack);
             
-            $measures = makeMeasureTable($timetrack, $vocals["TrkEnd"]);
+            $measures = makeMeasureTable($timetrack, $notetracks["guitar"]["TrkEnd"]);
             
             list ($measures, $notetracks) = putNotesInMeasures($measures, $notetracks);
             
-            $measures = calcScores($measures, $notetracks, $events, $CONFIG[$game], strtolower($game));
+            $measures = calcScores($measures, $notetracks, $events, $CONFIG[$game], strtolower($game), $songname);
             
             $events = getSectionNames($events, $mid->getTrackTxt($eventsTrack));
 
@@ -760,14 +760,12 @@ function makeMeasureTable($timetrack, $trkend) {
 
 
 function parseNoteTrack($txt, $gameNotes) {
-    
     /* Stuff that will eventually need to be addressed:
     
     5) Valid non-sustained notes must have a corresponding note-off event. If a note endpoint is a second note-on event and the duration of the note is less than 161 pulses, the game considers the note to be an invalid note and it is ignored for all purposes (as exhibited by Cheat on the Church) 
     5) [sic] If a player section note-off event occurs more than 15 (30?) pulses prior to the endpoint of a sustained note, the sustained note is ignored by the game for all purposes, even in single player mode (as exhibited in the solo of You Got Another Thing Comin')
 
     */
-
     
     $ret["easy"] = array();
     $ret["medium"] = array();
@@ -1204,7 +1202,7 @@ function findFirstThingAtTime(&$haystack, $time, $key = "time") {
 
  
 # $measures = calcScores($measures, $notetracks, $events, $CONFIG[$game]);
-function calcScores($measures, $notetracks, $events, $config, $game) {
+function calcScores($measures, $notetracks, $events, $config, $game, $songname = "") {
     
     global $timebase;
     
@@ -1291,7 +1289,6 @@ function calcScores($measures, $notetracks, $events, $config, $game) {
                                 // multiplier change
                                 $mult++;
                             }
-                            if ($inst == "bass") echo "$game $inst $streak $mult \n";
                             if ($game == "rb" && $inst == "bass" && ($streak == $config["multi"][3] || $streak == $config["multi"][4])) {
                                 $mult++;
                             }
@@ -1304,6 +1301,11 @@ function calcScores($measures, $notetracks, $events, $config, $game) {
                             // measure score
                             
                             $gems = $config["gem_score"] * count($n["note"]);
+                            if (!isset($n["duration"])) {
+                                // this really indicates an issues with the note parsing
+                                #echo "\n\nNOTICE: Found note with unset duration in $songname $diff $inst $streak $note \n\n";
+                                $n["duration"] = 0;
+                            }
                             $ticks = floor($config["ticks_per_beat"] * ($n["duration"] / $timebase) + EPS);
                             
                             if ($over > 0) {

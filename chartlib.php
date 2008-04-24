@@ -1,6 +1,6 @@
 <?php
 	
-	define("CHARTLIBVERSION", "0.7.7");
+	define("CHARTLIBVERSION", "0.7.8");
 	
 	define("DRAWPULSES", false);
 
@@ -476,7 +476,7 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 		}
 		
 		
-		if (DRAWPULSES) imagestring($im, 2, $x+$i*PXPERBEAT, $y+3+STAFFHEIGHT*(4-($instrument=="drums")), $meas["time"] + $timebase*$i, $black);
+		if (DRAWPULSES) imagestring($im, 2, $x+$i*PXPERBEAT, $y+6+STAFFHEIGHT*(4-($instrument=="drums")), $meas["time"] + $timebase*$i, $black);
 	}
 	
 	// staff lines
