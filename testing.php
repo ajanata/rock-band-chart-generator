@@ -18,7 +18,7 @@
 
   /* */
     $mid = new Midi;
-    $mid->importMid("mids/rb/numberofthebeast.mid");
+    $mid->importMid("mids/rb/blackholesun.mid");
 
     #echo "Time Signature Track\n";
     #echo $mid->getTrackTxt(0);

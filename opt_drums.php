@@ -16,7 +16,16 @@ function opt_drums(&$notetrack, &$events, &$timetrack, $diff) {
     $total_notes -= 1425;
     
     print_r($path);
+    $out = "";
+    $concise = "";
+    for ($foo = 0; $foo < count($path); $foo++) {
+        $out .= $path[$foo]["text"] . " ";
+        if ($foo != 0) $concise .= "-";
+        $concise .= substr($path[$foo]["text"], -1);
+    }
+    echo $out;
     echo "for $total_notes total score\n";
+    echo $concise . "\n";
     
     $oldevents = $events;
     

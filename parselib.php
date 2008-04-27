@@ -68,7 +68,6 @@ function parseFile($file, $game, $ignoreCache = false) {
     // common to all games
     list ($timetrack, $songname) = parseTimeTrack($mid->getTrackTxt(0));
 
-
     /*
         New logic:
             - get time track
@@ -102,6 +101,12 @@ function parseFile($file, $game, $ignoreCache = false) {
             $vocals = parseVocals($mid->getTrackTxt($vocalsTrack));
 
             list ($notetracks, $events) = applyEventsToNoteTracks($notetracks, $events, $timetrack);
+            
+            // trying a hack...
+#            $pelz = count($timetrack);
+#            $timetrack[$pelz]["time"] = $notetracks["guitar"]["TrkEnd"];
+#            $timetrack[$pelz]["bpm"] = 9999;
+
             
             $measures = makeMeasureTable($timetrack, $notetracks["guitar"]["TrkEnd"]);
             
@@ -924,6 +929,7 @@ function getClockTimeBetweenPulses(&$timetrack, $start, $end) {
     }
     
     $clockTime = 0;
+    
     
     if (count($timetrack["tempos"]) == 1) {
         // we have issues with only one tempo in the whole song...
