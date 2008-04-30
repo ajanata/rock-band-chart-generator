@@ -1135,6 +1135,24 @@ function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
                 $breScore *= 500;
                 $breScore += 750;
                 $event["brescore"] = (int) $breScore;
+                
+                foreach (array("easy", "medium", "hard", "expert") as $margush) {
+                    $breNotes = 0;
+                    
+                    $noteIndex = findFirstThingAtTime($notetracks[$inst][$margush], $event["start"]);
+                    if ($noteIndex === false) continue;
+                    
+                    // we have the first note in this event
+                    while ($notetracks[$inst][$margush][$noteIndex]["time"] < $event["end"]) {
+                        $notetracks[$inst][$margush][$noteIndex]["fill"] = true;
+                        $noteIndex++;
+                        $breNotes++;
+                    }
+                    
+                    // now we're pointing to the note after the last note in the fill
+                    $event["last_note"] = $noteIndex - 1;
+                    $event["notes"] = $breNotes;
+                }
             } // guitar/bass fill
             
             else if ($event["type"] == "fill" && $foundBRE && $inst == "drums" && $event["start"] == $breAt) {
@@ -1212,6 +1230,22 @@ function calcScores($measures, $notetracks, $events, $config, $game, $songname =
     
     global $timebase;
     
+    $bre = null;
+    foreach ($events["guitar"] as $e) {
+        if ($e["type"] == "bre") {
+            $bre = $e;
+        }
+    }
+    if ($bre === null) {
+        $bre = array();
+        $bre["type"] = "bre";
+        $bre["brescore"] = 0;
+        $bre["start"] = -1;
+        $bre["end"] = 99999999999;
+        $bre["last_note"] = 99999999;
+        $bre["notes"] = 0;
+    }
+    
     foreach (array("easy", "medium", "hard", "expert") as $diff) {
         foreach ($measures as $inst => &$insttrack) {
             $mult = 1;
@@ -1282,9 +1316,15 @@ function calcScores($measures, $notetracks, $events, $config, $game, $songname =
                             $ticks *= ($config["chord_sustain_bonus"] ? count($n["note"]) : 1);
                             $fillNoteScore += $gems + $ticks;
                         }
+                        if ($n["time"] > $bre["end"]) {
+                            // this note is after the BRE, same as the $hadAFill case
+                            $hadAFill = true;
+                        }
                         else if ($hadAFill) {
                             // notes after the BRE acount for streak but not for points
-                            $streak++;
+                            // actually they count for % but not for streak
+                            // so we don't do anything here.
+                            //$streak++;
                         }
                         else {
                             // normal note so score it

@@ -16,7 +16,7 @@
     
     
 
-  /* */
+  /* * /
     $mid = new Midi;
     $mid->importMid("mids/rb/blackholesun.mid");
 
@@ -77,13 +77,14 @@
 
 # (songname, events[guitar...vocals], timetrack, measures[guitar...drums][easy...expert], notetracks[guitar...drums][easy...expert], vocals)
 
-    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/rb/numberofthebeast.mid", "RB", true);
+    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/rb/nightmare.mid", "RB", true);
 
 //	list ($measures, $notetrack, $songname, $events) = parseFile("../mids/rb/shouldistay.mid", "EASY", "RB", "GUITAR");
 
 //    print_r($measures);
 
 //print_r($notetrack);
+
 
 
 echo "=== Song Length\n\n";
