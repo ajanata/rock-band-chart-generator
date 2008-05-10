@@ -35,7 +35,7 @@
     
     
     // open the table
-    fwrite($idx, "short_name,guitar_easy,guitar_medium,guitar_hard,guitar_expert,bass_easy,bass_medium,bass_hard,bass_expert\n");
+    fwrite($idx, "short_name,guitar_easy,guitar_medium,guitar_hard,guitar_expert,bass_easy,bass_medium,bass_hard,bass_expert\n"); //,vocals\n");
 
     echo "Getting FC note streaks for " . count($files) . " files...\n";
     
@@ -67,6 +67,20 @@
             fwrite($idx, "," . $streak);
         } // bass diffs
 
+/*
+        // vocals
+        echo " [vocals]";
+        $last = -1;
+        $streak = 0;
+        foreach ($events["vocals"] as $e) {
+            if (!($e["type"] == "p1" || $e["type"] == "p2")) continue;
+            if (($e["type"] == "p1" || $e["type"] == "p2") && $e["start"] > $last) {
+                $last = $e["start"];
+                $streak++;
+            }
+        } // vocal events
+        fwrite($idx, "," . $streak);
+*/
         fwrite($idx, "\n");
         
         echo "\n";

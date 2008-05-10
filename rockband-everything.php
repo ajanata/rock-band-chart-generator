@@ -121,7 +121,7 @@ EOT
             else {
                 fwrite($bar, <<<EOT
 <table border="1">
-<tr><th>Song</th><th>Absolute Base Score (no multiplier or bonuses)</th><th>Base Score (multiplier, no bonuses)</th><th>FC Score (multiplier, bonuses, no overdrive)</th><!-- <th>BRE Note Score</th> --></tr>
+<tr><th>Song</th><th>Absolute Base Score (no multiplier or bonuses)</th><th>Base Score (multiplier, no bonuses)</th><th>FC Score (multiplier, bonuses, no overdrive)</th><!-- --> <th>BRE Note Score</th> <!-- --></tr>
 EOT
 );
             }
@@ -193,8 +193,8 @@ EOT
         	   $bonusscore = $basescore;
         	}
         	fwrite($idx["guitar"][$diff], "<td>" . $bonusscore . "</td>");
-        	#fwrite($idx["guitar"][$diff], "<td>" . (isset($measures["guitar"][count($measures["guitar"])-1]["fscore"][$diff])
-        	#       ? $measures["guitar"][count($measures["guitar"])-1]["fscore"][$diff] : " ") . "</td>");
+        	/**/fwrite($idx["guitar"][$diff], "<td>" . (isset($measures["guitar"][count($measures["guitar"])-1]["fscore"][$diff])
+        	/**/       ? $measures["guitar"][count($measures["guitar"])-1]["fscore"][$diff] : " ") . "</td>");
 	        fwrite($idx["guitar"][$diff], "</tr>\n");
             
         } // guitar diffs
@@ -227,8 +227,8 @@ EOT
         	   $bonusscore = $basescore;
         	}
         	fwrite($idx["bass"][$diff], "<td>" . $bonusscore . "</td>");
-        	#fwrite($idx["bass"][$diff], "<td>" . (isset($measures["bass"][count($measures["bass"])-1]["fscore"][$diff])
-        	#       ? $measures["bass"][count($measures["bass"])-1]["fscore"][$diff] : " ") . "</td>");
+        	/**/fwrite($idx["bass"][$diff], "<td>" . (isset($measures["bass"][count($measures["bass"])-1]["fscore"][$diff])
+        	/**/       ? $measures["bass"][count($measures["bass"])-1]["fscore"][$diff] : " ") . "</td>");
 	        fwrite($idx["bass"][$diff], "</tr>\n");
             
         } // bass diffs
@@ -274,7 +274,7 @@ EOT
         	   $bonusscore = $basescore;
         	}
         	fwrite($idx["guitarbass"][$diff], "<td>" . $bonusscore . "</td>");
-        	#fwrite($idx["guitarbass"][$diff], "<td>" . $brenotescore . "</td>");
+        	/**/fwrite($idx["guitarbass"][$diff], "<td>" . $brenotescore . "</td>");
 	        fwrite($idx["guitarbass"][$diff], "</tr>\n");
             
         } // guitarbass diffs
@@ -323,9 +323,9 @@ EOT
         fwrite($fhand, "<html>\n<head>\n<title>Blank Charts for Rock Band $title</title>\n</head>\n");
         fwrite($fhand, <<<EOT
 <body>
-<p>These charts are blank. They have not been verified against the game and may be faulty. If you see something horribly wrong please <a href="http://rockband.scorehero.com/forum/privmsg.php?mode=post&u=52545">send me a message</a> on ScoreHero. Relevant discussion threads for <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=4773">drums</a> and <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=5062">guitar/bass</a>.</p>
+<p>These charts are blank. They have not been verified against the game and may be faulty. If you see something horribly wrong please <a href="http://rockband.scorehero.com/forum/privmsg.php?mode=post&u=52545">send me a message</a> on ScoreHero. Relevant discussion threads for <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=4773">drums</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=5062">guitar/bass/basstar</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7625">vocals</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7626">vocaltar</a>, and <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7627">full band</a>.</p>
 <p>They are in alphabetical order by .mid file name (this normally doesn't mean anything, but "the" is often left out). Probably easier to find a song this way anyway.</p>
-<p>Solo note counts and estimated upperbound Big Rock Ending bonuses listed above where the solo or ending ends. To the bottom right of each measure are numbers relating to that measure. Black is the measure score (no multiplier taken into account). Red is the cumulative score to that point (with multipliers) without solo bonuses. Green (on guitar part only) is cumulative score to that point counting solo bonuses. Blue is the number of whammy beats (no early whammy taken into account) in that measure.</p>
+<p>Solo note counts and estimated upperbound Big Rock Ending bonuses listed above where the solo or ending ends. To the bottom right of each measure are numbers relating to that measure. Black is the measure score (no multiplier taken into account). Red is the cumulative score to that point (with multipliers) without solo bonuses. Green (on guitar parts only) is cumulative score to that point counting solo bonuses. Blue is the number of whammy beats (no early whammy taken into account) in that measure.</p>
 <p>Vocal activation zones are not stored in the .mid as they are with drums. This leads me to believe that any gap larger than a certain amount of time (be it clock time or number of beats, I'm not sure) is an activation zone. At some point in the not-too-distant future I intend to do more research on this.</li>
 <p>Overdrive phrase backgrounds extend the exact range specified in the .mid file. Sometimes this is significantly shorter than the length of a sustained note (see third note in <a href="foreplaylongtime_guitar_expert_blank.png">Foreplay/Long Time</a> for example).</p>
 <p>Significant changes since last time:

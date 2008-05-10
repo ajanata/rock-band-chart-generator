@@ -77,7 +77,7 @@
 
 # (songname, events[guitar...vocals], timetrack, measures[guitar...drums][easy...expert], notetracks[guitar...drums][easy...expert], vocals)
 
-    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/rb/nightmare.mid", "RB", true);
+    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/rb/waveofmutilation.mid", "RB", true);
 
 //	list ($measures, $notetrack, $songname, $events) = parseFile("../mids/rb/shouldistay.mid", "EASY", "RB", "GUITAR");
 

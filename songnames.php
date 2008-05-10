@@ -54,7 +54,6 @@
     $NAMES["flirtinwithdisaster"] = "Flirtin' With Disaster";
     $NAMES["foreplaylongtime"] = "Foreplay/Long Time";
     $NAMES["foreplaylongtime_short"] = "Foreplay/Long Time (Short)";
-    # NOTE: this is different from the .mid name
     $NAMES["gimmeshelter"] = "Gimme Shelter";
     $NAMES["gowiththeflow"] = "Go With the Flow";
     $NAMES["greengrass"] = "Green Grass and High Tides";
@@ -191,6 +190,25 @@
     $NAMES["whydoyouloveme"] = "Why Do You Love Me";
     $NAMES["wonderwall"] = "Wonderwall";
     $NAMES["workingman"] = "Working Man";
+    
+    # Judas Priest pack
+    $NAMES["devilschild"] = "Devil's Child";
+	$NAMES["bloodstone"] = "Bloodstone";
+	$NAMES["fever"] = "Fever";
+	$NAMES["painandpleasure"] = "Pain and Pleasure";
+	$NAMES["hellionelectriceye"] = "The Hellion/Electric Eye";
+	$NAMES["yougotanotherthingcoming"] = "You've Got Another Thing Comin'";
+	$NAMES["ridingonthewind"] = "Riding on the Wind";
+	$NAMES["screamingfor"] = "Screaming for Vengeance";
+	$NAMES["takethesechains"] = "(Take These) Chains";
+	
+	# 4/29 and 5/6
+    $NAMES["datewiththenight"] = "Date with the Night";
+    $NAMES["ithurts"] = "It Hurts";
+    $NAMES["redtandy"] = "Red Tandy";
+    $NAMES["thisaintascene"] = "This Ain't a Scene, It's an Arms Race";
+    $NAMES["timesickson"] = "Time Sick Son of a Grizzly Bear";
+    $NAMES["zero"] = "Zero";
 
     
 
