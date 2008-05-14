@@ -9,7 +9,7 @@
  
 
 function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals, $diff, $game,
-    $do_guitar, $do_bass, $do_drums, $do_vocals, $songname) {
+    $do_guitar, $do_bass, $do_drums, $do_vocals, $songname, $beat = null) {
     
     global $NAMES;
     $game = strtoupper($game);
@@ -151,6 +151,8 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
 	   
 	    $oldy = $y;
 	    
+	    drawBeat($im, $x, $y, $meas, $beat);
+	    
         if ($do_vocals && $game == "RB") {
 	        // draw vocals measure
             drawMeasureBackground($im, $x, $y, $meas, $events_all["vocals"], $sections, "vocals", "expert");
@@ -205,6 +207,32 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
 } // makeChart
 
  
+function drawBeat($im, $x, $y, $meas, $beat) {
+    global $noteColors, $timebase;
+    
+    $index = 0;
+    while (isset($beat[$index]) && $beat[$index]["time"] < $meas["time"]) {
+        $index++;        
+    }
+
+    imagesetthickness($im, 3);
+    
+    while (isset($beat[$index]) && $beat[$index]["time"] < $meas["time"] + $timebase*$meas["numerator"]) {
+        $offset = $beat[$index]["time"] - $meas["time"];
+        $offset /= $timebase;
+        $offset *= PXPERBEAT;
+        $offset += ($beat[$index]["number"] == 13 ? 3 : 0);
+        
+        $endoffset = $beat[$index]["duration"];
+        $endoffset /= $timebase;
+        $endoffset *= PXPERBEAT;
+        $endoffset += $offset;
+        
+        imageline($im, $x + $offset, $y - 10, $x + $endoffset, $y - 35, $noteColors[$beat[$index]["number"] - 12]);
+        $index++;
+    }
+
+}
 
 
 function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrument, $difficulty) {

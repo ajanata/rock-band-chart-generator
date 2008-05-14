@@ -20,7 +20,10 @@ function opt_drums(&$notetrack, &$events, &$timetrack, $diff) {
     $concise = "";
     for ($foo = 0; $foo < count($path); $foo++) {
         $out .= $path[$foo]["text"] . " ";
-        if ($foo != 0) $concise .= "-";
+        if ($foo != 0) {
+            $concise .= "-";
+            $out .= " - ";
+        }        
         $concise .= substr($path[$foo]["text"], -1);
     }
     echo $out;
@@ -206,7 +209,7 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, &$diff, $start) {
             $path = array();
             $path[0] = array();
 
-            $path[0]["text"] = $fills[$i]["phrases"] . " phrases, overrun $overrun, fill #" . $i;
+            $path[0]["text"] = $fills[$i]["phrases"] . " phrases, overrun $overrun, skip " . $i . " fills";
             $path[0]["start"] = $activation_start;
             $path[0]["end"] = $activation_end;
             $path[0]["total_gain"] = $best_score_gain;

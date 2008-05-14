@@ -37,7 +37,7 @@ function parseFile($file, $game, $ignoreCache = false) {
 
     $game = strtoupper($game);
     
-    $eventsTrack = $guitarTrack = $guitarCoopTrack = $bassTrack = $drumsTrack = $vocalsTrack = 0;
+    $eventsTrack = $guitarTrack = $guitarCoopTrack = $bassTrack = $drumsTrack = $vocalsTrack = $beatTrack = 0;
     for ($i = 1; $i < $mid->getTrackCount(); $i++) {
         $temp = $mid->getMsg($i, 0);
         //echo substr($temp, 16); 
@@ -62,6 +62,9 @@ function parseFile($file, $game, $ignoreCache = false) {
         if (substr($temp, 16) == "EVENTS\"") {
             $eventsTrack = $i;
         }
+        if (substr($temp, 16) == "BEAT\"") {
+            $beatTrack = $i;
+        }
     }
     
 
@@ -85,6 +88,7 @@ function parseFile($file, $game, $ignoreCache = false) {
     $events = array();
     $measures = array();
     $notetracks = array();
+    $beat = array();
     $vocals = ($game == "RB" ? array() : null);
 
     switch ($game) {
@@ -106,6 +110,8 @@ function parseFile($file, $game, $ignoreCache = false) {
 #            $pelz = count($timetrack);
 #            $timetrack[$pelz]["time"] = $notetracks["guitar"]["TrkEnd"];
 #            $timetrack[$pelz]["bpm"] = 9999;
+
+            $beat = parseBeat($mid->getTrackTxt($beatTrack));
 
             
             $measures = makeMeasureTable($timetrack, $notetracks["guitar"]["TrkEnd"]);
@@ -147,6 +153,7 @@ function parseFile($file, $game, $ignoreCache = false) {
 
 
 // returns (songname, events[guitar...vocals], timetrack, measures[guitar...drums][easy...expert], notetracks[guitar...drums][easy...expert], vocals)
+// stick beat at the end of that
 
     if (!$ignoreCache) {
         $cache = fopen($file . ".parsecache", 'w');
@@ -155,7 +162,38 @@ function parseFile($file, $game, $ignoreCache = false) {
         }
     }
 
-    return array($songname, $events, $timetrack, $measures, $notetracks, $vocals);
+    return array($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat);
+}
+
+
+function parseBeat($txt) {
+    $ret = array();
+    $trk = explode("\n", $txt);
+    $index = 0;
+    
+    foreach ($trk as $line) {
+        $info = explode(" ", $line);
+        if (!isset($info[1])) continue;
+        if ($info[1] == "Meta") continue;
+        
+        if (!isset($info[3]) || !isset($info[4])) continue;
+        $note = (int)substr($info[3], 2);
+        $vel = (int)substr($info[4], 2);
+
+
+        if ($info[1] == "On" && $vel > 0) {
+            // beat on
+            $ret[$index] = array();
+            $ret[$index]["time"] = (int) $info[0];
+            $ret[$index]["number"] = $note;
+        }
+        else if (($info[1] == "On" && $vel == 0) || $info[1] == "Off") {
+            $ret[$index]["duration"] = $info[0] - $ret[$index]["time"];
+            $index++;
+        }
+    }
+    
+    return $ret;    
 }
     
     

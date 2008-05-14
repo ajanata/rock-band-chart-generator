@@ -16,7 +16,7 @@
     
     
 
-  /* * /
+  /* */
     $mid = new Midi;
     $mid->importMid("mids/rb/blackholesun.mid");
 
@@ -51,7 +51,7 @@
             #if ($note >= 40 && $note <= 59) $xyzzy = true;
             #if ($note == 12 || $note == 13) $xyzzy = true;
             
-            foreach(array("EASY", "MEDIUM", "HARD", "EXPERT") as $diff) {
+            /*foreach(array("EASY", "MEDIUM", "HARD", "EXPERT") as $diff) {
                 foreach ($NOTES["RB"][$diff] as $n) {
                     if (is_array($n)) {
                         foreach ($n as $m) {
@@ -63,7 +63,7 @@
                         if ($n == $note) $xyzzy = true;
                     }
                 }
-            }
+            }*/
             
             if (!$xyzzy) echo $line . "\n";
         }
