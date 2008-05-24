@@ -22,10 +22,13 @@
     
     // GH3
     $NAMES["3sand7s"] = "3's & 7's";
+    $NAMES["hierkommtalex"] = "Hier Kommt Alex";
+    $NAMES["koolthing"] = "Kool Thing";
     $NAMES["numberofthebeast"] = "The Number of the Beast";
     $NAMES["paranoid"] = "Paranoid";
     $NAMES["sabotage"] = "Sabotage";
     $NAMES["whenyouwereyoung"] = "When You Were Young";
+    
     
     
     
@@ -209,6 +212,23 @@
     $NAMES["thisaintascene"] = "This Ain't a Scene, It's an Arms Race";
     $NAMES["timesickson"] = "Time Sick Son of a Grizzly Bear";
     $NAMES["zero"] = "Zero";
+    
+    # 5/13 scene pack and 5/20 european
+    $NAMES["beetlebum"] = "Beetlebum";
+    $NAMES["countdowntoinsanity"] = "Countdown to Insanity";
+    $NAMES["hangingonthetelephone"] = "Hanging on the Telephone";
+    # see gh3
+    #$NAMES["hierkommtalex"] = "";
+    $NAMES["hysteria"] = "Hysteria";
+    # see gh3
+    #$NAMES["koolthing"] = "";
+    $NAMES["manuchao"] = "Manu Chao";
+    $NAMES["monsoon"] = "Monsoon";
+    $NAMES["newwave"] = "New Wave";
+    $NAMES["perfektewelle"] = "Perfekt Welle";
+    $NAMES["rockandrollstar"] = "Rock 'n' Roll Star";
+    $NAMES["traininvain"] = "Train in Vain (Stand By Me)";
+
 
     
 
