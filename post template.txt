@@ -1,24 +1,38 @@
-Last update: 19 April 2008 19:55 EDT: New DLC, BRE estimates work?
+Last update: 24 May 2008 13:30 EDT: New DLC, BEAT track for OD usage, band measure scores.
 
 
-[size=16][url=http://ajanata.com/charts/rb/drums/]Drums[/url][/size]
+[size=16][url=http://ajanata.com/charts/rb/]Chart listing[/url][/size]
 
 Related: [url=http://rockband.scorehero.com/forum/viewtopic.php?t=5062]Guitar/Bass/Guitar+Bass charts[/url] - [url=http://rockband.scorehero.com/forum/viewtopic.php?t=4773]Drum charts[/url] - [url=http://rockband.scorehero.com/forum/viewtopic.php?p=93797]Vocal charts[/url] - [url=http://rockband.scorehero.com/forum/viewtopic.php?p=93800]Vocaltar charts[/url] - [url=http://rockband.scorehero.com/forum/viewtopic.php?p=93803]Full Band charts[/url]
 
 These charts contain per-measure and cumulative scores, OD whammy beats, solo note counts, and BRE estimated upperbound scores. I expect there are still a few bugs here and there, but they are much better than nothing and the last version of my charts. :)
 
-You may also download a .zip file with all of the charts: [url=http://ajanata.com/charts/rb/rbdrumcharts.zip]drums (22 MB)[/url].
+For the vocals, these charts contain bare-bones vocals charts. Overdrive activation zones are not marked in the .mid as they are for drums, so I suspect any gap between phrases longer than a certain amount of time (either clock time or number of beats, I'm not sure yet) is a valid activation point. I don't have time to do the needed research for this right now, but I hope to get to it Real Soon Now™. The pitch lines are completely wonking in places, but that isn't really the point of having vocal charts. The talky part indicator characters (#, ^, and *) are left on the lyrics in case anyone wishes to do any experimenting to try to figure out what the different ones mean, if anything. A * by itself is a percussion hit (I would expect this to be rather obvious).
+
+[b]Note:[/b] Vocal "slides" (with the slanty pitch tubes) are not drawn at all. Any time a lyric is a +, pretend that the +'s pitch tube and the previous pitch tube are connected with a slanted pitch tube. I haven't tackled how to handle this between measures yet.
 
 
-A big thank you to rkcr, Revelus, and Sully for finding bugs. Thanks also go out to Krim and PeridotWeapon in [url=http://rockband.scorehero.com/forum/viewtopic.php?t=3238]this thread[/url] for information about solo bonuses and Big Rock Ending scoring. Big shoutout to debr for [url=http://rockband.scorehero.com/forum/viewtopic.php?t=1711]documenting Rock Band's .mid format[/url] and helping with some rounding issues.
+You may also download a .zip file with all of the charts: 
+[url=http://ajanata.com/charts/rb/rbdrumcharts.zip]drums (29 MB)[/url]
+[url=http://ajanata.com/charts/rb/rbdguitarcharts.zip]guitar (35 MB)[/url]
+[url=http://ajanata.com/charts/rb/rbbasscharts.zip]bass (30 MB)[/url]
+[url=http://ajanata.com/charts/rb/rbguitarbasscharts.zip]guitar+bass (22 MB)[/url]
+[url=http://ajanata.com/charts/rb/rbvoxcharts.zip]vocals (6.5 MB)[/url]
+[url=http://ajanata.com/charts/rb/rbvoxtarcharts.zip]vocaltar (58 MB)[/url]
+[url=http://ajanata.com/charts/rb/rbfullbandcharts.zip]full band (80 MB)[/url]
+[url=http://ajanata.com/charts/rb/csv-scores.zip]full band per-measure scores spreadsheets (2.3 MB)[/url]
+
+
+A big thank you to rkcr, Revelus, and Sully for finding bugs. Thank pata70 for improvements to the vocal pitch lines. Thanks also go out to Krim and PeridotWeapon in [url=http://rockband.scorehero.com/forum/viewtopic.php?t=3238]this thread[/url] for information about solo bonuses and Big Rock Ending scoring. Big shoutout to debr for [url=http://rockband.scorehero.com/forum/viewtopic.php?t=1711]documenting Rock Band's .mid format[/url] and helping with some rounding issues.
 
 A huge thank you to [b]Deimos[/b] for assisting with DLC.
 
 
 Notes:[list]
-[*]The "FC Score" column for bass is blank because the BRE score doesn't get store internally anywhere for bass. I'll fix this at some point, but the BRE for bass is indicated on the actual chart (and is the same as guitar).
 [*]Overdrive backgrounds extend the exact range specified in the .mid file. Sometimes this is significantly shorter than the length of a sustained note (see third note in Foreplay/Long Time for example).
 [*]If a solo or BRE ends at the far right of a line, the note count/bonus score can get cut off.
+[*][b]The .mid BEAT track is now displayed on every chart.[/b] The game uses this to determine how long Overdrive lasts. A full bar of Overdrive always lasts for exactly 32 BEAT track beats. Most of the time this is 16, 32, or 64 noteboard beats, depending on tempo. Sometimes, it isn't (see the first break in Foreplay/Long Time for an example). I don't see the two events in the BEAT track doing different things in the gameplay (perhaps different stage lighting or something but nothing that matters for pathing), so I've drawn them all in the same color. If it isn't obvious, you want to look at the small red lines above every set of lines (this also makes a nice seperator for multi-instrument parts). [u]Note that this [b]DOES NOT[/b] affect whammy rate, only usage rate.[/u] Whammy is always based on noteboard beats.
+[*][b]Band per-measure scores[/b], more or less. This is currently done "stupidly", and does not include vocals. It is "stupid" because it takes each instrument's per-measure score and multiplies it by the instrument's maximum multiplier, regardless of whether such a multiplier is possible yet at that point. Vocals is on the to-do list and maybe a smarter way of doing it.
 [/list]
 
 If you find a problem with these charts not outlined above, please send me a private message and I'll look into it.
