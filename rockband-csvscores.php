@@ -95,15 +95,10 @@
         fwrite($fhand, "<html>\n<head>\n<title>Blank Charts for Rock Band $title</title>\n</head>\n");
         fwrite($fhand, <<<EOT
 <body>
-<p>These charts are blank. They have not been verified against the game and may be faulty. If you see something horribly wrong please <a href="http://rockband.scorehero.com/forum/privmsg.php?mode=post&u=52545">send me a message</a> on ScoreHero. Relevant discussion threads for <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=4773">drums</a> and <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=5062">guitar/bass</a>.</p>
+<p>These files are meant to assist full-band pathing using the spreadsheet method. They contain the per-measure scores for <strike>vocals</strike> (not yet, working on it!), guitar, bass, and drums. Unfortunately, I did not have my code set up to easily be able to determine the multiplier score per measure without redoing the score calculation code. I'll try to address this at some point, but for now you'll have to go through and re-work the first few measures per instrument to get the right multiplier score.</p>
+<p>These are .csv (comma-seperated value) files, which every spreadsheet program should be able to open. You will have to re-save it in your program's native format to add colors to cells. Depending on your system configuration, clicking the links may open the file directly in your spreadsheet program; you probably have to right-click and Save As... to save to your hard drive.</p>
+<p>They have not been verified against the game and may be faulty. If you see something horribly wrong please <a href="http://rockband.scorehero.com/forum/privmsg.php?mode=post&u=52545">send me a message</a> on ScoreHero.</p>
 <p>They are in alphabetical order by .mid file name (this normally doesn't mean anything, but "the" is often left out). Probably easier to find a song this way anyway.</p>
-<p>Solo note counts and estimated upperbound Big Rock Ending bonuses listed above where the solo or ending ends. To the bottom right of each measure are numbers relating to that measure. Black is the measure score (no multiplier taken into account). Red is the cumulative score to that point (with multipliers) without solo bonuses. Green (on guitar part only) is cumulative score to that point counting solo bonuses. Blue is the number of whammy beats (no early whammy taken into account) in that measure.</p>
-<p>Vocal activation zones are not stored in the .mid as they are with drums. This leads me to believe that any gap larger than a certain amount of time (be it clock time or number of beats, I'm not sure) is an activation zone. At some point in the not-too-distant future I intend to do more research on this.</li>
-<p>Overdrive phrase backgrounds extend the exact range specified in the .mid file. Sometimes this is significantly shorter than the length of a sustained note (see third note in <a href="foreplaylongtime_guitar_expert_blank.png">Foreplay/Long Time</a> for example).</p>
-<p>Significant changes since last time:
-<ul>
-<li>Big Rock Ending estimates might be right now? Changed how they're calculated, haven't check to see if they make sense.</li>
-</ul></p>
 EOT
 );
     }
