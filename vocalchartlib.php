@@ -79,15 +79,20 @@ function drawVocals($im, $x, $y, $meas, $vox, $events) {
                     $nyOffset = 6*STAFFHEIGHT - $nyOffset;
                     */
 
-                    $nyOffset = $lyric["pitch"] - 55;
+                    #$nyOffset = $lyric["pitch"] - 55;
                     //$nyOffset %= 24;
                     
                     #imagestring($im, 3, $nX, $y - 20, $nyOffset, $black);
                     
-                    $nyOffset *= 22/5;
+                    #$nyOffset *= 22/5;
                     
                     
                     #$nyOffset *= STAFFHEIGHT / 2;
+                    #$nyOffset = 6*STAFFHEIGHT - $nyOffset;
+                    
+                    // pata70 gets credit for this
+                    $nyOffset = $lyric["pitch"] - 48; 
+                    $nyOffset *= 6*STAFFHEIGHT / 24; 
                     $nyOffset = 6*STAFFHEIGHT - $nyOffset;
                     
                 }

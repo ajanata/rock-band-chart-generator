@@ -1,7 +1,7 @@
 <?php
 
 	define("MIDIPATH", "mids/");
-	define("OUTDIR", "charts/");
+	define("OUTDIR", "charts/rb/csv-scores/");
 
 	require_once "parselib.php";
 	require_once "notevalues.php";
@@ -27,47 +27,57 @@
     
     umask(0);
     
-    if (!file_exists(OUTDIR . "rb/fullband")) {
-        if (!mkdir(OUTDIR . "rb/fullband", 0777, true)) die("Unable to create output directory " . OUTDIR . "rb/fullband\n");
+    if (!file_exists(OUTDIR)) {
+        if (!mkdir(OUTDIR, 0777, true)) die("Unable to create output directory " . OUTDIR . "\n");
     }
     
     
     $idx = null;
-    if (false === ($idx = fopen(OUTDIR . "rb/fullband/index.html", "w"))) {
-        die("Unable to open file " . OUTDIR . "rb/fullband/index.html for writing.\n");
-    }        
+    if (false === ($idx = fopen(OUTDIR . "index.html", "w"))) {
+        die("Unable to open file " . OUTDIR . "index.html for writing.\n");
+    }
     
     
-    index_header($idx, "Full Band");
+    index_header($idx, "Full Band .csv scores");
     
     // open the table
     fwrite($idx, "<table border=\"1\">");
 
-    echo "Preparing charts for " . count($files) . " files...\n";
+    echo "Making .csv files for " . count($files) . " files...\n";
     
     foreach ($files as $i => $file) {
         $shortname = substr($file, 0, strlen($file) - 4);
         echo "File " . ($i + 1) . " of " . count($files) . " ($shortname) [parsing]";
         
-    	list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile(MIDIPATH . "rb/" . $file, "rb");
+    	list ($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat) = parseFile(MIDIPATH . "rb/" . $file, "rb");
     	if ($CACHED) echo " [cached]";
     	    	
     	$realname = (isset($NAMES[$songname]) ? $NAMES[$songname] : $songname);
     	echo " ($realname)";
 
 
-        // full band
-        echo " [fullband]";
+        // csv scores
+        echo " [csvscores]";
         fwrite($idx, "<tr><td>" . $realname . "</td>");
         foreach ($DIFFICULTIES as $diff) {
             echo " ($diff)";
-            $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ true,
-                   /* bass*/ true, /* drums */ true, /* vocals */ true, $realname);
-            imagepng($im, OUTDIR . "rb/fullband/" . $shortname . "_fullband_" . $diff . "_blank.png");
-            imagedestroy($im);
+
+            $csv = null;
+            if (false === ($csv = fopen(OUTDIR . $shortname . "_fullband_" . $diff . "_scores.csv", "w"))) {
+                die("Unable to open file " . OUTDIR . $shortname . "_fullband_" . $diff . "_scores.csv for writing.\n");
+            }
             
-            fwrite($idx, "<td><a href=\"" . $shortname . "_fullband_" . $diff . "_blank.png\">" . $diff. "</a></td>");
-        } // fullband diffs
+            fwrite($csv, "meas,vocals,guitar,bass,drums,base,,vocals mult,guitar mult,bass mult,drums mult,mult,16 BEAT,24 BEAT,32 BEAT\n");
+            for ($i = 0; $i < count($measures["guitar"]); $i++) {
+                fprintf($csv, "%d,0,%d,%d,%d,=SUM(B%d:E%d),,=4*B%d,=4*C%d,=6*D%d,=4*E%d,=SUM(H%d:K%d),,,\n", $i+1, 
+                        $measures["guitar"][$i]["mscore"][$diff], $measures["bass"][$i]["mscore"][$diff],
+                        $measures["drums"][$i]["mscore"][$diff], $i+2, $i+2, $i+2, $i+2, $i+2, $i+2, $i+2, $i+2);
+            }
+            
+            fclose($csv);
+            
+            fwrite($idx, "<td><a href=\"" . $shortname . "_fullband_" . $diff . "_scores.csv\">" . $diff. "</a></td>");
+        } // csv scores diffs
         fwrite($idx, "</tr>\n");
         
         echo "\n";
@@ -76,6 +86,7 @@
 
     // close the files
     fwrite($idx, "</table>\n</body>\n</html>");
+    fclose($idx);
 
     exit;
 

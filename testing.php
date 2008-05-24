@@ -16,7 +16,7 @@
     
     
 
-  /* */
+  /* * /
     $mid = new Midi;
     $mid->importMid("mids/rb/blackholesun.mid");
 
@@ -63,7 +63,7 @@
                         if ($n == $note) $xyzzy = true;
                     }
                 }
-            }*/
+            } * /
             
             if (!$xyzzy) echo $line . "\n";
         }

@@ -4,7 +4,7 @@
 	define("PXPERBEAT", 60);
 	define("STAFFHEIGHT", 12);
 	define("DRAWPLAYERLINES", 0);
-	define("CHARTGENVERSION", "0.7.0");
+	define("CHARTGENVERSION", "0.7.5");
 	define("MIDIPATH", "mids/");
 	define("OUTDIR", "charts/");
 
@@ -33,7 +33,7 @@
     
     umask(0);
     
-    foreach (array("guitar", "bass", "drums", "vocals", "guitarbass", "vocaltar") as $xyzzy) {
+    foreach (array("guitar", "bass", "drums", "vocals", /* "guitarbass", */ "vocaltar") as $xyzzy) {
         if (file_exists(OUTDIR . "rb/" . $xyzzy)) continue;
         if (!mkdir(OUTDIR . "rb/" . $xyzzy, 0777, true)) die("Unable to create output directory " . OUTDIR . "rb/" . $xyzzy . "\n");
     }
@@ -46,7 +46,7 @@
         die("Unable to open file " . OUTDIR . "rb/vocals/index.html for writing.\n");
     }
 
-    $idx["voxtar"] = array();
+    $idx["voxtar"] = null;
     if (false === ($idx["voxtar"] = fopen(OUTDIR . "rb/vocaltar/index.html", "w"))) {
         die("Unable to open file " . OUTDIR . "rb/vocaltar/index.html for writing.\n");
     }
@@ -80,6 +80,7 @@
         }
     }
     
+    /*
     $idx["guitarbass"] = array();
     $idx["guitarbass"]["idx"] = null;
     if (false === ($idx["guitarbass"]["idx"] = fopen(OUTDIR . "rb/guitarbass/index.html", "w"))) {
@@ -91,6 +92,7 @@
             die("Unable to open file " . OUTDIR . "rb/guitarbass/index_" . $diff . "_.html for writing.\n");
         }
     }
+    */
     
     
     // put the header into every file
@@ -99,7 +101,7 @@
     index_header($idx["drums"], "Drums");
     foreach ($idx["guitar"] as $foo => $bar) { index_header($bar, "$foo guitar"); }
     foreach ($idx["bass"] as $foo => $bar) { index_header($bar, "$foo bass"); }
-    foreach ($idx["guitarbass"] as $foo => $bar) { index_header($bar, "$foo guitar+bass"); }
+    //foreach ($idx["guitarbass"] as $foo => $bar) { index_header($bar, "$foo guitar+bass"); }
     
 
     // open the tables
@@ -109,7 +111,7 @@
     fwrite($idx["voxtar"], "<table border=\"1\">");
     
     // everything else gets the complex table
-    foreach (array($idx["guitar"], $idx["bass"], $idx["guitarbass"]) as $foo) {
+    foreach (array($idx["guitar"], $idx["bass"]/*, $idx["guitarbass"]*/) as $foo) {
         foreach ($foo as $baz => $bar) {
             if ($baz == "idx") {
                 // links to difficulties on the index page
@@ -134,7 +136,7 @@ EOT
         $shortname = substr($file, 0, strlen($file) - 4);
         echo "File " . ($i + 1) . " of " . count($files) . " ($shortname) [parsing]";
         
-    	list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile(MIDIPATH . "rb/" . $file, "rb");
+    	list ($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat) = parseFile(MIDIPATH . "rb/" . $file, "rb");
     	if ($CACHED) echo " [cached]";
     	    	
     	$realname = (isset($NAMES[$songname]) ? $NAMES[$songname] : $songname);
@@ -143,7 +145,7 @@ EOT
     	// vocals first
     	echo " [vocals]";
     	$im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ false,
-           /* bass*/ false, /* drums */ false, /* vocals */ true, $realname);
+           /* bass*/ false, /* drums */ false, /* vocals */ true, $realname, $beat);
         imagepng($im, OUTDIR . "rb/vocals/" . $shortname . "_vocals_blank.png");
         imagedestroy($im);
         
@@ -157,7 +159,7 @@ EOT
         foreach ($DIFFICULTIES as $diff) {
             echo " ($diff)";
             $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ false,
-                   /* bass*/ false, /* drums */ true, /* vocals */ false, $realname);
+                   /* bass*/ false, /* drums */ true, /* vocals */ false, $realname, $beat);
             imagepng($im, OUTDIR . "rb/drums/" . $shortname . "_drums_" . $diff . "_blank.png");
             imagedestroy($im);
 
@@ -171,7 +173,7 @@ EOT
         foreach ($DIFFICULTIES as $diff) {
             echo " ($diff)";
             $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ true,
-                   /* bass*/ false, /* drums */ false, /* vocals */ false, $realname);
+                   /* bass*/ false, /* drums */ false, /* vocals */ false, $realname, $beat);
             imagepng($im, OUTDIR . "rb/guitar/" . $shortname . "_guitar_" . $diff . "_blank.png");
             imagedestroy($im);
             
@@ -205,7 +207,7 @@ EOT
         foreach ($DIFFICULTIES as $diff) {
             echo " ($diff)";
             $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ false,
-                   /* bass*/ true, /* drums */ false, /* vocals */ false, $realname);
+                   /* bass*/ true, /* drums */ false, /* vocals */ false, $realname, $beat);
             imagepng($im, OUTDIR . "rb/bass/" . $shortname . "_bass_" . $diff . "_blank.png");
             imagedestroy($im);
             
@@ -235,11 +237,12 @@ EOT
 
 
         // guitarbass
+        /*
         echo " [guitarbass]";
         foreach ($DIFFICULTIES as $diff) {
             echo " ($diff)";
-            $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ true,
-                   /* bass*/ true, /* drums */ false, /* vocals */ false, $realname);
+            $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar * / true,
+                   /* bass* / true, /* drums * / false, /* vocals * / false, $realname, $beat);
             imagepng($im, OUTDIR . "rb/guitarbass/" . $shortname . "_guitarbass_" . $diff . "_blank.png");
             imagedestroy($im);
             
@@ -274,10 +277,11 @@ EOT
         	   $bonusscore = $basescore;
         	}
         	fwrite($idx["guitarbass"][$diff], "<td>" . $bonusscore . "</td>");
-        	/**/fwrite($idx["guitarbass"][$diff], "<td>" . $brenotescore . "</td>");
+        	/** /fwrite($idx["guitarbass"][$diff], "<td>" . $brenotescore . "</td>");
 	        fwrite($idx["guitarbass"][$diff], "</tr>\n");
             
         } // guitarbass diffs
+        */
         
         // voxtar
         echo " [voxtar]";
@@ -286,7 +290,7 @@ EOT
         foreach ($DIFFICULTIES as $diff) {
             echo " ($diff)";
             $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ true,
-                   /* bass*/ false, /* drums */ false, /* vocals */ true, $realname);
+                   /* bass*/ false, /* drums */ false, /* vocals */ true, $realname, $beat);
             imagepng($im, OUTDIR . "rb/vocaltar/" . $shortname . "_vocaltar_" . $diff . "_blank.png");
             imagedestroy($im);
             
@@ -310,11 +314,12 @@ EOT
         if ($bar != "idx") fwrite($foo, "</table>\n");
         fwrite($foo, "</body>\n</html>");
     }
+    /*
     foreach ($idx["guitarbass"] as $bar => $foo) {
         if ($bar != "idx") fwrite($foo, "</table>\n");
         fwrite($foo, "</body>\n</html>");
     }
-
+    */
 
     exit;
 
@@ -327,10 +332,12 @@ EOT
 <p>They are in alphabetical order by .mid file name (this normally doesn't mean anything, but "the" is often left out). Probably easier to find a song this way anyway.</p>
 <p>Solo note counts and estimated upperbound Big Rock Ending bonuses listed above where the solo or ending ends. To the bottom right of each measure are numbers relating to that measure. Black is the measure score (no multiplier taken into account). Red is the cumulative score to that point (with multipliers) without solo bonuses. Green (on guitar parts only) is cumulative score to that point counting solo bonuses. Blue is the number of whammy beats (no early whammy taken into account) in that measure.</p>
 <p>Vocal activation zones are not stored in the .mid as they are with drums. This leads me to believe that any gap larger than a certain amount of time (be it clock time or number of beats, I'm not sure) is an activation zone. At some point in the not-too-distant future I intend to do more research on this.</li>
-<p>Overdrive phrase backgrounds extend the exact range specified in the .mid file. Sometimes this is significantly shorter than the length of a sustained note (see third note in <a href="foreplaylongtime_guitar_expert_blank.png">Foreplay/Long Time</a> for example).</p>
+<p>Overdrive phrase backgrounds extend the exact range specified in the .mid file. Sometimes this is significantly shorter than the length of a sustained note (see third note in <a href="/charts/rb/guitar/foreplaylongtime_guitar_expert_blank.png">Foreplay/Long Time</a> for example).</p>
 <p>Significant changes since last time:
 <ul>
-<li>Big Rock Ending estimates might be right now? Changed how they're calculated, haven't check to see if they make sense.</li>
+<li><b>The .mid BEAT track is now displayed on every chart.</b> The game uses this to determine how long Overdrive lasts. A full bar of Overdrive always lasts for exactly 32 BEAT track beats. Most of the time this is 16, 32, or 64 noteboard beats, depending on tempo. Sometimes, it isn't (see the first break in Foreplay/Long Time for an example). I don't see the two events in the BEAT track doing different things in the gameplay (perhaps different stage lighting or something but nothing that matters for pathing), so I've drawn them all in the same color. If it isn't obvious, you want to look at the small red lines above every set of lines (this also makes a nice seperator for multi-instrument parts). <u>Note that this <b>DOES NOT</b affect whammy rate, only usage rate.</u> Whammy is always based on noteboard beats.</li>
+<li><b>Band per-measure scores</b>, more or less. This is currently done "stupidly", and does not include vocals. It is "stupid" because it takes each instrument's per-measure score and multiplies it by the instrument's maximum multiplier, regardless of whether such a multiplier is possible yet at that point. Vocals is on the to-do list and maybe a smarter way of doing it.</li>
+<li>Vocal pitch lines should be much more accurate. Thank pata70 for going out of his way to figure out a better way to do it.</li>
 </ul></p>
 EOT
 );

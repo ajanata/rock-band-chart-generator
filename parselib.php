@@ -3,14 +3,14 @@
 define("DEBUG", 0);
 define("VERBOSE", 0);
 define("OMGVERBOSE", 0);
-define("PARSELIBVERSION", "0.7.6");
+define("PARSELIBVERSION", "0.8.0");
 
 require_once 'notevalues.php';
 require_once 'classes/midi.class.php';
 require_once 'songnames.php';
 
 
-// returns (songname, events[guitar...vocals], timetrack, measures[guitar...drums]notes[easy...expert], notetracks[guitar...drums][easy...expert], vocals)
+// returns (songname, events[guitar...vocals], timetrack, measures[guitar...drums]notes[easy...expert], notetracks[guitar...drums][easy...expert], vocals, beat)
 // measures has one or more of guitar, coop, bass, drums.
 // vocals will be null if not rock band
 function parseFile($file, $game, $ignoreCache = false) {
@@ -158,7 +158,7 @@ function parseFile($file, $game, $ignoreCache = false) {
     if (!$ignoreCache) {
         $cache = fopen($file . ".parsecache", 'w');
         if ($cache) {
-            fwrite($cache, serialize(array($timebase, array($songname, $events, $timetrack, $measures, $notetracks, $vocals))));
+            fwrite($cache, serialize(array($timebase, array($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat))));
         }
     }
 

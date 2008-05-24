@@ -1,6 +1,7 @@
 <?php
 
 	define("MIDIPATH", "mids/");
+	define("OUTDIR", "charts/rb/");
 
 	require_once "parselib.php";
 	require_once "notevalues.php";
@@ -29,8 +30,8 @@
     
     
     $idx = null;
-    if (false === ($idx = fopen("fc_note_streaks.csv", "w"))) {
-        die("Unable to open file fc_note_streaks.csv for writing.\n");
+    if (false === ($idx = fopen(OUTDIR . "fc_note_streaks.csv", "w"))) {
+        die("Unable to open file " . OUTDIR . "fc_note_streaks.csv for writing.\n");
     }        
     
     
