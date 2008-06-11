@@ -190,8 +190,8 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
         }
         if ($do_drums && $game == "RB") {
             // draw drums measure
-            drawMeasureBackground($im, $x, $y, $measures_all["drums"][$index], $events_all["drums"], $sections, "drums", $diff);
-            drawMeasureNotes($im, $x, $y, $measures_all["drums"][$index], $notetracks["drums"][$diff], $game, "drums", $diff);
+            drawMeasureBackground($im, $x, $y, $measures_all["drums"][$index], $events_all["drums"], $sections, /*"drums"*/ "drums", $diff);
+            drawMeasureNotes($im, $x, $y, $measures_all["drums"][$index], $notetracks["drums"][$diff], $game, /*"drums"*/ "drums", $diff);
             drawMeasureScores($im, $x, $y + STAFFHEIGHT*3, $measures_all["drums"][$index], $diff);
     
             $y += 4 * STAFFHEIGHT + 40;
@@ -248,7 +248,7 @@ function drawBeat($im, $x, $y, $meas, $beat) {
         $endoffset += $offset;
         */
         
-        imageline($im, $x + $offset, $y - 35, $x + $offset + 10, $y - 35, $noteColors[1]);
+        imageline($im, $x + $offset, $y - 30, $x + $offset, $y - 38, $noteColors[1]);
         $index++;
     }
 

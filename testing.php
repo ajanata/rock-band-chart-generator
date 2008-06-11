@@ -16,9 +16,9 @@
     
     
 
-  /* * /
+  /* */
     $mid = new Midi;
-    $mid->importMid("mids/rb/blackholesun.mid");
+    $mid->importMid("mids/rb/_sunday.mid");
 
     #echo "Time Signature Track\n";
     #echo $mid->getTrackTxt(0);
@@ -44,6 +44,9 @@
                 continue;
             }
             
+            echo $line . "\n";
+            continue;
+            
             if (!isset($info[3]) || !isset($info[4])) continue;
             $note = (int)substr($info[3], 2);
             $xyzzy = false;
@@ -63,7 +66,7 @@
                         if ($n == $note) $xyzzy = true;
                     }
                 }
-            } * /
+            } */
             
             if (!$xyzzy) echo $line . "\n";
         }

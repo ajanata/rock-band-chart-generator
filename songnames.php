@@ -230,6 +230,28 @@
     $NAMES["traininvain"] = "Train in Vain (Stand By Me)";
 
 
+    # through to 6/10
+    $NAMES["acleanshot"] = "A Clean Shot";
+    $NAMES["allmixedup"] = "All Mixed Up";
+    $NAMES["bulletsandguns"] = "Bullets & Guns";
+    $NAMES["byebyelove"] = "Bye Bye Love";
+    $NAMES["cheeseburgerinparadise"] = "Cheeseburger in Paradise";
+    $NAMES["dontchastop"] = "Don't Cha Stop";
+    $NAMES["girlswhoplayguitars"] = "Girls Who Play Guitars";
+    $NAMES["goodtimesroll"] = "Good Times Roll";
+    $NAMES["indestructible"] = "Indestructible";
+    $NAMES["insidethefire"] = "Inside the Fire";
+    $NAMES["intouch"] = "In Touch";
+    $NAMES["justwhatineeded"] = "Just What I Needed";
+    $NAMES["margaritaville"] = "Margaritaville";
+    $NAMES["movinginstereo"] = "Moving in Stereo";
+    $NAMES["movingtoseattle"] = "Moving to Seattle";
+    $NAMES["mybestfriendsgirl"] = "My Best Friend's Girl";
+    $NAMES["perfectinsanity"] = "Perfect Insanity";
+    $NAMES["volcano"] = "Volcano";
+    $NAMES["yourealligot"] = "You're All I Got Tonight";
+
+
     
 
 ?>

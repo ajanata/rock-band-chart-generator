@@ -25,6 +25,7 @@
     while (false !== ($file = readdir($dir))) {
         if ($file == "." || $file == "..") continue;
         if (substr($file, -11) == ".parsecache") continue;
+        if (substr($file, 1) == "_") continue;
         $files[] = $file;
     }
     

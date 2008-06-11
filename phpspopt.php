@@ -47,7 +47,7 @@
 
     echo "Parsing file...\n";
     list ($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat)
-            = parseFile("mids/" . $game . "/" . $song . ".mid", strtoupper($game), true);
+            = parseFile("mids/" . $game . "/" . $song . ".mid", strtoupper($game), false);
 
 
     switch ($inst) {

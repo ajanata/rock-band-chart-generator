@@ -249,7 +249,7 @@ function drums_determine_activation_end(&$notetrack, &$events, &$timetrack, &$st
     global $timebase;
     $overrun = 0;
     
-    $end = $start + ($timebase * /* */ 32 /* */ /* 16 */ * $bar_amount);
+    $end = $start + ($timebase * /* */ 32 /* */ /* * / 16 /* */ * $bar_amount);
     $eventIndex = 0;
     
     while ($events[$eventIndex]["start"] < $start) {
@@ -281,7 +281,7 @@ function drums_determine_activation_end(&$notetrack, &$events, &$timetrack, &$st
             
             // we run over this phrase and get another 1/4 bar
             if (OPTDEBUG) echo "drums_determine_activation_end activation at $start overruns phrase at " . $events[$eventIndex]["start"] . "\n";
-            $end += $timebase * /* */ 8 /* */ /* 4 */;
+            $end += $timebase * /* */ 8 /* */ /* * / 4 /* */;
             $overrun++;
         }
         
