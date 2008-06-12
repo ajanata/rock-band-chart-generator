@@ -20,7 +20,7 @@
         if ($file == "." || $file == "..") continue;
         if (substr($file, -11) == ".parsecache") continue;
         if (substr($file, -10) == "_short.mid") continue;
-        if (substr($file, 1) == "_") continue;
+        if (substr($file, 0, 1) == "_") continue;
         $files[] = $file;
     }
     

@@ -25,7 +25,7 @@
     while (false !== ($file = readdir($dir))) {
         if ($file == "." || $file == "..") continue;
         if (substr($file, -11) == ".parsecache") continue;
-        if (substr($file, 1) == "_") continue;
+        if (substr($file, 0, 1) == "_") continue;
         $files[] = $file;
     }
     
@@ -42,12 +42,22 @@
         if (!mkdir(OUTDIR . "rb/guitarbass", 0777, true)) die("Unable to create output directory " . OUTDIR . "rb/guitarbass\n");
     }
 
+    if (!file_exists(OUTDIR . "rb/guitardrums")) {
+        if (!mkdir(OUTDIR . "rb/guitardrums", 0777, true)) die("Unable to create output directory " . OUTDIR . "rb/guitardrums\n");
+    }
+
+
     
     $idx = array();
     
     $idx["fullband"] = null;
     if (false === ($idx["fullband"] = fopen(OUTDIR . "rb/fullband/index.html", "w"))) {
         die("Unable to open file " . OUTDIR . "rb/fullband/index.html for writing.\n");
+    }
+
+    $idx["guitardrums"] = null;
+    if (false === ($idx["guitardrums"] = fopen(OUTDIR . "rb/guitardrums/index.html", "w"))) {
+        die("Unable to open file " . OUTDIR . "rb/guitardrums/index.html for writing.\n");
     }
     
     $idx["guitarbass"] = array();
@@ -64,17 +74,18 @@
     
     
     index_header($idx["fullband"], "Full Band");
+    index_header($idx["guitardrums"], "guitar+drums");
     foreach ($idx["guitarbass"] as $foo => $bar) { index_header($bar, "$foo guitar+bass"); }
 
     
     // open the table for full band
     fwrite($idx["fullband"], "<table border=\"1\">");
     fwrite($idx["guitarbass"], "<table border=\"1\">");
-
+    fwrite($idx["guitardrums"], "<table border=\"1\">");
     
     
-    // open the complex table for guitarbass
-//    foreach ($idx["guitarbass"] as $foo) {
+    // open the complex table for guitarbass and guitardrums
+//    foreach (array($idx["guitarbass"], $idx["guitardrums"]) as $foo) {
         foreach ($idx["guitarbass"] as $baz => $bar) {
             if ($baz == "idx") {
                 // links to difficulties on the index page
@@ -166,6 +177,21 @@ EOT
 	        fwrite($idx["guitarbass"][$diff], "</tr>\n");
             
         } // guitarbass diffs
+
+
+        // guitardrums
+        echo " [guitardrums]";
+        fwrite($idx["guitardrums"], "<tr><td>" . $realname . "</td>");
+        foreach ($DIFFICULTIES as $diff) {
+            echo " ($diff)";
+            $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ true,
+                   /* bass*/ false, /* drums */ true, /* vocals */ false, $realname, $beat);
+            imagepng($im, OUTDIR . "rb/guitardrums/" . $shortname . "_guitardrums_" . $diff . "_blank.png");
+            imagedestroy($im);
+            
+            fwrite($idx["guitardrums"], "<td><a href=\"" . $shortname . "_guitardrums_" . $diff . "_blank.png\">" . $diff. "</a></td>");
+        } // guitardrums diffs
+        fwrite($idx["guitardrums"], "</tr>\n");
         
         echo "\n";
     } // foreach file
@@ -177,7 +203,7 @@ EOT
         if ($bar != "idx") fwrite($foo, "</table>\n");
         fwrite($foo, "</body>\n</html>");
     }
-
+    fwrite($idx["guitardrums"], "</table>\n</body>\n</html>");
 
     exit;
 

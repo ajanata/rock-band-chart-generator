@@ -21,7 +21,7 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
 	$instruments =  ($do_vocals ? "vocals " : "") . ($do_guitar ? "guitar " : "") . ($do_bass ? "bass " : "") . ($do_drums ? "drums" : "");
 	
 	$x = 25;
-	$y = 75;
+	$y = 100;
 	
 	// calculate image height
 	// something needs done about evenly matched measures
@@ -138,7 +138,7 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
 	
 	
 	$x = 25;
-	$y = 75;
+	$y = 100;
 	
 	foreach($measures_all["guitar"] as $index => &$meas) {
 	   
