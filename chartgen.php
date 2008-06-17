@@ -1,7 +1,7 @@
 <?php
 
 	define("WIDTH", 1170);
-	define("PXPERBEAT", 70 /*275*/);
+	define("PXPERBEAT", /*70*/ 240 /*275*/);
 	define("STAFFHEIGHT", 12);
 	define("DRAWPLAYERLINES", 0);
 	define("CHARTGENVERSION", "0.5.0");
@@ -53,7 +53,7 @@
 	// call to makeChart here
 	
 	
-	list ($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat) = parseFile("mids/" . $game . "/" . $file . ".mid", $game, false);
+	list ($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat) = parseFile("mids/" . $game . "/" . $file . ".mid", $game, true);
 	
 	$im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, isset($_GET["guitar"]),
            isset($_GET["bass"]), isset($_GET["drums"]), isset($_GET["vocals"]), (isset($NAMES[$file]) ? $NAMES[$file] : $file), $beat);

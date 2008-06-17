@@ -378,7 +378,7 @@ function parsePhraseEvents($txt, $gameNotes) {
         
         /////// solo
         
-        if ($note == $gameNotes["EASY"]["SOLO"]) {
+        if (isset($gameNotes["EASY"]["SOLO"]) && $note == $gameNotes["EASY"]["SOLO"]) {
             
             // solo
             if ($info[1] == "On" && $vel > 0) {
@@ -398,7 +398,7 @@ function parsePhraseEvents($txt, $gameNotes) {
         } // solo easy
         
 
-        if ($note == $gameNotes["MEDIUM"]["SOLO"]) {
+        if (isset($gameNotes["MEDIUM"]["SOLO"]) && $note == $gameNotes["MEDIUM"]["SOLO"]) {
             
             // solo
             if ($info[1] == "On" && $vel > 0) {
@@ -418,7 +418,7 @@ function parsePhraseEvents($txt, $gameNotes) {
         } // solo medium
         
    
-        if ($note == $gameNotes["HARD"]["SOLO"]) {
+        if (isset($gameNotes["HARD"]["SOLO"]) && $note == $gameNotes["HARD"]["SOLO"]) {
             
             // solo
             if ($info[1] == "On" && $vel > 0) {
@@ -438,7 +438,7 @@ function parsePhraseEvents($txt, $gameNotes) {
         } // solo hard
         
        
-        if ($note == $gameNotes["EXPERT"]["SOLO"]) {
+        if (isset($gameNotes["EXPERT"]["SOLO"]) && $note == $gameNotes["EXPERT"]["SOLO"]) {
             
             // solo
             if ($info[1] == "On" && $vel > 0) {
@@ -460,7 +460,7 @@ function parsePhraseEvents($txt, $gameNotes) {
          
         // TODO: look at the other fill notes
         // note: by definition, all difficulties have the same fill notes
-        if ($note == $gameNotes["EASY"]["FILL"]["G"]) {
+        if (isset($gameNotes["EASY"]["FILL"]["G"]) && $note == $gameNotes["EASY"]["FILL"]["G"]) {
            
             if ($info[1] == "On" && $vel > 0) {
                 // start
@@ -1426,18 +1426,20 @@ function calcScores($measures, $notetracks, $events, $config, $game, $songname =
                 } // not drums
                 
                 // see if a solo or BRE ended this measure to add its bonus
-                foreach ($events[$inst] as $e) {
-                    if ($e["type"] == "solo" && $e["difficulty"] == $diff) {
-                        if ($e["end"] >= $meas["time"] && $e["end"] < $meas["time"] + $timebase*$meas["numerator"]) {
-                            $totalWithBonuses += $e["notes"] * 100;
+                if (isset($events[$inst])) {
+                    foreach ($events[$inst] as $e) {
+                        if ($e["type"] == "solo" && $e["difficulty"] == $diff) {
+                            if ($e["end"] >= $meas["time"] && $e["end"] < $meas["time"] + $timebase*$meas["numerator"]) {
+                                $totalWithBonuses += $e["notes"] * 100;
+                            }
                         }
-                    }
-                    else if ($e["type"] == "bre" /* && $e["difficulty"] == $diff */) {
-                        if ($e["end"] > $meas["time"] && $e["end"] < $meas["time"] + $timebase*$meas["numerator"]) {
-                            $totalWithBonuses += $e["brescore"];
+                        else if ($e["type"] == "bre" /* && $e["difficulty"] == $diff */) {
+                            if ($e["end"] > $meas["time"] && $e["end"] < $meas["time"] + $timebase*$meas["numerator"]) {
+                                $totalWithBonuses += $e["brescore"];
+                            }
                         }
-                    }
-                } // for events
+                    } // for events
+                }
                 
                 if ($total != $totalWithBonuses && $inst != "drums") $meas["bscore"][$diff] = (int) $totalWithBonuses;
                 $meas["mscore"][$diff] = (int) $mScore;

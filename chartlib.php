@@ -37,7 +37,7 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
 	       if ($do_bass) $y += 40 + 5 * STAFFHEIGHT;
 	       if ($do_drums) $y += 40 + 4 * STAFFHEIGHT;
 	       if ($do_vocals) $y += 50 + 7 * STAFFHEIGHT;
-	       $y += 10;
+	       $y += 15;
 	   }
 	   if ($x + PXPERBEAT * $measures_all["guitar"][$i]["numerator"] > WIDTH - 50 && $i != count($measures_all["guitar"]) - 1) {
 	       $x = 25;
@@ -49,7 +49,7 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
 	       if ($do_bass) $y += 40 + 5 * STAFFHEIGHT;
 	       if ($do_drums) $y += 40 + 4 * STAFFHEIGHT;
 	       if ($do_vocals) $y += 50 + 7 * STAFFHEIGHT;
-	       $y += 10;
+	       $y += 15;
 	   }
 	   else {
 	       $x += PXPERBEAT * $measures_all["guitar"][$i]["numerator"];
@@ -152,7 +152,7 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
 	       if ($do_bass) $y += 40 + 5 * STAFFHEIGHT;
 	       if ($do_drums) $y += 40 + 4 * STAFFHEIGHT;
 	       if ($do_vocals) $y += 50 + 7 * STAFFHEIGHT;
-	       $y += 10;
+	       $y += 15;
 	   }
 	   
 	    $oldy = $y;
@@ -199,7 +199,7 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
             $measScore += 4 * $measures_all["drums"][$index]["mscore"][$diff];
         }
 
-        imagestring($im, 4, $x + $meas["numerator"]*PXPERBEAT - 8*strlen($measScore), $y - 25, $measScore, $black);
+        imagestring($im, 4, $x + $meas["numerator"]*PXPERBEAT - 8*strlen($measScore), $y - 22, $measScore, $black);
 
         $y = $oldy;
         
@@ -213,7 +213,7 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
 	       if ($do_bass) $y += 40 + 5 * STAFFHEIGHT;
 	       if ($do_drums) $y += 40 + 4 * STAFFHEIGHT;
 	       if ($do_vocals) $y += 50 + 7 * STAFFHEIGHT;
-	       $y += 10;
+	       $y += 15;
 	   }
 	   else {
 	       $x += PXPERBEAT * $meas["numerator"];
