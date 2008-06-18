@@ -251,6 +251,12 @@
     $NAMES["volcano"] = "Volcano";
     $NAMES["yourealligot"] = "You're All I Got Tonight";
 
+    # 6/17
+    $NAMES["afterlife"] = "Afterlife";
+    $NAMES["criticalacclaim"] = "Critical Acclaim";
+    $NAMES["hammerhead"] = "Hammerhead";
+    $NAMES["rocknrolldream"] = "Rock 'n' Roll Dream";
+
 
     
 

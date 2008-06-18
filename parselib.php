@@ -3,7 +3,7 @@
 define("DEBUG", 0);
 define("VERBOSE", 0);
 define("OMGVERBOSE", 0);
-define("PARSELIBVERSION", "0.8.0");
+define("PARSELIBVERSION", "0.8.1");
 
 require_once 'notevalues.php';
 require_once 'classes/midi.class.php';

@@ -1,6 +1,6 @@
 <?php
 	
-	define("CHARTLIBVERSION", "0.8.0");
+	define("CHARTLIBVERSION", "0.8.3");
 	
 	define("DRAWPULSES", false);
 
