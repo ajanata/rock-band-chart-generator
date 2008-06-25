@@ -185,7 +185,7 @@
     $NAMES["tenspeed"] = "Ten Speed (Of God's Blood and Burial)";
     $NAMES["thekill"] = "The Kill";
     $NAMES["thrasher"] = "Thrasher";
-    $NAMES["truckin"] = "Truckin";
+    $NAMES["truckin"] = "Truckin'";
     $NAMES["truthhitseverybody"] = "Truth Hits Everybody";
     # duplicate from GH2
     #$NAMES["warpigs"] = "War Pigs";
@@ -256,6 +256,26 @@
     $NAMES["criticalacclaim"] = "Critical Acclaim";
     $NAMES["hammerhead"] = "Hammerhead";
     $NAMES["rocknrolldream"] = "Rock 'n' Roll Dream";
+    
+    # 6/24
+    $NAMES["crackityjones"] = "Crackity Jones";
+    $NAMES["dead"] = "Dead";
+    $NAMES["debaser"] = "Debaser";
+    $NAMES["dreamin"] = "Dreamin'";
+    $NAMES["gougeaway"] = "Gouge Away";
+    $NAMES["herecomesyourman"] = "Here Comes Your Man";
+    $NAMES["hey"] = "Hey";
+    $NAMES["ibleed"] = "I Bleed";
+    $NAMES["lalaloveyou"] = "La la Love You";
+    $NAMES["monkeygonetoheaven"] = "Monkey Gone to Heaven";
+    $NAMES["mrgrieves"] = "Mr. Grieves";
+    $NAMES["no13baby"] = "No. 13 Baby";
+    $NAMES["silver"] = "Silver";
+    $NAMES["tame"] = "Tame";
+    $NAMES["thegreatestman"] = "The Greatest Man";
+    $NAMES["theregoesmygun"] = "There Goes My Gun";
+    $NAMES["troublemaker"] = "Troublemaker";
+
 
 
     
