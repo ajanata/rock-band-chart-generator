@@ -30,14 +30,14 @@
     umask(0);
     
     
-    $idx = null;
-    if (false === ($idx = fopen(OUTDIR . "fc_note_streaks.csv", "w"))) {
+    $idx["streak"] = null;
+    if (false === ($idx["streak"] = fopen(OUTDIR . "fc_note_streaks.csv", "w"))) {
         die("Unable to open file " . OUTDIR . "fc_note_streaks.csv for writing.\n");
     }        
     
     
     // open the table
-    fwrite($idx, "short_name,guitar_easy,guitar_medium,guitar_hard,guitar_expert,bass_easy,bass_medium,bass_hard,bass_expert\n"); //,vocals\n");
+    fwrite($idx["streak"], "short_name,guitar_easy,guitar_medium,guitar_hard,guitar_expert,bass_easy,bass_medium,bass_hard,bass_expert\n");
 
     echo "Getting FC note streaks for " . count($files) . " files...\n";
     
@@ -51,14 +51,16 @@
     	$realname = (isset($NAMES[$songname]) ? $NAMES[$songname] : $songname);
     	echo " ($realname)";
 
-        fwrite($idx, $songname);
+
+        // full band scores
+        fwrite($idx["streak"], $songname);
 
         // guitar
         echo " [guitar]";
         foreach ($DIFFICULTIES as $diff) {
             echo " ($diff)";
             $streak = $measures["guitar"][count($measures["guitar"])-1]["streak"][$diff];
-            fwrite($idx, "," . $streak);
+            fwrite($idx["streak"], "," . $streak);
         } // guitar diffs
 
         // bass
@@ -66,7 +68,7 @@
         foreach ($DIFFICULTIES as $diff) {
             echo " ($diff)";
             $streak = $measures["bass"][count($measures["bass"])-1]["streak"][$diff];
-            fwrite($idx, "," . $streak);
+            fwrite($idx["streak"], "," . $streak);
         } // bass diffs
 
 /*
@@ -83,14 +85,14 @@
         } // vocal events
         fwrite($idx, "," . $streak);
 */
-        fwrite($idx, "\n");
+        fwrite($idx["streak"], "\n");
         
         echo "\n";
     } // foreach file
 
 
     // close the files
-    fclose($idx);
+    fclose($idx["streak"]);
 
     exit;
 

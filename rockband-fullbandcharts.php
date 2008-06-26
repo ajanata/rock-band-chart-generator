@@ -7,6 +7,8 @@
 	define("CHARTGENVERSION", "0.8.3");
 	define("MIDIPATH", "mids/");
 	define("OUTDIR", "charts/");
+	
+	require_once "makeall-common.php";
 
 	require_once "parselib.php";
 	require_once "notevalues.php";
@@ -76,6 +78,8 @@
     index_header($idx["fullband"], "Full Band");
     index_header($idx["guitardrums"], "guitar+drums");
     foreach ($idx["guitarbass"] as $foo => $bar) { index_header($bar, "$foo guitar+bass"); }
+
+    $cache = loadCache(RB_CACHE);
 
     
     // open the table for full band
@@ -204,6 +208,9 @@ EOT
         fwrite($foo, "</body>\n</html>");
     }
     fwrite($idx["guitardrums"], "</table>\n</body>\n</html>");
+
+
+    saveCache(RB_CACHE, $cache);
 
     exit;
 

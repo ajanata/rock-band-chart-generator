@@ -1,7 +1,7 @@
 <?php
 
 	define("MIDIPATH", "mids/");
-	define("OUTDIR", "charts/rb/csv-scores/");
+	define("OUTDIR", "charts/rb/");
 
 	require_once "parselib.php";
 	require_once "notevalues.php";
@@ -28,21 +28,35 @@
     
     umask(0);
     
-    if (!file_exists(OUTDIR)) {
-        if (!mkdir(OUTDIR, 0777, true)) die("Unable to create output directory " . OUTDIR . "\n");
+    if (!file_exists(OUTDIR . "csv-scores/")) {
+        if (!mkdir(OUTDIR . "csv-scores/", 0777, true)) die("Unable to create output directory " . OUTDIR . "csv-scores/\n");
     }
     
     
-    $idx = null;
-    if (false === ($idx = fopen(OUTDIR . "index.html", "w"))) {
+    $idx = array();
+    $ind["fullband"] = null;
+    if (false === ($idx["fullband"] = fopen(OUTDIR . "csv-scores/index.html", "w"))) {
         die("Unable to open file " . OUTDIR . "index.html for writing.\n");
     }
+
+    $idx["streak"] = null;
+    if (false === ($idx["streak"] = fopen(OUTDIR . "fc_note_streaks.csv", "w"))) {
+        die("Unable to open file " . OUTDIR . "fc_note_streaks.csv for writing.\n");
+    }
     
+    $idx["bonuses"] = null;
+    if (false === ($idx["bonuses"] = fopen(OUTDIR . "bonuses.csv", "w"))) {
+        die("Unable to open file " . OUTDIR . "bonuses.csv for writing.\n");
+    }
+
     
-    index_header($idx, "Full Band .csv scores");
+    index_header($idx["fullband"], "Full Band .csv scores");
     
-    // open the table
-    fwrite($idx, "<table border=\"1\">");
+    // open the tables
+    fwrite($idx["fullband"], "<table border=\"1\">");
+    fwrite($idx["streak"], "short_name,guitar_easy,guitar_medium,guitar_hard,guitar_expert,bass_easy,bass_medium,bass_hard,bass_expert\n");
+    fwrite($idx["bonuses"], "short_name,easy_solos,medium_solos,hard_solos,expert_solos,big_rock_ending\n");
+
 
     echo "Making .csv files for " . count($files) . " files...\n";
     
@@ -57,15 +71,15 @@
     	echo " ($realname)";
 
 
-        // csv scores
+        // csv full band scores
         echo " [csvscores]";
-        fwrite($idx, "<tr><td>" . $realname . "</td>");
+        fwrite($idx["fullband"], "<tr><td>" . $realname . "</td>");
         foreach ($DIFFICULTIES as $diff) {
             echo " ($diff)";
 
             $csv = null;
-            if (false === ($csv = fopen(OUTDIR . $shortname . "_fullband_" . $diff . "_scores.csv", "w"))) {
-                die("Unable to open file " . OUTDIR . $shortname . "_fullband_" . $diff . "_scores.csv for writing.\n");
+            if (false === ($csv = fopen(OUTDIR . "csv-scores/" . $shortname . "_fullband_" . $diff . "_scores.csv", "w"))) {
+                die("Unable to open file " . OUTDIR . "csv-scores/" . $shortname . "_fullband_" . $diff . "_scores.csv for writing.\n");
             }
             
             fwrite($csv, "meas,vocals,guitar,bass,drums,base,,vocals mult,guitar mult,bass mult,drums mult,mult,16 BEAT,24 BEAT,32 BEAT\n");
@@ -77,17 +91,83 @@
             
             fclose($csv);
             
-            fwrite($idx, "<td><a href=\"" . $shortname . "_fullband_" . $diff . "_scores.csv\">" . $diff. "</a></td>");
+            fwrite($idx["fullband"], "<td><a href=\"" . $shortname . "_fullband_" . $diff . "_scores.csv\">" . $diff. "</a></td>");
         } // csv scores diffs
-        fwrite($idx, "</tr>\n");
+        fwrite($idx["fullband"], "</tr>\n");
+        
+        
+        // fc note streaks scores
+        fwrite($idx["streak"], $songname);
+
+        // guitar
+        echo " [fcstreaks guitar]";
+        foreach ($DIFFICULTIES as $diff) {
+            echo " ($diff)";
+            $streak = $measures["guitar"][count($measures["guitar"])-1]["streak"][$diff];
+            fwrite($idx["streak"], "," . $streak);
+        } // guitar diffs
+
+        // bass
+        echo " [fcstreaks bass]";
+        foreach ($DIFFICULTIES as $diff) {
+            echo " ($diff)";
+            $streak = $measures["bass"][count($measures["bass"])-1]["streak"][$diff];
+            fwrite($idx["streak"], "," . $streak);
+        } // bass diffs
+
+/*
+        // vocals
+        echo " [vocals]";
+        $last = -1;
+        $streak = 0;
+        foreach ($events["vocals"] as $e) {
+            if (!($e["type"] == "p1" || $e["type"] == "p2")) continue;
+            if (($e["type"] == "p1" || $e["type"] == "p2") && $e["start"] > $last) {
+                $last = $e["start"];
+                $streak++;
+            }
+        } // vocal events
+        fwrite($idx, "," . $streak);
+*/
+        fwrite($idx["streak"], "\n");
+        // / fc note streaks scores
+        
+        
+        // bonuses
+        fwrite($idx["bonuses"], $songname);
+        
+        // guitar solos
+        echo " [solo bonuses]";
+        foreach ($DIFFICULTIES as $diff) {
+            echo " ($diff)";
+            $solonotes = 0;
+            foreach ($events["guitar"] as $e) {
+                if ($e["type"] == "solo" && $e["difficulty"] == $diff) {
+                    $solonotes += $e["notes"];
+                }
+            }
+            fwrite($idx["bonuses"], "," . $solonotes);
+        } // solos diffs
+
+        // big rock ending
+        echo " [big rock ending]";
+        $brescore = 0;
+        foreach ($events["guitar"] as $e) {
+            if ($e["type"] != "bre") continue;
+            $brescore = $e["brescore"];
+            break;
+        }
+        fwrite($idx["bonuses"], "," . $brescore . "\n");
         
         echo "\n";
     } // foreach file
 
 
     // close the files
-    fwrite($idx, "</table>\n</body>\n</html>");
-    fclose($idx);
+    fwrite($idx["fullband"], "</table>\n</body>\n</html>");
+    fclose($idx["fullband"]);
+    fclose($idx["streaks"]);
+    fclose($idx["bonuses"]);
 
     exit;
 

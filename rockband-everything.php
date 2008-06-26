@@ -7,6 +7,8 @@
 	define("CHARTGENVERSION", "0.8.3");
 	define("MIDIPATH", "mids/");
 	define("OUTDIR", "charts/");
+	
+	require_once "makeall-common.php";
 
 	require_once "parselib.php";
 	require_once "notevalues.php";
@@ -96,6 +98,8 @@
     */
     
     
+    $cache = loadCache(RB_CACHE);
+    
     // put the header into every file
     index_header($idx["vox"], "Vocals");
     index_header($idx["voxtar"], "Vocaltar");
@@ -145,10 +149,18 @@ EOT
 
     	// vocals first
     	echo " [vocals]";
-    	$im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ false,
-           /* bass*/ false, /* drums */ false, /* vocals */ true, $realname, $beat);
-        imagepng($im, OUTDIR . "rb/vocals/" . $shortname . "_vocals_blank.png");
-        imagedestroy($im);
+    	if (isset($cache[$shortname]["vocals"]) && $cache[$shortname]["vocals"]["version"] >= CHARTVERSION) {
+    	   // we already have a valid image for this
+    	   echo " {cached}";
+    	}
+    	else {
+    	    // have to regenerate the image
+        	$im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ false,
+               /* bass*/ false, /* drums */ false, /* vocals */ true, $realname, $beat);
+            imagepng($im, OUTDIR . "rb/vocals/" . $shortname . "_vocals_blank.png");
+            imagedestroy($im);
+            $cache[$shortname]["vocals"]["version"] = CHARTVERSION;
+    	}
         
         fwrite($idx["vox"], "<a href=\"".$shortname."_vocals_blank.png\">$realname</a><br>\n");
         
@@ -159,10 +171,17 @@ EOT
         
         foreach ($DIFFICULTIES as $diff) {
             echo " ($diff)";
-            $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ false,
-                   /* bass*/ false, /* drums */ true, /* vocals */ false, $realname, $beat);
-            imagepng($im, OUTDIR . "rb/drums/" . $shortname . "_drums_" . $diff . "_blank.png");
-            imagedestroy($im);
+        	if (isset($cache[$shortname]["drums"][$diff]) && $cache[$shortname]["drums"][$diff]["version"] >= CHARTVERSION) {
+        	   // we already have a valid image for this
+        	   echo " {cached}";
+    	    }
+          	else {
+                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ false,
+                     /* bass*/ false, /* drums */ true, /* vocals */ false, $realname, $beat);
+                imagepng($im, OUTDIR . "rb/drums/" . $shortname . "_drums_" . $diff . "_blank.png");
+                imagedestroy($im);
+                $cache[$shortname]["drums"][$diff]["version"] = CHARTVERSION;
+          	}
 
             fwrite($idx["drums"], "<td><a href=\"" . $shortname . "_drums_" . $diff . "_blank.png\">" . $diff . "</a></td>");
         } // drums diffs
@@ -173,31 +192,53 @@ EOT
         echo " [guitar]";
         foreach ($DIFFICULTIES as $diff) {
             echo " ($diff)";
-            $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ true,
-                   /* bass*/ false, /* drums */ false, /* vocals */ false, $realname, $beat);
-            imagepng($im, OUTDIR . "rb/guitar/" . $shortname . "_guitar_" . $diff . "_blank.png");
-            imagedestroy($im);
+
+            $absbasescore = $basescore = $bonusscore = $brescore = 0;
+        	if (isset($cache[$shortname]["guitar"][$diff]) && $cache[$shortname]["guitar"][$diff]["version"] >= CHARTVERSION) {
+        	   // we already have a valid image for this
+        	   echo " {cached}";
+        	   $absbasescore = $cache[$shortname]["guitar"][$diff]["abs"];
+        	   $basescore = $cache[$shortname]["guitar"][$diff]["base"];
+        	   $bonusscore = $cache[$shortname]["guitar"][$diff]["bonus"];
+        	   $brescore = $cache[$shortname]["guitar"][$diff]["bre"];
+        	}
+        	else {
+                // have to re-generate the chart and get all the numbers and stuff
+                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ true,
+                       /* bass*/ false, /* drums */ false, /* vocals */ false, $realname, $beat);
+                imagepng($im, OUTDIR . "rb/guitar/" . $shortname . "_guitar_" . $diff . "_blank.png");
+                imagedestroy($im);
+
+                // ugly score kludges
+                $absbasescore = 0;
+                foreach ($measures["guitar"] as $m) {
+                    $absbasescore += $m["mscore"][$diff];
+                }
+                $basescore = $measures["guitar"][count($measures["guitar"])-1]["cscore"][$diff];
+                $bonusscore = (isset($measures["guitar"][count($measures["guitar"])-1]["bscore"][$diff])
+                        ? $measures["guitar"][count($measures["guitar"])-1]["bscore"][$diff] : 0);
+            	if ($bonusscore == 0) {
+            	   // no solo or BRE
+            	   $bonusscore = $basescore;
+            	}
+            	
+            	$brescore = (isset($measures["guitar"][count($measures["guitar"])-1]["fscore"][$diff])
+                    ? $measures["guitar"][count($measures["guitar"])-1]["fscore"][$diff] : " ");
+
+                $cache[$shortname]["guitar"][$diff]["version"] = CHARTVERSION;
+                $cache[$shortname]["guitar"][$diff]["abs"] = $absbasescore;
+                $cache[$shortname]["guitar"][$diff]["base"] = $basescore;
+                $cache[$shortname]["guitar"][$diff]["bonus"] = $bonusscore;
+                $cache[$shortname]["guitar"][$diff]["bre"] = $brescore;
+        	}
             
             fwrite($idx["guitar"][$diff], "<tr><td><a href=\"" . $shortname . "_guitar_" . $diff . "_blank.png\">" . $realname . "</a></td>");
             
-            // ugly score kludges
-            $absbasescore = 0;
-            foreach ($measures["guitar"] as $m) {
-                $absbasescore += $m["mscore"][$diff];
-            }
-            $basescore = $measures["guitar"][count($measures["guitar"])-1]["cscore"][$diff];
-            $bonusscore = (isset($measures["guitar"][count($measures["guitar"])-1]["bscore"][$diff])
-                    ? $measures["guitar"][count($measures["guitar"])-1]["bscore"][$diff] : 0);
             
         	fwrite($idx["guitar"][$diff], "<td>" . $absbasescore . "</td>");
         	fwrite($idx["guitar"][$diff], "<td>" . $basescore . "</td>");
-        	if ($bonusscore == 0) {
-        	   // no solo or BRE
-        	   $bonusscore = $basescore;
-        	}
         	fwrite($idx["guitar"][$diff], "<td>" . $bonusscore . "</td>");
-        	/**/fwrite($idx["guitar"][$diff], "<td>" . (isset($measures["guitar"][count($measures["guitar"])-1]["fscore"][$diff])
-        	/**/       ? $measures["guitar"][count($measures["guitar"])-1]["fscore"][$diff] : " ") . "</td>");
+        	fwrite($idx["guitar"][$diff], "<td>" . $brescore . "</td>");
 	        fwrite($idx["guitar"][$diff], "</tr>\n");
             
         } // guitar diffs
@@ -207,31 +248,53 @@ EOT
         echo " [bass]";
         foreach ($DIFFICULTIES as $diff) {
             echo " ($diff)";
-            $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ false,
-                   /* bass*/ true, /* drums */ false, /* vocals */ false, $realname, $beat);
-            imagepng($im, OUTDIR . "rb/bass/" . $shortname . "_bass_" . $diff . "_blank.png");
-            imagedestroy($im);
-            
-            fwrite($idx["bass"][$diff], "<tr><td><a href=\"" . $shortname . "_bass_" . $diff . "_blank.png\">" . $realname . "</a></td>");
-            
-            // ugly score kludges
-            $absbasescore = 0;
-            foreach ($measures["bass"] as $m) {
-                $absbasescore += $m["mscore"][$diff];
-            }
-            $basescore = $measures["bass"][count($measures["bass"])-1]["cscore"][$diff];
-            $bonusscore = (isset($measures["bass"][count($measures["bass"])-1]["bscore"][$diff])
-                    ? $measures["bass"][count($measures["bass"])-1]["bscore"][$diff] : 0);
-            
+            $absbasescore = $basescore = $bonusscore = $brescore = 0;
+        	if (isset($cache[$shortname]["bass"][$diff]) && $cache[$shortname]["bass"][$diff]["version"] >= CHARTVERSION) {
+        	   // we already have a valid image for this
+        	   echo " {cached}";
+        	   $absbasescore = $cache[$shortname]["bass"][$diff]["abs"];
+        	   $basescore = $cache[$shortname]["bass"][$diff]["base"];
+        	   $bonusscore = $cache[$shortname]["bass"][$diff]["bonus"];
+        	   $brescore = $cache[$shortname]["bass"][$diff]["bre"];
+        	}
+        	else {
+                // have to re-generate the chart and get all the numbers and stuff
+    
+                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ false,
+                       /* bass*/ true, /* drums */ false, /* vocals */ false, $realname, $beat);
+                imagepng($im, OUTDIR . "rb/bass/" . $shortname . "_bass_" . $diff . "_blank.png");
+                imagedestroy($im);
+                
+                fwrite($idx["bass"][$diff], "<tr><td><a href=\"" . $shortname . "_bass_" . $diff . "_blank.png\">" . $realname . "</a></td>");
+                
+                // ugly score kludges
+                $absbasescore = 0;
+                foreach ($measures["bass"] as $m) {
+                    $absbasescore += $m["mscore"][$diff];
+                }
+                $basescore = $measures["bass"][count($measures["bass"])-1]["cscore"][$diff];
+                $bonusscore = (isset($measures["bass"][count($measures["bass"])-1]["bscore"][$diff])
+                        ? $measures["bass"][count($measures["bass"])-1]["bscore"][$diff] : 0);
+
+            	if ($bonusscore == 0) {
+            	   // no solo or BRE
+            	   $bonusscore = $basescore;
+            	}
+            	
+            	$brescore =  (isset($measures["bass"][count($measures["bass"])-1]["fscore"][$diff])
+        	       ? $measures["bass"][count($measures["bass"])-1]["fscore"][$diff] : " ");
+
+                $cache[$shortname]["bass"][$diff]["version"] = CHARTVERSION;
+                $cache[$shortname]["bass"][$diff]["abs"] = $absbasescore;
+                $cache[$shortname]["bass"][$diff]["base"] = $basescore;
+                $cache[$shortname]["bass"][$diff]["bonus"] = $bonusscore;
+                $cache[$shortname]["bass"][$diff]["bre"] = $brescore;
+        	}
+        	            
         	fwrite($idx["bass"][$diff], "<td>" . $absbasescore . "</td>");
         	fwrite($idx["bass"][$diff], "<td>" . $basescore . "</td>");
-        	if ($bonusscore == 0) {
-        	   // no solo or BRE
-        	   $bonusscore = $basescore;
-        	}
         	fwrite($idx["bass"][$diff], "<td>" . $bonusscore . "</td>");
-        	/**/fwrite($idx["bass"][$diff], "<td>" . (isset($measures["bass"][count($measures["bass"])-1]["fscore"][$diff])
-        	/**/       ? $measures["bass"][count($measures["bass"])-1]["fscore"][$diff] : " ") . "</td>");
+        	fwrite($idx["bass"][$diff], "<td>" . $brescore . "</td>");
 	        fwrite($idx["bass"][$diff], "</tr>\n");
             
         } // bass diffs
@@ -290,10 +353,18 @@ EOT
         fwrite($idx["voxtar"], "<tr><td>" . $realname . "</td>");
         foreach ($DIFFICULTIES as $diff) {
             echo " ($diff)";
-            $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ true,
-                   /* bass*/ false, /* drums */ false, /* vocals */ true, $realname, $beat);
-            imagepng($im, OUTDIR . "rb/vocaltar/" . $shortname . "_vocaltar_" . $diff . "_blank.png");
-            imagedestroy($im);
+        	if (isset($cache[$shortname]["voxtar"][$diff]) && $cache[$shortname]["voxtar"][$diff]["version"] >= CHARTVERSION) {
+        	   // we already have a valid image for this
+        	   echo " {cached}";
+    	    }
+          	else {
+                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ true,
+                       /* bass*/ false, /* drums */ false, /* vocals */ true, $realname, $beat);
+                imagepng($im, OUTDIR . "rb/vocaltar/" . $shortname . "_vocaltar_" . $diff . "_blank.png");
+                imagedestroy($im);
+                
+                $cache[$shortname]["voxtar"][$diff]["version"] = CHARTVERSION;
+          	}
             
             fwrite($idx["voxtar"], "<td><a href=\"" . $shortname . "_vocaltar_" . $diff . "_blank.png\">" . $diff . "</a></td>");            
         } // voxtar diffs
@@ -321,6 +392,8 @@ EOT
         fwrite($foo, "</body>\n</html>");
     }
     */
+
+    saveCache(RB_CACHE, $cache);
 
     exit;
 

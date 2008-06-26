@@ -234,8 +234,8 @@ function parseTimeTrack($tracktxt) {
 
             $num = (int)substr($info[2], 0, strpos($info[2], "/"));
             $denom = (int)substr($info[2], strpos($info[2], "/") + 1);
-            $ret["sigs"][$sigIndex]["numerator"] = $num;       
-            $ret["sigs"][$sigIndex]["denominator"] = $denom;
+            $ret["sigs"][$sigIndex]["num"] = $num;       
+            $ret["sigs"][$sigIndex]["denom"] = $denom;
 
         }
         else {
@@ -757,15 +757,15 @@ function makeMeasureTable($timetrack, $trkend) {
             $duration = $trkend - $curTime;
         }
         
-        $measDur = $timebase * $timetrack["sigs"][$sigIndex]["numerator"];
+        $measDur = $timebase * $timetrack["sigs"][$sigIndex]["num"];
         $numMeas = $duration / $measDur;
         
         $oldMeasure = $measure;
         for (; $measure < $oldMeasure + $numMeas; $measure++) {
             $ret[$measure]["number"] = $measure + 1;
             $ret[$measure]["time"] = $curTime;
-            $ret[$measure]["numerator"] = $timetrack["sigs"][$sigIndex]["numerator"];
-            $ret[$measure]["denominator"] = $timetrack["sigs"][$sigIndex]["denominator"];
+            $ret[$measure]["num"] = $timetrack["sigs"][$sigIndex]["num"];
+            $ret[$measure]["denom"] = $timetrack["sigs"][$sigIndex]["denom"];
             $ret[$measure]["notes"] = array();
             $ret[$measure]["notes"]["easy"] = array();
             $ret[$measure]["notes"]["medium"] = array();
@@ -1323,14 +1323,14 @@ function calcScores($measures, $notetracks, $events, $config, $game, $songname =
                         $newOver = 0;
                         $newOverScore = 0;
                         $newTotalOverScore = 0;
-                        if ($over > $meas["numerator"]) {
+                        if ($over > $meas["num"]) {
                             // this sustain goes through the entire measure into the next
-                            $newOver = $over - $meas["numerator"];
-                            $newOverScore = $overScore - ($config["ticks_per_beat"] * $meas["numerator"] * $overChord);
-                            $newTotalOverScore = $totalOverScore - ($config["ticks_per_beat"] * $meas["numerator"] * $overChord);
-                            $overScore = $config["ticks_per_beat"] * $meas["numerator"] * $overChord;
+                            $newOver = $over - $meas["num"];
+                            $newOverScore = $overScore - ($config["ticks_per_beat"] * $meas["num"] * $overChord);
+                            $newTotalOverScore = $totalOverScore - ($config["ticks_per_beat"] * $meas["num"] * $overChord);
+                            $overScore = $config["ticks_per_beat"] * $meas["num"] * $overChord;
                             $totalOverScore = $overScore;
-                            $over = $meas["numerator"];
+                            $over = $meas["num"];
                         }
                         
                         $mScore += $overScore;
@@ -1378,8 +1378,8 @@ function calcScores($measures, $notetracks, $events, $config, $game, $songname =
                             }
                             
                             $over = 0;
-                            if (($n["time"] + $n["duration"]) > ($meas["time"] + $timebase*$meas["numerator"])) {
-                                $over = (($n["time"] + $n["duration"]) - ($meas["time"] + $timebase*$meas["numerator"])) / $timebase;
+                            if (($n["time"] + $n["duration"]) > ($meas["time"] + $timebase*$meas["num"])) {
+                                $over = (($n["time"] + $n["duration"]) - ($meas["time"] + $timebase*$meas["num"])) / $timebase;
                             }
                             
                             // measure score
@@ -1393,7 +1393,7 @@ function calcScores($measures, $notetracks, $events, $config, $game, $songname =
                             $ticks = floor($config["ticks_per_beat"] * ($n["duration"] / $timebase) + EPS);
                             
                             if ($over > 0) {
-                                $mTicks = floor($ticks * ($meas["time"] + $timebase*$meas["numerator"] - $n["time"]) / $n["duration"]);
+                                $mTicks = floor($ticks * ($meas["time"] + $timebase*$meas["num"] - $n["time"]) / $n["duration"]);
                                 $overScore = $ticks - $mTicks;
                                 $overScore *= ($config["chord_sustain_bonus"] ? count($n["note"]) : 1);
                                 $ticks = $mTicks;
@@ -1408,7 +1408,7 @@ function calcScores($measures, $notetracks, $events, $config, $game, $songname =
                             $totalTicks = floor($config["ticks_per_beat"] * ($n["duration"] / $timebase) + 0.5 + EPS);
                             if ($over > 0) {
                                 $totalMTicks = floor($totalTicks *
-                                    ($meas["time"] + $timebase*$meas["numerator"] - $n["time"]) / $n["duration"]);
+                                    ($meas["time"] + $timebase*$meas["num"] - $n["time"]) / $n["duration"]);
                                 $totalOverScore = $totalTicks - $totalMTicks;
                                 $totalOverScore *= ($config["chord_sustain_bonus"] ? count($n["note"]) : 1);
                                 $totalTicks = $totalMTicks;
@@ -1429,12 +1429,12 @@ function calcScores($measures, $notetracks, $events, $config, $game, $songname =
                 if (isset($events[$inst])) {
                     foreach ($events[$inst] as $e) {
                         if ($e["type"] == "solo" && $e["difficulty"] == $diff) {
-                            if ($e["end"] >= $meas["time"] && $e["end"] < $meas["time"] + $timebase*$meas["numerator"]) {
+                            if ($e["end"] >= $meas["time"] && $e["end"] < $meas["time"] + $timebase*$meas["num"]) {
                                 $totalWithBonuses += $e["notes"] * 100;
                             }
                         }
                         else if ($e["type"] == "bre" /* && $e["difficulty"] == $diff */) {
-                            if ($e["end"] > $meas["time"] && $e["end"] < $meas["time"] + $timebase*$meas["numerator"]) {
+                            if ($e["end"] > $meas["time"] && $e["end"] < $meas["time"] + $timebase*$meas["num"]) {
                                 $totalWithBonuses += $e["brescore"];
                             }
                         }

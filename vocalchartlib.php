@@ -8,14 +8,14 @@ function drawVocals($im, $x, $y, $meas, $vox, $events) {
 
     if (isset($leftovers["length"])) {
         // leftover lyric
-        if ($leftovers["length"] >= $meas["numerator"]) {
+        if ($leftovers["length"] >= $meas["num"]) {
             // it goes entirely through this measure into the next one
             $newLeftovers = array();
-            $newLeftovers["length"] = $leftovers["length"] - $meas["numerator"];
+            $newLeftovers["length"] = $leftovers["length"] - $meas["num"];
             $newLeftovers["where"] = $leftovers["where"];
 
             imagesetthickness($im, 3);
-            imageline($im, $x, $y + $leftovers["where"], $x + PXPERBEAT*$meas["numerator"], $y + $leftovers["where"], $blue);
+            imageline($im, $x, $y + $leftovers["where"], $x + PXPERBEAT*$meas["num"], $y + $leftovers["where"], $blue);
 
             $leftovers = $newLeftovers;
             
@@ -37,7 +37,7 @@ function drawVocals($im, $x, $y, $meas, $vox, $events) {
     
     foreach ($vox as $lyricIndex => $lyric) {
         
-        if ($lyric["time"] >= $meas["time"] && $lyric["time"] < $meas["time"]+$timebase*$meas["numerator"]) {
+        if ($lyric["time"] >= $meas["time"] && $lyric["time"] < $meas["time"]+$timebase*$meas["num"]) {
         
             $nX = $lyric["time"] - $meas["time"];
             $nX /= $timebase;
@@ -97,14 +97,14 @@ function drawVocals($im, $x, $y, $meas, $vox, $events) {
                     
                 }
                 
-                if ($lyric["time"] + $lyric["duration"] > $meas["time"] + $timebase*$meas["numerator"]) {
+                if ($lyric["time"] + $lyric["duration"] > $meas["time"] + $timebase*$meas["num"]) {
                     // this lyric crosses measures
                     $leftovers = array();
-                    $leftovers["length"] = $lyric["time"] + $lyric["duration"] - ($meas["time"] + $timebase*$meas["numerator"]);
+                    $leftovers["length"] = $lyric["time"] + $lyric["duration"] - ($meas["time"] + $timebase*$meas["num"]);
                     $leftovers["length"] /= $timebase;
                     $leftovers["where"] = $nyOffset;
                     
-                    $nEX = $x + $meas["numerator"] * PXPERBEAT;
+                    $nEX = $x + $meas["num"] * PXPERBEAT;
                 }
                 else {
                     $leftovers = array();
