@@ -1,6 +1,6 @@
 <?php
 
-    define("CHARTVERSION", 1);
+    define("CHARTVERSION", 2);
     define("RB_CACHE", "_rockband_chartgen.cache");
     
     

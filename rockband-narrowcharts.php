@@ -4,7 +4,7 @@
 	define("PXPERBEAT", 30);
 	define("STAFFHEIGHT", 12);
 	define("DRAWPLAYERLINES", 0);
-	define("CHARTGENVERSION", "0.8.3");
+	define("CHARTGENVERSION", "0.9.0");
 	define("MIDIPATH", "mids/");
 	define("OUTDIR", "charts/");
 	
@@ -84,7 +84,7 @@
     
     // open the table for full band
     fwrite($idx["fullband"], "<table border=\"1\">");
-    fwrite($idx["guitarbass"], "<table border=\"1\">");
+#    fwrite($idx["guitarbass"], "<table border=\"1\">");
     fwrite($idx["guitardrums"], "<table border=\"1\">");
     
     
