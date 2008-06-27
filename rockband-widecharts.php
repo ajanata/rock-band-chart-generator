@@ -232,10 +232,9 @@ EOT
                 $cache[$shortname]["guitar"][$diff]["bre"] = $brescore;
         	}
             
+            
             fwrite($idx["guitar"][$diff], "<tr><td><a href=\"" . $shortname . "_guitar_" . $diff . "_blank.png\">" . $realname . "</a></td>");
-            
-            
-        	fwrite($idx["guitar"][$diff], "<td>" . $absbasescore . "</td>");
+            fwrite($idx["guitar"][$diff], "<td>" . $absbasescore . "</td>");
         	fwrite($idx["guitar"][$diff], "<td>" . $basescore . "</td>");
         	fwrite($idx["guitar"][$diff], "<td>" . $bonusscore . "</td>");
         	fwrite($idx["guitar"][$diff], "<td>" . $brescore . "</td>");
@@ -265,8 +264,6 @@ EOT
                 imagepng($im, OUTDIR . "rb/bass/" . $shortname . "_bass_" . $diff . "_blank.png");
                 imagedestroy($im);
                 
-                fwrite($idx["bass"][$diff], "<tr><td><a href=\"" . $shortname . "_bass_" . $diff . "_blank.png\">" . $realname . "</a></td>");
-                
                 // ugly score kludges
                 $absbasescore = 0;
                 foreach ($measures["bass"] as $m) {
@@ -290,7 +287,8 @@ EOT
                 $cache[$shortname]["bass"][$diff]["bonus"] = $bonusscore;
                 $cache[$shortname]["bass"][$diff]["bre"] = $brescore;
         	}
-        	            
+
+            fwrite($idx["bass"][$diff], "<tr><td><a href=\"" . $shortname . "_bass_" . $diff . "_blank.png\">" . $realname . "</a></td>");
         	fwrite($idx["bass"][$diff], "<td>" . $absbasescore . "</td>");
         	fwrite($idx["bass"][$diff], "<td>" . $basescore . "</td>");
         	fwrite($idx["bass"][$diff], "<td>" . $bonusscore . "</td>");
