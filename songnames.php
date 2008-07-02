@@ -276,6 +276,11 @@
     $NAMES["theregoesmygun"] = "There Goes My Gun";
     $NAMES["troublemaker"] = "Troublemaker";
 
+    # 7/1
+    $NAMES["downatthewhiskey"] = "Dawn at the Whiskey";
+    $NAMES["promisedland"] = "Promised Land";
+    $NAMES["timeisrunningout"] = "Time is Running Out";
+    $NAMES["whosgoinghome"] = "Who's Going Home with You Tonight";
 
 
     

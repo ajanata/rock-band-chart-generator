@@ -15,7 +15,7 @@ function opt_drums(&$notetrack, &$events, &$timetrack, $diff) {
     $total_notes *= 100;
     $total_notes -= 1425;
     
-    print_r($path);
+//    print_r($path);
     $out = "";
     $concise = "";
     for ($foo = 0; $foo < count($path); $foo++) {
@@ -161,7 +161,7 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, &$diff, $start) {
                 $fills[$fillIndex]["index"] = $eventIndex;
                 $fills[$fillIndex]["phrases"] = $phrases;
 
-                // round the end of a fill to a beat
+                // round the end of a fill to a beat -- this might be a BUG
                 $fill_end = $events[$eventIndex]["end"];
                 if (($fill_end % $timebase) != 0) {
                     $fill_end = (int)($fill_end / $timebase);
