@@ -54,12 +54,20 @@
         case "drums":
             echo "Optimizing $diff drums...\n";
             // opt_drums mucks around with the events track is is passed
-            opt_drums($notetracks["drums"][$diff], $events["drums"], $timetrack, $diff);
+            $path = opt_drums($notetracks["drums"][$diff], $events["drums"], $timetrack, $diff);
 
             echo "Generating image...\n";
 
             $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /*guitar*/ false,
                     /*bass*/ false, /*drums*/ true, /*vocals*/ false, $songname, $beat);
+	
+	        global $activated, $black;
+	        
+	        imagestring($im, 5, WIDTH - (strlen($path) * 9), 40, $path, $black);
+	        imagestring($im, 4, 500, 0, "Fill delay: " . FILL_DELAY . "s", $black);
+        	imagefilledrectangle($im, WIDTH-185, 16, WIDTH, 30, $silver);
+            imagestring($im, 3, WIDTH-100, 15, "Activation", $activated);
+   
 	
         	imagepng($im, "optimal_paths/rb/drums/" . $diff . "/" . $songname . "_drums_" . $diff . "_optimal.png");
         	imagedestroy($im);

@@ -1141,6 +1141,8 @@ function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
     foreach ($events as $inst => &$instevents) {
         #echo "doing $inst \n";
         
+        $phraseEnd = array("easy" => 0, "medium" => 0, "hard" => 0, "expert" => 0);
+        
         foreach ($instevents as $eventIndex => &$event) {
             // TODO handle P1/P2 events?
             
@@ -1162,6 +1164,9 @@ function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
                 
                 // now we're pointing to the note after the last note in the phrase
                 $event["last_note"] = $noteIndex - 1;
+                
+                // store when the last note is for fill detection later
+                $phraseEnd[$event["difficulty"]] = $notetracks[$inst][$event["difficulty"]][$noteIndex - 1]["time"];
             } // star event
             
             // fills on guitar or bass are BREs
@@ -1220,6 +1225,8 @@ function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
                     // now we're pointing to the note after the last note in the fill
                     $event["last_note"] = $noteIndex - 1;
                     $event["notes"] = $fillNotes;
+                    
+                    $event["delay"] = round(getClockTimeBetweenPulses($timetrack, $phraseEnd[$margush], $event["start"]), 3);
                 }
             } // drum activation fill
 

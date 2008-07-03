@@ -43,6 +43,8 @@ function opt_drums(&$notetrack, &$events, &$timetrack, $diff) {
     foreach ($oldevents as $oe) {
         $events[] = $oe;
     }
+    
+    return $concise;
 }
 
 /*

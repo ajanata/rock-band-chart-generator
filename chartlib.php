@@ -411,7 +411,8 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	       
 	       // draw number of notes in solo
 	       // or BRE score
-	       if ($e["type"] == "solo" || isset($e["brescore"])) {
+	       // or clock delay since last OD note
+	       if ($e["type"] == "solo" || isset($e["brescore"]) || isset($e["delay"])) {
 	           $tX = $e["end"] - $meas["time"];
                $tX /= $timebase;
                $tX *= PXPERBEAT;
@@ -421,8 +422,11 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
                if ($e["type"] == "solo") {
                    $xyzzy = $e["notes"] . " notes";
                }
+               else if (isset($e["brescore"])) {
+                   $xyzzy = $e["brescore"] . " Ending Bonus";
+               }
                else {
-                   $xyzzy = $e["brescore"];
+                   $xyzzy = $e["delay"] . "s";
                }
                imagestring($im, 2, $tX, $tY, $xyzzy, $black);
 	       }
@@ -459,7 +463,7 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	       
 	       // draw number of notes in solo
 	       // or BRE score
-	       if ($e["type"] == "solo" || isset($e["brescore"])) {
+	       if ($e["type"] == "solo" || isset($e["brescore"]) || isset($e["delay"])) {
 	           $tX = $e["end"] - $meas["time"];
                $tX /= $timebase;
                $tX *= PXPERBEAT;
@@ -469,8 +473,11 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
                if ($e["type"] == "solo") {
                    $xyzzy = $e["notes"] . " notes";
                }
-               else {
+               else if (isset($e["brescore"])) {
                    $xyzzy = $e["brescore"] . " Ending Bonus";
+               }
+               else {
+                   $xyzzy = $e["delay"] . "s";
                }
                imagestring($im, 2, $tX, $tY, $xyzzy, $black);
 	       }
