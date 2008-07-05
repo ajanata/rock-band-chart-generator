@@ -165,11 +165,13 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, &$diff, $start) {
 
                 // round the end of a fill to a beat -- this might be a BUG
                 $fill_end = $events[$eventIndex]["end"];
+                /*
                 if (($fill_end % $timebase) != 0) {
                     $fill_end = (int)($fill_end / $timebase);
                     $fill_end *= $timebase;
                     $fill_end += $timebase;
                 }
+                */
 
                 $skipped_notes += drums_count_notes($notetrack, $events[$eventIndex]["start"], $fill_end);
                 $fills[$fillIndex]["skipped_notes"] = $skipped_notes;

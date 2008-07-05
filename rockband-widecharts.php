@@ -36,7 +36,7 @@
         
     umask(0);
     
-    foreach (array("guitar", "bass", "drums", "vocals", /* "guitarbass", */ "vocaltar") as $xyzzy) {
+    foreach (array("guitar", "bass", "drums", "vocals", /* "guitarbass", */ "vocaltar", "vocaldrums") as $xyzzy) {
         if (file_exists(OUTDIR . "rb/" . $xyzzy)) continue;
         if (!mkdir(OUTDIR . "rb/" . $xyzzy, 0777, true)) die("Unable to create output directory " . OUTDIR . "rb/" . $xyzzy . "\n");
     }
@@ -52,6 +52,11 @@
     $idx["voxtar"] = null;
     if (false === ($idx["voxtar"] = fopen(OUTDIR . "rb/vocaltar/index.html", "w"))) {
         die("Unable to open file " . OUTDIR . "rb/vocaltar/index.html for writing.\n");
+    }
+
+    $idx["voxdrums"] = null;
+    if (false === ($idx["voxdrums"] = fopen(OUTDIR . "rb/vocaldrums/index.html", "w"))) {
+        die("Unable to open file " . OUTDIR . "rb/vocaldrums/index.html for writing.\n");
     }
 
     $idx["drums"] = null;
@@ -103,6 +108,7 @@
     // put the header into every file
     index_header($idx["vox"], "Vocals");
     index_header($idx["voxtar"], "Vocaltar");
+    index_header($idx["voxdrums"], "Vocals+drums");
     index_header($idx["drums"], "Drums");
     foreach ($idx["guitar"] as $foo => $bar) { index_header($bar, "$foo guitar"); }
     foreach ($idx["bass"] as $foo => $bar) { index_header($bar, "$foo bass"); }
@@ -111,9 +117,10 @@
 
     // open the tables
     // vocals doesn't need a table -- just a flat list of links
-    // drums and voxtar get the simple table
+    // drums and voxtar and voxdrums get the simple table
     fwrite($idx["drums"], "<table border=\"1\">");
     fwrite($idx["voxtar"], "<table border=\"1\">");
+    fwrite($idx["voxdrums"], "<table border=\"1\">");
     
     // everything else gets the complex table
     foreach (array($idx["guitar"], $idx["bass"]/*, $idx["guitarbass"]*/) as $foo) {
@@ -171,7 +178,7 @@ EOT
         
         foreach ($DIFFICULTIES as $diff) {
             echo " ($diff)";
-        	if (isset($cache[$shortname]["drums"][$diff]) && $cache[$shortname]["drums"][$diff]["version"] >= CHARTVERSION) {
+        	if (isset($cache[$shortname]["drums"][$diff]) && $cache[$shortname]["drums"][$diff]["version"] >= CHARTVERSION+DRUMSVERMOD) {
         	   // we already have a valid image for this
         	   echo " {cached}";
     	    }
@@ -180,7 +187,7 @@ EOT
                      /* bass*/ false, /* drums */ true, /* vocals */ false, $realname, $beat);
                 imagepng($im, OUTDIR . "rb/drums/" . $shortname . "_drums_" . $diff . "_blank.png");
                 imagedestroy($im);
-                $cache[$shortname]["drums"][$diff]["version"] = CHARTVERSION;
+                $cache[$shortname]["drums"][$diff]["version"] = CHARTVERSION+DRUMSVERMOD;
           	}
 
             fwrite($idx["drums"], "<td><a href=\"" . $shortname . "_drums_" . $diff . "_blank.png\">" . $diff . "</a></td>");
@@ -368,6 +375,30 @@ EOT
         } // voxtar diffs
         fwrite($idx["voxtar"], "</tr>\n");
 
+
+        // voxdrums
+        echo " [voxdrums]";
+        
+        fwrite($idx["voxdrums"], "<tr><td>" . $realname . "</td>");
+        foreach ($DIFFICULTIES as $diff) {
+            echo " ($diff)";
+        	if (isset($cache[$shortname]["voxdrums"][$diff]) && $cache[$shortname]["voxdrums"][$diff]["version"] >= CHARTVERSION+DRUMSVERMOD+1) {
+        	   // we already have a valid image for this
+        	   echo " {cached}";
+    	    }
+          	else {
+                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ false,
+                       /* bass*/ false, /* drums */ true, /* vocals */ true, $realname, $beat);
+                imagepng($im, OUTDIR . "rb/vocaldrums/" . $shortname . "_vocaldrums_" . $diff . "_blank.png");
+                imagedestroy($im);
+                
+                $cache[$shortname]["voxdrums"][$diff]["version"] = CHARTVERSION+DRUMSVERMOD+1;
+          	}
+            
+            fwrite($idx["voxdrums"], "<td><a href=\"" . $shortname . "_vocaldrums_" . $diff . "_blank.png\">" . $diff . "</a></td>");            
+        } // voxdrums diffs
+        fwrite($idx["voxdrums"], "</tr>\n");
+
         echo "\n";
     } // foreach file
 
@@ -375,6 +406,7 @@ EOT
     // close the files
     fwrite($idx["vox"], "</body>\n</html>");
     fwrite($idx["voxtar"], "</table>\n</body>\n</html>");
+    fwrite($idx["voxdrums"], "</table>\n</body>\n</html>");
     fwrite($idx["drums"], "</table>\n</body>\n</html>");
     foreach ($idx["guitar"] as $bar => $foo) {
         if ($bar != "idx") fwrite($foo, "</table>\n");
@@ -394,37 +426,5 @@ EOT
     saveCache(RB_CACHE, $cache);
 
     exit;
-
-
-    function index_header($fhand, $title) {
-        fwrite($fhand, "<html>\n<head>\n<title>Blank Charts for Rock Band $title</title>\n</head>\n");
-        fwrite($fhand, <<<EOT
-<body>
-<p>These charts are blank. They have not been verified against the game and may be faulty. If you see something horribly wrong please <a href="http://rockband.scorehero.com/forum/privmsg.php?mode=post&u=52545">send me a message</a> on ScoreHero. Relevant discussion threads for <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=4773">drums</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=5062">guitar/bass/guitar+bass</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7625">vocals</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7626">vocaltar</a>, and <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7627">full band</a>.</p>
-<p>They are in alphabetical order by .mid file name (this normally doesn't mean anything, but "the" is often left out). Probably easier to find a song this way anyway.</p>
-<p>Solo note counts and estimated upperbound Big Rock Ending bonuses listed above where the solo or ending ends. To the bottom right of each measure are numbers relating to that measure. Black is the measure score (no multiplier taken into account). Red is the cumulative score to that point (with multipliers) without solo bonuses. Green (on guitar parts only) is cumulative score to that point counting solo bonuses. Blue is the number of whammy beats (no early whammy taken into account) in that measure.</p>
-<p>Vocal activation zones are not stored in the .mid as they are with drums. This leads me to believe that any gap larger than a certain amount of time (be it clock time or number of beats, I'm not sure) is an activation zone. At some point in the not-too-distant future I intend to do more research on this.</li>
-<p>Overdrive phrase backgrounds extend the exact range specified in the .mid file. Sometimes this is significantly shorter than the length of a sustained note (see third note in <a href="/charts/rb/guitar/foreplaylongtime_guitar_expert_blank.png">Foreplay/Long Time</a> for example).</p>
-<p>Significant changes since last time:
-<ul>
-<li><b>The .mid BEAT track is now displayed on every chart.</b> The game uses this to determine how long Overdrive lasts. A full bar of Overdrive always lasts for exactly 32 BEAT track beats. Most of the time this is 16, 32, or 64 noteboard beats, depending on tempo. Sometimes, it isn't (see the first break in Foreplay/Long Time for an example). I don't see the two events in the BEAT track doing different things in the gameplay (perhaps different stage lighting or something but nothing that matters for pathing), so I've drawn them all in the same color. If it isn't obvious, you want to look at the small red lines above every set of lines (this also makes a nice seperator for multi-instrument parts). <u>Note that this <b>DOES NOT</b> affect whammy rate, only usage rate.</u> Whammy is always based on noteboard beats.</li>
-<li><b>Band per-measure scores</b>, more or less. This is currently done "stupidly", and does not include vocals. It is "stupid" because it takes each instrument's per-measure score and multiplies it by the instrument's maximum multiplier, regardless of whether such a multiplier is possible yet at that point. Vocals is on the to-do list and maybe a smarter way of doing it.</li>
-<li>Vocal pitch lines should be much more accurate. Thank pata70 for going out of his way to figure out a better way to do it.</li>
-</ul></p>
-EOT
-);
-    }
-
-
-    function do_help() {
-        // TODO
-        exit;
-    }
-
-    
-    function do_version() {
-        // TODO
-        exit;
-    }
 
 ?>
