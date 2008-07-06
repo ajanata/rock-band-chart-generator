@@ -22,13 +22,47 @@
     
     // GH3
     $NAMES["3sand7s"] = "3's & 7's";
+    $NAMES["blackmagicwoman"] = "Black Magic Woman";
+    $NAMES["helicopter"] = "Helicopter";
     $NAMES["hierkommtalex"] = "Hier Kommt Alex";
+    $NAMES["hitmewithyourbestshot"] = "Hit Me With Your Best Shot";
     $NAMES["koolthing"] = "Kool Thing";
+    $NAMES["lagrange"] = "La Grange";
     $NAMES["numberofthebeast"] = "The Number of the Beast";
     $NAMES["paranoid"] = "Paranoid";
+    $NAMES["pridenjoy"] = "Pride and Joy";
+    $NAMES["rockandrollallnite"] = "Rock and Roll All Nite";
     $NAMES["sabotage"] = "Sabotage";
     $NAMES["whenyouwereyoung"] = "When You Were Young";
     
+    
+    // Guitar Hero: On Tour
+    $NAMES["allstar"] = "All Star";
+    #$NAMES["allthesmallthings"] = "All The Small Things";
+    $NAMES["annamolly"] = "Anna Molly";
+    #$NAMES["areyougonnabemygirl"] = "Are You Gonna Be My Girl";
+    #$NAMES["blackmagicwoman"] = "Black Magic Woman";
+    $NAMES["breed"] = "Breed";
+    $NAMES["chinagrove"] = "China Grove";
+    $NAMES["dowhatyouwant"] = "Do What You Want";
+    $NAMES["heaven"] = "Heaven";
+    #$NAMES["helicopter"] = "Helicopter";
+    #$NAMES["hitmewithyourbestshot"] = "Hit Me With Your Best Shot";
+    $NAMES["iamnotyourgameboy"] = "I Am Not Your Gameboy";
+    $NAMES["idontwannastop"] = "I Don't Wanna Stop";
+    $NAMES["iknowalittle"] = "I Know A Little";
+    $NAMES["jessesgirl"] = "Jessie's Girl";
+    $NAMES["jetairliner"] = "Jet Airliner";
+    $NAMES["knockmedown"] = "Knock Me Down";
+    #$NAMES["lagrange"] = "La Grange";
+    #$NAMES["pridenjoy"] = "Pride and Joy";
+    #$NAMES["rockandrollallnite"] = "Rock and Roll All Nite";
+    $NAMES["spiderwebs"] = "Spiderwebs";
+    $NAMES["straycatstrut"] = "Stray Cat Strut";
+    $NAMES["thislove"] = "This Love";
+    $NAMES["werenotgonnatakeit"] = "We're Not Gonna Take It";
+    $NAMES["whatiwant"] = "What I Want";
+    $NAMES["youthgonewild"] = "Youth Gone Wild";
     
     
     

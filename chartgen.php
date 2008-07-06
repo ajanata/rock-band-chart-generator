@@ -1,7 +1,7 @@
 <?php
 
-	define("WIDTH", 1170);
-	define("PXPERBEAT", /*70*/ 70 /*275*/);
+	define("WIDTH", 1024);
+	define("PXPERBEAT", /*70*/ 40 /*275*/);
 	define("STAFFHEIGHT", 12);
 	define("DRAWPLAYERLINES", 0);
 	define("CHARTGENVERSION", "0.8.9");
@@ -30,8 +30,8 @@
 	}
 	//global $game;
 	$game = strtolower($_GET["game"]);
-	if (!($game == "gh1" || $game == "gh2" || $game == "gh3" || $game == "rb")) {
-	   die("Invalid game -- specify one of gh1, gh2, gh3, or rb.");
+	if (!($game == "gh1" || $game == "gh2" || $game == "gh3" || $game == "rb" || $game == "ghot")) {
+	   die("Invalid game -- specify one of gh1, gh2, gh3, ghot, or rb.");
 	}
 	
 	

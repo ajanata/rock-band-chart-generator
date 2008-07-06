@@ -27,6 +27,14 @@
     $CONFIG["GH2"]["ticks_per_beat"] = 25;
     $CONFIG["GH2"]["ticks_at_new_multi"] = false;           // check
     
+    $CONFIG["GHOT"]["multi"][] = 9;
+    $CONFIG["GHOT"]["multi"][] = 19;
+    $CONFIG["GHOT"]["multi"][] = 29;
+    $CONFIG["GHOT"]["chord_sustain_bonus"] = true;
+    $CONFIG["GHOT"]["gem_score"] = 50;
+    $CONFIG["GHOT"]["ticks_per_beat"] = 25;
+    $CONFIG["GHOT"]["ticks_at_new_multi"] = false;           // check
+    
     $CONFIG["GH3"]["multi"][] = 9;
     $CONFIG["GH3"]["multi"][] = 19;
     $CONFIG["GH3"]["multi"][] = 29;
@@ -86,6 +94,7 @@
     
     $NOTES["GH2"] = &$NOTES["GH1"];
     $NOTES["GH3"] = &$NOTES["GH1"];
+    $NOTES["GHOT"] = &$NOTES["GH1"];
     
     
     $NOTES["RB"]["EASY"]["G"] = 60;

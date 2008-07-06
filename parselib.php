@@ -20,7 +20,6 @@ function parseFile($file, $game, $ignoreCache = false) {
     
     if (!$ignoreCache && file_exists($file . ".parsecache")) {
         $CACHED = true;
-        #echo "parseFile: Using parse cache file for $file \n";
         $cache = fopen($file . ".parsecache", 'r');
         $stat = fstat($cache);
         $serialized = fread($cache, $stat["size"]);
@@ -40,12 +39,12 @@ function parseFile($file, $game, $ignoreCache = false) {
     $eventsTrack = $guitarTrack = $guitarCoopTrack = $bassTrack = $drumsTrack = $vocalsTrack = $beatTrack = 0;
     for ($i = 1; $i < $mid->getTrackCount(); $i++) {
         $temp = $mid->getMsg($i, 0);
-        //echo substr($temp, 16); 
+        #echo substr($temp, 16) . "\n";
         if (substr($temp, 16) == "PART GUITAR\"") {
             $guitarTrack = $i;
         }
         if (substr($temp, 16) == "PART GUITAR COOP\"") {
-            $guitarTrack = $i;
+            $guitarCoopTrack = $i;
         }
         if (substr($temp, 16) == "T1 GEMS\"") {
             $guitarTrack = $i;
@@ -106,11 +105,6 @@ function parseFile($file, $game, $ignoreCache = false) {
 
             list ($notetracks, $events) = applyEventsToNoteTracks($notetracks, $events, $timetrack);
             
-            // trying a hack...
-#            $pelz = count($timetrack);
-#            $timetrack[$pelz]["time"] = $notetracks["guitar"]["TrkEnd"];
-#            $timetrack[$pelz]["bpm"] = 9999;
-
             $beat = parseBeat($mid->getTrackTxt($beatTrack));
 
             
@@ -125,18 +119,23 @@ function parseFile($file, $game, $ignoreCache = false) {
 
             break;
         case "GH1":
-
+            
+            #$notetracks["guitar"] = parseNoteTrack($mid->getTrackTxt($guitarTrack), $NOTES[$game]);
+            #$events["guitar"] = parsePhraseEvents($mid->getTrackTxt($guitarTrack), $NOTES[$game]);
+        
 
             break;
+            
         default:
             // gh2 and gh80s are the same
+            // also ghot
             // gh3 should be, too, but I'm not worrying about it now
             
-            $notetracks["guitar"] = parseNoteTrack($mid->getTrackTxt($guitarTrack), $NOTES[$game]);
-            $notetracks["bass"] = parseNoteTrack($mid->getTrackTxt($bassTrack), $NOTES[$game]);
+            $notetracks["guitar"] = ($guitarTrack > 0 ? parseNoteTrack($mid->getTrackTxt($guitarTrack), $NOTES[$game]) : null);
+            $notetracks["bass"] = ($bassTrack > 0 ? parseNoteTrack($mid->getTrackTxt($bassTrack), $NOTES[$game]) : null);
 
-            $events["guitar"] = parsePhraseEvents($mid->getTrackTxt($guitarTrack), $NOTES[$game]);
-            $events["bass"] = parsePhraseEvents($mid->getTrackTxt($bassTrack), $NOTES[$game]);
+            $events["guitar"] = ($guitarTrack > 0 ? parsePhraseEvents($mid->getTrackTxt($guitarTrack), $NOTES[$game]) : null);
+            $events["bass"] = ($bassTrack > 0 ? parsePhraseEvents($mid->getTrackTxt($bassTrack), $NOTES[$game]) : null);
             
             list ($notetracks, $events) = applyEventsToNoteTracks($notetracks, $events, $timetrack);
             
@@ -1359,6 +1358,7 @@ function calcScores($measures, $notetracks, $events, $config, $game, $songname =
                             $gems = $config["gem_score"]  * count($n["note"]);
                             $ticks = floor($config["ticks_per_beat"] * ($n["duration"] / $timebase) + EPS);
                             $ticks *= ($config["chord_sustain_bonus"] ? count($n["note"]) : 1);
+
                             $fillNoteScore += $gems + $ticks;
                         }
                         if ($n["time"] > $bre["end"]) {

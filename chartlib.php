@@ -2,7 +2,7 @@
 	
 	define("CHARTLIBVERSION", "0.8.3");
 	
-	define("DRAWPULSES", false);
+	define("DRAWPULSES", true);
 
     require_once "vocalchartlib.php";
  
@@ -558,12 +558,13 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	
 	
 	// section name
-    foreach ($sections as $sect) {
-        if ($sect["time"] >= $meas["time"] && $sect["time"] < $meas["time"] + $timebase*$meas["num"]) {
-            imagestring($im, 2, $x + PXPERBEAT/2, $y-14, $sect["name"], $sectionname);
+	if (is_array($sections)) {
+        foreach ($sections as $sect) {
+            if ($sect["time"] >= $meas["time"] && $sect["time"] < $meas["time"] + $timebase*$meas["num"]) {
+                imagestring($im, 2, $x + PXPERBEAT/2, $y-14, $sect["name"], $sectionname);
+            }
         }
-    }
-	
+	}	
 	
 	
 	

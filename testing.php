@@ -18,7 +18,7 @@
 
   /* */
     $mid = new Midi;
-    $mid->importMid("mids/rb/_sunday.mid");
+    $mid->importMid("mids/ghot/annamolly.mid");
 
     #echo "Time Signature Track\n";
     #echo $mid->getTrackTxt(0);
@@ -80,7 +80,7 @@
 
 # (songname, events[guitar...vocals], timetrack, measures[guitar...drums][easy...expert], notetracks[guitar...drums][easy...expert], vocals)
 
-    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/rb/waveofmutilation.mid", "RB", true);
+    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/ghot/annamolly.mid", "GHOT", true);
 
 //	list ($measures, $notetrack, $songname, $events) = parseFile("../mids/rb/shouldistay.mid", "EASY", "RB", "GUITAR");
 
