@@ -1,5 +1,7 @@
 <?php
 
+    define('REVISION', 159);
+
     define('EPS', 1.0e-10);
 
     // notes closer than 15 pulses are a chord
@@ -32,8 +34,8 @@
     $CONFIG["GHOT"]["multi"][] = 29;
     $CONFIG["GHOT"]["chord_sustain_bonus"] = true;
     $CONFIG["GHOT"]["gem_score"] = 50;
-    $CONFIG["GHOT"]["ticks_per_beat"] = 25;
-    $CONFIG["GHOT"]["ticks_at_new_multi"] = false;           // check
+    $CONFIG["GHOT"]["ticks_per_beat"] = 22;
+    $CONFIG["GHOT"]["ticks_at_new_multi"] = true;           // check
     
     $CONFIG["GH3"]["multi"][] = 9;
     $CONFIG["GH3"]["multi"][] = 19;

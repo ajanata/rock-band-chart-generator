@@ -1422,9 +1422,9 @@ function calcScores($measures, $notetracks, $events, $config, $game, $songname =
                             }
                             $totalTicks *= ($config["chord_sustain_bonus"] ? count($n["note"]) : 1);
                             
-                            $total += $oldmult * ($gems + $totalTicks);
-                            #($oldmult * $gems) + ($oldmult * $totalTicks);
-                            $totalWithBonuses += $oldmult * ($gems + $totalTicks);
+                            $tickmult = $config["ticks_at_new_multi"] ? $mult : $oldmult;
+                            $total += ($gems * $oldmult) + ($tickmult * $totalTicks);
+                            $totalWithBonuses += ($gems * $oldmult) + ($tickmult * $totalTicks);
                             
                             $overChord = $config["chord_sustain_bonus"] ? count($n["note"]) : 1;
                         } // normal note
