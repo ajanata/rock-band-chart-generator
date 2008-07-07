@@ -32,11 +32,11 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
 	       
 	       $y += 5*DRAWPLAYERLINES;
 	       //$y += 15 * ($do_guitar + $do_bass + $do_drums + $do_vocals);
-	       $y += 30;
+	       $y += 25;
 	       if ($do_guitar) $y += 40 + 5 * STAFFHEIGHT;
 	       if ($do_bass) $y += 40 + 5 * STAFFHEIGHT;
 	       if ($do_drums) $y += 40 + 4 * STAFFHEIGHT;
-	       if ($do_vocals) $y += 50 + 7 * STAFFHEIGHT;
+	       if ($do_vocals) $y += 50 + 7 * (STAFFHEIGHT/2);
 	       $y += 15;
 	   }
 	   if ($x + PXPERBEAT * $measures_all["guitar"][$i]["num"] > WIDTH - 50 && $i != count($measures_all["guitar"]) - 1) {
@@ -44,11 +44,11 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
 
 	       $y += 5*DRAWPLAYERLINES;
 	       //$y += 15 * ($do_guitar + $do_bass + $do_drums + $do_vocals);
-	       $y += 30;
-	       if ($do_guitar) $y += 40 + 5 * STAFFHEIGHT;
-	       if ($do_bass) $y += 40 + 5 * STAFFHEIGHT;
-	       if ($do_drums) $y += 40 + 4 * STAFFHEIGHT;
-	       if ($do_vocals) $y += 50 + 7 * STAFFHEIGHT;
+	       $y += 25;
+	       if ($do_guitar) $y += 45 + 5 * STAFFHEIGHT;
+	       if ($do_bass) $y += 45 + 5 * STAFFHEIGHT;
+	       if ($do_drums) $y += 45 + 4 * STAFFHEIGHT;
+	       if ($do_vocals) $y += 55 + 7 * (STAFFHEIGHT/2);
 	       $y += 15;
 	   }
 	   else {
@@ -59,10 +59,10 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
 	global $HEIGHT;
 	//$HEIGHT = $y + 200 + 75 * ($do_vocals) + 50 * ($do_guitar) + 50 * ($do_bass) + 50 * ($do_drums);
 	$y += 40 + 5*DRAWPLAYERLINES;
-    if ($do_guitar) $y += 40 + 5 * STAFFHEIGHT;
-    if ($do_bass) $y += 40 + 5 * STAFFHEIGHT;
-    if ($do_drums) $y += 40 + 4 * STAFFHEIGHT;
-    if ($do_vocals) $y += 50 + 7 * STAFFHEIGHT;
+    if ($do_guitar) $y += 45 + 5 * STAFFHEIGHT;
+    if ($do_bass) $y += 45 + 5 * STAFFHEIGHT;
+    if ($do_drums) $y += 45 + 4 * STAFFHEIGHT;
+    if ($do_vocals) $y += 55 + 7 * (STAFFHEIGHT/2);
     $HEIGHT = $y;
 	
 	$im = imagecreate(WIDTH, $HEIGHT) or die("Cannot intialize new GD image");
@@ -148,11 +148,11 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
 
 	       $y += 5*DRAWPLAYERLINES;
 	       //$y += 15 * ($do_guitar + $do_bass + $do_drums + $do_vocals);
-	       $y += 30;
-	       if ($do_guitar) $y += 40 + 5 * STAFFHEIGHT;
-	       if ($do_bass) $y += 40 + 5 * STAFFHEIGHT;
-	       if ($do_drums) $y += 40 + 4 * STAFFHEIGHT;
-	       if ($do_vocals) $y += 50 + 7 * STAFFHEIGHT;
+	       $y += 25;
+	       if ($do_guitar) $y += 45 + 5 * STAFFHEIGHT;
+	       if ($do_bass) $y += 45 + 5 * STAFFHEIGHT;
+	       if ($do_drums) $y += 45 + 4 * STAFFHEIGHT;
+	       if ($do_vocals) $y += 55 + 7 * (STAFFHEIGHT/2);
 	       $y += 15;
 	   }
 	   
@@ -167,7 +167,7 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
             drawMeasureBackground($im, $x, $y, $meas, $events_all["vocals"], $sections, "vocals", "expert");
             drawVocals($im, $x, $y, $meas, $vocals, $events_all["vocals"]);
             
-            $y += 7 * STAFFHEIGHT + 50;
+            $y += 7 * (STAFFHEIGHT/2) + 55;
         }
         if ($do_guitar) {
 	        // draw lead guitar measure
@@ -175,7 +175,7 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
             drawMeasureNotes($im, $x, $y, $meas, $notetracks["guitar"][$diff], $game, "guitar", $diff);
             drawMeasureScores($im, $x, $y + STAFFHEIGHT*4, $meas, $diff);
             
-            $y += 5 * STAFFHEIGHT + 40;
+            $y += 5 * STAFFHEIGHT + 45;
             
             $measScore += 4 * $measures_all["guitar"][$index]["mscore"][$diff];
         }
@@ -185,7 +185,7 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
             drawMeasureNotes($im, $x, $y, $measures_all["bass"][$index], $notetracks["bass"][$diff], $game, "bass", $diff);
             drawMeasureScores($im, $x, $y + STAFFHEIGHT*4, $measures_all["bass"][$index], $diff);
                                     
-            $y += 5 * STAFFHEIGHT + 40;
+            $y += 5 * STAFFHEIGHT + 45;
             
             $measScore += ($game == "RB" ? 6 : 4) * $measures_all["bass"][$index]["mscore"][$diff];
         }
@@ -195,7 +195,7 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
             drawMeasureNotes($im, $x, $y, $measures_all["drums"][$index], $notetracks["drums"][$diff], $game, /*"drums"*/ "drums", $diff);
             drawMeasureScores($im, $x, $y + STAFFHEIGHT*3, $measures_all["drums"][$index], $diff);
     
-            $y += 4 * STAFFHEIGHT + 40;
+            $y += 4 * STAFFHEIGHT + 45;
             
             $measScore += 4 * $measures_all["drums"][$index]["mscore"][$diff];
         }
@@ -209,11 +209,11 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
 
 	       $y += 5*DRAWPLAYERLINES;
 	       //$y += 15 * ($do_guitar + $do_bass + $do_drums + $do_vocals);
-	       $y += 30;
-           if ($do_guitar) $y += 40 + 5 * STAFFHEIGHT;
-	       if ($do_bass) $y += 40 + 5 * STAFFHEIGHT;
-	       if ($do_drums) $y += 40 + 4 * STAFFHEIGHT;
-	       if ($do_vocals) $y += 50 + 7 * STAFFHEIGHT;
+	       $y += 25;
+           if ($do_guitar) $y += 45 + 5 * STAFFHEIGHT;
+	       if ($do_bass) $y += 45 + 5 * STAFFHEIGHT;
+	       if ($do_drums) $y += 45 + 4 * STAFFHEIGHT;
+	       if ($do_vocals) $y += 55 + 7 * (STAFFHEIGHT/2);
 	       $y += 15;
 	   }
 	   else {
@@ -349,7 +349,8 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
             case "star":
                 $c = $phrase;
                 $bY = $y - 10;
-                $beY = $y + 10 + STAFFHEIGHT*(4-($instrument == "drums")) + 2*STAFFHEIGHT*($instrument == "vocals");
+                $beY = $y + 10 + STAFFHEIGHT*(4-($instrument == "drums")) - STAFFHEIGHT*($instrument=="vocals");
+                 //+ 2*STAFFHEIGHT*($instrument == "vocals");
                 #if ($instrument == "vocals") {
                 #    $bY += 10;
                 #    $beY -= 10;
@@ -358,7 +359,8 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
             case "activation":
                 $c = $activated;
                 $bY = $y - 30;
-                $beY = $y + 30 + STAFFHEIGHT*(4-($instrument == "drums")) + 2*STAFFHEIGHT*($instrument == "vocals");
+                $beY = $y + 30 + STAFFHEIGHT*(4-($instrument == "drums")) - STAFFHEIGHT*($instrument=="vocals");
+                //+ 2*STAFFHEIGHT*($instrument == "vocals");
                 break;
             case "p1":
                 if (DRAWPLAYERLINES) {
@@ -370,7 +372,7 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
                 if ($instrument == "vocals") {
                     $c = $upbeatline;
                     $bY = $y;
-                    $beY = $y + 6 * STAFFHEIGHT;
+                    $beY = $y + 6 * (STAFFHEIGHT/2);
                 }
                 break;
             case "p2":
@@ -383,7 +385,7 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
                 if ($instrument == "vocals") {
                     $c = $upbeatline;
                     $bY = $y;
-                    $beY = $y + 6 * STAFFHEIGHT;  
+                    $beY = $y + 6 * (STAFFHEIGHT/2);
 
                 }
 	   }
@@ -514,21 +516,21 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	// measure outline
 	imagesetthickness($im, 1);
 	imageline($im, $x, $y, $x + (PXPERBEAT * $meas["num"]), $y, $outline);
-	imageline($im, $x, $y + (STAFFHEIGHT * (4 - ($instrument == "drums"))) + 2*STAFFHEIGHT*($instrument == "vocals"), $x + (PXPERBEAT * $meas["num"]), $y + (STAFFHEIGHT * (4 - ($instrument == "drums"))) + 2*STAFFHEIGHT*($instrument == "vocals"), $outline);
+	imageline($im, $x, $y + (STAFFHEIGHT * (4 - ($instrument == "drums"))) - STAFFHEIGHT*($instrument=="vocals") /*+ 2*STAFFHEIGHT*($instrument == "vocals")*/, $x + (PXPERBEAT * $meas["num"]), $y + (STAFFHEIGHT * (4 - ($instrument == "drums"))) - STAFFHEIGHT*($instrument=="vocals") /* + 2*STAFFHEIGHT*($instrument == "vocals") */, $outline);
 	imagesetthickness($im, 1);
-	imageline($im, $x, $y, $x, $y + (STAFFHEIGHT * (4 - ($instrument == "drums"))) + 2*STAFFHEIGHT*($instrument == "vocals"), $outline);
-	imageline($im, $x + (PXPERBEAT * $meas["num"]), $y, $x + (PXPERBEAT * $meas["num"]), $y + (STAFFHEIGHT * (4 - ($instrument == "drums"))) + 2*STAFFHEIGHT*($instrument == "vocals"), $outline);
+	imageline($im, $x, $y, $x, $y + (STAFFHEIGHT * (4 - ($instrument == "drums"))) - STAFFHEIGHT*($instrument=="vocals") /*+ 2*STAFFHEIGHT*($instrument == "vocals")*/, $outline);
+	imageline($im, $x + (PXPERBEAT * $meas["num"]), $y, $x + (PXPERBEAT * $meas["num"]), $y + (STAFFHEIGHT * (4 - ($instrument == "drums"))) - STAFFHEIGHT*($instrument=="vocals") /*+ 2*STAFFHEIGHT*($instrument == "vocals")*/, $outline);
 	
 	// beat lines
 	for ($i = 0; $i < $meas["num"]; $i++) {
 		// up beat line
 		imagesetthickness($im, 1);
-		imageline($im, $x + ($i * PXPERBEAT + PXPERBEAT / 2.0), $y+1, $x + ($i * PXPERBEAT + PXPERBEAT / 2), $y-1 + (STAFFHEIGHT * (4 - ($instrument == "drums"))) + 2*STAFFHEIGHT*($instrument == "vocals"), $upbeatline);
+		imageline($im, $x + ($i * PXPERBEAT + PXPERBEAT / 2.0), $y+1, $x + ($i * PXPERBEAT + PXPERBEAT / 2), $y-1 + (STAFFHEIGHT * (4 - ($instrument == "drums"))) - STAFFHEIGHT*($instrument=="vocals") /*+ 2*STAFFHEIGHT*($instrument == "vocals")*/, $upbeatline);
 		
 		// don't draw the down beat line for the last one
 		if ($i+1 != $meas["num"]) {
 			imagesetthickness($im, 1);
-			imageline($im, $x + (($i+1) * PXPERBEAT), $y+1, $x + (($i+1) * PXPERBEAT), $y-1 + (STAFFHEIGHT * (4 - ($instrument == "drums"))) + 2*STAFFHEIGHT*($instrument == "vocals"), $downbeatline);
+			imageline($im, $x + (($i+1) * PXPERBEAT), $y+1, $x + (($i+1) * PXPERBEAT), $y-1 + (STAFFHEIGHT * (4 - ($instrument == "drums"))) - STAFFHEIGHT*($instrument=="vocals") /*+ 2*STAFFHEIGHT*($instrument == "vocals")*/, $downbeatline);
 		}
 		
 		
@@ -538,7 +540,7 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	// staff lines
 	for ($i = 1; $i < 4 - ($instrument == "drums") + 2*($instrument == "vocals"); $i++) {
 	   imagesetthickness($im, 1);
-	   imageline($im, $x+1, $y + (STAFFHEIGHT * $i), $x-1 + (PXPERBEAT * $meas["num"]), $y + (STAFFHEIGHT * $i), $staffline);
+	   imageline($im, $x+1, $y + ((STAFFHEIGHT * $i)/($instrument=="vocals"?2:1)), $x-1 + (PXPERBEAT * $meas["num"]), $y + ((STAFFHEIGHT * $i)/($instrument=="vocals"?2:1)), $staffline);
 	   
 	}
 	
@@ -548,8 +550,8 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 		$oldNum[$instrument] = $meas["num"];
 		$oldDenom[$instrument] = $meas["denom"];
 		
-		imagestring($im, 5, $x+2, $y+2 - (3 * ($instrument == "drums")) + (9 * ($instrument == "vocals")), $oldNum[$instrument], $timesig);
-		imagestring($im, 5, $x+2, $y+2 + (STAFFHEIGHT * 2) - (4 * ($instrument == "drums")) + (21 * ($instrument == "vocals")),
+		imagestring($im, 5, $x+2, $y+2 - (3 * ($instrument == "drums")) - (3 * ($instrument == "vocals")), $oldNum[$instrument], $timesig);
+		imagestring($im, 5, $x+2, $y+2 + (STAFFHEIGHT * 2) - (4 * ($instrument == "drums")) - (4 * ($instrument == "vocals")),
 		      $oldDenom[$instrument], $timesig);
 	}
 	
@@ -562,7 +564,7 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	if (is_array($sections)) {
         foreach ($sections as $sect) {
             if ($sect["time"] >= $meas["time"] && $sect["time"] < $meas["time"] + $timebase*$meas["num"]) {
-                imagestring($im, 2, $x + PXPERBEAT/2, $y-14, $sect["name"], $sectionname);
+                imagestring($im, 2, $x + PXPERBEAT, $y-14, $sect["name"], $sectionname);
             }
         }
 	}	

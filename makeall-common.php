@@ -33,7 +33,12 @@
         fwrite($fhand, "<html>\n<head>\n<title>Blank Charts for Rock Band $title</title>\n</head>\n");
         fwrite($fhand, <<<EOT
 <body>
-<p><a href="#skip">Skip to the charts!</a></p>
+<p><a href="#skip">Skip to the charts!</a> Last update: 
+EOT
+);
+        fwrite($fhand, date("r"));
+        fwrite($fhand, <<<EOT
+</p>
 <p>Significant changes recently:
 <ul>
 <li>Clock time since last OD note before drum activation fill. This is listed at the end of the file, in the same place solo bonuses and BRE estimates are. The window for a fill showing up is around 2.43 seconds. There is a glitched time in Learn to Fly but I have no idea what's causing it presently.</li>
