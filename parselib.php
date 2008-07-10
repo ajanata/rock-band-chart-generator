@@ -956,7 +956,7 @@ function dealWithNote($time, $type, $note, $vel, $gameNotes, &$notetrack, &$chor
 }
 
 
-function getClockTimeBetweenPulses(&$timetrack, $start, $end) {
+function getClockTimeBetweenPulses(/*&*/$timetrack, $start, $end) {
     global $timebase;
     
     if ($end < $start) {
@@ -1166,6 +1166,8 @@ function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
                 
                 // store when the last note is for fill detection later
                 $phraseEnd[$event["difficulty"]] = $notetracks[$inst][$event["difficulty"]][$noteIndex - 1]["time"];
+                
+                #echo $inst . " " . $event["difficulty"] . " star event last note " . ($noteIndex-1) . " ends at " . $phraseEnd[$event["difficulty"]] . "\n";
             } // star event
             
             // fills on guitar or bass are BREs
@@ -1226,6 +1228,8 @@ function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
                     $event["notes"] = $fillNotes;
                     
                     $event["delay"] = round(getClockTimeBetweenPulses($timetrack, $phraseEnd[$margush], $event["start"]), 3);
+                    #echo "clocks " . getClockTimeBetweenPulses($timetrack, $phraseEnd[$margush], $event["start"]) . "\n";
+                    #echo $margush . " drums fill delay " . $event["delay"] . " - fill at " . $event["start"] . " - last od " . $phraseEnd[$margush] . "\n";
                 }
             } // drum activation fill
 

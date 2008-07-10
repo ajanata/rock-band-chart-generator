@@ -166,7 +166,7 @@
     // close the files
     fwrite($idx["fullband"], "</table>\n</body>\n</html>");
     fclose($idx["fullband"]);
-    fclose($idx["streaks"]);
+    fclose($idx["streak"]);
     fclose($idx["bonuses"]);
 
     exit;

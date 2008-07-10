@@ -16,9 +16,9 @@
     
     
 
-  /* */
+  /* * /
     $mid = new Midi;
-    $mid->importMid("mids/ghot/annamolly.mid");
+    $mid->importMid("mids/rb/_revolution.mid");
 
     #echo "Time Signature Track\n";
     #echo $mid->getTrackTxt(0);
@@ -66,7 +66,7 @@
                         if ($n == $note) $xyzzy = true;
                     }
                 }
-            } */
+            } * /
             
             if (!$xyzzy) echo $line . "\n";
         }
@@ -80,7 +80,7 @@
 
 # (songname, events[guitar...vocals], timetrack, measures[guitar...drums][easy...expert], notetracks[guitar...drums][easy...expert], vocals)
 
-    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/ghot/annamolly.mid", "GHOT", true);
+    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/rb/criticalacclaim.mid", "RB", true);
 
 //	list ($measures, $notetrack, $songname, $events) = parseFile("../mids/rb/shouldistay.mid", "EASY", "RB", "GUITAR");
 

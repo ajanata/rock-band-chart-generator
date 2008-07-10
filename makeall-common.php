@@ -1,6 +1,6 @@
 <?php
 
-    define("CHARTVERSION", 2);
+    define("CHARTVERSION", 3);
     define("DRUMSVERMOD", 1);
     define("RB_CACHE", "_rockband_chartgen.cache");
     
