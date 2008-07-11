@@ -2,7 +2,7 @@
 	
 	define("CHARTLIBVERSION", "0.8.3");
 	
-	define("DRAWPULSES", true);
+	define("DRAWPULSES", false);
 
     require_once "vocalchartlib.php";
  

@@ -1,6 +1,6 @@
 <?php
 
-    define('REVISION', 160);
+    define('REVISION', 161);
 
     define('EPS', 1.0e-10);
 
@@ -35,7 +35,7 @@
     $CONFIG["GHOT"]["chord_sustain_bonus"] = true;
     $CONFIG["GHOT"]["gem_score"] = 50;
     $CONFIG["GHOT"]["ticks_per_beat"] = 22;
-    $CONFIG["GHOT"]["ticks_at_new_multi"] = true;           // check
+    $CONFIG["GHOT"]["ticks_at_new_multi"] = false;           // check
     
     $CONFIG["GH3"]["multi"][] = 9;
     $CONFIG["GH3"]["multi"][] = 19;

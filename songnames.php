@@ -316,6 +316,11 @@
     $NAMES["timeisrunningout"] = "Time is Running Out";
     $NAMES["whosgoinghome"] = "Who's Going Home with You Tonight";
 
+    # 7/8
+    $NAMES["closertotheheart"] = "Closer to the Heart";
+    $NAMES["snowheyoh"] = "Snow ((Hey Oh))";
+    $NAMES["tellmebaby"] = "Tell Me Baby";
+    $NAMES["workingman2"] = "Working Man (Vault Edition)";
 
     
 
