@@ -7,8 +7,8 @@
     define("OPTDEBUG", false);
     define("OPTCACHE", true);
 
-function opt_drums(&$notetrack, &$events, &$timetrack, $diff) {
-    $path = opt_drums_recurse($notetrack, $events, $timetrack, $diff, 0);
+function opt_drums(&$notetrack, &$events, &$timetrack, &$beat, $diff) {
+    $path = opt_drums_recurse($notetrack, $events, $timetrack, $beat, $diff, 0);
     
     $total_notes = drums_count_notes($notetrack, 0, $notetrack["TrkEnd"]);
     $total_notes += $path[0]["total_gain"];
@@ -77,7 +77,7 @@ process_chart(chart section)
 
 */
 
-function opt_drums_recurse(&$notetrack, &$events, &$timetrack, &$diff, $start) {
+function opt_drums_recurse(&$notetrack, &$events, &$timetrack, &$beat, &$diff, $start) {
     static $cache;
     if (!$cache) $cache = array();
     
@@ -199,13 +199,13 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, &$diff, $start) {
             $activation_start *= $timebase;
             $activation_start += $timebase;
         }
-        list ($activation_end, $overrun) = drums_determine_activation_end($notetrack, $events, $timetrack,
+        list ($activation_end, $overrun) = drums_determine_activation_end($notetrack, $events, $timetrack, $beat,
                 $activation_start, min(1, $fills[$i]["phrases"]/4), $diff);
         $score_gain = drums_count_notes($notetrack, $activation_start + 1, $activation_end);
         $score_gain -= $fills[$i]["skipped_notes"];
         $my_gain = $score_gain;
         
-        $recursepath = opt_drums_recurse($notetrack, $events, $timetrack, $diff, $activation_end + 1);
+        $recursepath = opt_drums_recurse($notetrack, $events, $timetrack, $beat, $diff, $activation_end + 1);
         $score_gain += $recursepath[0]["total_gain"];
         
         if ($score_gain > $best_score_gain) {
@@ -236,7 +236,8 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, &$diff, $start) {
 }
 
 
-function drums_determine_activation_end(&$notetrack, &$events, &$timetrack, &$start, &$bar_amount, &$diff) {
+// returns array(end pulse, phrases overlapped)
+function drums_determine_activation_end(&$notetrack, &$events, &$timetrack, &$beat, &$start, &$bar_amount, &$diff) {
     // TO-DO: check the tempo to figure out if it's a funky section that is not 32 beats for a full bar
     // currently only checks for overrunning phrases
 
@@ -253,7 +254,11 @@ function drums_determine_activation_end(&$notetrack, &$events, &$timetrack, &$st
     global $timebase;
     $overrun = 0;
     
-    $end = $start + ($timebase * /* */ 32 /* */ /* * / 16 /* */ * $bar_amount);
+    $beatindex = findFirstThingAtTime($beat, $start, "time");
+    $beatindex += 32 * $bar_amount;
+    $beatindex = min($beatindex, count($beat) - 1);
+    $end = $beat[$beatindex]["time"];
+    
     $eventIndex = 0;
     
     while ($events[$eventIndex]["start"] < $start) {
@@ -285,7 +290,9 @@ function drums_determine_activation_end(&$notetrack, &$events, &$timetrack, &$st
             
             // we run over this phrase and get another 1/4 bar
             if (OPTDEBUG) echo "drums_determine_activation_end activation at $start overruns phrase at " . $events[$eventIndex]["start"] . "\n";
-            $end += $timebase * /* */ 8 /* */ /* * / 4 /* */;
+            $beatindex += 8;
+            $beatindex = min($beatindex, count($beat) - 1);
+            $end = $beat[$beatindex]["time"];
             $overrun++;
         }
         

@@ -16,9 +16,9 @@
     
     
 
-  /* * /
+  /* */
     $mid = new Midi;
-    $mid->importMid("mids/rb/_revolution.mid");
+    $mid->importMid("mids/rb/nib.mid");
 
     #echo "Time Signature Track\n";
     #echo $mid->getTrackTxt(0);
@@ -66,7 +66,7 @@
                         if ($n == $note) $xyzzy = true;
                     }
                 }
-            } * /
+            } */
             
             if (!$xyzzy) echo $line . "\n";
         }

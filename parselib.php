@@ -64,6 +64,11 @@ function parseFile($file, $game, $ignoreCache = false) {
         if (substr($temp, 16) == "BEAT\"") {
             $beatTrack = $i;
         }
+        // required by N.I.B.
+        if (substr($temp, 16) == "BEATS\"") {
+            $beatTrack = $i;
+        }
+
     }
     
 

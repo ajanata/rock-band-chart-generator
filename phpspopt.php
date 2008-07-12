@@ -54,7 +54,7 @@
         case "drums":
             echo "Optimizing $diff drums...\n";
             // opt_drums mucks around with the events track is is passed
-            $path = opt_drums($notetracks["drums"][$diff], $events["drums"], $timetrack, $diff);
+            $path = opt_drums($notetracks["drums"][$diff], $events["drums"], $timetrack, $beat, $diff);
 
             echo "Generating image...\n";
 
