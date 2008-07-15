@@ -322,6 +322,19 @@
     $NAMES["tellmebaby"] = "Tell Me Baby";
     $NAMES["workingman2"] = "Working Man (Vault Edition)";
 
-    
+    # 7/15 The Who
+    $NAMES["amazingjourney"] = "Amazing Journey";
+    $NAMES["babaoriley"] = "Baba O'Riley";
+    $NAMES["behindblueeyes"] = "Behind Blue Eyes";
+    $NAMES["eminencefront"] = "Eminence Front";
+    $NAMES["goingmobile"] = "Going Mobile";
+    $NAMES["leavinghere"] = "Leaving Here";
+    $NAMES["mygeneration"] = "My Generation (Live at Leeds)";
+    $NAMES["realgoodlooking"] = "Real Good Looking Boy";
+    $NAMES["seaandsand"] = "Sea & Sand";
+    $NAMES["summertimeblues"] = "Summertime Blues (Live at Leeds)";
+    $NAMES["whoareyou"] = "Who Are You";
+    $NAMES["youngmanblues"] = "Young Man Blues (Live at Leeds)";
+
 
 ?>
