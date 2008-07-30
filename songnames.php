@@ -326,7 +326,8 @@
     $NAMES["amazingjourney"] = "Amazing Journey";
     $NAMES["babaoriley"] = "Baba O'Riley";
     $NAMES["behindblueeyes"] = "Behind Blue Eyes";
-    $NAMES["eminencefront"] = "Eminence Front";
+    # seems to be a bug on their end, mid filename doesn't match
+    $NAMES["eminencefront1"] = "Eminence Front";
     $NAMES["goingmobile"] = "Going Mobile";
     $NAMES["leavinghere"] = "Leaving Here";
     $NAMES["mygeneration"] = "My Generation (Live at Leeds)";
@@ -335,6 +336,17 @@
     $NAMES["summertimeblues"] = "Summertime Blues (Live at Leeds)";
     $NAMES["whoareyou"] = "Who Are You";
     $NAMES["youngmanblues"] = "Young Man Blues (Live at Leeds)";
+
+    # 7/22 and 7/29
+    $NAMES["burn"] = "Burn";
+    $NAMES["capitalg"] = "Capital G";
+    $NAMES["devour"] = "Devour";
+    $NAMES["electriccrown"] = "Electric Crown";
+    $NAMES["junkiesforfame"] = "Junkies For Fame";
+    $NAMES["last"] = "Last";
+    $NAMES["theysay"] = "They Say";
+    $NAMES["thisisit"] = "This is It";
+    $NAMES["yomp"] = "Yomp";
 
 
 ?>
