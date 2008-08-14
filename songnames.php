@@ -311,7 +311,7 @@
     $NAMES["troublemaker"] = "Troublemaker";
 
     # 7/1
-    $NAMES["downatthewhiskey"] = "Dawn at the Whiskey";
+    $NAMES["downatthewhiskey"] = "Down at the Whiskey";
     $NAMES["promisedland"] = "Promised Land";
     $NAMES["timeisrunningout"] = "Time is Running Out";
     $NAMES["whosgoinghome"] = "Who's Going Home with You Tonight";
@@ -347,6 +347,19 @@
     $NAMES["theysay"] = "They Say";
     $NAMES["thisisit"] = "This is It";
     $NAMES["yomp"] = "Yomp";
+
+    # 8/5 and 8/12
+    $NAMES["aestheticsofhate"] = "Aesthetics of Hate";
+    $NAMES["byob"] = "B.Y.O.B.";
+    $NAMES["cloudsovercalifornia"] = "Clouds Over California";
+    $NAMES["constantmotion"] = "Constant Motion";
+    $NAMES["facedowninthedirt"] = "Face Down in the Dirt";
+    $NAMES["lifeisbeautiful"] = "Life is Beautiful";
+    $NAMES["mycurse"] = "My Curse";
+    $NAMES["rescueme"] = "Rescue Me";
+    $NAMES["runningwild"] = "Running Wild";
+    $NAMES["sleepwalker"] = "Sleepwalker";
+    $NAMES["toxicity"] = "Toxicity";
 
 
 ?>
