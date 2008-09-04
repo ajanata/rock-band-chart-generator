@@ -1,4 +1,8 @@
 <?php
+    
+    // ls -1 | sed -e 's/\(.*\)\.mid/$NAMES["\1"] = "";/'
+
+    
     // GH1
     
     
@@ -360,6 +364,21 @@
     $NAMES["runningwild"] = "Running Wild";
     $NAMES["sleepwalker"] = "Sleepwalker";
     $NAMES["toxicity"] = "Toxicity";
+
+    #8/19
+    $NAMES["getyourrockon"] = "Get Your Rock On";
+    $NAMES["girlsonfilm"] = "Girls on Film";
+    $NAMES["girluwant"] = "Girl U Want";
+    $NAMES["rio"] = "Rio";
+    $NAMES["throughbeingcool"] = "Through Being Cool";
+
+    # 8/29 and 9/2
+    $NAMES["alloveragain"] = "All Over Again";
+    $NAMES["dontmakemewait"] = "Don't Make Me Wait";
+    $NAMES["livinatthecorner"] = "Livin' at the Corner of Dude & Catastrophe";
+    $NAMES["shedoes"] = "She Does";
+    $NAMES["shhh"] = "Shhh....";
+    $NAMES["skullcrushermt"] = "Skullcrusher Mountain";
 
 
 ?>
