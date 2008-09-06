@@ -1293,7 +1293,7 @@ function calcScores($measures, $notetracks, $events, $config, $game, $songname =
         $bre = array();
         $bre["type"] = "bre";
         $bre["brescore"] = 0;
-        $bre["start"] = -1;
+        $bre["start"] = 99999999999;
         $bre["end"] = 99999999999;
         $bre["last_note"] = 99999999;
         $bre["notes"] = 0;
@@ -1319,16 +1319,26 @@ function calcScores($measures, $notetracks, $events, $config, $game, $songname =
                 if ($inst == "drums") {
                     // drums are much simpler so get them out of the way first
                     // no sustains, and base score with multiplier doesn't mean much of anything
+                    // ... it of course matters for cutoffs
                     // just add gem_score * gem_count to both scores :)
                     
                     $total = 0;
                     
                     foreach ($meas["notes"][$diff] as $note) {
+                        if ($notetracks[$inst][$diff][$note]["time"] < $bre["start"]) {
+                            // note is before the BRE, add it to the note count streak
+                            // NOTE THAT this isn't an FC streak on drums since it's impossible
+                            // to hit every single note due to fills
+                            // but this is still needed for the base score for cutoffs
+                            $streak += count($notetracks[$inst][$diff][$note]["note"]);
+                        }
+                        
                         $mScore += $config["gem_score"] * count($notetracks[$inst][$diff][$note]["note"]);
                         
                         if (!isset($notetracks[$inst][$diff][$note]["fill"]) || !$notetracks[$inst][$diff][$note]["fill"]) {
                             $total += $config["gem_score"] * count($notetracks[$inst][$diff][$note]["note"]);
                         }
+                        #$meas["streak"][$diff] = $streak;
                     }
                 }
                 // not drums

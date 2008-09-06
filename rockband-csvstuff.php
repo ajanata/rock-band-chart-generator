@@ -54,7 +54,7 @@
     
     // open the tables
     fwrite($idx["fullband"], "<table border=\"1\">");
-    fwrite($idx["streak"], "short_name,guitar_easy,guitar_medium,guitar_hard,guitar_expert,bass_easy,bass_medium,bass_hard,bass_expert\n");
+    fwrite($idx["streak"], "short_name,guitar_easy,guitar_medium,guitar_hard,guitar_expert,bass_easy,bass_medium,bass_hard,bass_expert,drums_easy,drums_medium,drums_hard,drums_expert,percussion_hits\n");
     fwrite($idx["bonuses"], "short_name,easy_solos,medium_solos,hard_solos,expert_solos,big_rock_ending\n");
 
 
@@ -114,6 +114,24 @@
             $streak = $measures["bass"][count($measures["bass"])-1]["streak"][$diff];
             fwrite($idx["streak"], "," . $streak);
         } // bass diffs
+    
+        // drums
+        echo " [notecounts drums]";
+        foreach ($DIFFICULTIES as $diff) {
+            echo " ($diff)";
+            $streak = $measures["drums"][count($measures["drums"])-1]["streak"][$diff];
+            fwrite($idx["streak"], "," . $streak);
+        } // bass diffs
+
+        // percussion hits
+        echo " [percussion]";
+        $percussions = 0;
+        foreach ($vocals as $v) {
+            if (isset($v["percussion"]) && $v["percussion"]) {
+                $percussions++;
+            }
+        }
+        fwrite($idx["streak"], "," . $percussions);
 
 /*
         // vocals

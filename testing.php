@@ -26,6 +26,7 @@
     #echo "\n\n\n\n\nGuitar Track\n";
     #echo $mid->getTrackTxt(4);
     
+    /*
     for ($i = 0; $i < $mid->getTrackCount(); $i++) {
         echo "\n=== Track $i \n";
         $trk = $mid->getTrackTxt($i);
@@ -66,7 +67,7 @@
                         if ($n == $note) $xyzzy = true;
                     }
                 }
-            } */
+            } * /
             
             if (!$xyzzy) echo $line . "\n";
         }
@@ -80,7 +81,7 @@
 
 # (songname, events[guitar...vocals], timetrack, measures[guitar...drums][easy...expert], notetracks[guitar...drums][easy...expert], vocals)
 
-    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/rb/criticalacclaim.mid", "RB", true);
+    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/rb/trainkeptarollin.mid", "RB", true);
 
 //	list ($measures, $notetrack, $songname, $events) = parseFile("../mids/rb/shouldistay.mid", "EASY", "RB", "GUITAR");
 

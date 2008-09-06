@@ -1,6 +1,6 @@
 <?php
 
-	define("MIDIPATH", "../mids/");
+	define("MIDIPATH", "mids/");
 
 	require_once "parselib.php";
 	require_once "notevalues.php";
