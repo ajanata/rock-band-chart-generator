@@ -1,6 +1,15 @@
 <?php
 
-    define('REVISION', 178);
+    define('REVISION', 179);
+    
+    /*
+    global $REVISION;
+    $rev = array();
+    #exec("/usr/bin/svnversion /Users/ajanata/Development/SPOpt/phpspopt2", &$rev);
+    exec("printenv", &$rev);
+    $REVISION = $rev[0];
+    print_r($rev);
+    */
 
     define('EPS', 1.0e-10);
 

@@ -246,7 +246,8 @@ function parseTimeTrack($tracktxt) {
             $tempoIndex++;
             $ret["tempos"][$tempoIndex]["time"] = (int)$info[0];
             $ret["tempos"][$tempoIndex]["tempo"] = (int)$info[2];
-            $ret["tempos"][$tempoIndex]["bpm"] = round(60000000/$info[2]);
+            //$ret["tempos"][$tempoIndex]["bpm"] = round(60000000/$info[2]);
+            $ret["tempos"][$tempoIndex]["bpm"] = (double)(60000000/$info[2]);
         }
         
     }
@@ -720,12 +721,14 @@ function makeMeasureTable($timetrack, $trkend) {
                 isset($timetrack["sigs"][$sigIndex+1]) && is_array($timetrack["sigs"][$sigIndex+1])) {
             // both of them have entries left
             if ($timetrack["sigs"][$sigIndex+1]["time"] <= $timetrack["tempos"][$tempoIndex+1]["time"]) {
+                #echo "time before tempo " . $curTime . " " . $sigIndex . " " . $tempoIndex . "\n";
                 // time sig change before tempo change
                 
                 if (isset($timetrack["sigs"][$sigIndex+2]) &&  is_array($timetrack["sigs"][$sigIndex+2])) {
                     // still more time sig changes, so see if the next one is before the next tempo change
-                    $duration = (($timetrack["sigs"][$sigIndex+2]["time"] < $timetrack["tempos"][$tempoIndex+1]["time"])
-                                    ? $timetrack["sigs"][$sigIndex+2]["time"] : $timetrack["tempos"][$tempoIndex+1]["time"]) - $curTime;
+                    #$duration = (($timetrack["sigs"][$sigIndex+2]["time"] < $timetrack["tempos"][$tempoIndex+1]["time"])
+                    #                ? $timetrack["sigs"][$sigIndex+2]["time"] : $timetrack["tempos"][$tempoIndex+1]["time"]) - $curTime;
+                    $duration = $timetrack["sigs"][$sigIndex+2]["time"] - $curTime;
                 }
                 else {
                     // this is the last time sig change, so the next tempo change is our end
@@ -734,6 +737,7 @@ function makeMeasureTable($timetrack, $trkend) {
                 $sigIndex++;
             }
             else {
+                #echo "tempo before time " . $curTime . " " . $sigIndex . " " . $tempoIndex . "\n";
                 // tempo change before time sig change
                 
                 if (isset($timetrack["tempos"][$tempoIndex+2]) && is_array($timetrack["tempos"][$tempoIndex+2])) {
