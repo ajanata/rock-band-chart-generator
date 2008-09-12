@@ -18,7 +18,7 @@
 
   /* */
     $mid = new Midi;
-    $mid->importMid("mids/rb2/main_xbox_0 00072.mid");
+    $mid->importMid("mids/rb/constantmotion.mid");
 
     #echo "Time Signature Track\n";
     #echo $mid->getTrackTxt(0);

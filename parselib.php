@@ -3,7 +3,6 @@
 define("DEBUG", 0);
 define("VERBOSE", 0);
 define("OMGVERBOSE", 0);
-define("PARSELIBVERSION", "0.8.1");
 
 require_once 'notevalues.php';
 require_once 'classes/midi.class.php';
@@ -706,8 +705,65 @@ function parseVocals($txt) {
     return $vox;
 }
 
-
 function makeMeasureTable($timetrack, $trkend) {
+    $ret = array();
+    global $timebase;
+    
+    $measure = $curTime = $sigIndex = $tempoIndex = 0;
+    
+    // first we make all of the measures. don't care about anything but getting the time sig and such right
+    while ($curTime < $trkend) {
+        // in theory this will always be set
+        $num = $timetrack["sigs"][$sigIndex]["num"];
+        $denom = $timetrack["sigs"][$sigIndex]["denom"];
+        
+        $measDur = $timebase * $num * 4 / $denom;
+        
+        $end = (isset($timetrack["sigs"][$sigIndex+1]) ? $timetrack["sigs"][$sigIndex+1]["time"] : $trkend);
+        while ($curTime < $end) {
+            $ret[$measure] = array();
+            $ret[$measure]["number"] = $measure + 1;
+            $ret[$measure]["time"] = $curTime;
+            $ret[$measure]["duration"] = $measDur;
+            $ret[$measure]["num"] = $num;
+            $ret[$measure]["denom"] = $denom;
+            $ret[$measure]["notes"] = array();
+            $ret[$measure]["notes"]["easy"] = array();
+            $ret[$measure]["notes"]["medium"] = array();
+            $ret[$measure]["notes"]["hard"] = array();
+            $ret[$measure]["notes"]["expert"] = array();
+            $ret[$measure]["tempos"] = array();
+            
+            $measure++;
+            $curTime += $measDur;
+        }
+        $sigIndex++;   
+    }
+    
+    // now that we have the measures properly made we can worry about the tempos
+    $lastTempo = $timetrack["tempos"][0];
+    foreach ($ret as &$meas) {            
+        if (!(isset($timetrack["tempos"][$tempoIndex+1]["time"])
+            && $timetrack["tempos"][$tempoIndex+1]["time"] == $meas["time"])) {
+                // add the last tempo to this measure since there isn't a tempo change
+                // at the beginning of the measure
+                $meas["tempos"][] = $lastTempo;
+        }
+
+        while (isset($timetrack["tempos"][$tempoIndex+1]) && is_array($timetrack["tempos"][$tempoIndex+1]) &&
+                $timetrack["tempos"][$tempoIndex+1]["time"] < $meas["time"] + $meas["duration"]) {
+            // add this tempo change to the measure
+            $meas["tempos"][/*$measTempo++*/] = $timetrack["tempos"][$tempoIndex+1];
+            $lastTempo = $timetrack["tempos"][$tempoIndex+1];
+            $tempoIndex++;
+        }
+    }
+    
+    return array("guitar" => $ret, "bass" => $ret, "drums" => $ret);
+}
+
+// god this is a mess. this should be able to be done much cleaner
+function makeMeasureTable_old($timetrack, $trkend) {
     $ret = array();
     global $timebase;
     
@@ -765,7 +821,7 @@ function makeMeasureTable($timetrack, $trkend) {
             $duration = $trkend - $curTime;
         }
         
-        $measDur = $timebase * $timetrack["sigs"][$sigIndex]["num"];
+        $measDur = $timebase * $timetrack["sigs"][$sigIndex]["num"] / ($timetrack["sigs"][$sigIndex]["denom"] / 4);
         $numMeas = $duration / $measDur;
         
         $oldMeasure = $measure;

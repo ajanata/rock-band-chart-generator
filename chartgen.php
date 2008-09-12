@@ -5,7 +5,6 @@
 	define("PXPERBEAT", /*70*/ 45 /*275*/);
 	define("STAFFHEIGHT", 12);
 	define("DRAWPLAYERLINES", 0);
-	define("CHARTGENVERSION", "0.8.9");
 
 	require_once "parselib.php";
 	require_once "notevalues.php";

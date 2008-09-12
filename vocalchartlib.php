@@ -37,7 +37,7 @@ function drawVocals($im, $x, $y, $meas, $vox, $events) {
     
     foreach ($vox as $lyricIndex => $lyric) {
         
-        if ($lyric["time"] >= $meas["time"] && $lyric["time"] < $meas["time"]+$timebase*$meas["num"]) {
+        if ($lyric["time"] >= $meas["time"] && $lyric["time"] < $meas["time"]+$timebase*$meas["num"]*4/$meas["denom"]) {
         
             $nX = $lyric["time"] - $meas["time"];
             $nX /= $timebase;

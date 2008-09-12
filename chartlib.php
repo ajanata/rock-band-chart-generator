@@ -1,7 +1,5 @@
 <?php
 	
-	define("CHARTLIBVERSION", "0.8.3");
-	
 	define("DRAWPULSES", false);
 
     require_once "vocalchartlib.php";
@@ -27,7 +25,7 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
 	// calculate image height
 	for ($i = 0; $i < count($measures_all["guitar"]); $i++) {
    	    // this looks really weird doesn't it?
-   	   if ($x + PXPERBEAT * $measures_all["guitar"][$i]["num"] > WIDTH - 25) {
+   	   if ($x + PXPERBEAT * $measures_all["guitar"][$i]["num"] * 4 / $measures_all["guitar"][$i]["denom"] > WIDTH - 25) {
 	       $x = 25;
 	       
 	       $y += 5*DRAWPLAYERLINES;
@@ -39,7 +37,8 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
 	       if ($do_vocals) $y += 55 + 7 * (STAFFHEIGHT/2);
 	       if ($num_inst > 1) $y += 15;
 	   }
-	   if ($x + PXPERBEAT * $measures_all["guitar"][$i]["num"] > WIDTH - 50 && $i != count($measures_all["guitar"]) - 1) {
+	   if ($x + PXPERBEAT * $measures_all["guitar"][$i]["num"] * 4 / $measures_all["guitar"][$i]["denom"] > WIDTH - 50
+	     && $i != count($measures_all["guitar"]) - 1) {
 	       $x = 25;
 
 	       $y += 5*DRAWPLAYERLINES;
@@ -52,7 +51,7 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
 	       if ($num_inst > 1) $y += 15;
 	   }
 	   else {
-	       $x += PXPERBEAT * $measures_all["guitar"][$i]["num"];
+	       $x += PXPERBEAT * $measures_all["guitar"][$i]["num"] * 4 / $measures_all["guitar"][$i]["denom"];
 	   }
 	}
 	
@@ -101,7 +100,7 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
     $blue = imagecolorallocate($im, 0, 0, 255);
     $noteColors = array();
     $noteColors[] = imagecolorallocate($im, 0, 192, 0);
-    $noteColors[] = imagecolorallocate($im, 255, 0, 0);
+    $noteColors[] = &$red; //imagecolorallocate($im, 255, 0, 0);
     $noteColors[] = imagecolorallocate($im, 253, 233, 16);
     $noteColors[] = &$blue;
     $noteColors[] = imagecolorallocate($im, 255, 127, 0);
@@ -145,7 +144,7 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
 	
 	foreach($measures_all["guitar"] as $index => &$meas) {
 	   
-	   if ($x + PXPERBEAT * $meas["num"] > WIDTH - 25) {
+	   if ($x + PXPERBEAT * $meas["num"] * 4 / $meas["denom"] > WIDTH - 25) {
 	       $x = 25;
 
 	       $y += 5*DRAWPLAYERLINES;
@@ -202,11 +201,11 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
             $measScore += 4 * $measures_all["drums"][$index]["mscore"][$diff];
         }
 
-        if ($num_inst > 1) imagestring($im, 4, $x + $meas["num"]*PXPERBEAT - 8*strlen($measScore), $y - 22, $measScore, $black);
+        if ($num_inst > 1) imagestring($im, 4, $x + $meas["num"]*PXPERBEAT*4/$meas["denom"] - 8*strlen($measScore), $y - 22, $measScore, $black);
 
         $y = $oldy;
         
-	   if ($x + PXPERBEAT * $meas["num"] > WIDTH - 50) {
+	   if ($x + PXPERBEAT * $meas["num"] * 4 / $meas["denom"] > WIDTH - 50) {
 	       $x = 25;
 
 	       $y += 5*DRAWPLAYERLINES;
@@ -219,7 +218,7 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
 	       if ($num_inst > 1) $y += 15;
 	   }
 	   else {
-	       $x += PXPERBEAT * $meas["num"];
+	       $x += PXPERBEAT * $meas["num"] * 4 / $meas["denom"];
 	   }
 	   
 	}
@@ -238,9 +237,10 @@ function drawBeat($im, $x, $y, $meas, $beat) {
 
     imagesetthickness($im, 2);
     
-    while (isset($beat[$index]) && $beat[$index]["time"] < $meas["time"] + $timebase*$meas["num"]) {
+    while (isset($beat[$index]) && $beat[$index]["time"] < $meas["time"] + $timebase*$meas["num"] * 4 / $meas["denom"]) {
         $offset = $beat[$index]["time"] - $meas["time"];
         $offset /= $timebase;
+        // this DOES NOT get the denom fix as this is purely in x/4
         $offset *= PXPERBEAT;
         $offset += ($beat[$index]["number"] == 13 ? 3 : 0);
         
@@ -397,14 +397,16 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	   #print_r($e);
        imagesetthickness($im, 2);
 	   	           
-	   if ($e["start"] >= $meas["time"] && $e["end"] <= $meas["time"] + $timebase*$meas["num"]) {
+	   if ($e["start"] >= $meas["time"] && $e["end"] <= $meas["time"] + $timebase*$meas["num"]* 4 / $meas["denom"]) {
 	       // wholly contained in this measure
 	       $bX = $e["start"] - $meas["time"];
 	       $bX /= $timebase;
+	       $bX *= 4 / $meas["denom"];
 	       $bX *= PXPERBEAT;
 	       $bX += $x;
 	       $beX = $e["end"] - $meas["time"];
 	       $beX /= $timebase;
+	       $beX *= 4 / $meas["denom"];
 	       $beX *= PXPERBEAT;
 	       $beX += $x;
 	       if ($bY != $beY) {
@@ -420,6 +422,7 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	       if ($e["type"] == "solo" || isset($e["brescore"]) || isset($e["delay"])) {
 	           $tX = $e["end"] - $meas["time"];
                $tX /= $timebase;
+               $tX *= 4 / $meas["denom"];
                $tX *= PXPERBEAT;
                $tX += $x + 2;
                $tY = $y;
@@ -441,10 +444,10 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	           imageline($im, $beX, $bY, $beX, $beY, $black);
 	       }
        }
-	   else if ($e["start"] < $meas["time"] && $e["end"] > $meas["time"] + $timebase*$meas["num"]) {
+	   else if ($e["start"] < $meas["time"] && $e["end"] > $meas["time"] + $timebase*$meas["num"]*4 / $meas["denom"]) {
 	       // goes through entire measure
 	       $bX = $x;
-	       $beX = $x + PXPERBEAT*$meas["num"];
+	       $beX = $x + PXPERBEAT*$meas["num"]*4 / $meas["denom"];
 	       if ($bY != $beY) {
 	           imagefilledrectangle($im, $bX, $bY, $beX, $beY, $c);
 	       }
@@ -452,11 +455,12 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
     	       imageline($im, $bX, $bY, $beX, $beY, $c);
 	       }
 	   }
-	   else if ($e["start"] < $meas["time"] && $e["end"] >= $meas["time"] && $e["end"] <= $meas["time"] + $timebase*$meas["num"]) {
+	   else if ($e["start"] < $meas["time"] && $e["end"] >= $meas["time"] && $e["end"] <= $meas["time"] + $timebase*$meas["num"]*4 / $meas["denom"]) {
 	       // starts before, ends in
 	       $bX = $x;
 	       $beX = $e["end"] - $meas["time"];
 	       $beX /= $timebase;
+	       $beX *= 4 / $meas["denom"];
 	       $beX *= PXPERBEAT;
 	       $beX += $x;
 	       if ($bY != $beY) {
@@ -471,6 +475,7 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	       if ($e["type"] == "solo" || isset($e["brescore"]) || isset($e["delay"])) {
 	           $tX = $e["end"] - $meas["time"];
                $tX /= $timebase;
+               $tX *= 4 / $meas["denom"];
                $tX *= PXPERBEAT;
                $tX += $x + 2;
                $tY = $y;
@@ -491,13 +496,14 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	           imageline($im, $beX, $bY, $beX, $beY, $black);
 	       }
 	   }
-	   else if ($e["start"] >= $meas["time"] && $e["start"] <= $meas["time"] + $timebase*$meas["num"] && $e["end"] >= $meas["time"] + $timebase*$meas["num"]) {
+	   else if ($e["start"] >= $meas["time"] && $e["start"] < $meas["time"] + $timebase*$meas["num"]*4 / $meas["denom"] && $e["end"] >= $meas["time"] + $timebase*$meas["num"]*4 / $meas["denom"]) {
 	       // starts in, ends after
 	       $bX = $e["start"] - $meas["time"];
 	       $bX /= $timebase;
+	       $bX *= 4 / $meas["denom"];
 	       $bX *= PXPERBEAT;
 	       $bX += $x;
-           $beX = $x + PXPERBEAT*$meas["num"];
+           $beX = $x + PXPERBEAT*$meas["num"]*4 / $meas["denom"];
 	       if ($bY != $beY) {
 	           imagefilledrectangle($im, $bX, $bY, $beX, $beY, $c);
 	       }
@@ -517,20 +523,22 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	
 	// measure outline
 	imagesetthickness($im, 1);
-	imageline($im, $x, $y, $x + (PXPERBEAT * $meas["num"]), $y, $outline);
-	imageline($im, $x, $y + (STAFFHEIGHT * (4 - ($instrument == "drums")-($game == "GHOT"))) - STAFFHEIGHT*($instrument=="vocals") /*+ 2*STAFFHEIGHT*($instrument == "vocals")*/, $x + (PXPERBEAT * $meas["num"]), $y + (STAFFHEIGHT * (4 - ($instrument == "drums")-($game == "GHOT"))) - STAFFHEIGHT*($instrument=="vocals") /* + 2*STAFFHEIGHT*($instrument == "vocals") */, $outline);
+	imageline($im, $x, $y, $x + (PXPERBEAT * $meas["num"] * 4 / $meas["denom"]), $y, $outline);
+	imageline($im, $x, $y + (STAFFHEIGHT * (4 - ($instrument == "drums")-($game == "GHOT"))) - STAFFHEIGHT*($instrument=="vocals") /*+ 2*STAFFHEIGHT*($instrument == "vocals")*/, $x + (PXPERBEAT * $meas["num"] * 4 / $meas["denom"]), $y + (STAFFHEIGHT * (4 - ($instrument == "drums")-($game == "GHOT"))) - STAFFHEIGHT*($instrument=="vocals") /* + 2*STAFFHEIGHT*($instrument == "vocals") */, $outline);
 	imagesetthickness($im, 1);
 	imageline($im, $x, $y, $x, $y + (STAFFHEIGHT * (4 - ($instrument == "drums")-($game == "GHOT"))) - STAFFHEIGHT*($instrument=="vocals") /*+ 2*STAFFHEIGHT*($instrument == "vocals")*/, $outline);
-	imageline($im, $x + (PXPERBEAT * $meas["num"]), $y, $x + (PXPERBEAT * $meas["num"]), $y + (STAFFHEIGHT * (4 - ($instrument == "drums")-($game == "GHOT"))) - STAFFHEIGHT*($instrument=="vocals") /*+ 2*STAFFHEIGHT*($instrument == "vocals")*/, $outline);
-	
+    // right side line is drawn after the beat lines
+    // because the beat lines will draw over it sometimes (mainly on not x/4 measures)
+    
+    	
 	// beat lines
-	for ($i = 0; $i < $meas["num"]; $i++) {
+	for ($i = 0; $i < ($meas["num"] * 4 / $meas["denom"]); $i++) {
 		// up beat line
 		imagesetthickness($im, 1);
 		imageline($im, $x + ($i * PXPERBEAT + PXPERBEAT / 2.0), $y+1, $x + ($i * PXPERBEAT + PXPERBEAT / 2), $y-1 + (STAFFHEIGHT * (4 - ($instrument == "drums")-($game == "GHOT"))) - STAFFHEIGHT*($instrument=="vocals") /*+ 2*STAFFHEIGHT*($instrument == "vocals")*/, $upbeatline);
 		
 		// don't draw the down beat line for the last one
-		if ($i+1 != $meas["num"]) {
+		if ($i+1 < ($meas["num"] * 4 / $meas["denom"])) {
 			imagesetthickness($im, 1);
 			imageline($im, $x + (($i+1) * PXPERBEAT), $y+1, $x + (($i+1) * PXPERBEAT), $y-1 + (STAFFHEIGHT * (4 - ($instrument == "drums")-($game == "GHOT"))) - STAFFHEIGHT*($instrument=="vocals") /*+ 2*STAFFHEIGHT*($instrument == "vocals")*/, $downbeatline);
 		}
@@ -539,10 +547,14 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 		if (DRAWPULSES) imagestring($im, 2, $x+$i*PXPERBEAT, $y+6+STAFFHEIGHT*(4-($instrument=="drums")), $meas["time"] + $timebase*$i, $black);
 	}
 	
+    // right side
+	imageline($im, $x + (PXPERBEAT * $meas["num"] * 4 / $meas["denom"]), $y, $x + (PXPERBEAT * $meas["num"] * 4 / $meas["denom"]), $y + (STAFFHEIGHT * (4 - ($instrument == "drums")-($game == "GHOT"))) - STAFFHEIGHT*($instrument=="vocals") /*+ 2*STAFFHEIGHT*($instrument == "vocals")*/, $outline);
+
+	
 	// staff lines
 	for ($i = 1; $i < 4 - ($instrument == "drums") - ($game == "GHOT") + 2*($instrument == "vocals"); $i++) {
 	   imagesetthickness($im, 1);
-	   imageline($im, $x+1, $y + ((STAFFHEIGHT * $i)/($instrument=="vocals"?2:1)), $x-1 + (PXPERBEAT * $meas["num"]), $y + ((STAFFHEIGHT * $i)/($instrument=="vocals"?2:1)), $staffline);
+	   imageline($im, $x+1, $y + ((STAFFHEIGHT * $i)/($instrument=="vocals"?2:1)), $x-1 + (PXPERBEAT * $meas["num"] * 4 / $meas["denom"]), $y + ((STAFFHEIGHT * $i)/($instrument=="vocals"?2:1)), $staffline);
 	   
 	}
 	
@@ -579,6 +591,7 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 		if (round($bpm["bpm"], BPMPRECISION) != $oldBPM[$instrument]) {
 		  $bX = $bpm["time"] - $meas["time"];
 		  $bX /= $timebase;
+		  $bX *= 4 / $meas["denom"];
 		  $bX *= PXPERBEAT;
 		  $bX += $x;
 		  imagefilledellipse($im, $bX+2, $y-16, 5, 5, $tempo);
@@ -601,17 +614,17 @@ function drawMeasureScores($im, $x, $y, $meas, $diff) {
     
  
 	// measure score
-	imagestring($im, 2, $x + (PXPERBEAT * $meas["num"]) - (strlen($meas["mscore"][$diff]) * 6), $y + 2, $meas["mscore"][$diff], $measscore);
+	imagestring($im, 2, $x + (PXPERBEAT * $meas["num"] * 4 / $meas["denom"]) - (strlen($meas["mscore"][$diff]) * 6), $y + 2, $meas["mscore"][$diff], $measscore);
 	
 	
 	// cumulative score
 	// or, for drums, measure score outside of fills, but it doesn't really matter :)
-	imagestring($im, 2, $x + (PXPERBEAT * $meas["num"]) - (strlen($meas["cscore"][$diff]) * 6), $y + 11, $meas["cscore"][$diff], $cumscore);
+	imagestring($im, 2, $x + (PXPERBEAT * $meas["num"] * 4 / $meas["denom"]) - (strlen($meas["cscore"][$diff]) * 6), $y + 11, $meas["cscore"][$diff], $cumscore);
 	
 	
 	// cumulative score with solo bonuses
 	if (isset($meas["bscore"][$diff])) {
-		imagestring($im, 2, $x + (PXPERBEAT * $meas["num"]) -
+		imagestring($im, 2, $x + (PXPERBEAT * $meas["num"] * 4 / $meas["denom"]) -
 		      ((strlen($meas["cscore"][$diff]) + strlen($meas["bscore"][$diff]) + 1) * 6), $y + 11, $meas["bscore"][$diff], $bonusscore);
 	}
 }
@@ -692,7 +705,7 @@ function drawMeasureNotes($im, $x, $y, $meas, $notes, $game, $inst, $diff) {
 	if ($whammies > 0) {
 	   $whammies = round($whammies, 3);
 	   $whammies .= " " . ($game == "RB" ? "OD" : "SP");
-	   imagestring($im, 2, $x + (PXPERBEAT * $meas["num"]) - (strlen($whammies) * 6), $y + (STAFFHEIGHT*(4-($game == "GHOT"))) + 20, $whammies, $whammy);
+	   imagestring($im, 2, $x + (PXPERBEAT * $meas["num"] * 4 / $meas["denom"]) - (strlen($whammies) * 6), $y + (STAFFHEIGHT*(4-($game == "GHOT"))) + 20, $whammies, $whammy);
 	}
 }
 
