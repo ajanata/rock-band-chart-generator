@@ -18,7 +18,7 @@
 
   /* */
     $mid = new Midi;
-    $mid->importMid("mids/rb/waveofmutilation.mid");
+    $mid->importMid("mids/rb2/main_xbox_0 00072.mid");
 
     #echo "Time Signature Track\n";
     #echo $mid->getTrackTxt(0);
@@ -26,7 +26,7 @@
     #echo "\n\n\n\n\nGuitar Track\n";
     #echo $mid->getTrackTxt(4);
     
-    /* * /
+    /* */
     for ($i = 0; $i < $mid->getTrackCount(); $i++) {
         echo "\n=== Track $i \n";
         $trk = $mid->getTrackTxt($i);
@@ -67,7 +67,7 @@
                         if ($n == $note) $xyzzy = true;
                     }
                 }
-            } * /
+            } */
             
             if (!$xyzzy) echo $line . "\n";
         }

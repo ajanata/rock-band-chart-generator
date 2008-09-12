@@ -1253,7 +1253,12 @@ function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
                     && $notetracks[$inst][$event["difficulty"]][$noteIndex]["time"] < $event["end"]) {
                         $notetracks[$inst][$event["difficulty"]][$noteIndex]["solo"] = true;
                         $noteIndex++;
-                        $soloNotes++;
+                        if ($inst == "drums") {
+                            $soloNotes += count($notetracks[$inst][$event["difficulty"]][$noteIndex]["note"]);
+                        }
+                        else {
+                            $soloNotes++;
+                        }
                 }
                 
                 // now we're pointing to the note after the last note in the fill

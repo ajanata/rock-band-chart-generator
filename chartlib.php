@@ -2,7 +2,7 @@
 	
 	define("CHARTLIBVERSION", "0.8.3");
 	
-	define("DRAWPULSES", true);
+	define("DRAWPULSES", false);
 
     require_once "vocalchartlib.php";
  
@@ -576,15 +576,15 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	
 	// tempo
 	foreach ($meas["tempos"] as $bpm) {
-		if (round($bpm["bpm"], 1) != $oldBPM[$instrument]) {
+		if (round($bpm["bpm"], BPMPRECISION) != $oldBPM[$instrument]) {
 		  $bX = $bpm["time"] - $meas["time"];
 		  $bX /= $timebase;
 		  $bX *= PXPERBEAT;
 		  $bX += $x;
 		  imagefilledellipse($im, $bX+2, $y-16, 5, 5, $tempo);
 		  imageline($im, $bX+4, $y-16, $bX+4, $y-22, $tempo);
-		  imagestring($im, 2, $bX+6, $y-25, "=" . round($bpm["bpm"], 1), $tempo);
-		  $oldBPM[$instrument] = round($bpm["bpm"], 1);
+		  imagestring($im, 2, $bX+6, $y-25, "=" . round($bpm["bpm"], BPMPRECISION), $tempo);
+		  $oldBPM[$instrument] = round($bpm["bpm"], BPMPRECISION);
 		}
 	}
 

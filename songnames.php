@@ -140,6 +140,94 @@
     $NAMES["wontgetfooled_short"] = "Won't Get Fooled Again (Short)";
     
     
+    // Rock Band 2
+    $NAMES["aceofspades"] = "Ace of Spades";
+    $NAMES["ajaggedgorgeouswinter"] = "A Jagged Gorgeous Winter";
+    $NAMES["alabamagetaway"] = "Alabama Getaway";
+    $NAMES["alexchilton"] = "Alex Chilton";
+    $NAMES["alive"] = "Alive";
+    $NAMES["almosteasy"] = "Almost Easy";
+    $NAMES["americanwoman"] = "American Woman";
+    $NAMES["anywayyouwantit"] = "Any Way You Want It";
+    $NAMES["aqualung"] = "Aqualung";
+    $NAMES["badreputation"] = "Bad Reputation";
+    $NAMES["battery"] = "Battery";
+    $NAMES["bodhisattva"] = "Bodhitsattva";
+    $NAMES["carryonwaywardson"] = "Carry On Wayward Son";
+    $NAMES["chopsuey"] = "Chop Suey!";
+    $NAMES["colonyofbirchmen"] = "Colony of Birchmen";
+    $NAMES["comeoutandplay"] = "Come Out & Play (Keep 'em Separated)";
+    $NAMES["conventionallover"] = "Conventional Lover";
+    $NAMES["coolforcats"] = "Cool for Cats";
+    $NAMES["deluxe"] = "De-Luxe";
+    $NAMES["downwiththesickness"] = "Down with the Sickness";
+    $NAMES["drainyou"] = "Drain You";
+    $NAMES["epro"] = "E-Pro";
+    $NAMES["everlong"] = "Everlong";
+    $NAMES["eyeofthetiger"] = "Eye of the Tiger";
+    $NAMES["feelthepain"] = "Feel the Pain";
+    $NAMES["floaton"] = "Float On";
+    $NAMES["getclean"] = "Get Clean";
+    $NAMES["girlsnotgrey"] = "Girl's Not Grey";
+    $NAMES["giveitall"] = "Give It All";
+    $NAMES["giveitaway"] = "Give It Away";
+    $NAMES["goyourownway"] = "Go Your Own Way";
+    $NAMES["hellothere"] = "Hello There";
+    $NAMES["hungrylikethewolf"] = "Hungry Like the Wolf";
+    $NAMES["iwaswrong"] = "I Was Wrong";
+    $NAMES["kidsinamerica"] = "Kids in America";
+    $NAMES["lazyeye"] = "Lazy Eye";
+    $NAMES["letthereberock"] = "Let There Be Rock";
+    $NAMES["livinonaprayer"] = "Livin' on a Prayer";
+    $NAMES["lump"] = "Lump";
+    $NAMES["maninthebox"] = "Man in the Box";
+    $NAMES["masterexploder"] = "Master Exploder";
+    $NAMES["mountainsong"] = "Mountain Song";
+    $NAMES["myownworstenemy"] = "My Own Worst Enemy";
+    $NAMES["newkidinschool"] = "New Kid in School";
+    $NAMES["nightlies"] = "Night Lies";
+    $NAMES["nineintheafternoon"] = "Nine in the Afternoon";
+    $NAMES["onestepcloser"] = "One Step Closer";
+    $NAMES["onewayoranother"] = "One Way or Another";
+    $NAMES["ourtruth"] = "Our Truth";
+    $NAMES["painkiller"] = "Painkiller";
+    $NAMES["panicattack"] = "Panic Attack";
+    $NAMES["pda"] = "PDA";
+    $NAMES["peacesells"] = "Peace Sells";
+    $NAMES["pinballwizard"] = "Pinball Wizard";
+    $NAMES["pretendweredead"] = "Pretend We're Dead";
+    $NAMES["psychokiller"] = "Psycho Killer";
+    $NAMES["pumpitup"] = "Pump It Up";
+    $NAMES["ramblinman"] = "Ramblin' Man";
+    $NAMES["rebelgirl1"] = "Rebel Girl";
+    $NAMES["robtheprezodent"] = "Rob the Prez-O-Dent";
+    $NAMES["rocknme"] = "Rock'n Me";
+    $NAMES["roundandround"] = "Round and Round";
+    $NAMES["shacklersrevenge"] = "Shackler's Revenge";
+    $NAMES["shootingstar"] = "Shooting Star";
+    $NAMES["shouldertotheplow1"] = "Shoulder to the Plow";
+    $NAMES["soulsofblack"] = "Shoulder of Black";
+    $NAMES["sowhatchawant"] = "So What'cha Want";
+    $NAMES["spiritinthesky"] = "Spirit in the Sky";
+    $NAMES["spoonman"] = "Spoonman";
+    $NAMES["supremegirl"] = "Supreme Girl";
+    $NAMES["tangledupinblue"] = "Tangled Up in Blue";
+    $NAMES["teenageriot"] = "Teen Age Riot";
+    $NAMES["testify"] = "Testify";
+    $NAMES["thatswhatyouget"] = "That's What You Get";
+    $NAMES["themiddle"] = "The Middle";
+    $NAMES["thetrees"] = "The Trees (Vault Edition)";
+    $NAMES["today"] = "Today";
+    $NAMES["uncontrollableurge"] = "Uncontrollable Urge";
+    $NAMES["visions"] = "Visions";
+    $NAMES["wegotthebeat"] = "We Got the Beat";
+    $NAMES["welcometothe"] = "Welcome to the Neighborhood";
+    $NAMES["wheredyougo"] = "Where'd You Go";
+    $NAMES["whitewedding"] = "White Wedding (Part 1)";
+    $NAMES["yououghtaknow1"] = "You Oughta Know";
+
+
+    
     // Rock Band DLC
 
     $NAMES["andjusticeforall"] = "...And Justice for All";

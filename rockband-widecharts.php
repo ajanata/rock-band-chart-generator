@@ -1,6 +1,7 @@
 <?php
 
 	define("WIDTH", 1010);
+	define("BPMPRECISION", 1);
 	define("PXPERBEAT", 60);
 	define("STAFFHEIGHT", 12);
 	define("DRAWPLAYERLINES", 0);

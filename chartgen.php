@@ -1,7 +1,8 @@
 <?php
 
 	define("WIDTH", 1024);
-	define("PXPERBEAT", /*70*/ 40 /*275*/);
+	define("BPMPRECISION", 1);
+	define("PXPERBEAT", /*70*/ 45 /*275*/);
 	define("STAFFHEIGHT", 12);
 	define("DRAWPLAYERLINES", 0);
 	define("CHARTGENVERSION", "0.8.9");
