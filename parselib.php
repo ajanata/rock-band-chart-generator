@@ -1282,10 +1282,11 @@ function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
                     if ($noteIndex === false) continue;
                     
                     // we have the first note in this event
-                    while ($notetracks[$inst][$margush][$noteIndex]["time"] < $event["end"]) {
-                        $notetracks[$inst][$margush][$noteIndex]["fill"] = true;
-                        $noteIndex++;
-                        $fillNotes++;
+                    while (isset($notetracks[$inst][$margush][$noteIndex])
+                        && $notetracks[$inst][$margush][$noteIndex]["time"] < $event["end"]) {
+                            $notetracks[$inst][$margush][$noteIndex]["fill"] = true;
+                            $noteIndex++;
+                            $fillNotes++;
                     }
                     
                     // now we're pointing to the note after the last note in the fill

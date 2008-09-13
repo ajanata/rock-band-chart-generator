@@ -468,5 +468,11 @@
     $NAMES["shhh"] = "Shhh....";
     $NAMES["skullcrushermt"] = "Skullcrusher Mountain";
 
+    # 9/9 and 9/11
+    $NAMES["charlene"] = "Charlene (I'm Right Behind You)";
+    $NAMES["chiron"] = "Chrion";
+    $NAMES["thiscalling"] = "This Calling";
+    $NAMES["twoweeks"] = "Two Weeks";
+
 
 ?>
