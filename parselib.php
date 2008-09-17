@@ -1021,7 +1021,62 @@ function dealWithNote($time, $type, $note, $vel, $gameNotes, &$notetrack, &$chor
 }
 
 
-function getClockTimeBetweenPulses(/*&*/$timetrack, $start, $end) {
+function getClockTimeBetweenPulses(&$timetrack, $start, $end) {
+    global $timebase;
+    
+    if ($end < $start) {
+        $temp = $end;
+        $end = $start;
+        $start = $end;
+    }
+    
+    $clockTime = 0;
+
+    $tempoIndex = 1;
+    // find the first tempo change after the start
+    while (isset($timetrack["tempos"][$tempoIndex])
+           && $timetrack["tempos"][$tempoIndex]["time"] < $start) {
+                $tempoIndex++;
+    }
+    
+    // back up to the one before the start
+    // this should always be >= 1 after that loop
+    $tempoIndex--;
+    
+    // end of the current calculation
+    $curEnd = 0;
+
+    // start of current calculation
+    $curStart = $start;
+
+    while ($curEnd < $end) {
+        if (isset($timetrack["tempos"][$tempoIndex+1])
+           && $timetrack["tempos"][$tempoIndex+1]["time"] < $end) {
+                $curEnd = $timetrack["tempos"][$tempoIndex+1]["time"];# - 1;
+        }
+        else {
+            $curEnd = $end;
+        }
+        
+        #$clockTime += (($curEnd - $curStart) / $timebase) / ($timetrack["tempos"][$tempoIndex]["bpm"] / 60);
+        $beats = ($curEnd - $curStart) / $timebase;
+        $timePerBeat = 60 / $timetrack["tempos"][$tempoIndex]["bpm"];
+        $time = $beats * $timePerBeat;
+        $clockTime += $time;
+        
+        $tempoIndex++;
+        if (isset($timetrack["tempos"][$tempoIndex])) {
+            $curStart = $timetrack["tempos"][$tempoIndex]["time"];
+        }
+        else {
+            break;
+        }
+    }
+    return $clockTime;
+}
+
+
+function getClockTimeBetweenPulses_old(/*&*/$timetrack, $start, $end) {
     global $timebase;
     
     if ($end < $start) {

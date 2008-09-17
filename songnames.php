@@ -141,7 +141,8 @@
     
     
     // Rock Band 2
-    $NAMES["aceofspades"] = "Ace of Spades";
+    # this is going to be a pain if I ever do anything with GH1
+    $NAMES["aceofspades"] = "Ace of Spades '08";
     $NAMES["ajaggedgorgeouswinter"] = "A Jagged Gorgeous Winter";
     $NAMES["alabamagetaway"] = "Alabama Getaway";
     $NAMES["alexchilton"] = "Alex Chilton";
@@ -154,7 +155,7 @@
     $NAMES["battery"] = "Battery";
     $NAMES["bodhisattva"] = "Bodhitsattva";
     $NAMES["carryonwaywardson"] = "Carry On Wayward Son";
-    $NAMES["chopsuey"] = "Chop Suey!";
+    $NAMES["chopsuey"] = "Chop Suey";
     $NAMES["colonyofbirchmen"] = "Colony of Birchmen";
     $NAMES["comeoutandplay"] = "Come Out & Play (Keep 'em Separated)";
     $NAMES["conventionallover"] = "Conventional Lover";

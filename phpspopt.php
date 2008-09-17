@@ -8,6 +8,7 @@
 	define("STAFFHEIGHT", 12);
 	define("DRAWPLAYERLINES", 0);
 	define("CHARTGENVERSION", "0.5.0");
+	define("BPMPRECISION", 1);
 
 
     require_once "parselib.php";
