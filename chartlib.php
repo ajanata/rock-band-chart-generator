@@ -1,6 +1,6 @@
 <?php
 	
-	define("DRAWPULSES", true);
+	if (!defined('DRAWPULSES')) define("DRAWPULSES", false);
 
     require_once "vocalchartlib.php";
  

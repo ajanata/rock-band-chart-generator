@@ -762,109 +762,6 @@ function makeMeasureTable($timetrack, $trkend) {
     return array("guitar" => $ret, "bass" => $ret, "drums" => $ret);
 }
 
-// god this is a mess. this should be able to be done much cleaner
-function makeMeasureTable_old($timetrack, $trkend) {
-    $ret = array();
-    global $timebase;
-    
-    $measure = $curTime = 0;
-    $sigIndex = $tempoIndex = -1;
-    $lastTempo = $timetrack["tempos"][0];
-    
-    while ($curTime < $trkend) {
-        $duration = 0;
-        if (isset($timetrack["tempos"][$tempoIndex+1]) && is_array($timetrack["tempos"][$tempoIndex+1]) &&
-                isset($timetrack["sigs"][$sigIndex+1]) && is_array($timetrack["sigs"][$sigIndex+1])) {
-            // both of them have entries left
-            if ($timetrack["sigs"][$sigIndex+1]["time"] <= $timetrack["tempos"][$tempoIndex+1]["time"]) {
-                #echo "time before tempo " . $curTime . " " . $sigIndex . " " . $tempoIndex . "\n";
-                // time sig change before tempo change
-                
-                if (isset($timetrack["sigs"][$sigIndex+2]) &&  is_array($timetrack["sigs"][$sigIndex+2])) {
-                    // still more time sig changes, so see if the next one is before the next tempo change
-                    #$duration = (($timetrack["sigs"][$sigIndex+2]["time"] < $timetrack["tempos"][$tempoIndex+1]["time"])
-                    #                ? $timetrack["sigs"][$sigIndex+2]["time"] : $timetrack["tempos"][$tempoIndex+1]["time"]) - $curTime;
-                    $duration = $timetrack["sigs"][$sigIndex+2]["time"] - $curTime;
-                }
-                else {
-                    // this is the last time sig change, so the next tempo change is our end
-                    $duration = $timetrack["tempos"][($tempoIndex == -1 ? 0 : $tempoIndex)+1]["time"] - $curTime;
-                }
-                $sigIndex++;
-            }
-            else {
-                #echo "tempo before time " . $curTime . " " . $sigIndex . " " . $tempoIndex . "\n";
-                // tempo change before time sig change
-                
-                if (isset($timetrack["tempos"][$tempoIndex+2]) && is_array($timetrack["tempos"][$tempoIndex+2])) {
-                    // still more tempo changes, so see if the next one is before the next time sig change
-                    $duration = (($timetrack["tempos"][$tempoIndex+2]["time"] < $timetrack["sigs"][$sigIndex+1]["time"])
-                                    ? $timetrack["tempos"][$tempoIndex+2]["time"] : $timetrack["sigs"][$sigIndex+1]["time"]) - $curTime;
-                }
-                else {
-                    // this is the last tempo change, so the next time sig change is our end
-                    $duration = $timetrack["sigs"][$sigIndex+1]["time"] - $curTime;
-                }
-                $tempoIndex++;
-            }
-        }
-        else if (isset($timetrack["sigs"][$sigIndex+2]) && is_array($timetrack["sigs"][$sigIndex+2])) {
-            $duration = $timetrack["sigs"][$sigIndex+1]["time"] - $curTime;
-            $sigIndex++;
-        }
-        else if (isset($timetrack["tempos"][$tempoIndex+2]) && is_array($timetrack["tempos"][$tempoIndex+2])) {
-            $duration = $timetrack["tempos"][$tempoIndex+2]["time"] - $curTime;
-            $lastTempo = $timetrack["tempos"][$tempoIndex+1];
-            $tempoIndex++;
-        }
-        else {
-            $duration = $trkend - $curTime;
-        }
-        
-        $measDur = $timebase * $timetrack["sigs"][$sigIndex]["num"] / ($timetrack["sigs"][$sigIndex]["denom"] / 4);
-        $numMeas = $duration / $measDur;
-        
-        $oldMeasure = $measure;
-        for (; $measure < $oldMeasure + $numMeas; $measure++) {
-            $ret[$measure]["number"] = $measure + 1;
-            $ret[$measure]["time"] = $curTime;
-            $ret[$measure]["num"] = $timetrack["sigs"][$sigIndex]["num"];
-            $ret[$measure]["denom"] = $timetrack["sigs"][$sigIndex]["denom"];
-            $ret[$measure]["notes"] = array();
-            $ret[$measure]["notes"]["easy"] = array();
-            $ret[$measure]["notes"]["medium"] = array();
-            $ret[$measure]["notes"]["hard"] = array();
-            $ret[$measure]["notes"]["expert"] = array();
-   
-            
-            $measEnd = $curTime + $measDur;
-            $measTempo = 0;
-
-            if (!(isset($timetrack["tempos"][$tempoIndex+1]["time"]) && $timetrack["tempos"][$tempoIndex+1]["time"] == $curTime)) {
-                // add the last tempo to this measure since there isn't a tempo change
-                // at the beginning of the measure
-                $ret[$measure]["tempos"][] = $lastTempo;
-            }
-
-            while (isset($timetrack["tempos"][$tempoIndex+1]) && is_array($timetrack["tempos"][$tempoIndex+1]) &&
-                    $timetrack["tempos"][$tempoIndex+1]["time"] < $measEnd) {
-                // add this tempo change to the measure
-                $ret[$measure]["tempos"][/*$measTempo++*/] = $timetrack["tempos"][$tempoIndex+1];
-                $lastTempo = $timetrack["tempos"][$tempoIndex+1];
-                $tempoIndex++;
-            }
-            
-            $curTime += $measDur;
-        }
-    }
-        
-    if (DEBUG >= 1 && VERBOSE) {
-        print_r($ret);
-    }
-    
-    return array("guitar" => $ret, "bass" => $ret, "drums" => $ret);
-} // makeMeasureTable
-
 
 function parseNoteTrack($txt, $gameNotes) {
     /* Stuff that will eventually need to be addressed:
@@ -1023,7 +920,7 @@ function dealWithNote($time, $type, $note, $vel, $gameNotes, &$notetrack, &$chor
 
 function getClockTimeBetweenPulses(&$timetrack, $start, $end) {
     global $timebase;
-    
+
     if ($end < $start) {
         $temp = $end;
         $end = $start;
@@ -1073,61 +970,6 @@ function getClockTimeBetweenPulses(&$timetrack, $start, $end) {
         }
     }
     return $clockTime;
-}
-
-
-function getClockTimeBetweenPulses_old(/*&*/$timetrack, $start, $end) {
-    global $timebase;
-    
-    if ($end < $start) {
-        $temp = $end;
-        $end = $start;
-        $start = $end;
-    }
-    
-    $clockTime = 0;
-    
-    
-    if (count($timetrack["tempos"]) == 1) {
-        // we have issues with only one tempo in the whole song...
-        $time = (($end - $start) / $timebase) / ($timetrack["tempos"][0]["bpm"] / 60);
-        return $time;
-    }
-    
-    foreach ($timetrack["tempos"] as $index => $timeevent) {
-        #if ($timeevent["time"] < $start) continue;
-        if ($timeevent["time"] > $end) continue;
-        
-        $duration = 0;
-        
-        if (isset($timetrack["tempos"][$index+1])) {
-            // there is another tempo change after this one, see what its time is
-            if ($end > $timetrack["tempos"][$index+1]["time"]) {
-                // the next event is still in the range we want
-                $x = $timeevent["time"];
-                if ($timeevent["time"] < $start) $x = $start;
-                $duration = $timetrack["tempos"][$index+1]["time"] - $x;
-                if ($timeevent["time"] + $duration < $start) continue;
-            }
-            else {
-                // the range we want ends with the current tempo
-                $x = $timeevent["time"];
-                if ($timeevent["time"] < $start) $x = $start;
-                $duration = $end - $x;
-            }
-        }
-        else {
-            // this is the last tempo event
-            $duration = $end - $timeevent["time"];
-        }
-        
-        // we now have $duration pulses at this tempo
-        $thisClockTime = ($duration / $timebase) / ($timeevent["bpm"] / 60);
-        $clockTime += $thisClockTime;
-        
-    }
-    return $clockTime;
-    
 }
 
 

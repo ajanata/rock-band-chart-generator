@@ -207,7 +207,7 @@
     $NAMES["shacklersrevenge"] = "Shackler's Revenge";
     $NAMES["shootingstar"] = "Shooting Star";
     $NAMES["shouldertotheplow1"] = "Shoulder to the Plow";
-    $NAMES["soulsofblack"] = "Shoulder of Black";
+    $NAMES["soulsofblack"] = "Souls of Black";
     $NAMES["sowhatchawant"] = "So What'cha Want";
     $NAMES["spiritinthesky"] = "Spirit in the Sky";
     $NAMES["spoonman"] = "Spoonman";

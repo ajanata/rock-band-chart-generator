@@ -1,5 +1,7 @@
 <?php
 
+    define("DRAWPULSES", false);
+
 	define("WIDTH", 1024);
 	define("BPMPRECISION", 1);
 	define("PXPERBEAT", /*70*/ 45 /*275*/);
