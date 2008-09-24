@@ -1,28 +1,28 @@
 (Don't Fear) The Reaper
-(Take These) Chains
+(Take These) Chains                     Akaleth (both)
 ...And Justice for All
 29 Fingers
-3's & 7's                           beingmused (RB1)
-A Clean Shot                        beingmused (RB1)
+3's & 7's                               beingmused (RB1)    Akaleth (RB2)
+A Clean Shot                            beingmused (RB1)
 A Jagged Gorgeous Winter
 Ace of Spades '08
-Action                              beingmused (RB1)
+Action                                  beingmused (RB1)
 Aesthetics of Hate
-Afterlife                           beingmused (RB1)
+Afterlife                               beingmused (RB1)
 Alabama Getaway
 Alex Chilton
-Alive                               qirex (RB2)
-All Mixed Up                        beingmused (RB1)
-All Over Again                      beingmused (RB1)
-All the Small Things                beingmused (RB1)
-Almost Easy
-Amazing Journey                     beingmused (RB1)
+Alive                                   qirex (RB2)
+All Mixed Up                            beingmused (RB1)
+All Over Again                          beingmused (RB1)
+All the Small Things                    beingmused (RB1)
+Almost Easy                             Akaleth (RB2)
+Amazing Journey                         beingmused (RB1)
 American Woman
 Any Way You Want It
 Aqualung
 Are You Gonna Be My Girl
-Attack                              beingmused (RB1)
-B.Y.O.B.                            beingmused (RB1)
+Attack                                  beingmused (RB1)
+B.Y.O.B.                                beingmused (RB1)
 Baba O'Riley
 Bad Reputation
 Ballroom Blitz
@@ -64,7 +64,7 @@ Clouds Over California
 Colony of Birchmen
 Come Out & Play (Keep 'em Separated)
 Complete Control
-Constant Motion
+Constant Motion                             Akaleth (both)
 Conventional Lover
 Cool for Cats
 Countdown to Insanity
@@ -73,11 +73,11 @@ Creep
 Critical Acclaim
 Crushcrushcrush
 D.O.A.
-Dani California
+Dani California                             Akaleth (both)
 Date with the Night
 Day Late, Dollar Short
 De-Luxe
-Dead                                    qirex (both)
+Dead                                        qirex (both)
 Dead On Arrival
 Debaser
 Detroit Rock City
@@ -91,10 +91,10 @@ Don't Make Me Wait
 Down at the Whiskey
 Down with the Sickness
 Drain You
-Dreamin'                                Icemage (DONE RB1)  qirex (RB2)
+Dreamin'                                    Icemage (DONE RB1)  qirex (RB2)     NOTE: RB1 image shows two zones starting mid-phrase, there is a glitch in the mid file and my program is interpreting this incorrectly. I might be able to fix this.
 E-Pro
 El Scorcho
-Electric Crown
+Electric Crown                              Akaleth (both)
 Electric Version
 Eminence Front
 Enter Sandman
@@ -210,7 +210,7 @@ One Step Closer
 One Way or Another
 Orange Crush
 Our Truth
-Outside                                 Icemage (DONE RB1)  qirex (RB2)
+Outside                                     Icemage (DONE RB1)  qirex (RB2)
 PDA
 Pain and Pleasure
 Painkiller
@@ -244,14 +244,14 @@ Rock Rebellion
 Rock and Roll Band
 Rock'n Me
 Rockaway Beach
-Round and Round
+Round and Round                             Akaleth (RB2)
 Roxanne
 Run to the Hills
 Running Wild
 Sabotage
 Saints of Los Angeles
 Say it Ain't So
-Screaming for Vengeance
+Screaming for Vengeance                     Akaleth (both)
 Sea & Sand
 Seven
 Sex Type Thing
@@ -259,7 +259,7 @@ Shackler's Revenge
 Shake
 She Does
 Shhh....
-Shockwave
+Shockwave                                   Akaleth (both)
 Shooting Star
 Should I Stay or Should I Go
 Shoulder to the Plow
@@ -267,7 +267,7 @@ Sick, Sick, Sick
 Silver
 Simple Man
 Siva
-Skullcrusher Mountain
+Skullcrusher Mountain                       Akaleth (both)
 Sleepwalker
 Smokin'
 Snow ((Hey Oh))
@@ -311,43 +311,68 @@ Thrasher
 Through Being Cool
 Time Sick Son of a Grizzly Bear
 Time We Had
-Time is Running Out
+Time is Running Out                         internetguy87 (RB1)
 Timmy and the Lords of the Underworld
 Today
 Tom Sawyer
-Toxicity
+Toxicity                                    internetguy87 (RB1)
 Train Kept a Rollin'
 Train Kept a Rollin' (Short)
-Train in Vain (Stand By Me)
-Troublemaker
-Truckin'
-Truth Hits Everybody
+Train in Vain (Stand By Me)                 internetguy87 (RB1)
+Troublemaker                                internetguy87 (RB1)
+Truckin'                                    internetguy87 (RB1)
+Truth Hits Everybody                        internetguy87 (RB1)
 Two Weeks
 Uncontrollable Urge
 Vasoline
 Visions
-Volcano
+Volcano                                     internetguy87 (RB1)
 Wanted Dead or Alive
-War Pigs
+War Pigs                                    internetguy87 (RB1)
 Wave of Mutilation
-We Care a Lot
+We Care a Lot                               internetguy87 (RB1)
 We Got the Beat
 Welcome Home
 Welcome to the Neighborhood
 When You Were Young
 Where'd You Go
 White Wedding (Part 1)
-Who Are You
-Who's Going Home with You Tonight       internetguy87 (RB1)
-Why Do You Love Me                      internetguy87 (RB1)
+Who Are You                                 internetguy87 (RB1)
+Who's Going Home with You Tonight           internetguy87 (DONE RB1)
+Why Do You Love Me                          internetguy87 (DONE RB1)
 Won't Get Fooled Again
 Won't Get Fooled Again (Short)
-Wonderwall                              internetguy87 (RB1)
-Working Man                             internetguy87 (RB1)
-Working Man (Vault Edition)             internetguy87 (RB1)
-Yomp                                    internetguy87 (RB1)
+Wonderwall                                  internetguy87 (DONE RB1)
+Working Man                                 internetguy87 (DONE RB1)
+Working Man (Vault Edition)                 internetguy87 (DONE RB1)
+Yomp                                        internetguy87 (DONE RB1)
 You Oughta Know
-You're All I Got Tonight                internetguy87 (RB1)
-You've Got Another Thing Comin'         internetguy87 (RB1)
-Young Man Blues (Live at Leeds)         internetguy87 (RB1)
-Zero                                    internetguy87 (RB1)
+You're All I Got Tonight                    internetguy87 (DONE RB1)    *NOTE* There are two activation zones shown as being during the previous phrase on the current image, this requires code restructuring due to the timing in the mid file.
+You've Got Another Thing Comin'             internetguy87 (DONE RB1)
+Young Man Blues (Live at Leeds)             internetguy87 (DONE RB1)
+Zero                                        internetguy87 (DONE RB1)
+
+Bad Omen
+Bandages
+The Camera Eye
+Devil's Island
+Good Mourning/Black Friday
+Hands Down
+I Ain't Superstitious
+Limelight (Original Version)
+Love Spreads
+My Last Words
+Natural Disaster
+One of Those Nights
+Red Barchetta
+She's a Handsome Woman
+She Sells Sanctuary
+Shoot the Runner
+Sorrow
+The Conjuring
+Tom Sawyer (Original Version)
+Vital Signs
+Wake Up Dead
+Witch Hunt
+You're No Rock N Roll Fun
+YYZ
