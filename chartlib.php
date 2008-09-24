@@ -327,12 +327,12 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
                // BRE needs more code later
 	           $c = $fill;
 	           $bY = $y;// - 25;
-	           $beY = $y + STAFFHEIGHT*(4-($instrument == "drums")) + 2*STAFFHEIGHT*($instrument == "vocals");
+	           $beY = $y + STAFFHEIGHT*(4-($instrument == "drums")) - STAFFHEIGHT*($instrument == "vocals");
 	           break;
            case "solo":
                 $c = $solo;
                 $bY = $y - 20;
-                $beY = $y + 20 + STAFFHEIGHT*(4-($instrument == "drums")) + 2*STAFFHEIGHT*($instrument == "vocals");
+                $beY = $y + 20 + STAFFHEIGHT*(4-($instrument == "drums")) - STAFFHEIGHT*($instrument == "vocals");
                 
                 // need to draw the number of notes in the solo too
                 /*

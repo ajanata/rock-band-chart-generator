@@ -1,6 +1,6 @@
 <?php
 
-    define("DRAWPULSES", false);
+    define("DRAWPULSES", true);
 
 	define("WIDTH", 1024);
 	define("BPMPRECISION", 1);

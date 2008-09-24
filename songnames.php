@@ -475,5 +475,31 @@
     $NAMES["thiscalling"] = "This Calling";
     $NAMES["twoweeks"] = "Two Weeks";
 
+    # 9/16 and 9/23
+    $NAMES["badomen"] = "Bad Omen";
+    $NAMES["bandages"] = "Bandages";
+    $NAMES["cameraeye"] = "The Camera Eye";
+    $NAMES["devilsisland"] = "Devil's Island";
+    $NAMES["goodmorningblackfriday"] = "Good Mourning/Black Friday";
+    $NAMES["handsdown"] = "Hands Down";
+    $NAMES["iaintsuperstitious"] = "I Ain't Superstitious";
+    $NAMES["limelight2"] = "Limelight (Original Version)";
+    $NAMES["lovespreads"] = "Love Spreads";
+    $NAMES["mylastwords"] = "My Last Words";
+    $NAMES["naturaldisaster"] = "Natural Disaster";
+    $NAMES["oneofthosenights"] = "One of Those Nights";
+    $NAMES["redbarchetta"] = "Red Barchetta";
+    $NAMES["sheisahandsomewoman"] = "She's a Handsome Woman";
+    $NAMES["shesellssanctuary"] = "She Sells Sanctuary";
+    $NAMES["shoottherunner"] = "Shoot the Runner";
+    $NAMES["sorrow"] = "Sorrow";
+    $NAMES["theconjuring"] = "The Conjuring";
+    $NAMES["tomsawyer2"] = "Tom Sawyer (Original Version)";
+    $NAMES["vitalsigns"] = "Vital Signs";
+    $NAMES["wakeupdead"] = "Wake Up Dead";
+    $NAMES["witchhunt"] = "Witch Hunt";
+    $NAMES["yourenorocknrollfun"] = "You're No Rock N Roll Fun";
+    $NAMES["yyz"] = "YYZ";
+
 
 ?>

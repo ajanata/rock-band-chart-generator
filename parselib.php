@@ -22,6 +22,7 @@ function parseFile($file, $game, $ignoreCache = false) {
         $cache = fopen($file . ".parsecache", 'r');
         $stat = fstat($cache);
         $serialized = fread($cache, $stat["size"]);
+        fclose($cache);
         list ($timebase, $unserialized) = unserialize($serialized);
         return $unserialized;
     }
@@ -105,6 +106,11 @@ function parseFile($file, $game, $ignoreCache = false) {
             $events["drums"] = parsePhraseEvents($mid->getTrackTxt($drumsTrack), $NOTES[$game]);
             $events["vocals"] = parsePhraseEvents($mid->getTrackTxt($vocalsTrack), $NOTES[$game]);
             
+            if (file_exists($file . ".voxfills")) {
+                // this song has vocal fills defined -- read them in and add the events
+                $events["vocals"] = makeVoxFills($file . ".voxfills", $events["vocals"]);
+            }
+            
             $vocals = parseVocals($mid->getTrackTxt($vocalsTrack));
 
             list ($notetracks, $events) = applyEventsToNoteTracks($notetracks, $events, $timetrack);
@@ -163,9 +169,49 @@ function parseFile($file, $game, $ignoreCache = false) {
         if ($cache) {
             fwrite($cache, serialize(array($timebase, array($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat))));
         }
+        fclose($cache);
     }
 
     return array($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat);
+}
+
+
+function makeVoxFills($fname, $events) {
+    $fhand = fopen($fname, 'r');
+    if ($fhand === false) die("Unable to open $fname for reading even though it exists!");
+    
+    while (!feof($fhand)) {
+        $fillAt = rtrim(fgets($fhand, 32));
+        // I think this happens on blank lines, just ignore them.
+        if ($fillAt == 0) continue;
+
+        $startTime = $endTime = 0;
+        
+        foreach ($events as $e) {
+            if ($e["type"] != "p1" && $e["type"] != "p2" && $e["type"] != "star") continue;
+            if ($e["end"] < $fillAt) {
+                $startTime = $e["end"];
+            }
+            else break;            
+        }
+
+        foreach ($events as $e) {
+            if ($e["type"] != "p1" && $e["type"] != "p2" /*&& $e["type"] != "star"*/) continue;
+            if ($e["start"] > $fillAt) {
+                $endTime = $e["start"];
+                break;
+            }
+        }
+
+        $i = count($events);
+        $events[$i]["type"] = "fill";
+        $events[$i]["start"] = $startTime;
+        $events[$i]["end"] = $endTime;
+    
+    }
+    
+    fclose($fhand);
+    return $events;
 }
 
 
