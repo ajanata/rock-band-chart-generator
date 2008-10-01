@@ -2,45 +2,45 @@
 (Take These) Chains                     Akaleth (both)
 ...And Justice for All
 29 Fingers
-3's & 7's                               beingmused (RB1)    Akaleth (RB2)
-A Clean Shot                            beingmused (RB1)
+3's & 7's                               beingmused (DONE RB1)    Akaleth (RB2)
+A Clean Shot                            beingmused (DONE RB1)
 A Jagged Gorgeous Winter
 Ace of Spades '08
-Action                                  beingmused (RB1)
+Action                                  beingmused (DONE RB1)
 Aesthetics of Hate
-Afterlife                               beingmused (RB1)
+Afterlife                               beingmused (DONE RB1)
 Alabama Getaway
 Alex Chilton
 Alive                                   qirex (RB2)
-All Mixed Up                            beingmused (RB1)
-All Over Again                          beingmused (RB1)
-All the Small Things                    beingmused (RB1)
+All Mixed Up                            beingmused (DONE RB1)
+All Over Again                          beingmused (DONE RB1)
+All the Small Things                    beingmused (DONE RB1)
 Almost Easy                             Akaleth (RB2)
-Amazing Journey                         beingmused (RB1)
+Amazing Journey                         beingmused (DONE RB1)
 American Woman
 Any Way You Want It
 Aqualung
 Are You Gonna Be My Girl
-Attack                                  beingmused (RB1)
-B.Y.O.B.                                beingmused (RB1)
-Baba O'Riley
+Attack                                  beingmused (DONE RB1)
+B.Y.O.B.                                beingmused (DONE RB1)
+Baba O'Riley                            beingmused (RB1)
 Bad Reputation
 Ballroom Blitz
-Bang a Gong
+Bang a Gong                             beingmused (RB1)
 Battery
-Beethoven's C***
-Beetlebum
-Behind Blue Eyes
+Beethoven's C***                        beingmused (RB1)
+Beetlebum                               beingmused (RB1)
+Behind Blue Eyes                        beingmused (RB1)
 Black Hole Sun
-Blackened
-Blinded by Fear
+Blackened                               beingmused (RB1)
+Blinded by Fear                         beingmused (RB1)
 Blitzkrieg Bop
 Blood Doll
-Bloodstone
+Bloodstone                              beingmused (RB1)
 Bodhitsattva
 Brainpower
-Brass in Pocket
-Buddy Holly
+Brass in Pocket                         beingmused (RB1)
+Buddy Holly                             beingmused (RB1)
 Bullets & Guns
 Burn
 Bye Bye Love
@@ -77,7 +77,7 @@ Dani California                             Akaleth (both)
 Date with the Night
 Day Late, Dollar Short
 De-Luxe
-Dead                                        qirex (both)
+Dead                                        qirex (RB2)
 Dead On Arrival
 Debaser
 Detroit Rock City
@@ -278,7 +278,7 @@ Souls of Black
 Spirit in the Sky
 Spoonman
 Sprode
-Still Alive                                 qirex (both)
+Still Alive                                 qirex (RB2)
 Suffragette City
 Sugar Magnolia
 Summertime Blues (Live at Leeds)
@@ -299,45 +299,45 @@ The Hand That Feeds                         Icemage (DONE RB1)  qirex (RB2)
 The Hellion/Electric Eye
 The Kill
 The Middle
-The Number of the Beast
-The Perfect Drug
+The Number of the Beast                     internetguy87 (RB1)
+The Perfect Drug                            internetguy87 (RB1)
 The Trees (Vault Edition)
-There Goes My Gun
-They Say
-This Ain't a Scene, It's an Arms Race
-This Calling
-This is It
-Thrasher
-Through Being Cool
-Time Sick Son of a Grizzly Bear
+There Goes My Gun                           internetguy87 (RB1)
+They Say                                    internetguy87 (RB1)
+This Ain't a Scene, It's an Arms Race       internetguy87 (RB1)
+This Calling                                internetguy87 (RB1)
+This is It                                  internetguy87 (RB1)
+Thrasher                                    internetguy87 (RB1)
+Through Being Cool                          internetguy87 (RB1)
+Time Sick Son of a Grizzly Bear             internetguy87 (RB1)
 Time We Had
-Time is Running Out                         internetguy87 (RB1)
+Time is Running Out                         internetguy87 (DONE RB1)
 Timmy and the Lords of the Underworld
 Today
 Tom Sawyer
-Toxicity                                    internetguy87 (RB1)
+Toxicity                                    internetguy87 (DONE RB1)
 Train Kept a Rollin'
 Train Kept a Rollin' (Short)
-Train in Vain (Stand By Me)                 internetguy87 (RB1)
-Troublemaker                                internetguy87 (RB1)
-Truckin'                                    internetguy87 (RB1)
-Truth Hits Everybody                        internetguy87 (RB1)
+Train in Vain (Stand By Me)                 internetguy87 (DONE RB1)
+Troublemaker                                internetguy87 (DONE RB1)
+Truckin'                                    internetguy87 (DONE RB1)
+Truth Hits Everybody                        internetguy87 (DONE RB1)
 Two Weeks
 Uncontrollable Urge
 Vasoline
 Visions
-Volcano                                     internetguy87 (RB1)
+Volcano                                     internetguy87 (DONE RB1)
 Wanted Dead or Alive
-War Pigs                                    internetguy87 (RB1)
+War Pigs                                    internetguy87 (DONE RB1)
 Wave of Mutilation
-We Care a Lot                               internetguy87 (RB1)
+We Care a Lot                               internetguy87 (DONE RB1)
 We Got the Beat
 Welcome Home
 Welcome to the Neighborhood
 When You Were Young
 Where'd You Go
 White Wedding (Part 1)
-Who Are You                                 internetguy87 (RB1)
+Who Are You                                 internetguy87 (DONE RB1)
 Who's Going Home with You Tonight           internetguy87 (DONE RB1)
 Why Do You Love Me                          internetguy87 (DONE RB1)
 Won't Get Fooled Again
@@ -376,3 +376,20 @@ Wake Up Dead
 Witch Hunt
 You're No Rock N Roll Fun
 YYZ
+
+Apache Rose Peacock
+Blood Sugar Sex Magik
+Breaking the Girl
+Funky Monks
+I Could Have Lied
+If You Have to Ask
+Mellowship Slinky in B Major
+My Lovely Man
+Naked in the Rain
+Sir Psycho Sexy
+Suck My Kiss
+The Greeting Song
+The Power of Equality
+The Righteous & The Wicked
+They're Red Hot
+Under the Bridge

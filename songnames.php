@@ -487,7 +487,7 @@
     $NAMES["lovespreads"] = "Love Spreads";
     $NAMES["mylastwords"] = "My Last Words";
     $NAMES["naturaldisaster"] = "Natural Disaster";
-    $NAMES["oneofthosenights"] = "One of Those Nights";
+    $NAMES["oneofthosenights"] = "One of THOSE Nights";
     $NAMES["redbarchetta"] = "Red Barchetta";
     $NAMES["sheisahandsomewoman"] = "She's a Handsome Woman";
     $NAMES["shesellssanctuary"] = "She Sells Sanctuary";
@@ -501,5 +501,22 @@
     $NAMES["yourenorocknrollfun"] = "You're No Rock N Roll Fun";
     $NAMES["yyz"] = "YYZ";
 
-
+    # 9/30
+    $NAMES["apacherosepeacock"] = "Apache Rose Peacock";
+    $NAMES["bloodsugarsexmagik"] = "Blood Sugar Sex Magik";
+    $NAMES["breakingthegirl"] = "Breaking the Girl";
+    $NAMES["funkymonks"] = "Funky Monks";
+    $NAMES["icouldhavelied"] = "I Could Have Lied";
+    $NAMES["ifyouhavetoask"] = "If You Have to Ask";
+    $NAMES["mellowshipslinkyinbmajor"] = "Mellowship Slinky in B Major";
+    $NAMES["mylovelyman"] = "My Lovely Man";
+    $NAMES["nakedintherain"] = "Naked in the Rain";
+    $NAMES["sirpsychosexy"] = "Sir Psycho Sexy";
+    $NAMES["suckmykiss"] = "Suck My Kiss";
+    $NAMES["thegreetingsong"] = "The Greeting Song";
+    $NAMES["thepowerofequality"] = "The Power of Equality";
+    $NAMES["therighteousandthewicked"] = "The Righteous & The Wicked";
+    $NAMES["theyreredhot"] = "They're Red Hot";
+    $NAMES["underthebridge"] = "Under the Bridge";
+    
 ?>
