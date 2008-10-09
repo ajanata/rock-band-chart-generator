@@ -1,81 +1,12 @@
 <?php
-    
-    // ls -1 | sed -e 's/\(.*\)\.mid/$NAMES["\1"] = "";/'
 
-    
-    // GH1
-    
-    
-    
-    
-    
-    // GH2
-    $NAMES["strutter"] = "Strutter";
-    $NAMES["messageinabottle"] = "Message in a Bottle";
-    $NAMES["monkeywrench"] = "Monkey Wrench";
-    $NAMES["killinginthenameof"] = "Killing in the Name";
-    $NAMES["warpigs"] = "War Pigs";
-    $NAMES["xstream"] = "X-Stream";
-
-    
-    
-    // GH80s
-    $NAMES["ballroomblitz"] = "Ballroom Blitz";
-    
-    
-    
-    // GH3
-    $NAMES["3sand7s"] = "3's & 7's";
-    $NAMES["blackmagicwoman"] = "Black Magic Woman";
-    $NAMES["helicopter"] = "Helicopter";
-    $NAMES["hierkommtalex"] = "Hier Kommt Alex";
-    $NAMES["hitmewithyourbestshot"] = "Hit Me With Your Best Shot";
-    $NAMES["koolthing"] = "Kool Thing";
-    $NAMES["lagrange"] = "La Grange";
-    $NAMES["numberofthebeast"] = "The Number of the Beast";
-    $NAMES["paranoid"] = "Paranoid";
-    $NAMES["pridenjoy"] = "Pride and Joy";
-    $NAMES["rockandrollallnite"] = "Rock and Roll All Nite";
-    $NAMES["sabotage"] = "Sabotage";
-    $NAMES["whenyouwereyoung"] = "When You Were Young";
-    
-    
-    // Guitar Hero: On Tour
-    $NAMES["allstar"] = "All Star";
-    #$NAMES["allthesmallthings"] = "All The Small Things";
-    $NAMES["annamolly"] = "Anna Molly";
-    #$NAMES["areyougonnabemygirl"] = "Are You Gonna Be My Girl";
-    #$NAMES["blackmagicwoman"] = "Black Magic Woman";
-    $NAMES["breed"] = "Breed";
-    $NAMES["chinagrove"] = "China Grove";
-    $NAMES["dowhatyouwant"] = "Do What You Want";
-    $NAMES["heaven"] = "Heaven";
-    #$NAMES["helicopter"] = "Helicopter";
-    #$NAMES["hitmewithyourbestshot"] = "Hit Me With Your Best Shot";
-    $NAMES["iamnotyourgameboy"] = "I Am Not Your Gameboy";
-    $NAMES["idontwannastop"] = "I Don't Wanna Stop";
-    $NAMES["iknowalittle"] = "I Know A Little";
-    $NAMES["jessesgirl"] = "Jessie's Girl";
-    $NAMES["jetairliner"] = "Jet Airliner";
-    $NAMES["knockmedown"] = "Knock Me Down";
-    #$NAMES["lagrange"] = "La Grange";
-    #$NAMES["pridenjoy"] = "Pride and Joy";
-    #$NAMES["rockandrollallnite"] = "Rock and Roll All Nite";
-    $NAMES["spiderwebs"] = "Spiderwebs";
-    $NAMES["straycatstrut"] = "Stray Cat Strut";
-    $NAMES["thislove"] = "This Love";
-    $NAMES["werenotgonnatakeit"] = "We're Not Gonna Take It";
-    $NAMES["whatiwant"] = "What I Want";
-    $NAMES["youthgonewild"] = "Youth Gone Wild";
-    
-    
     
     // Rock Band
     
     $NAMES["29fingers"] = "29 Fingers";
     $NAMES["areyougonnabemygirl"] = "Are You Gonna Be My Girl";
     # duplicate from GH80s
-    #$NAMES["ballroomblitz"] = "Ballroom Blitz";
+    $NAMES["ballroomblitz"] = "Ballroom Blitz";
     $NAMES["blackholesun"] = "Black Hole Sun";
     $NAMES["blitzkriegbop"] = "Blitzkrieg Bop";
     $NAMES["blooddoll"] = "Blood Doll";
@@ -114,12 +45,12 @@
     $NAMES["orangecrush"] = "Orange Crush";
     $NAMES["outside"] = "Outside";
     # duplicate from GH3
-    #$NAMES["paranoid"] = "Paranoid";
+    $NAMES["paranoid"] = "Paranoid";
     $NAMES["pleasure"] = "Pleasure (Pleasure)";
     $NAMES["reptilia"] = "Reptilia";
     $NAMES["runtothehills"] = "Run to the Hills";
     # duplicate from gh3
-    #$NAMES["sabotage"] = "Sabotage";
+    $NAMES["sabotage"] = "Sabotage";
     $NAMES["sayitaintso"] = "Say it Ain't So";
     $NAMES["seven"] = "Seven";
     $NAMES["shouldistay"] = "Should I Stay or Should I Go";
@@ -135,7 +66,7 @@
     $NAMES["waveofmutilation"] = "Wave of Mutilation";
     $NAMES["welcomehome"] = "Welcome Home";
     # duplicate from GH3
-    #$NAMES["whenyouwereyoung"] = "When You Were Young";
+    $NAMES["whenyouwereyoung"] = "When You Were Young";
     $NAMES["wontgetfooled"] = "Won't Get Fooled Again";
     $NAMES["wontgetfooled_short"] = "Won't Get Fooled Again (Short)";
     
@@ -233,7 +164,7 @@
 
     $NAMES["andjusticeforall"] = "...And Justice for All";
     # duplicate from GH3
-    #$NAMES["3sand7s"] = "3's & 7's";
+    $NAMES["3sand7s"] = "3's & 7's";
     $NAMES["action"] = "Action";
     $NAMES["allthesmallthings"] = "All the Small Things";
     $NAMES["attack"] = "Attack";
@@ -275,7 +206,7 @@
     $NAMES["liveforever"] = "Live Forever";
     $NAMES["marchofthepigs"] = "March of the Pigs";
     # duplicate from GH2
-    #$NAMES["messageinabottle"] = "Message in a Bottle";
+    $NAMES["messageinabottle"] = "Message in a Bottle";
     $NAMES["moonagedaydream"] = "Moonage Daydream";
     $NAMES["morethanafeeling"] = "More Than a Feeling";
     $NAMES["movealong"] = "Move Along";
@@ -283,7 +214,7 @@
     $NAMES["mysharona"] = "My Sharona";
     $NAMES["nib"] = "N.I.B.";
     # duplicate from GH3
-    #$NAMES["numberofthebeast"] = "The Number of the Beast";
+    $NAMES["numberofthebeast"] = "The Number of the Beast";
     $NAMES["peaceofmind"] = "Peace of Mind";
     $NAMES["perfectdrug"] = "The Perfect Drug";
     $NAMES["queenbitch"] = "Queen Bitch";
@@ -315,7 +246,7 @@
     $NAMES["truckin"] = "Truckin'";
     $NAMES["truthhitseverybody"] = "Truth Hits Everybody";
     # duplicate from GH2
-    #$NAMES["warpigs"] = "War Pigs";
+    $NAMES["warpigs"] = "War Pigs";
     $NAMES["wecarealot"] = "We Care a Lot";
     $NAMES["whydoyouloveme"] = "Why Do You Love Me";
     $NAMES["wonderwall"] = "Wonderwall";
@@ -345,10 +276,10 @@
     $NAMES["countdowntoinsanity"] = "Countdown to Insanity";
     $NAMES["hangingonthetelephone"] = "Hanging on the Telephone";
     # see gh3
-    #$NAMES["hierkommtalex"] = "";
+    $NAMES["hierkommtalex"] = "Hier Kommt Alex";
     $NAMES["hysteria"] = "Hysteria";
     # see gh3
-    #$NAMES["koolthing"] = "";
+    $NAMES["koolthing"] = "Kool Thing";
     $NAMES["manuchao"] = "Manu Chao";
     $NAMES["monsoon"] = "Monsoon";
     $NAMES["newwave"] = "New Wave";
@@ -475,60 +406,10 @@
     $NAMES["thiscalling"] = "This Calling";
     $NAMES["twoweeks"] = "Two Weeks";
 
-    # 9/16 and 9/23
-    $NAMES["badomen"] = "Bad Omen";
-    $NAMES["bandages"] = "Bandages";
-    $NAMES["cameraeye"] = "The Camera Eye";
-    $NAMES["devilsisland"] = "Devil's Island";
-    $NAMES["goodmorningblackfriday"] = "Good Mourning/Black Friday";
-    $NAMES["handsdown"] = "Hands Down";
-    $NAMES["iaintsuperstitious"] = "I Ain't Superstitious";
-    $NAMES["limelight2"] = "Limelight (Original Version)";
-    $NAMES["lovespreads"] = "Love Spreads";
-    $NAMES["mylastwords"] = "My Last Words";
-    $NAMES["naturaldisaster"] = "Natural Disaster";
-    $NAMES["oneofthosenights"] = "One of THOSE Nights";
-    $NAMES["redbarchetta"] = "Red Barchetta";
-    $NAMES["sheisahandsomewoman"] = "She's a Handsome Woman";
-    $NAMES["shesellssanctuary"] = "She Sells Sanctuary";
-    $NAMES["shoottherunner"] = "Shoot the Runner";
-    $NAMES["sorrow"] = "Sorrow";
-    $NAMES["theconjuring"] = "The Conjuring";
-    $NAMES["tomsawyer2"] = "Tom Sawyer (Original Version)";
-    $NAMES["vitalsigns"] = "Vital Signs";
-    $NAMES["wakeupdead"] = "Wake Up Dead";
-    $NAMES["witchhunt"] = "Witch Hunt";
-    $NAMES["yourenorocknrollfun"] = "You're No Rock N Roll Fun";
-    $NAMES["yyz"] = "YYZ";
 
-    # 9/30
-    $NAMES["apacherosepeacock"] = "Apache Rose Peacock";
-    $NAMES["bloodsugarsexmagik"] = "Blood Sugar Sex Magik";
-    $NAMES["breakingthegirl"] = "Breaking the Girl";
-    $NAMES["funkymonks"] = "Funky Monks";
-    $NAMES["icouldhavelied"] = "I Could Have Lied";
-    $NAMES["ifyouhavetoask"] = "If You Have to Ask";
-    $NAMES["mellowshipslinkyinbmajor"] = "Mellowship Slinky in B Major";
-    $NAMES["mylovelyman"] = "My Lovely Man";
-    $NAMES["nakedintherain"] = "Naked in the Rain";
-    $NAMES["sirpsychosexy"] = "Sir Psycho Sexy";
-    $NAMES["suckmykiss"] = "Suck My Kiss";
-    $NAMES["thegreetingsong"] = "The Greeting Song";
-    $NAMES["thepowerofequality"] = "The Power of Equality";
-    $NAMES["therighteousandthewicked"] = "The Righteous & The Wicked";
-    $NAMES["theyreredhot"] = "They're Red Hot";
-    $NAMES["underthebridge"] = "Under the Bridge";
-    
-    # 10/7
-    $NAMES["allrightnow"] = "All Right Now";
-    $NAMES["badtothebone"] = "Bad to the Bone";
-    $NAMES["creamandbastards"] = "Cream & Bastards Rise";
-    $NAMES["goneaway"] = "Gone Away";
-    $NAMES["nearlylostyou"] = "Nearly Lost You";
-    $NAMES["prettyflyforawhiteguy"] = "Pretty Fly (For a White Guy)";
-    $NAMES["pushit"] = "Push It";
-    $NAMES["selfesteem"] = "Self Esteem";
-    $NAMES["stop"] = "Stop!";
 
-    
+    sort($NAMES);
+
+    foreach ($NAMES as $n) echo "$n\n";
+
 ?>

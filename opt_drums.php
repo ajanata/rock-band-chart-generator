@@ -198,11 +198,12 @@ function opt_drums_recurse(&$notetrack, &$events, &$timetrack, &$beat, &$diff, $
         
     for ($i = 0; $i < count($fills); $i++) {
         $activation_start = $events[$fills[$i]["index"]]["end"];
-        if (($activation_start % $timebase) != 0) {
-            $activation_start = (int)($activation_start / $timebase);
-            $activation_start *= $timebase;
-            $activation_start += $timebase;
-        }
+    # don't round to a beat, stupid.
+#        if (($activation_start % $timebase) != 0) {
+#            $activation_start = (int)($activation_start / $timebase);
+#            $activation_start *= $timebase;
+#            $activation_start += $timebase;
+#        }
         list ($activation_end, $overrun) = drums_determine_activation_end($notetrack, $events, $timetrack, $beat,
                 $activation_start, min(1, $fills[$i]["phrases"]/4), $diff);
         $score_gain = drums_count_notes($notetrack, $activation_start + 1, $activation_end);
