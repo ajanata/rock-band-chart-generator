@@ -1,6 +1,6 @@
 <?php
 
-    define('REVISION', 188);
+    define('REVISION', 189);
     
     /*
     global $REVISION;
@@ -144,6 +144,10 @@
     $NOTES["RB"]["EXPERT"]["B"] = 99;
     $NOTES["RB"]["EXPERT"]["O"] = 100;
     $NOTES["RB"]["EXPERT"]["STAR"] = 116;
+    // forced hopo
+    $NOTES["RB"]["EXPERT"]["HOPO"] = 101;
+    // forced strum
+    $NOTES["RB"]["EXPERT"]["STRUM"] = 102;
     $NOTES["RB"]["EXPERT"]["SOLO"] = 103;
     $NOTES["RB"]["EXPERT"]["P1"] = 105;
     $NOTES["RB"]["EXPERT"]["P2"] = 106;

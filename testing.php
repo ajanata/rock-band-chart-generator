@@ -18,7 +18,7 @@
 
   /* */
     $mid = new Midi;
-    $mid->importMid("mids/rb/yourealligot.mid");
+    $mid->importMid("mids/rb/floaton.mid");
 
     #echo "Time Signature Track\n";
     #echo $mid->getTrackTxt(0);
