@@ -471,7 +471,7 @@
 
     # 9/9 and 9/11
     $NAMES["charlene"] = "Charlene (I'm Right Behind You)";
-    $NAMES["chiron"] = "Chrion";
+    $NAMES["chiron"] = "Chiron";
     $NAMES["thiscalling"] = "This Calling";
     $NAMES["twoweeks"] = "Two Weeks";
 
@@ -529,6 +529,18 @@
     $NAMES["pushit"] = "Push It";
     $NAMES["selfesteem"] = "Self Esteem";
     $NAMES["stop"] = "Stop!";
+    
+    # 10/14
+    $NAMES["dontgoawaymad"] = "Don't Go Away Mad (Just Go Away)";
+    $NAMES["drfeelgood"] = "Dr. Feelgood";
+    $NAMES["kickstartmyheart"] = "Kickstart My Heart";
+    $NAMES["rattlesnakeshake"] = "Rattlesnake Shake";
+    $NAMES["sameolsituation"] = "Same Ol' Situation (SOS)";
+    $NAMES["shegoesdown"] = "She Goes Down";
+    $NAMES["sliceofyourpie"] = "Slice of Your Pie";
+    $NAMES["stickysweet"] = "Sticky Sweet";
+    $NAMES["timeforchange"] = "Time for Change";
+    $NAMES["withoutyou"] = "Without You";
 
     
 ?>

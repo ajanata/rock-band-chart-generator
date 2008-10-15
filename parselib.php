@@ -339,6 +339,8 @@ function parsePhraseEvents($txt, $gameNotes) {
     $lastP1 = array("e" => 0, "m" => 0, "h" => 0, "x" => 0);
     $lastP2 = array("e" => 0, "m" => 0, "h" => 0, "x" => 0);
     $lastSolo = array("e" => 0, "m" => 0, "h" => 0, "x" => 0);
+    $lastStrum = array("e"=> 0, "m" => 0, "h" => 0, "x" => 0); 
+    $lastHopo = array("e"=> 0, "m" => 0, "h" => 0, "x" => 0);
 
     foreach ($track as $line) {
         if ($line == "MTrk") continue;
@@ -650,6 +652,156 @@ function parsePhraseEvents($txt, $gameNotes) {
                 $events[$lastP2["x"]]["end"] = $info[0];
             }
         } // p2 expert
+
+
+        // forced hopos
+        if (isset($gameNotes["EXPERT"]["HOPO"]) && $note == $gameNotes["EXPERT"]["HOPO"]) {
+            
+            // hopo expert
+            if ($info[1] == "On" && $vel > 0) {
+                // start
+                $events[$index]["type"] = "hopo";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["difficulty"] = "expert";
+                $lastHopo["x"] = $index++;
+                
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // end
+                $events[$lastHopo["x"]]["end"] = $info[0];
+                
+            }
+        } // hopo expert
+
+        if (isset($gameNotes["HARD"]["HOPO"]) && $note == $gameNotes["HARD"]["HOPO"]) {
+            
+            // hopo hard
+            if ($info[1] == "On" && $vel > 0) {
+                // start
+                $events[$index]["type"] = "hopo";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["difficulty"] = "hard";
+                $lastHopo["h"] = $index++;
+                
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // end
+                $events[$lastHopo["h"]]["end"] = $info[0];
+                
+            }
+        } // hopo hard
+
+
+        if (isset($gameNotes["MEDIUM"]["HOPO"]) && $note == $gameNotes["MEDIUM"]["HOPO"]) {
+            
+            // hopo medium
+            if ($info[1] == "On" && $vel > 0) {
+                // start
+                $events[$index]["type"] = "hopo";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["difficulty"] = "medium";
+                $lastHopo["m"] = $index++;
+                
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // end
+                $events[$lastHopo["m"]]["end"] = $info[0];
+                
+            }
+        } // hopo medium
+        
+        if (isset($gameNotes["EASY"]["HOPO"]) && $note == $gameNotes["EASY"]["HOPO"]) {
+            
+            // hopo expert
+            if ($info[1] == "On" && $vel > 0) {
+                // start
+                $events[$index]["type"] = "hopo";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["difficulty"] = "easy";
+                $lastHopo["e"] = $index++;
+                
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // end
+                $events[$lastHopo["e"]]["end"] = $info[0];
+                
+            }
+        } // hopo easy
+
+        // forced strums
+        if (isset($gameNotes["EXPERT"]["STRUM"]) && $note == $gameNotes["EXPERT"]["STRUM"]) {
+            
+            // strum expert
+            if ($info[1] == "On" && $vel > 0) {
+                // start
+                $events[$index]["type"] = "strum";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["difficulty"] = "expert";
+                $lastHopo["x"] = $index++;
+                
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // end
+                $events[$lastHopo["x"]]["end"] = $info[0];
+                
+            }
+        } // strum expert
+
+        if (isset($gameNotes["HARD"]["STRUM"]) && $note == $gameNotes["HARD"]["STRUM"]) {
+            
+            // strum hard
+            if ($info[1] == "On" && $vel > 0) {
+                // start
+                $events[$index]["type"] = "strum";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["difficulty"] = "hard";
+                $lastHopo["h"] = $index++;
+                
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // end
+                $events[$lastHopo["h"]]["end"] = $info[0];
+                
+            }
+        } // strum hard
+
+
+        if (isset($gameNotes["MEDIUM"]["STRUM"]) && $note == $gameNotes["MEDIUM"]["STRUM"]) {
+            
+            // strum medium
+            if ($info[1] == "On" && $vel > 0) {
+                // start
+                $events[$index]["type"] = "strum";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["difficulty"] = "medium";
+                $lastHopo["m"] = $index++;
+                
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // end
+                $events[$lastHopo["m"]]["end"] = $info[0];
+                
+            }
+        } // strum medium
+        
+        if (isset($gameNotes["EASY"]["STRUM"]) && $note == $gameNotes["EASY"]["STRUM"]) {
+            
+            // strum expert
+            if ($info[1] == "On" && $vel > 0) {
+                // start
+                $events[$index]["type"] = "strum";
+                $events[$index]["start"] = $info[0];
+                $events[$index]["difficulty"] = "easy";
+                $lastHopo["e"] = $index++;
+                
+            }
+            else if ($info[1] == "Off" || ($info[1] == "On" && $vel == 0)) {
+                // end
+                $events[$lastHopo["e"]]["end"] = $info[0];
+                
+            }
+        } // strum easy
+
 
     } // foreach
     

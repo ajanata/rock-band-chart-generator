@@ -113,6 +113,8 @@
     $NOTES["RB"]["EASY"]["Y"] = 62;
     $NOTES["RB"]["EASY"]["B"] = 63;
     $NOTES["RB"]["EASY"]["O"] = 64;
+    $NOTES["RB"]["EASY"]["HOPO"] = 65;
+    $NOTES["RB"]["EASY"]["STRUM"] = 66;
     $NOTES["RB"]["EASY"]["STAR"] = 116;
     $NOTES["RB"]["EASY"]["SOLO"] = 67;
     $NOTES["RB"]["EASY"]["P1"] = 69;
@@ -123,6 +125,8 @@
     $NOTES["RB"]["MEDIUM"]["Y"] = 74;
     $NOTES["RB"]["MEDIUM"]["B"] = 75;
     $NOTES["RB"]["MEDIUM"]["O"] = 76;
+    $NOTES["RB"]["MEDIUM"]["HOPO"] = 77;
+    $NOTES["RB"]["MEDIUM"]["STRUM"] = 78;
     $NOTES["RB"]["MEDIUM"]["STAR"] = 116;
     $NOTES["RB"]["MEDIUM"]["SOLO"] = 79;
     $NOTES["RB"]["MEDIUM"]["P1"] = 81;
@@ -133,6 +137,8 @@
     $NOTES["RB"]["HARD"]["Y"] = 86;
     $NOTES["RB"]["HARD"]["B"] = 87;
     $NOTES["RB"]["HARD"]["O"] = 88;
+    $NOTES["RB"]["HARD"]["HOPO"] = 89;
+    $NOTES["RB"]["HARD"]["STRUM"] = 90;
     $NOTES["RB"]["HARD"]["STAR"] = 116;
     $NOTES["RB"]["HARD"]["SOLO"] = 91;
     $NOTES["RB"]["HARD"]["P1"] = 93;
