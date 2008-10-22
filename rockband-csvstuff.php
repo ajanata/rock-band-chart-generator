@@ -35,14 +35,14 @@
     
     
     $idx = array();
-    $ind["fullband"] = null;
+    $idx["fullband"] = null;
     if (false === ($idx["fullband"] = fopen(OUTDIR . "csv-scores/index.html", "w"))) {
         die("Unable to open file " . OUTDIR . "index.html for writing.\n");
     }
 
-    $idx["streak"] = null;
-    if (false === ($idx["streak"] = fopen(OUTDIR . "fc_note_streaks.csv", "w"))) {
-        die("Unable to open file " . OUTDIR . "fc_note_streaks.csv for writing.\n");
+    $idx["stuff"] = null;
+    if (false === ($idx["stuff"] = fopen(OUTDIR . "useful_stuff.csv", "w"))) {
+        die("Unable to open file " . OUTDIR . "useful_stuff.csv for writing.\n");
     }
     
     $idx["bonuses"] = null;
@@ -55,7 +55,7 @@
     
     // open the tables
     fwrite($idx["fullband"], "<table border=\"1\">");
-    fwrite($idx["streak"], "short_name,guitar_easy,guitar_medium,guitar_hard,guitar_expert,bass_easy,bass_medium,bass_hard,bass_expert,drums_easy,drums_medium,drums_hard,drums_expert,percussion_hits\n");
+    fwrite($idx["stuff"], "short_name,guitar_easy,guitar_medium,guitar_hard,guitar_expert,bass_easy,bass_medium,bass_hard,bass_expert,drums_easy,drums_medium,drums_hard,drums_expert,guitar_base_easy,guitar_base_medium,guitar_base_hard,guitar_base_expert,bass_base_easy,bass_base_medium,bass_base_hard,bass_base_expert,drums_base_easy,drums_base_medium,drums_base_hard,drums_base_expert,drums_allfills_easy,drums_allfills_medium,drums_allfills_hard,drums_allfills_expert,percussion_hits\n");
     fwrite($idx["bonuses"], "short_name,easy_solos,medium_solos,hard_solos,expert_solos,big_rock_ending\n");
 
 
@@ -98,14 +98,14 @@
         
         
         // fc note streaks scores
-        fwrite($idx["streak"], $songname);
+        fwrite($idx["stuff"], $songname);
 
         // guitar
         echo " [fcstreaks guitar]";
         foreach ($DIFFICULTIES as $diff) {
             echo " ($diff)";
             $streak = $measures["guitar"][count($measures["guitar"])-1]["streak"][$diff];
-            fwrite($idx["streak"], "," . $streak);
+            fwrite($idx["stuff"], "," . $streak);
         } // guitar diffs
 
         // bass
@@ -113,7 +113,7 @@
         foreach ($DIFFICULTIES as $diff) {
             echo " ($diff)";
             $streak = $measures["bass"][count($measures["bass"])-1]["streak"][$diff];
-            fwrite($idx["streak"], "," . $streak);
+            fwrite($idx["stuff"], "," . $streak);
         } // bass diffs
     
         // drums
@@ -121,8 +121,56 @@
         foreach ($DIFFICULTIES as $diff) {
             echo " ($diff)";
             $streak = $measures["drums"][count($measures["drums"])-1]["streak"][$diff];
-            fwrite($idx["streak"], "," . $streak);
-        } // bass diffs
+            fwrite($idx["stuff"], "," . $streak);
+        } // drums diffs
+
+
+        // BASE SCORES
+        
+        // guitar
+        echo " [guitar base]";
+        foreach ($DIFFICULTIES as $diff) {
+            echo " ($diff)";
+            $basescore = 0;
+            foreach ($measures["guitar"] as $m) {
+                $basescore += $m["mscore"][$diff];
+            }
+            fwrite($idx["stuff"], "," . $basescore);
+        } // guitar base
+        
+        // bass
+        echo " [bass base]";
+        foreach ($DIFFICULTIES as $diff) {
+            echo " ($diff)";
+            $basescore = 0;
+            foreach ($measures["bass"] as $m) {
+                $basescore += $m["mscore"][$diff];
+            }
+            fwrite($idx["stuff"], "," . $basescore);
+        } // bass base
+
+        // drums
+        echo " [drums base]";
+        foreach ($DIFFICULTIES as $diff) {
+            echo " ($diff)";
+            $basescore = 0;
+            foreach ($measures["drums"] as $m) {
+                $basescore += $m["mscore"][$diff];
+            }
+            fwrite($idx["stuff"], "," . $basescore);
+        } // drums base
+        
+        // now drums again, but assuming all fills show up and cover all notes
+        // this is mainly for looking for 4* FCs
+        echo " [drums allfills]";
+        foreach ($DIFFICULTIES as $diff) {
+            echo " ($diff)";
+            $score = 0;
+            for ($measures["drums"] as $m) {
+                $score += $m["cscore"][$diff];
+            }
+            fwrite($idx["stuff"], "," . $score);
+        } // drums allfills diffs
 
         // percussion hits
         echo " [percussion]";
@@ -132,7 +180,7 @@
                 $percussions++;
             }
         }
-        fwrite($idx["streak"], "," . $percussions);
+        fwrite($idx["stuff"], "," . $percussions);
 
 /*
         // vocals
@@ -148,7 +196,7 @@
         } // vocal events
         fwrite($idx, "," . $streak);
 */
-        fwrite($idx["streak"], "\n");
+        fwrite($idx["stuff"], "\n");
         // / fc note streaks scores
         
         
@@ -185,7 +233,7 @@
     // close the files
     fwrite($idx["fullband"], "</table>\n</body>\n</html>");
     fclose($idx["fullband"]);
-    fclose($idx["streak"]);
+    fclose($idx["stuff"]);
     fclose($idx["bonuses"]);
 
     exit;

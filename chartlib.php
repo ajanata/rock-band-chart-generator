@@ -1,6 +1,8 @@
 <?php
 	
 	if (!defined('DRAWPULSES')) define("DRAWPULSES", false);
+    if (!defined('SHOWFORCED')) define("SHOWFORCED", false);
+
 
     require_once "vocalchartlib.php";
  
@@ -135,8 +137,10 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
     if ($game == "RB" ) {
         imagestring($im, 3, WIDTH-64, 0, "Solo", $solo);
         imagestring($im, 3, WIDTH-30, 0, "Fill", $fill);
-        imagestring($im, 3, WIDTH-170, 15, "Force Strum", $force_strum);
-        imagestring($im, 3, WIDTH-80, 15, "Force Hopo", $force_hopo);
+        if (defined(SHOWFORCED) && SHOWFORCED == true) {
+            imagestring($im, 3, WIDTH-170, 15, "Force Strum", $force_strum);
+            imagestring($im, 3, WIDTH-80, 15, "Force Hopo", $force_hopo);
+        }
     }
     if (DRAWPLAYERLINES) {
         imagestring($im, 3, WIDTH-120, 30, "Player 1", $player1);
@@ -398,11 +402,13 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
                 }
                 break;
             case "hopo":
+                if (!defined(SHOWFORCED) || SHOWFORCED == false) break;
                 $c = $force_hopo;
                 $bY = $y - 20;
                 $beY = $y + 20 + STAFFHEIGHT*(4-($instrument == "drums")-($game == "GHOT")) - STAFFHEIGHT*($instrument=="vocals");
                 break;
             case "strum":
+                if (!defined(SHOWFORCED) || SHOWFORCED == false) break;
                 $c = $force_strum;
                 $bY = $y - 20;
                 $beY = $y + 20 + STAFFHEIGHT*(4-($instrument == "drums")-($game == "GHOT")) - STAFFHEIGHT*($instrument=="vocals");

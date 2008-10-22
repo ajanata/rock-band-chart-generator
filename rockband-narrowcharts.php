@@ -25,6 +25,7 @@
     $files = array();
     
     $dir = opendir(MIDIPATH . "rb/");
+    if ($dir === false) die("Unable to open directory " . MIDIPATH . "rb/ for reading.\n");
     while (false !== ($file = readdir($dir))) {
         if ($file == "." || $file == "..") continue;
         if (substr($file, -11) == ".parsecache") continue;
@@ -33,9 +34,8 @@
         $files[] = $file;
     }
     
-    $dir = opendir(MIDIPATH . "rb/");
-    if ($dir === false) die("Unable to open directory " . MIDIPATH . "rb/ for reading.\n");
-    
+    closedir($dir);
+        
     umask(0);
     
     if (!file_exists(OUTDIR . "rb/fullband")) {

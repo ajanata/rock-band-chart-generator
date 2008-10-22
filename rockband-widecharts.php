@@ -137,7 +137,7 @@ EOT
             else {
                 fwrite($bar, <<<EOT
 <table border="1">
-<tr><th>Song</th><th>Absolute Base Score (no multiplier or bonuses)</th><th>Base Score (multiplier, no bonuses)</th><th>FC Score (multiplier, bonuses, no overdrive)</th><!-- --> <th>BRE Note Score</th> <!-- --></tr>
+<tr><th>Song</th><th>Base Score (no multiplier or bonuses)</th><th>Useless Score (multiplier, no bonuses)</th><th>FC Score (multiplier, bonuses, no overdrive)</th><th>BRE Note Score</th></tr>
 EOT
 );
             }

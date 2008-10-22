@@ -4,7 +4,7 @@
     // RB2: 1.2 ish
     // RB2 w/BS: 0.81 ish
 
-    define("FILL_DELAY", 0.8);
+    define("FILL_DELAY", 1.2);
 
     define("OPTDRUMSVERSION", "0.3.0");
 

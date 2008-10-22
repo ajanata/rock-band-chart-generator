@@ -542,5 +542,14 @@
     $NAMES["timeforchange"] = "Time for Change";
     $NAMES["withoutyou"] = "Without You";
 
+    # 10/21
+    $NAMES["breed"] = "Breed";
+    $NAMES["loungeact"] = "Lounge Act";
+    $NAMES["onaplain"] = "On a Plain";
+    $NAMES["polly"] = "Polly";
+    $NAMES["somethingintheway"] = "Something in the Way";
+    $NAMES["stayaway"] = "Stay Away";
+    $NAMES["territorialpissing"] = "Territorial Pissings";
+
     
 ?>
