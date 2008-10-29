@@ -550,6 +550,16 @@
     $NAMES["somethingintheway"] = "Something in the Way";
     $NAMES["stayaway"] = "Stay Away";
     $NAMES["territorialpissing"] = "Territorial Pissings";
+    
+    # 10/28
+    $NAMES["dammit"] = "Dammit";
+    $NAMES["hongkonggarden"] = "Hong Kong Garden";
+    $NAMES["killingjar"] = "The Killing Jar";
+    $NAMES["kissthemforme"] = "Kiss Them For Me";
+    $NAMES["melatonin"] = "Melatonin";
+    $NAMES["prettyinpink"] = "Pretty in Pink";
+    $NAMES["wellthoughtouttwinkles"] = "Well Thought Out Twinkles";
+
 
     
 ?>

@@ -166,7 +166,7 @@
         foreach ($DIFFICULTIES as $diff) {
             echo " ($diff)";
             $score = 0;
-            for ($measures["drums"] as $m) {
+            foreach ($measures["drums"] as $m) {
                 $score += $m["cscore"][$diff];
             }
             fwrite($idx["stuff"], "," . $score);

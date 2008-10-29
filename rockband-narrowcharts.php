@@ -159,6 +159,7 @@ EOT
         	   $basescore = $cache[$shortname]["guitarbass"][$diff]["base"];
         	   $bonusscore = $cache[$shortname]["guitarbass"][$diff]["bonus"];
         	   $brescore = $cache[$shortname]["guitarbass"][$diff]["bre"];
+               $brenotescore = $cache[$shortname]["guitarbass"][$diff]["brenotescore"];
         	}
         	else {
                 // have to re-generate the chart and get all the numbers and stuff
@@ -201,6 +202,7 @@ EOT
             	$cache[$shortname]["guitarbass"][$diff]["base"] = $basescore;
             	$cache[$shortname]["guitarbass"][$diff]["bonus"] = $bonusscore;
             	$cache[$shortname]["guitarbass"][$diff]["bre"] = $brescore;
+            	$cache[$shortname]["guitarbass"][$diff]["brenotescore"] = $brenotescore;
         	}
 
             

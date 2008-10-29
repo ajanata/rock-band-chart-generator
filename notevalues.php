@@ -1,6 +1,6 @@
 <?php
 
-    define('REVISION', 191);
+    define('REVISION', 192);
     
     /*
     global $REVISION;
@@ -19,6 +19,8 @@
 
     // notes longer than 160 pulses are sustains
     define('SUSTAIN', 160);
+    
+    define('VOCAL_FILL_WINDOW', .6);
     
     
     $CONFIG["GH1"]["multi"][] = 10;
