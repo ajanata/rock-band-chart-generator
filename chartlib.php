@@ -457,7 +457,12 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
                    $xyzzy = $e["brescore"] . " Ending Bonus";
                }
                else {
-                   $xyzzy = $e["delay"] . "s";
+                    if (is_array($e["delay"])) {
+                        $xyzzy = $e["delay"][$difficulty] . "s";
+                    }
+                    else {
+                        $xyzzy = $e["delay"] . "s";
+                    }
                }
                imagestring($im, 2, $tX, $tY, $xyzzy, $black);
 	       }
@@ -510,7 +515,12 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
                    $xyzzy = $e["brescore"] . " Ending Bonus";
                }
                else {
-                   $xyzzy = $e["delay"] . "s";
+                    if (is_array($e["delay"])) {
+                        $xyzzy = $e["delay"][$difficulty] . "s";
+                    }
+                    else {
+                        $xyzzy = $e["delay"] . "s";
+                    }
                }
                imagestring($im, 2, $tX, $tY, $xyzzy, $black);
 	       }

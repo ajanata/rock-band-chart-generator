@@ -5,6 +5,7 @@ define("VERBOSE", 0);
 define("OMGVERBOSE", 0);
 
 require_once 'notevalues.php';
+require_once 'hopothresholds.php';
 require_once 'classes/midi.class.php';
 require_once 'songnames.php';
 
@@ -13,7 +14,7 @@ require_once 'songnames.php';
 // measures has one or more of guitar, coop, bass, drums.
 // vocals will be null if not rock band
 function parseFile($file, $game, $ignoreCache = false) {
-    global $timebase, $CONFIG, $NOTES;
+    global $timebase, $CONFIG, $NOTES, $HOPOS;
     global $CACHED;
     $CACHED = false;
     
@@ -99,6 +100,7 @@ function parseFile($file, $game, $ignoreCache = false) {
         case "RB":
             // FIXME per-song lookups
             $hopoThreshold = $CONFIG["RB"]["hopo_threshold"];
+            if (isset($HOPOS["RB"][$songname])) $hopoThreshold = $HOPOS["RB"][$songname];
         
             $notetracks["guitar"] = parseNoteTrack($mid->getTrackTxt($guitarTrack), $NOTES["RB"], $hopoThreshold);
             $notetracks["bass"] = parseNoteTrack($mid->getTrackTxt($bassTrack), $NOTES["RB"], $hopoThreshold);
@@ -222,24 +224,23 @@ function fixVocalEvents($vox, $events, &$timetrack) {
         }
         // go back to the last one that was less than
         $voxIndex--;
-        $e["end"] = $vox[$voxIndex]["time"] + (isset($vox[$voxIndex]["duration"]) ? $vox[$voxIndex]["duration"] : 0);
+        #if (!isset($vox[$voxIndex]["percussion"]) || !$vox[$voxIndex]["percussion"]) {
+            $e["end"] = $vox[$voxIndex]["time"] + (isset($vox[$voxIndex]["duration"]) ? $vox[$voxIndex]["duration"] : 0);
+        #}
     }
     
     // do it again, but for the first note and the start time
     // but still need to draw with the original data, so we only store it in a temporary array here
     $fixedStart = array();
     $voxIndex = 0;
-  #echo "XXXXXXX";
     foreach ($events as $eIndex => &$e) {
-      #echo "$eIndex ";
         while ($vox[$voxIndex]["time"] < $e["start"]) {
             $voxIndex++;
             if (!isset($vox[$voxIndex])) break;
         }
-        $fixedStart[$eIndex] = $vox[$voxIndex]["time"];
-        #$e["start"] = $vox[$voxIndex]["time"];
-        $e["start2"] = $vox[$voxIndex]["time"];
-        #$voxIndex=0;
+        #if (!isset($vox[$voxIndex]["percussion"]) || !$vox[$voxIndex]["percussion"]) {
+            $fixedStart[$eIndex] = $vox[$voxIndex]["time"];
+        #}
     }
 
     // now that the phrases are cleaned up, we can actually figure out where activation zones are
@@ -247,18 +248,14 @@ function fixVocalEvents($vox, $events, &$timetrack) {
     $lastChecked = 0;
     // we need to store this here because we end up adding stuff to the array later, and we don't want to loop over that
     $endAt = count($events);
-  #echo "XXXXXX $endAt XXXXXX ";
 
     for ($i = 0; $i < $endAt; $i++) {
-      #echo "$i ";
         if ($events[$i]["end"] > $lastChecked) {
             $lastChecked = $events[$i]["end"];
             $compareTo = 0;
             $checkEvent = $i + 1;
             while ($compareTo < $events[$i]["end"] && $i < $endAt && $checkEvent < $endAt) {
                 $compareTo = $fixedStart[$checkEvent];
-                #$compareTo = $events[$checkEvent]["start"];
-                #$compareTo = $events[$checkEvent]["start2"];
                 $checkEvent++;
                 if (!isset($events[$checkEvent])) break 2;
             }
@@ -270,7 +267,6 @@ function fixVocalEvents($vox, $events, &$timetrack) {
                 $events[$j]["delay"] = round($size, 3);
                 $events[$j]["start"] = $events[$i]["end"] + 1;
                 $events[$j]["end"] = $events[$checkEvent-1]["start"] - 1;
-                #$events[$j]["end"] = $compareTo - 1;
             }
             else {
                 // we just want to show the time
@@ -279,8 +275,6 @@ function fixVocalEvents($vox, $events, &$timetrack) {
                 $events[$j]["delay"] = round($size, 3);
                 $events[$j]["start"] = $events[$checkEvent-1]["start"] - 1;
                 $events[$j]["end"] = $events[$checkEvent-1]["start"] - 1;
-                #$events[$j]["start"] = $compareTo - 1;
-                #$events[$j]["end"] = $compareTo - 1;
             }
         }
     }
@@ -1430,8 +1424,6 @@ function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
     $breAt = 0;
     
     foreach ($events as $inst => &$instevents) {
-        #echo "doing $inst \n";
-        
         $phraseEnd = array("easy" => 0, "medium" => 0, "hard" => 0, "expert" => 0);
         
         foreach ($instevents as $eventIndex => &$event) {
@@ -1517,7 +1509,7 @@ function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
                 $event["brescore"] = (int) $breScore;
             } // drum BRE
             
-            // is this needed for anything? -- yes it is
+            // normal drum fill
             else if ($event["type"] == "fill" && $inst == "drums") {
                 foreach (array("easy", "medium", "hard", "expert") as $margush) {
                     $fillNotes = 0;
@@ -1537,7 +1529,7 @@ function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
                     $event["last_note"] = $noteIndex - 1;
                     $event["notes"] = $fillNotes;
                     
-                    $event["delay"] = round(getClockTimeBetweenPulses($timetrack, $phraseEnd[$margush], $event["start"]), 3);
+                    $event["delay"][$margush] = round(getClockTimeBetweenPulses($timetrack, $phraseEnd[$margush], $event["start"]), 3);
                 }
             } // drum activation fill
 
