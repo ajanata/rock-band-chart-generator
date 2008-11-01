@@ -137,12 +137,12 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
     if ($game == "RB" ) {
         imagestring($im, 3, WIDTH-64, 0, "Solo", $solo);
         imagestring($im, 3, WIDTH-30, 0, "Fill", $fill);
-        if (defined(SHOWFORCED) && SHOWFORCED == true) {
+        if (defined("SHOWFORCED") && SHOWFORCED == true) {
             imagestring($im, 3, WIDTH-170, 15, "Force Strum", $force_strum);
             imagestring($im, 3, WIDTH-80, 15, "Force Hopo", $force_hopo);
         }
     }
-    if (DRAWPLAYERLINES) {
+    if (defined("SHOWPLAYERLINES") && DRAWPLAYERLINES) {
         imagestring($im, 3, WIDTH-120, 30, "Player 1", $player1);
         imagestring($im, 3, WIDTH-60, 30, "Player 2", $player2);
     }
@@ -402,13 +402,13 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
                 }
                 break;
             case "hopo":
-                if (!defined(SHOWFORCED) || SHOWFORCED == false) break;
+                if (!defined("SHOWFORCED") || SHOWFORCED == false) break;
                 $c = $force_hopo;
                 $bY = $y - 20;
                 $beY = $y + 20 + STAFFHEIGHT*(4-($instrument == "drums")-($game == "GHOT")) - STAFFHEIGHT*($instrument=="vocals");
                 break;
             case "strum":
-                if (!defined(SHOWFORCED) || SHOWFORCED == false) break;
+                if (!defined("SHOWFORCED") || SHOWFORCED == false) break;
                 $c = $force_strum;
                 $bY = $y - 20;
                 $beY = $y + 20 + STAFFHEIGHT*(4-($instrument == "drums")-($game == "GHOT")) - STAFFHEIGHT*($instrument=="vocals");
@@ -799,13 +799,26 @@ function drawNote($im, $x, $y, $meas, $note, $game, $drums = false) {
                 }
                 
                 imagesetthickness($im, 3);
-                imageline($im, $nX, $nY-4, $nX, $nY+4, $drawColor);
-                imagesetthickness($im, 1);
-                if ($note["phrase"] > 0) {
-                    imageline($im, $nX, $nY-2, $nX, $nY+2, $lightsilver);
+
+                if (isset($note["hopo"]) && $note["hopo"]) {
+                    imageline($im, $nX, $nY-3, $nX, $nY+3, $drawColor);
+                    imagesetthickness($im, 1);
+                    if ($note["phrase"] > 0) {
+                        imageline($im, $nX, $nY-1, $nX, $nY+1, $lightsilver);
+                    }
+                    imageline($im, $nX-1, $nY-4, $nX+1, $nY-4, $black);
+                    imageline($im, $nX-1, $nY+4, $nX+1, $nY+4, $black);
                 }
-                imageline($im, $nX-1, $nY-5, $nX+1, $nY-5, $black);
-                imageline($im, $nX-1, $nY+5, $nX+1, $nY+5, $black);
+                else {
+                    imageline($im, $nX, $nY-4, $nX, $nY+4, $drawColor);
+                    imagesetthickness($im, 1);
+                    if ($note["phrase"] > 0) {
+                        imageline($im, $nX, $nY-2, $nX, $nY+2, $lightsilver);
+                    }
+                    imageline($im, $nX-1, $nY-5, $nX+1, $nY-5, $black);
+                    imageline($im, $nX-1, $nY+5, $nX+1, $nY+5, $black);
+                }
+                
                 
                 if (isset($note["duration"]) && $note["duration"] > 0) {
                     $eX = $note["time"] + $note["duration"] - $meas["time"];

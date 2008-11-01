@@ -97,14 +97,17 @@ function parseFile($file, $game, $ignoreCache = false) {
 
     switch ($game) {
         case "RB":
-            $notetracks["guitar"] = parseNoteTrack($mid->getTrackTxt($guitarTrack), $NOTES[$game]);
-            $notetracks["bass"] = parseNoteTrack($mid->getTrackTxt($bassTrack), $NOTES[$game]);
-            $notetracks["drums"] = parseNoteTrack($mid->getTrackTxt($drumsTrack), $NOTES[$game]);
+            // FIXME per-song lookups
+            $hopoThreshold = $CONFIG["RB"]["hopo_threshold"];
+        
+            $notetracks["guitar"] = parseNoteTrack($mid->getTrackTxt($guitarTrack), $NOTES["RB"], $hopoThreshold);
+            $notetracks["bass"] = parseNoteTrack($mid->getTrackTxt($bassTrack), $NOTES["RB"], $hopoThreshold);
+            $notetracks["drums"] = parseNoteTrack($mid->getTrackTxt($drumsTrack), $NOTES["RB"], 0);
 
-            $events["guitar"] = parsePhraseEvents($mid->getTrackTxt($guitarTrack), $NOTES[$game]);
-            $events["bass"] = parsePhraseEvents($mid->getTrackTxt($bassTrack), $NOTES[$game]);
-            $events["drums"] = parsePhraseEvents($mid->getTrackTxt($drumsTrack), $NOTES[$game]);
-            $events["vocals"] = parsePhraseEvents($mid->getTrackTxt($vocalsTrack), $NOTES[$game], true);
+            $events["guitar"] = parsePhraseEvents($mid->getTrackTxt($guitarTrack), $NOTES["RB"]);
+            $events["bass"] = parsePhraseEvents($mid->getTrackTxt($bassTrack), $NOTES["RB"]);
+            $events["drums"] = parsePhraseEvents($mid->getTrackTxt($drumsTrack), $NOTES["RB"]);
+            $events["vocals"] = parsePhraseEvents($mid->getTrackTxt($vocalsTrack), $NOTES["RB"], true);
             
             $vocals = parseVocals($mid->getTrackTxt($vocalsTrack));
 
@@ -184,7 +187,6 @@ function fixVocalEvents($vox, $events, &$timetrack) {
     // keep doing it until we don't make any changes
     $changed = true;
     while ($changed) {
-        #echo "looping\n";
         $changed = false;
         $lastStart = $lastEnd = $lastIndex = 0;
         for ($i = 0; $i < count($events); $i++) {
@@ -195,15 +197,11 @@ function fixVocalEvents($vox, $events, &$timetrack) {
             }
             else if ($events[$i]["start"] == $lastStart) {
                 if ($events[$i]["end"] < $lastEnd) {
-                    #echo "changing later entry\n";
-                    #echo "$i from " . $events[$i]["end"] . " to $lastEnd ####\n";
                     $events[$i]["end"] = $lastEnd;
                     $changed = true;
                 }
                 else if ($events[$i]["end"] > $lastEnd) {
                     $lastEnd = $events[$i]["end"];
-                    #echo "changing earlier entry\n";
-                    #echo "$i from " . $events[$lastIndex]["end"] . " to $lastEnd ####\n";
                     $events[$lastIndex]["end"] = $lastEnd;
                     $changed = true;
                 }
@@ -215,7 +213,8 @@ function fixVocalEvents($vox, $events, &$timetrack) {
     // and snap the phrase end to that
     // we should never have to go backwards in the list of notes
     $voxIndex = 0;
-    foreach ($events as &$e) {
+    foreach ($events as $eIndex => &$e) {
+      #echo "$eIndex ";
         while ($vox[$voxIndex]["time"] < $e["end"]) {
             $voxIndex++;
             // don't go past the end!
@@ -225,30 +224,63 @@ function fixVocalEvents($vox, $events, &$timetrack) {
         $voxIndex--;
         $e["end"] = $vox[$voxIndex]["time"] + (isset($vox[$voxIndex]["duration"]) ? $vox[$voxIndex]["duration"] : 0);
     }
+    
+    // do it again, but for the first note and the start time
+    // but still need to draw with the original data, so we only store it in a temporary array here
+    $fixedStart = array();
+    $voxIndex = 0;
+  #echo "XXXXXXX";
+    foreach ($events as $eIndex => &$e) {
+      #echo "$eIndex ";
+        while ($vox[$voxIndex]["time"] < $e["start"]) {
+            $voxIndex++;
+            if (!isset($vox[$voxIndex])) break;
+        }
+        $fixedStart[$eIndex] = $vox[$voxIndex]["time"];
+        #$e["start"] = $vox[$voxIndex]["time"];
+        $e["start2"] = $vox[$voxIndex]["time"];
+        #$voxIndex=0;
+    }
 
     // now that the phrases are cleaned up, we can actually figure out where activation zones are
     
     $lastChecked = 0;
     // we need to store this here because we end up adding stuff to the array later, and we don't want to loop over that
     $endAt = count($events);
+  #echo "XXXXXX $endAt XXXXXX ";
 
     for ($i = 0; $i < $endAt; $i++) {
+      #echo "$i ";
         if ($events[$i]["end"] > $lastChecked) {
             $lastChecked = $events[$i]["end"];
             $compareTo = 0;
             $checkEvent = $i + 1;
-            while ($compareTo < $events[$i]["end"]) {
-                $compareTo = $events[$checkEvent]["start"];
+            while ($compareTo < $events[$i]["end"] && $i < $endAt && $checkEvent < $endAt) {
+                $compareTo = $fixedStart[$checkEvent];
+                #$compareTo = $events[$checkEvent]["start"];
+                #$compareTo = $events[$checkEvent]["start2"];
                 $checkEvent++;
-                if (!isset($events[$checkEvent])) break ;#2;
+                if (!isset($events[$checkEvent])) break 2;
             }
+            if ($i >= $endAt || $checkEvent >= $endAt) break;
             $size = getClockTimeBetweenPulses($timetrack, $events[$i]["end"], $compareTo);
             if ($size >= VOCAL_FILL_WINDOW) {
                 $j = count($events);
                 $events[$j]["type"] = "fill";
-                $events[$j]["start"] = $events[$i]["end"] + 1;
-                $events[$j]["end"] = $compareTo - 1;
                 $events[$j]["delay"] = round($size, 3);
+                $events[$j]["start"] = $events[$i]["end"] + 1;
+                $events[$j]["end"] = $events[$checkEvent-1]["start"] - 1;
+                #$events[$j]["end"] = $compareTo - 1;
+            }
+            else {
+                // we just want to show the time
+                $j = count($events);
+                $events[$j]["type"] = "fill";
+                $events[$j]["delay"] = round($size, 3);
+                $events[$j]["start"] = $events[$checkEvent-1]["start"] - 1;
+                $events[$j]["end"] = $events[$checkEvent-1]["start"] - 1;
+                #$events[$j]["start"] = $compareTo - 1;
+                #$events[$j]["end"] = $compareTo - 1;
             }
         }
     }
@@ -1043,7 +1075,7 @@ function makeMeasureTable($timetrack, $trkend) {
 }
 
 
-function parseNoteTrack($txt, $gameNotes) {
+function parseNoteTrack($txt, $gameNotes, $hopoThreshold) {
     /* Stuff that will eventually need to be addressed:
     
     5) Valid non-sustained notes must have a corresponding note-off event. If a note endpoint is a second note-on event and the duration of the note is less than 161 pulses, the game considers the note to be an invalid note and it is ignored for all purposes (as exhibited by Cheat on the Church) 
@@ -1090,7 +1122,8 @@ function parseNoteTrack($txt, $gameNotes) {
             case $gameNotes["EASY"]["B"]:
             case $gameNotes["EASY"]["O"]:
                 // easy
-                dealWithNote((int)$info[0], $info[1], $note, $vel, $gameNotes, $ret["easy"], $chord["e"], $index["e"], $lastRealNote["e"]);
+                dealWithNote((int)$info[0], $info[1], $note, $vel, $gameNotes,
+                        $hopoThreshold, $ret["easy"], $chord["e"], $index["e"], $lastRealNote["e"]);
                 //($time, $type, $note, $vel, $gameNotes, &$notetrack, &$chord, &$index, &$lastRealNote)
                 
                 break;
@@ -1101,7 +1134,8 @@ function parseNoteTrack($txt, $gameNotes) {
             case $gameNotes["MEDIUM"]["B"]:
             case $gameNotes["MEDIUM"]["O"]:
                 // medium
-                dealWithNote((int)$info[0], $info[1], $note, $vel, $gameNotes, $ret["medium"], $chord["m"], $index["m"], $lastRealNote["m"]);                
+                dealWithNote((int)$info[0], $info[1], $note, $vel, $gameNotes,
+                        $hopoThreshold, $ret["medium"], $chord["m"], $index["m"], $lastRealNote["m"]);                
                 
                 break;
                 
@@ -1111,7 +1145,8 @@ function parseNoteTrack($txt, $gameNotes) {
             case $gameNotes["HARD"]["B"]:
             case $gameNotes["HARD"]["O"]:
                 // hard
-                dealWithNote((int)$info[0], $info[1], $note, $vel, $gameNotes, $ret["hard"], $chord["h"], $index["h"], $lastRealNote["h"]);                
+                dealWithNote((int)$info[0], $info[1], $note, $vel, $gameNotes,
+                        $hopoThreshold, $ret["hard"], $chord["h"], $index["h"], $lastRealNote["h"]);                
                 
                 break;
             
@@ -1121,7 +1156,8 @@ function parseNoteTrack($txt, $gameNotes) {
             case $gameNotes["EXPERT"]["B"]:
             case $gameNotes["EXPERT"]["O"]:
                 // expert
-                dealWithNote((int)$info[0], $info[1], $note, $vel, $gameNotes, $ret["expert"], $chord["x"], $index["x"], $lastRealNote["x"]);
+                dealWithNote((int)$info[0], $info[1], $note, $vel, $gameNotes,
+                        $hopoThreshold, $ret["expert"], $chord["x"], $index["x"], $lastRealNote["x"]);
                 
                 break;
         } // switch note
@@ -1131,7 +1167,8 @@ function parseNoteTrack($txt, $gameNotes) {
 }   // parseNoteTrack
 
 
-function dealWithNote($time, $type, $note, $vel, $gameNotes, &$notetrack, &$chord, &$index, &$lastRealNote) {
+// hopoThreshold MUST be set to something. either take it from the config for the game, or a per-song value
+function dealWithNote($time, $type, $note, $vel, $gameNotes, $hopoThreshold, &$notetrack, &$chord, &$index, &$lastRealNote) {
 
     // check for a chord
     if (arrayTimeExists($notetrack, $time, CHORD) === false && ($type == "On" && $vel > 0)) {
@@ -1147,7 +1184,20 @@ function dealWithNote($time, $type, $note, $vel, $gameNotes, &$notetrack, &$chor
         $notetrack[$index]["note"][$chord++] = noteValToCanonical($note, $gameNotes);
         $notetrack[$index]["phrase"] = 0;
         
+        // handle hopos
+        if ($chord > 1) {
+            // chords are never auto-hopoed!
+            // override what we may have set previously
+            $notetrack[$index]["hopo"] = false;
+        }
+        else if (isset($notetrack[$lastRealNote])
+            && ($notetrack[$index]["time"] - $notetrack[$lastRealNote]["time"] <= $hopoThreshold)
+            && ($notetrack[$index]["note"][0] != $notetrack[$lastRealNote]["note"][0])) {
+                $notetrack[$index]["hopo"] = true;
+        }
+        
         if ($chord == 1) {
+            // make sure the previous note has a duration set
             if ($lastRealNote != -1 && !isset($notetrack[$lastRealNote]["duration"])) {
                 // no end event, make sure it's at least 161 pulses long
                 if ($time - $notetrack[$lastRealNote]["time"] <= 161) {
@@ -1388,12 +1438,8 @@ function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
             // TODO handle P1/P2 events?
             
             if ($event["type"] == "star") {
-                #echo "found a star event for " . $event["difficulty"] . "\n";
-                
                 $noteIndex = findFirstThingAtTime($notetracks[$inst][$event["difficulty"]], $event["start"]);
                 if ($noteIndex === false) continue;
-                
-                #echo "first note at $noteIndex \n";
                 
                 // we have the first note in this event
                 while ($notetracks[$inst][$event["difficulty"]][$noteIndex]["time"] < $event["end"]) {
@@ -1401,16 +1447,37 @@ function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
                     $noteIndex++;
                 }
                 
-                #echo "last note before $noteIndex \n";
-                
                 // now we're pointing to the note after the last note in the phrase
                 $event["last_note"] = $noteIndex - 1;
                 
                 // store when the last note is for fill detection later
                 $phraseEnd[$event["difficulty"]] = $notetracks[$inst][$event["difficulty"]][$noteIndex - 1]["time"];
-                
-                #echo $inst . " " . $event["difficulty"] . " star event last note " . ($noteIndex-1) . " ends at " . $phraseEnd[$event["difficulty"]] . "\n";
             } // star event
+
+
+            if ($event["type"] == "hopo") {
+                $noteIndex = findFirstThingAtTime($notetracks[$inst][$event["difficulty"]], $event["start"]);
+                if ($noteIndex === false) continue;
+                
+                // we have the first note in this event
+                while ($notetracks[$inst][$event["difficulty"]][$noteIndex]["time"] < $event["end"]) {
+                    $notetracks[$inst][$event["difficulty"]][$noteIndex]["hopo"] = true;
+                    $noteIndex++;
+                }
+            } // hopo event
+
+
+            if ($event["type"] == "strum") {
+                $noteIndex = findFirstThingAtTime($notetracks[$inst][$event["difficulty"]], $event["start"]);
+                if ($noteIndex === false) continue;
+                
+                // we have the first note in this event
+                while ($notetracks[$inst][$event["difficulty"]][$noteIndex]["time"] < $event["end"]) {
+                    $notetracks[$inst][$event["difficulty"]][$noteIndex]["hopo"] = false;
+                    $noteIndex++;
+                }
+            } // strum event
+
             
             // fills on guitar or bass are BREs
             else if ($event["type"] == "fill" && ($inst == "guitar" || $inst == "bass")) {
@@ -1471,8 +1538,6 @@ function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
                     $event["notes"] = $fillNotes;
                     
                     $event["delay"] = round(getClockTimeBetweenPulses($timetrack, $phraseEnd[$margush], $event["start"]), 3);
-                    #echo "clocks " . getClockTimeBetweenPulses($timetrack, $phraseEnd[$margush], $event["start"]) . "\n";
-                    #echo $margush . " drums fill delay " . $event["delay"] . " - fill at " . $event["start"] . " - last od " . $phraseEnd[$margush] . "\n";
                 }
             } // drum activation fill
 

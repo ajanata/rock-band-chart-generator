@@ -1,6 +1,6 @@
 <?php
 
-    define('REVISION', 192);
+    define('REVISION', 193);
     
     /*
     global $REVISION;
@@ -20,6 +20,7 @@
     // notes longer than 160 pulses are sustains
     define('SUSTAIN', 160);
     
+    // in seconds
     define('VOCAL_FILL_WINDOW', .6);
     
     
@@ -31,6 +32,7 @@
     $CONFIG["GH1"]["gem_score"] = 50;
     $CONFIG["GH1"]["ticks_per_beat"] = 25;
     $CONFIG["GH1"]["ticks_at_new_multi"] = true;
+    $CONFIG["GH1"]["hopo_threshold"] = 0;              // check
     
     $CONFIG["GH2"]["multi"][] = 9;
     $CONFIG["GH2"]["multi"][] = 19;
@@ -39,7 +41,8 @@
     $CONFIG["GH2"]["gem_score"] = 50;
     $CONFIG["GH2"]["ticks_per_beat"] = 25;
     $CONFIG["GH2"]["ticks_at_new_multi"] = false;           // check
-    
+    $CONFIG["GH2"]["hopo_threshold"] = 0;              // check
+        
     $CONFIG["GHOT"]["multi"][] = 9;
     $CONFIG["GHOT"]["multi"][] = 19;
     $CONFIG["GHOT"]["multi"][] = 29;
@@ -47,7 +50,8 @@
     $CONFIG["GHOT"]["gem_score"] = 50;
     $CONFIG["GHOT"]["ticks_per_beat"] = 22;
     $CONFIG["GHOT"]["ticks_at_new_multi"] = false;           // check
-    
+    $CONFIG["GHOT"]["hopo_threshold"] = 0;              // check
+        
     $CONFIG["GH3"]["multi"][] = 9;
     $CONFIG["GH3"]["multi"][] = 19;
     $CONFIG["GH3"]["multi"][] = 29;
@@ -55,6 +59,8 @@
     $CONFIG["GH3"]["gem_score"] = 50;
     $CONFIG["GH3"]["ticks_per_beat"] = 25;
     $CONFIG["GH3"]["ticks_at_new_multi"] = false;           // check
+    $CONFIG["GH3"]["hopo_threshold"] = 0;              // check
+
     
     $CONFIG["RB"]["multi"][] = 9;
     $CONFIG["RB"]["multi"][] = 19;
@@ -65,7 +71,7 @@
     $CONFIG["RB"]["gem_score"] = 25;
     $CONFIG["RB"]["ticks_per_beat"] = 12;
     $CONFIG["RB"]["ticks_at_new_multi"] = false;            // check
-    
+    $CONFIG["RB"]["hopo_threshold"] = 170;              // pulses    
     
 
     $NOTES["GH1"]["EASY"]["G"] = 60;
