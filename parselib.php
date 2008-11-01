@@ -119,12 +119,6 @@ function parseFile($file, $game, $ignoreCache = false) {
 
             $events["vocals"] = fixVocalEvents($vocals, $events["vocals"], $timetrack);
             
-            #if (file_exists($file . ".voxfills")) {
-            #    // this song has vocal fills defined -- read them in and add the events
-            #    $events["vocals"] = makeVoxFills($file . ".voxfills", $events["vocals"]);
-            #}
-
-            
             $measures = makeMeasureTable($timetrack, $notetracks["guitar"]["TrkEnd"]);
             
             list ($measures, $notetracks) = putNotesInMeasures($measures, $notetracks);
@@ -224,9 +218,10 @@ function fixVocalEvents($vox, $events, &$timetrack) {
         }
         // go back to the last one that was less than
         $voxIndex--;
-        #if (!isset($vox[$voxIndex]["percussion"]) || !$vox[$voxIndex]["percussion"]) {
+        if (!isset($vox[$voxIndex]["percussion"]) || !$vox[$voxIndex]["percussion"]) {
             $e["end"] = $vox[$voxIndex]["time"] + (isset($vox[$voxIndex]["duration"]) ? $vox[$voxIndex]["duration"] : 0);
-        #}
+        }
+        $e["percussion"] = isset($vox[$voxIndex]["percussion"]) && $vox[$voxIndex]["percussion"];
     }
     
     // do it again, but for the first note and the start time
@@ -238,9 +233,7 @@ function fixVocalEvents($vox, $events, &$timetrack) {
             $voxIndex++;
             if (!isset($vox[$voxIndex])) break;
         }
-        #if (!isset($vox[$voxIndex]["percussion"]) || !$vox[$voxIndex]["percussion"]) {
-            $fixedStart[$eIndex] = $vox[$voxIndex]["time"];
-        #}
+        $fixedStart[$eIndex] = $vox[$voxIndex]["time"];
     }
 
     // now that the phrases are cleaned up, we can actually figure out where activation zones are
@@ -249,7 +242,7 @@ function fixVocalEvents($vox, $events, &$timetrack) {
     // we need to store this here because we end up adding stuff to the array later, and we don't want to loop over that
     $endAt = count($events);
 
-    for ($i = 0; $i < $endAt; $i++) {
+    for ($i = 0; $i < $endAt-1; $i++) {
         if ($events[$i]["end"] > $lastChecked) {
             $lastChecked = $events[$i]["end"];
             $compareTo = 0;
@@ -259,66 +252,33 @@ function fixVocalEvents($vox, $events, &$timetrack) {
                 $checkEvent++;
                 if (!isset($events[$checkEvent])) break 2;
             }
+            $checkEvent--;
             if ($i >= $endAt || $checkEvent >= $endAt) break;
             $size = getClockTimeBetweenPulses($timetrack, $events[$i]["end"], $compareTo);
-            if ($size >= VOCAL_FILL_WINDOW) {
+            if ($size >= VOCAL_FILL_WINDOW && !($events[$i]["percussion"] && $events[$checkEvent]["percussion"])) {
                 $j = count($events);
                 $events[$j]["type"] = "fill";
                 $events[$j]["delay"] = round($size, 3);
                 $events[$j]["start"] = $events[$i]["end"] + 1;
-                $events[$j]["end"] = $events[$checkEvent-1]["start"] - 1;
+                $events[$j]["end"] = $events[$checkEvent]["start"] - 1;
             }
             else {
                 // we just want to show the time
                 $j = count($events);
                 $events[$j]["type"] = "fill";
                 $events[$j]["delay"] = round($size, 3);
-                $events[$j]["start"] = $events[$checkEvent-1]["start"] - 1;
-                $events[$j]["end"] = $events[$checkEvent-1]["start"] - 1;
+                $events[$j]["start"] = $events[$checkEvent]["start"] - 1;
+                $events[$j]["end"] = $events[$checkEvent]["start"] - 1;
             }
         }
     }
+    $j = count($events);
+    $events[$j]["type"] = "fill";
+    $events[$j]["start"] = $events[$endAt - 1]["end"] + 1;
+    $events[$j]["end"] = $vox["TrkEnd"];
 
     return $events;
 }
-
-function makeVoxFills($fname, $events) {
-    $fhand = fopen($fname, 'r');
-    if ($fhand === false) die("Unable to open $fname for reading even though it exists!");
-    
-    while (!feof($fhand)) {
-        $fillAt = rtrim(fgets($fhand, 32));
-        // I think this happens on blank lines, just ignore them.
-        if ($fillAt == 0) continue;
-
-        $startTime = $endTime = 0;
-        
-        foreach ($events as $e) {
-            if ($e["type"] != "p1" && $e["type"] != "p2" && $e["type"] != "star") continue;
-            if ($e["end"] < $fillAt) {
-                $startTime = $e["end"];
-            }
-            else break;            
-        }
-
-        foreach ($events as $e) {
-            if ($e["type"] != "p1" && $e["type"] != "p2" /*&& $e["type"] != "star"*/) continue;
-            if ($e["start"] > $fillAt) {
-                $endTime = $e["start"];
-                break;
-            }
-        }
-        $i = count($events);
-        $events[$i]["type"] = "fill";
-        $events[$i]["start"] = $startTime;
-        $events[$i]["end"] = $endTime;
-    
-    }
-    
-    fclose($fhand);
-    return $events;
-}
-
 
 
 function parseBeat($txt) {

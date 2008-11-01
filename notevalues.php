@@ -1,6 +1,6 @@
 <?php
 
-    define('REVISION', 194);
+    define('REVISION', 195);
     
     /*
     global $REVISION;
@@ -125,8 +125,8 @@
     $NOTES["RB"]["EASY"]["STRUM"] = 66;
     $NOTES["RB"]["EASY"]["STAR"] = 116;
     $NOTES["RB"]["EASY"]["SOLO"] = 67;
-    $NOTES["RB"]["EASY"]["P1"] = 69;
-    $NOTES["RB"]["EASY"]["P2"] = 70;
+    $NOTES["RB"]["EASY"]["P1"] = 105; #69;
+    $NOTES["RB"]["EASY"]["P2"] = 106; #70;
     
     $NOTES["RB"]["MEDIUM"]["G"] = 72;
     $NOTES["RB"]["MEDIUM"]["R"] = 73;
@@ -137,8 +137,8 @@
     $NOTES["RB"]["MEDIUM"]["STRUM"] = 78;
     $NOTES["RB"]["MEDIUM"]["STAR"] = 116;
     $NOTES["RB"]["MEDIUM"]["SOLO"] = 79;
-    $NOTES["RB"]["MEDIUM"]["P1"] = 81;
-    $NOTES["RB"]["MEDIUM"]["P2"] = 82;
+    $NOTES["RB"]["MEDIUM"]["P1"] = 105; #81;
+    $NOTES["RB"]["MEDIUM"]["P2"] = 106; #82;
     
     $NOTES["RB"]["HARD"]["G"] = 84;
     $NOTES["RB"]["HARD"]["R"] = 85;
@@ -149,8 +149,8 @@
     $NOTES["RB"]["HARD"]["STRUM"] = 90;
     $NOTES["RB"]["HARD"]["STAR"] = 116;
     $NOTES["RB"]["HARD"]["SOLO"] = 91;
-    $NOTES["RB"]["HARD"]["P1"] = 93;
-    $NOTES["RB"]["HARD"]["P2"] = 94;
+    $NOTES["RB"]["HARD"]["P1"] = 105; #93;
+    $NOTES["RB"]["HARD"]["P2"] = 106; #94;
     
     $NOTES["RB"]["EXPERT"]["G"] = 96;
     $NOTES["RB"]["EXPERT"]["R"] = 97;
