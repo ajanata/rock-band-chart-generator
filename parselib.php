@@ -1412,9 +1412,10 @@ function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
                 if ($noteIndex === false) continue;
                 
                 // we have the first note in this event
-                while ($notetracks[$inst][$event["difficulty"]][$noteIndex]["time"] < $event["end"]) {
-                    $notetracks[$inst][$event["difficulty"]][$noteIndex]["hopo"] = true;
-                    $noteIndex++;
+                while ($notetracks[$inst][$event["difficulty"]][$noteIndex]["time"] < $event["end"]
+                    && isset($notetracks[$inst][$event["difficulty"]][$noteIndex])) {
+                        $notetracks[$inst][$event["difficulty"]][$noteIndex]["hopo"] = true;
+                        $noteIndex++;
                 }
             } // hopo event
 
@@ -1424,9 +1425,10 @@ function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
                 if ($noteIndex === false) continue;
                 
                 // we have the first note in this event
-                while ($notetracks[$inst][$event["difficulty"]][$noteIndex]["time"] < $event["end"]) {
-                    $notetracks[$inst][$event["difficulty"]][$noteIndex]["hopo"] = false;
-                    $noteIndex++;
+                while ($notetracks[$inst][$event["difficulty"]][$noteIndex]["time"] < $event["end"]
+                    && isset($notetracks[$inst][$event["difficulty"]][$noteIndex])) {
+                        $notetracks[$inst][$event["difficulty"]][$noteIndex]["hopo"] = false;
+                        $noteIndex++;
                 }
             } // strum event
 
