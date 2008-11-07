@@ -44,5 +44,17 @@
     $HOPOS["RB"]["toxicity"] = 95;
     $HOPOS["RB"]["twoweeks"] = 250;
     $HOPOS["RB"]["withoutyou"] = 100;
+    
+    # AC/DC
+    $HOPOS["RB"]["thejack_live"] = 95;
+    
+    # bonus DLC
+    $HOPOS["RB"]["bounce"] = 90;
+    $HOPOS["RB"]["getiton"] = 125;
+    $HOPOS["RB"]["prequeltothesequel"] = 125;
+    $HOPOS["RB"]["thefeeling"] = 125;
+    $HOPOS["RB"]["thetimeiswrong"] = 125;
+    $HOPOS["RB"]["young"] = 70;
+    
 
 ?>

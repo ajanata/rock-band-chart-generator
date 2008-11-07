@@ -560,6 +560,55 @@
     $NAMES["prettyinpink"] = "Pretty in Pink";
     $NAMES["wellthoughtouttwinkles"] = "Well Thought Out Twinkles";
 
+    # AC/DC
+    $NAMES["backinblack_live"] = "Back in Black (Live)";
+    $NAMES["dirtydeeds_live"] = "Dirty Deeds Done Dirt Cheap (Live)";
+    $NAMES["fireyourguns_live"] = "Fire Your Guns (Live)";
+    $NAMES["forthoseabouttorock_live"] = "For Those About to Rock (We Salute You) (Live)";
+    $NAMES["heatseeker_live"] = "Heatseeker (Live)";
+    $NAMES["hellaintabadplace_live"] = "Hell Ain't a Bad Place to Be (Live)";
+    $NAMES["hellsbells_live"] = "Hells Bells (Live)";
+    $NAMES["highvoltage_live"] = "High Voltage (Live)";
+    $NAMES["highwaytohell_live"] = "Highway to Hell (Live)";
+    $NAMES["jailbreak_live"] = "Jailbreak (Live)";
+    $NAMES["letthereberock_live"] = "Let There Be Rock (Live)";
+    $NAMES["moneytalks_live"] = "Moneytalks (Live)";
+    $NAMES["shoottothrill_live"] = "Shoot to Thrill (Live)";
+    $NAMES["thejack_live"] = "The Jack (Live)";
+    $NAMES["thunderstruck_live"] = "Thunderstruck (Live)";
+    $NAMES["tnt_live"] = "T.N.T. (Live)";
+    $NAMES["wholelottarosie_live"] = "Whole Lotta Rosie (Live)";
+    $NAMES["youshookme_live"] = "You Shook Me All Night Long (Live)";
+
+    # 11/4
+    $NAMES["dunebuggy"] = "Dune Buggy";
+    $NAMES["featherpluckn"] = "Feather Pluckin";
+    $NAMES["idontcare"] = "I Don't Care";
+    $NAMES["ladybug"] = "Ladybug";
+    $NAMES["useme"] = "Use Me";
+
+    # bonus free DLC 11/6
+    $NAMES["ashestofire"] = "Ashes to Fire";
+    $NAMES["bounce"] = "Bounce";
+    $NAMES["burnyoudown"] = "Burn You Down";
+    $NAMES["crazytuesday"] = "Crazy Tuesday";
+    $NAMES["databasecorrupted"] = "Database Corrupted";
+    $NAMES["desperatetimes"] = "Desperate Times, Desperate Measures";
+    $NAMES["getiton"] = "Get It On";
+    $NAMES["giveittome"] = "Give It to Me";
+    $NAMES["ifiaintgotyou"] = "If I Ain't Got You";
+    $NAMES["imgoneimgoing"] = "I'm Gone, I'm Going";
+    $NAMES["iv"] = "I.V.";
+    $NAMES["iwannabeyourman"] = "I Wanna Be Your Man";
+    $NAMES["likeafool"] = "Like a Fool";
+    $NAMES["magneticbaby"] = "Magnetic Baby";
+    $NAMES["noregrets"] = "No Regrets";
+    $NAMES["prequeltothesequel"] = "Prequel to the Sequel";
+    $NAMES["sonsanddaughters"] = "Sons and Daughters";
+    $NAMES["thefeeling"] = "The Feeling";
+    $NAMES["thetimeiswrong"] = "The Time Is Wrong";
+    $NAMES["young"] = "Young";
+
 
     
 ?>
