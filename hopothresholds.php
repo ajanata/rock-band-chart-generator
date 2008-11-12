@@ -46,7 +46,9 @@
     $HOPOS["RB"]["withoutyou"] = 100;
     
     # AC/DC
+    # this song has a different internal name...
     $HOPOS["RB"]["thejack_live"] = 95;
+    $HOPOS["RB"]["thejack_live 360"] = 95;
     
     # bonus DLC
     $HOPOS["RB"]["bounce"] = 90;

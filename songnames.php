@@ -574,7 +574,9 @@
     $NAMES["letthereberock_live"] = "Let There Be Rock (Live)";
     $NAMES["moneytalks_live"] = "Moneytalks (Live)";
     $NAMES["shoottothrill_live"] = "Shoot to Thrill (Live)";
+    # this song has a different internal name
     $NAMES["thejack_live"] = "The Jack (Live)";
+    $NAMES["thejack_live 360"] = "The Jack (Live)";
     $NAMES["thunderstruck_live"] = "Thunderstruck (Live)";
     $NAMES["tnt_live"] = "T.N.T. (Live)";
     $NAMES["wholelottarosie_live"] = "Whole Lotta Rosie (Live)";

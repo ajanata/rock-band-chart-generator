@@ -424,12 +424,12 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	       // wholly contained in this measure
 	       $bX = $e["start"] - $meas["time"];
 	       $bX /= $timebase;
-	       $bX *= 4 / $meas["denom"];
+	       #$bX *= 4 / $meas["denom"];
 	       $bX *= PXPERBEAT;
 	       $bX += $x;
 	       $beX = $e["end"] - $meas["time"];
 	       $beX /= $timebase;
-	       $beX *= 4 / $meas["denom"];
+	       #$beX *= 4 / $meas["denom"];
 	       $beX *= PXPERBEAT;
 	       $beX += $x;
 	       if ($bY != $beY) {
@@ -445,7 +445,7 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	       if ($e["type"] == "solo" || isset($e["brescore"]) || isset($e["delay"])) {
 	           $tX = $e["end"] - $meas["time"];
                $tX /= $timebase;
-               $tX *= 4 / $meas["denom"];
+               #$tX *= 4 / $meas["denom"];
                $tX *= PXPERBEAT;
                $tX += $x + 2;
                $tY = $y;
@@ -488,7 +488,7 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	       $bX = $x;
 	       $beX = $e["end"] - $meas["time"];
 	       $beX /= $timebase;
-	       $beX *= 4 / $meas["denom"];
+	       #$beX *= 4 / $meas["denom"];
 	       $beX *= PXPERBEAT;
 	       $beX += $x;
 	       if ($bY != $beY) {
@@ -503,7 +503,7 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	       if ($e["type"] == "solo" || isset($e["brescore"]) || isset($e["delay"])) {
 	           $tX = $e["end"] - $meas["time"];
                $tX /= $timebase;
-               $tX *= 4 / $meas["denom"];
+               #$tX *= 4 / $meas["denom"];
                $tX *= PXPERBEAT;
                $tX += $x + 2;
                $tY = $y;
@@ -533,7 +533,7 @@ function drawMeasureBackground($im, $x, $y, $meas, $events, $sections, $instrume
 	       // starts in, ends after
 	       $bX = $e["start"] - $meas["time"];
 	       $bX /= $timebase;
-	       $bX *= 4 / $meas["denom"];
+	       #$bX *= 4 / $meas["denom"];
 	       $bX *= PXPERBEAT;
 	       $bX += $x;
            $beX = $x + PXPERBEAT*$meas["num"]*4 / $meas["denom"];
@@ -677,6 +677,7 @@ function drawMeasureNotes($im, $x, $y, $meas, $notes, $game, $inst, $diff) {
     
     $newLeftovers = array();
     // take care of leftover sustains
+    /*
     foreach($leftovers[$inst] as $l) {
         
         $nY = STAFFHEIGHT;
@@ -684,11 +685,11 @@ function drawMeasureNotes($im, $x, $y, $meas, $notes, $game, $inst, $diff) {
         $nY += $y;
 
         $eX = $l["duration"];
-        if ($eX > $meas["num"]) {
+        if ($eX > $meas["num"] * 4/$meas["denom"]) {
             // this sustain goes into the next measure
             $ln = count($newLeftovers);
             $newLeftovers[$ln]["note"] = $l["note"];
-            $newLeftovers[$ln]["duration"] = $l["duration"] - $meas["num"];
+            $newLeftovers[$ln]["duration"] = $l["duration"] - $meas["num"] * 4/$meas["denom"];
             $newLeftovers[$ln]["phrase"] = $l["phrase"];
             $newLeftovers[$ln]["color"] = $l["color"];
             $eX = $meas["num"];
@@ -699,6 +700,33 @@ function drawMeasureNotes($im, $x, $y, $meas, $notes, $game, $inst, $diff) {
         imageline($im, $x-1, $nY, $eX, $nY, $l["color"]);
     
     }
+    */
+    
+    foreach($leftovers[$inst] as $l) {
+        $nY = STAFFHEIGHT;
+        $nY *= $l["note"];
+        $nY += $y;
+        
+        $eP = $l["duration"];
+        if ($eP > $meas["num"] * 4/$meas["denom"] * $timebase) {
+            // this sustain goes into the next measure
+            $ln = count($newLeftovers);
+            $newLeftovers[$ln]["note"] = $l["note"];
+            $newLeftovers[$ln]["duration"] = $l["duration"] - $meas["num"] * 4/$meas["denom"] * $timebase;
+            $newLeftovers[$ln]["phrase"] = $l["phrase"];
+            $newLeftovers[$ln]["color"] = $l["color"];
+            $eP = $meas["num"] * 4/$meas["denom"] * $timebase;
+        }
+
+        $eX = $eP;
+        $eX *= 4/$meas["denom"];
+        $eX /= $timebase;
+        $eX *= PXPERBEAT;
+        $eX += $x;
+        imagesetthickness($im, 3);
+        imageline($im, $x+1, $nY, $eX, $nY, $l["color"]);
+}
+    
     $leftovers[$inst] = $newLeftovers;
 
 	
@@ -722,10 +750,10 @@ function drawMeasureNotes($im, $x, $y, $meas, $notes, $game, $inst, $diff) {
 		
 		// see if this note has whammy beats
 		if ($notes[$note]["phrase"] > 0 && isset($notes[$note]["duration"]) && $notes[$note]["duration"]) {
-		    if ($notes[$note]["time"] + $notes[$note]["duration"] > $meas["time"] + $timebase*$meas["num"]) {
+		    if ($notes[$note]["time"] + $notes[$note]["duration"] > $meas["time"] + $timebase*$meas["num"] * 4/$meas["denom"]) {
 		        // this sustain goes to the next measure
-		        $overwhammies[$inst] += (($notes[$note]["time"] + $notes[$note]["duration"]) - ($meas["time"] + $timebase*$meas["num"])) / $timebase;
-		        $whammies += (($meas["time"] + $timebase*$meas["num"]) - $notes[$note]["time"]) / $timebase;
+		        $overwhammies[$inst] += (($notes[$note]["time"] + $notes[$note]["duration"]) - ($meas["time"] + $timebase*$meas["num"]* 4/$meas["denom"])) / $timebase;
+		        $whammies += (($meas["time"] + $timebase*$meas["num"]* 4/$meas["denom"]) - $notes[$note]["time"]) / $timebase;
 		    }
 		    else {
                 $whammies += $notes[$note]["duration"] / $timebase;
@@ -829,17 +857,17 @@ function drawNote($im, $x, $y, $meas, $note, $game, $drums = false) {
                     imageline($im, $nX-1, $nY+5, $nX+1, $nY+5, $black);
                 }
                 
-                
+                /*
                 if (isset($note["duration"]) && $note["duration"] > 0) {
                     $eX = $note["time"] + $note["duration"] - $meas["time"];
                     $eX /= $timebase;
                     // $eX is end beat of the note w.r.t. start beat of measure
                     
-                    if ($eX > $meas["num"]) {
+                    if ($eX > $meas["num"] * 4/$meas["denom"]) {
                         // this sustain goes into the next measure
                         $l = count($leftovers);
                         $leftovers[$l]["note"] = $n;
-                        $leftovers[$l]["duration"] = $eX - $meas["num"];
+                        $leftovers[$l]["duration"] = $eX - $meas["num"] * 4/$meas["denom"];
                         $leftovers[$l]["phrase"] = $note["phrase"];
                         $leftovers[$l]["color"] = $drawColor;
                         $eX = $meas["num"];
@@ -849,6 +877,31 @@ function drawNote($im, $x, $y, $meas, $note, $game, $drums = false) {
                     $eX += $x;
                     imagesetthickness($im, 3);
                     imageline($im, $nX+1, $nY, $eX, $nY, $drawColor);
+                }
+                */
+                
+                if (isset($note["duration"]) && $note["duration"] > 0) {
+                    // end midi pulse
+                    $eP = $note["time"] + $note["duration"];
+                    
+                    if ($eP > $meas["time"] + $meas["num"] * 4 / $meas["denom"] * $timebase) {
+                        // this sustain goes into the next measure
+                        $l = count($leftovers);
+                        $leftovers[$l]["note"] = $n;
+                        $leftovers[$l]["duration"] = $eP - ($meas["time"] + $meas["num"] * 4/$meas["denom"] * $timebase);
+                        $leftovers[$l]["phrase"] = $note["phrase"];
+                        $leftovers[$l]["color"] = $drawColor;
+                        $eP = $meas["time"] + $meas["num"] * 4/$meas["denom"] * $timebase;
+                    }
+                    
+                    $eX = $eP - $meas["time"];
+                    #$eX *= 4/$meas["denom"];
+                    $eX /= $timebase;
+                    $eX *= PXPERBEAT;
+                    $eX += $x;
+                    imagesetthickness($im, 3);
+                    imageline($im, $nX+1, $nY, $eX, $nY, $drawColor);
+                    
                 }
                
             }
