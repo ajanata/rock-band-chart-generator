@@ -56,5 +56,10 @@
     $HOPOS["RB"]["thetimeiswrong"] = 125;
     $HOPOS["RB"]["young"] = 70;
     
+    # 11/11 foo fighters
+    $HOPOS["RB"]["doll"] = 90;
+    $HOPOS["RB"]["februarystars"] = 90;
+    $HOPOS["RB"]["heyjohnnypark"] = 90;
+    $HOPOS["RB"]["myhero"] = 90;
 
 ?>

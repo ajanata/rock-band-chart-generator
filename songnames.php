@@ -609,6 +609,20 @@
     $NAMES["thetimeiswrong"] = "The Time Is Wrong";
     $NAMES["young"] = "Young";
 
+    # 11/11 foo fighters
+    $NAMES["doll"] = "Doll";
+    $NAMES["enoughspace"] = "Enough Space";
+    $NAMES["februarystars"] = "February Stars";
+    $NAMES["heyjohnnypark"] = "Hey, Johnny Park!";
+    $NAMES["monkeywrench"] = "Monkey Wrench";
+    $NAMES["myhero"] = "My Hero";
+    $NAMES["mypoorbrain"] = "My Poor Brain";
+    $NAMES["newwayhome"] = "New Way Home";
+    $NAMES["seeyou"] = "See You";
+    $NAMES["upinarms"] = "Up in Arms";
+    $NAMES["walkingafteryou"] = "Walking After You";
+    $NAMES["windup"] = "Wind Up";
+
 
     
 ?>
