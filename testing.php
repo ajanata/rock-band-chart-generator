@@ -81,7 +81,7 @@
 
 # (songname, events[guitar...vocals], timetrack, measures[guitar...drums][easy...expert], notetracks[guitar...drums][easy...expert], vocals)
 
-    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/rb/areyougonnabemygirl.mid", "RB", true);
+    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals) = parseFile("mids/rb/yyz.mid", "RB", true);
 
 //	list ($measures, $notetrack, $songname, $events) = parseFile("../mids/rb/shouldistay.mid", "EASY", "RB", "GUITAR");
 
@@ -92,7 +92,7 @@
 
 
 echo "=== Song Length\n\n";
-echo getClockTimeBetweenPulses($timetrack, 0, $vocals["TrkEnd"]);
+echo getClockTimeBetweenPulses($timetrack, 0, $notetracks["guitar"]["TrkEnd"]);
 
 echo "\n\n=== Measures\n\n";
 print_r($measures);

@@ -98,7 +98,6 @@ function parseFile($file, $game, $ignoreCache = false) {
 
     switch ($game) {
         case "RB":
-            // FIXME per-song lookups
             $hopoThreshold = $CONFIG["RB"]["hopo_threshold"];
             if (isset($HOPOS["RB"][$songname])) $hopoThreshold = $HOPOS["RB"][$songname];
         
@@ -1145,9 +1144,18 @@ function dealWithNote($time, $type, $note, $vel, $gameNotes, $hopoThreshold, &$n
             $notetrack[$index]["hopo"] = false;
         }
         else if (isset($notetrack[$lastRealNote])
-            && ($notetrack[$index]["time"] - $notetrack[$lastRealNote]["time"] <= $hopoThreshold)
-            && ($notetrack[$index]["note"][0] != $notetrack[$lastRealNote]["note"][0])) {
+            && ($notetrack[$index]["time"] - $notetrack[$lastRealNote]["time"] <= $hopoThreshold)) {
+                // check each of the notes in the last note
+                // a note in the last chord cannoy be hopoed,
+                // but other notes can be
                 $notetrack[$index]["hopo"] = true;
+                foreach ($notetrack[$lastRealNote]["note"] as $checkNote) {
+                    if ($checkNote == $notetrack[$index]["note"][0]) {
+                        $notetrack[$index]["hopo"] = false;
+                    }
+                }
+            #&& ($notetrack[$index]["note"][0] != $notetrack[$lastRealNote]["note"][0])) {
+
         }
         
         if ($chord == 1) {

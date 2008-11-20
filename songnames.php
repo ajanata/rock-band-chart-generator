@@ -625,6 +625,18 @@
     $NAMES["walkingafteryou"] = "Walking After You";
     $NAMES["windup"] = "Wind Up";
 
+    # 11/18
+    $NAMES["californiauberalles"] = "California Über Alles";
+    $NAMES["closer"] = "Closer";
+    $NAMES["forever"] = "Forever";
+    $NAMES["gone"] = "Gone";
+    $NAMES["holidayincambodia"] = "Holiday in Cambodia";
+    $NAMES["mica"] = "Mica";
+    $NAMES["policetruck"] = "Police Truck";
+    $NAMES["swamped"] = "Swamped";
+    $NAMES["thatshowiescaped"] = "That's How I Escaped My Certain Fate ";
+    $NAMES["thatswhenireach"] = "That's When I Reach For My Revolver";
+
 
     
 ?>

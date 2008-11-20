@@ -55,7 +55,7 @@
     
     // open the tables
     fwrite($idx["fullband"], "<table border=\"1\">");
-    fwrite($idx["stuff"], "short_name,guitar_easy,guitar_medium,guitar_hard,guitar_expert,bass_easy,bass_medium,bass_hard,bass_expert,drums_easy,drums_medium,drums_hard,drums_expert,guitar_base_easy,guitar_base_medium,guitar_base_hard,guitar_base_expert,bass_base_easy,bass_base_medium,bass_base_hard,bass_base_expert,drums_base_easy,drums_base_medium,drums_base_hard,drums_base_expert,drums_allfills_easy,drums_allfills_medium,drums_allfills_hard,drums_allfills_expert,percussion_hits\n");
+    fwrite($idx["stuff"], "short_name,guitar_easy,guitar_medium,guitar_hard,guitar_expert,bass_easy,bass_medium,bass_hard,bass_expert,drums_easy,drums_medium,drums_hard,drums_expert,guitar_base_easy,guitar_base_medium,guitar_base_hard,guitar_base_expert,bass_base_easy,bass_base_medium,bass_base_hard,bass_base_expert,drums_base_easy,drums_base_medium,drums_base_hard,drums_base_expert,drums_allfills_easy,drums_allfills_medium,drums_allfills_hard,drums_allfills_expert,percussion_hits,length\n");
     fwrite($idx["bonuses"], "short_name,easy_solos,medium_solos,hard_solos,expert_solos,big_rock_ending\n");
 
 
@@ -181,6 +181,11 @@
             }
         }
         fwrite($idx["stuff"], "," . $percussions);
+
+        // song length
+        echo " [length]";
+        fwrite($idx["stuff"], "," . getClockTimeBetweenPulses($timetrack, 0, $notetracks["guitar"]["TrkEnd"]));
+
 
 /*
         // vocals
