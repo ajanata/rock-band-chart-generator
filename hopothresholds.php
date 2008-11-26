@@ -67,5 +67,8 @@
     # 11/18
     $HOPOS["RB"]["gone"] = 90;
     $HOPOS["RB"]["swamped"] = 90;
+    
+    # 11/25
+    $HOPOS["RB"]["jesuschristpost"] = 90;
 
 ?>

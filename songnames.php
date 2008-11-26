@@ -634,8 +634,19 @@
     $NAMES["mica"] = "Mica";
     $NAMES["policetruck"] = "Police Truck";
     $NAMES["swamped"] = "Swamped";
-    $NAMES["thatshowiescaped"] = "That's How I Escaped My Certain Fate ";
+    $NAMES["thatshowiescaped"] = "That's How I Escaped My Certain Fate";
     $NAMES["thatswhenireach"] = "That's When I Reach For My Revolver";
+
+    # 11/25
+    $NAMES["capricididiablo"] = "Caprci Di Diablo";
+    $NAMES["damnationgame"] = "Damnation Game";
+    $NAMES["jesuschristpose"] = "Jesus Christ Pose";
+    $NAMES["laidtorest"] = "Laid to Rest";
+    $NAMES["mrbrightside"] = "Mr. Brightside";
+    $NAMES["prettynoose"] = "Pretty Noose";
+    $NAMES["reddevil"] = "Red Devil";
+    $NAMES["smilelikeyoumeanit"] = "Smile Like You Mean It";
+    $NAMES["spaceman"] = "Spaceman";
 
 
     

@@ -118,7 +118,10 @@ function parseFile($file, $game, $ignoreCache = false) {
 
             $events["vocals"] = fixVocalEvents($vocals, $events["vocals"], $timetrack);
             
-            $measures = makeMeasureTable($timetrack, $notetracks["guitar"]["TrkEnd"]);
+            $endOfSong = max($notetracks["guitar"]["TrkEnd"], $notetracks["bass"]["TrkEnd"], $notetracks["drums"]["TrkEnd"],
+                                $vocals["TrkEnd"]);
+            
+            $measures = makeMeasureTable($timetrack, $endOfSong);
             
             list ($measures, $notetracks) = putNotesInMeasures($measures, $notetracks);
             
