@@ -648,6 +648,17 @@
     $NAMES["smilelikeyoumeanit"] = "Smile Like You Mean It";
     $NAMES["spaceman"] = "Spaceman";
 
+    # 12/2
+    $NAMES["areyoudeadyet"] = "Are You Dead Yet";
+    $NAMES["bodyioccupy"] = "Body I Occupy";
+    $NAMES["haypocorockandroll"] = "Hay Poco Rock N Roll";
+    $NAMES["headphoneson"] = "Headphones On";
+    $NAMES["idontwanttogotoschool"] = "I Don't Want to Go to School";
+    $NAMES["readysetgo"] = "Ready, Set, Go";
+    $NAMES["realworld"] = "Real World";
+    $NAMES["tempted"] = "Tempted";
+    $NAMES["tuttoepossibile"] = "Tutto E' Possibile";
+
 
     
 ?>
