@@ -1537,7 +1537,7 @@ function applyEventsToNotetracks($notetracks, $events, &$timetrack) {
 } // applyEventsToNotetracks
 
 
-
+// this needs re-done to be a binary search, not a linear search
 function findFirstThingAtTime(&$haystack, $time, $key = "time") {
     if (isset($haystack[0])) $index = 0;
     else $index = 1;

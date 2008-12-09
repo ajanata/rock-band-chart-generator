@@ -93,20 +93,20 @@
     // open the complex table for guitarbass and guitardrums
 //    foreach (array($idx["guitarbass"], $idx["guitardrums"]) as $foo) {
         foreach ($idx["guitarbass"] as $baz => $bar) {
-            if ($baz == "idx") {
+            #if ($baz == "idx") {
                 // links to difficulties on the index page
                 fwrite($bar, <<<EOT
 <a href="index_easy.html">easy</a> <a href="index_medium.html">medium</a> <a href="index_hard.html">hard</a> <a href="index_expert.html">expert</a>
 EOT
 );
-            }
-            else {
+            #}
+            #else {
                 fwrite($bar, <<<EOT
 <table border="1">
 <tr><th>Song</th><th>Absolute Base Score (no multiplier or bonuses)</th><th>Base Score (multiplier, no bonuses)</th><th>FC Score (multiplier, bonuses, no overdrive)</th><!-- --> <th>BRE Note Score</th> <!-- --></tr>
 EOT
 );
-            }
+            #}
         }
 //    }
 

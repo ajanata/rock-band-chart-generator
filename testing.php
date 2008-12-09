@@ -26,7 +26,7 @@
     #echo "\n\n\n\n\nGuitar Track\n";
     #echo $mid->getTrackTxt(4);
     
-    /* */
+    /* * /
     for ($i = 0; $i < $mid->getTrackCount(); $i++) {
         echo "\n=== Track $i \n";
         $trk = $mid->getTrackTxt($i);
@@ -67,7 +67,7 @@
                         if ($n == $note) $xyzzy = true;
                     }
                 }
-            } */
+            } * /
             
             if (!$xyzzy) echo $line . "\n";
         }

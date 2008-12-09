@@ -657,8 +657,21 @@
     $NAMES["readysetgo"] = "Ready, Set, Go";
     $NAMES["realworld"] = "Real World";
     $NAMES["tempted"] = "Tempted";
-    $NAMES["tuttoepossibile"] = "Tutto E' Possibile";
+    $NAMES["tuttoepossibile"] = "Tutto é Possibile";
 
-
+    # 12/9
+    $NAMES["bathwater"] = "Bathwater";
+    $NAMES["dontspeak"] = "Don't Speak";
+    $NAMES["excusememr"] = "Excuse Me Mr.";
+    $NAMES["exgirlfriend"] = "Ex-Girlfriend";
+    $NAMES["hellagood"] = "Hella Good";
+    $NAMES["heybaby"] = "Hey Baby";
+    $NAMES["itsmylife"] = "It's My Life";
+    $NAMES["justagirl"] = "Just a Girl";
+    $NAMES["running"] = "Running";
+    $NAMES["simplekindoflife"] = "Simple Kind of Life";
+    $NAMES["spiderwebs"] = "Spiderwebs";
+    $NAMES["sundaymorning"] = "Sunday Morning";
+    $NAMES["underneathitall"] = "Underneath It All";
     
 ?>
