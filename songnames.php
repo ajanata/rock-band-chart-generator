@@ -674,4 +674,11 @@
     $NAMES["sundaymorning"] = "Sunday Morning";
     $NAMES["underneathitall"] = "Underneath It All";
     
+    # 12/16 COUNTRY \m/
+    $NAMES["freeandeasy"] = "Free and Easy (Down the Road I Go)";
+    $NAMES["gunpowderandlead"] = "Gunpowder & Lead";
+    $NAMES["hillbillydeluxe"] = "Hillbilly Deluxe";
+    $NAMES["mudonthetires"] = "Mud on the Tires";
+    $NAMES["sinwagon"] = "Sin Wagon";
+
 ?>

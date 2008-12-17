@@ -75,4 +75,7 @@
     $HOPOS["RB"]["dontspeak"] = 90;
     $HOPOS["RB"]["justagirl"] = 90;
 
+    # 12/16
+    $HOPOS["RB"]["hillbillydeluxe"] = 90;
+
 ?>
