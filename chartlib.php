@@ -911,6 +911,7 @@ function drawNote($im, $x, $y, $meas, $note, $game, $drums = false) {
                 
                 // draw the sustains first so we get the entire black ring
                 
+                /*
                 if (isset($note["duration"]) && $note["duration"] > 0) {
                     $eX = $note["time"] + $note["duration"] - $meas["time"];
                     $eX /= $timebase;
@@ -931,6 +932,32 @@ function drawNote($im, $x, $y, $meas, $note, $game, $drums = false) {
                     imagesetthickness($im, 3);
                     imageline($im, $nX+1, $nY, $eX, $nY, $drawColor);
                 }
+                */
+                
+                if (isset($note["duration"]) && $note["duration"] > 0) {
+                    // end midi pulse
+                    $eP = $note["time"] + $note["duration"];
+                    
+                    if ($eP > $meas["time"] + $meas["num"] * 4 / $meas["denom"] * $timebase) {
+                        // this sustain goes into the next measure
+                        $l = count($leftovers);
+                        $leftovers[$l]["note"] = $n;
+                        $leftovers[$l]["duration"] = $eP - ($meas["time"] + $meas["num"] * 4/$meas["denom"] * $timebase);
+                        $leftovers[$l]["phrase"] = $note["phrase"];
+                        $leftovers[$l]["color"] = $drawColor;
+                        $eP = $meas["time"] + $meas["num"] * 4/$meas["denom"] * $timebase;
+                    }
+                    
+                    $eX = $eP - $meas["time"];
+                    #$eX *= 4/$meas["denom"];
+                    $eX /= $timebase;
+                    $eX *= PXPERBEAT;
+                    $eX += $x;
+                    imagesetthickness($im, 3);
+                    imageline($im, $nX+1, $nY, $eX, $nY, $drawColor);
+                    
+                }
+                
                
                 if ($note["phrase"] == 0) {
                     imagesetthickness($im, 1);

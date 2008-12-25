@@ -18,7 +18,7 @@
 
   /* */
     $mid = new Midi;
-    $mid->importMid("mids/rb/charlene.mid");
+    $mid->importMid("mids/rb/_godknows2.mid");
 
     #echo "Time Signature Track\n";
     #echo $mid->getTrackTxt(0);
