@@ -680,5 +680,14 @@
     $NAMES["hillbillydeluxe"] = "Hillbilly Deluxe";
     $NAMES["mudonthetires"] = "Mud on the Tires";
     $NAMES["sinwagon"] = "Sin Wagon";
+    
+    # 12/23
+    $NAMES["bluechristmas"] = "Blue Christmas";
+    $NAMES["christmasisthetime"] = "Christmas is the Time to Say I Love You";
+    $NAMES["doa_foos"] = "DOA";
+    $NAMES["hanukkahblessings"] = "Hanukkah Blessings";
+    $NAMES["thisisacall"] = "This is a Call";
+    $NAMES["timeslikethese"] = "Times Like These";
+
 
 ?>
