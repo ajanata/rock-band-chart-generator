@@ -153,7 +153,7 @@
     $NAMES["aqualung"] = "Aqualung";
     $NAMES["badreputation"] = "Bad Reputation";
     $NAMES["battery"] = "Battery";
-    $NAMES["bodhisattva"] = "Bodhitsattva";
+    $NAMES["bodhisattva"] = "Bodhisattva";
     $NAMES["carryonwaywardson"] = "Carry On Wayward Son";
     $NAMES["chopsuey"] = "Chop Suey";
     $NAMES["colonyofbirchmen"] = "Colony of Birchmen";
@@ -688,6 +688,13 @@
     $NAMES["hanukkahblessings"] = "Hanukkah Blessings";
     $NAMES["thisisacall"] = "This is a Call";
     $NAMES["timeslikethese"] = "Times Like These";
+    
+    # 12/30
+    $NAMES["funk49"] = "Funk #49";
+    $NAMES["hymn43"] = "Hymn 43";
+    $NAMES["spacetruckin"] = "Space Truckin'";
+    $NAMES["takebackthecity"] = "Take Back the City";
+
 
 
 ?>

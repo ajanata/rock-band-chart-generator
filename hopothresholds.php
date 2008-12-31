@@ -77,5 +77,9 @@
 
     # 12/16
     $HOPOS["RB"]["hillbillydeluxe"] = 90;
+    
+    # 12/30
+    $HOPOS["RB"]["hymn43"] = 90;
+    
 
 ?>
