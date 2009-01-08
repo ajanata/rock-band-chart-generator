@@ -695,6 +695,14 @@
     $NAMES["spacetruckin"] = "Space Truckin'";
     $NAMES["takebackthecity"] = "Take Back the City";
 
+    # 2009
+    # 1/6
+    $NAMES["claudette"] = "Claudette";
+    $NAMES["indreams"] = "In Dreams";
+    $NAMES["meanwomanblues"] = "Mean Woman Blues";
+    $NAMES["ohprettywoman"] = "Oh, Pretty Woman";
+    $NAMES["oobydooby"] = "Ooby Dooby";
+    $NAMES["yougotit"] = "You Got It";
 
 
 ?>
