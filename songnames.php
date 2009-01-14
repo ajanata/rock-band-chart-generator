@@ -703,6 +703,14 @@
     $NAMES["ohprettywoman"] = "Oh, Pretty Woman";
     $NAMES["oobydooby"] = "Ooby Dooby";
     $NAMES["yougotit"] = "You Got It";
+    
+    # 1/13
+    $NAMES["areyougonnagomyway"] = "Are You Gonna Go My Way";
+    $NAMES["entangled"] = "Entangled";
+    $NAMES["freedomtrain"] = "Freedom Train";
+    $NAMES["letloverule"] = "Let Love Rule";
+    $NAMES["megasus"] = "Megasus";
+    $NAMES["mrcabdriver"] = "Mr. Cab Driver";
 
 
 ?>
