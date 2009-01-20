@@ -638,7 +638,7 @@
     $NAMES["thatswhenireach"] = "That's When I Reach For My Revolver";
 
     # 11/25
-    $NAMES["capricididiablo"] = "Caprci Di Diablo";
+    $NAMES["capricididiablo"] = "Caprici Di Diablo";
     $NAMES["damnationgame"] = "Damnation Game";
     $NAMES["jesuschristpose"] = "Jesus Christ Pose";
     $NAMES["laidtorest"] = "Laid to Rest";

@@ -5,11 +5,11 @@
     define("DRAWPULSES", false);
     define("SHOWFORCED", false);
 
-    define("WIDTH", 1024);
-    define("BPMPRECISION", 1);
-    define("PXPERBEAT", 45);
-    define("STAFFHEIGHT", 12);
-    define("DRAWPLAYERLINES", 0);
+    #define("WIDTH", 1024);
+    #define("BPMPRECISION", 1);
+    #define("PXPERBEAT", 45);
+    #define("STAFFHEIGHT", 12);
+    define("DRAWPLAYERLINES", false);
 
     define("MID_PATH", "../mids/");
     define("ACCESS_LOG", LIB_PATH . "api_access.log");
@@ -89,15 +89,57 @@
     // now that we have the song parsed, we can loop over everything they want us to do and mutilate the image
     
     $events["colors"] = array();
-    $do_later = array();
-    #$colors = array();
+    $later_text = array();
+    $later_colorname = array();
+    $shift_down = 0;
     
     while (!feof($input)) {
         $rawline = rtrim(fgets($input));
         if ($rawline == "") continue;
         $line = explode(" ", strtolower($rawline));
+        if ($line[0] != "option" && $line[0] != "comment") break;
+        if ($line[0] == "comment") continue;
+        
+        switch ($line[1]) {
+            case "shift":
+                $shift_down = ($line[2] < 0 ? 0 : ($line[2] > 1000 ? 1000 : $line[2]));
+                break;
+                
+            case "width":
+                define("WIDTH", ($line[2] < 1000 ? 1000 : ($line[2] > 3000 ? 3000 : $line[2])));
+                break;
+                
+            case "ppqn":
+                define("PXPERBEAT", ($line[2] < 20 ? 20 : ($line[2] > 480 ? 480 : $line[2])));
+                break;
+                
+            case "lineheight":
+                define("STAFFHEIGHT", ($line[2] < 10 ? 10 : ($line[2] > 40 ? 40 : $line[2])));
+                break;
+                
+            case "tempoprecision":
+                define("BPMPRECISION", ($line[2] < 0 ? 0 : ($line[2] > 5 ? 5 : $line[2])));
+                break;
+        }
+    }
+
+    if (!defined("WIDTH")) define("WIDTH", 1024);
+    if (!defined("BPMPRECISION")) define("BPMPRECISION", 1);
+    if (!defined("PXPERBEAT")) define("PXPERBEAT", 45);
+    if (!defined("STAFFHEIGHT")) define("STAFFHEIGHT", 12);
+
+    $skip = true;
+    while (!feof($input)) {
+        if (!$skip) {
+            $rawline = rtrim(fgets($input));
+            if ($rawline == "") continue;
+            $line = explode(" ", strtolower($rawline));
+        }
+        else $skip = false;
         switch ($line[0]) {
             case "comment": continue;
+            // option isn't valid after non-comment non-option commands
+            case "option": continue;
             case "color":
                 $e = array();
                 $e["type"] = "api-color";
@@ -109,6 +151,13 @@
                 #$colors[] = &$e;
                 break;
                 
+            case "colorname":
+                $e = array();
+                $e["color"] = $line[1];
+                $e["name"] = preg_replace("/colorname \d+ /", "", $rawline, 1);
+                $later_colorname[] = $e;
+                break;
+                
             case "string":
                 $size = $line[1];
                 if ($size > 5) $size = 5;
@@ -116,7 +165,6 @@
                 $color = $line[2];
                 $x = $line[3];
                 $y = $line[4];
-                //$text = substr($rawline, strpos($rawline, " ", strpos($rawline, " ", strpos($rawline, " ", strpos($rawline, " ", strpos($rawline, " ") + 1) + 1) + 1) + 1) + 1);
                 $text = preg_replace("/string \d+ \d+ \d+ (-)?\d+ /", "", $rawline, 1);
                 if ($y == 0) {
                     // this text gets drawn above a notechart
@@ -139,7 +187,7 @@
                     $e["size"] = $size;
                     $e["color"] = $color;
                     $e["text"] = $text;
-                    $do_later[] = $e;
+                    $later_text[] = $e;
                 }
                 break;
                 
@@ -203,14 +251,32 @@
     // and now draw the image with the new data structures
     
     $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, isset($_GET["guitar"]),
-           isset($_GET["bass"]), isset($_GET["drums"]), isset($_GET["vocals"]), (isset($NAMES[$file]) ? $NAMES[$file] : $file), $beat);
+           isset($_GET["bass"]), isset($_GET["drums"]), isset($_GET["vocals"]), (isset($NAMES[$file]) ? $NAMES[$file] : $file), $beat, $shift_down);
 
     global $APICOLORS;
-    foreach ($do_later as $e) {
+    foreach ($later_text as $e) {
         if ($e["y"] < 0) $e["y"] = imagesy($im) + $e["y"];
-        if ($e["y"] < 45) $e["y"] = 45;
+        if ($e["y"] < 45) {
+            if ($e["x"] < 300) $e["x"] = 300;
+            if ($e["x"] + imagefontwidth($e["size"]) * strlen($e["text"]) > WIDTH - 200)
+                $e["x"] = WIDTH - 200 - imagefontwidth($e["size"]) * strlen($e["text"]);
+        }
         else if ($e["y"] > imagesy($im) - 60) $e["y"] = imagesy($im) - 60;
         imagestring($im, $e["size"], $e["x"], $e["y"], $e["text"], $APICOLORS[$e["color"]]);
+    }
+
+    if (count($later_colorname) > 0) {
+        $silver = imagecolorallocate($im, 168, 168, 168);
+        $boxwidth = 10;
+        foreach ($later_colorname as $e) {
+            $boxwidth += imagefontwidth(3) * (strlen($e["name"]) + 1);
+        }
+        imagefilledrectangle($im, WIDTH-$boxwidth, 15 + SHOWFORCED*15 + DRAWPLAYERLINES*15, WIDTH, 30 + SHOWFORCED*15 + DRAWPLAYERLINES*15, $silver);
+        $boxwidth -= 10;
+        foreach ($later_colorname as $e) {
+            imagestring($im, 3, WIDTH - $boxwidth, 15 + SHOWFORCED*15 + DRAWPLAYERLINES*15, $e["name"], $APICOLORS[$e["color"]]);
+            $boxwidth -= imagefontwidth(3) * (1 + strlen($e["name"]));
+        }
     }
 
 
