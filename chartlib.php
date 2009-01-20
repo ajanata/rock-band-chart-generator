@@ -67,7 +67,7 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
     if ($do_vocals) $y += 55 + 7 * (STAFFHEIGHT/2);
     $HEIGHT = $y;
 	
-	$im = imagecreate(WIDTH, $HEIGHT) or die("Cannot intialize new GD image");
+	$im = imagecreatetruecolor(WIDTH, $HEIGHT) or die("Cannot intialize new GD image");
 	
 
 // ugly hack
