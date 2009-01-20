@@ -5,9 +5,10 @@
     define("DRAWPULSES", false);
     define("SHOWFORCED", false);
 
-    #define("WIDTH", 1024);
+    # these defaults must be defined below as they can be changed based on the input
+    #define("WIDTH", 1010);
     #define("BPMPRECISION", 1);
-    #define("PXPERBEAT", 45);
+    #define("PXPERBEAT", 60);
     #define("STAFFHEIGHT", 12);
     define("DRAWPLAYERLINES", false);
 
@@ -123,9 +124,9 @@
         }
     }
 
-    if (!defined("WIDTH")) define("WIDTH", 1024);
+    if (!defined("WIDTH")) define("WIDTH", 1010);
     if (!defined("BPMPRECISION")) define("BPMPRECISION", 1);
-    if (!defined("PXPERBEAT")) define("PXPERBEAT", 45);
+    if (!defined("PXPERBEAT")) define("PXPERBEAT", 60);
     if (!defined("STAFFHEIGHT")) define("STAFFHEIGHT", 12);
 
     $skip = true;

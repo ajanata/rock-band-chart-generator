@@ -49,8 +49,8 @@ option <name> <value>
 Allows certain measurements of the chart to be adjusted. Any option commands must immediately follow the user command and my be interspersed with comment commands, however as soon as a non-comment and non-option command is encountered, no further option commands may be processed.
 Available options:
 shift <y>: Shifts the chart down <y> pixels, allowing blank space to draw text. The header information at the top of the image is not shifted down. 0 <= y <= 1000. Defaults to 0.
-width <w>: Specifies the width of the image, <w> pixels. As many measures that wholly fit on a line will be drawn on every line. 1000 <= w <= 3000. Defaults to 1024.
-ppqn <w>: Specifies the width of a quarter note beat on the chart, <w> pixels. All other commands that depend on the width of a beat know how to handle this changing. 20 <= w <= 480 (the number of MIDI ticks per quarter note; larger values would produce no higher resolution of note placement). Defaults to 45.
+width <w>: Specifies the width of the image, <w> pixels. As many measures that wholly fit on a line will be drawn on every line. 1000 <= w <= 3000. Defaults to 1010.
+ppqn <w>: Specifies the width of a quarter note beat on the chart, <w> pixels. All other commands that depend on the width of a beat know how to handle this changing. 20 <= w <= 480 (the number of MIDI ticks per quarter note; larger values would produce no higher resolution of note placement). Defaults to 60.
 lineheight <h>: Specifies the height of a notechart line (the distance between the lines for the green and red notes, for instance), <h> pixels. DOES NOT affect the height of gems or sustain lines. Vocal chart lines are <h>/2 pixels high. The line command below is NOT scaled by this, but the negative range is extended to -5*<h>. 10 <= h <= 40. Defaults to 12.
 tempoprecision <d>: Specifies the number of decimal places to ROUND tempo values to. Should be scaled roughly with ppqn above. Currently DOES NOT mean "show <d> sigfigs." 0 <= d <= 5. Defaults to 1.
 
