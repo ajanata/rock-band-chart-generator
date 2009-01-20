@@ -149,13 +149,23 @@
                 $e["g"] = $line[3];
                 $e["b"] = $line[4];
                 $events["colors"][] = $e;
-                #$colors[] = &$e;
                 break;
                 
+            case "coloralpha":
+                $e = array();
+                $e["type"] = "api-coloralpha";
+                $e["n"] = $line[1];
+                $e["r"] = $line[2];
+                $e["g"] = $line[3];
+                $e["b"] = $line[4];
+                $e["a"] = $line[5];
+                $events["colors"][] = $e;
+                break;
+
             case "colorname":
                 $e = array();
                 $e["color"] = $line[1];
-                $e["name"] = preg_replace("/colorname \d+ /", "", $rawline, 1);
+                $e["name"] = preg_replace("/colorname (\d|\w)+ /", "", $rawline, 1);
                 $later_colorname[] = $e;
                 break;
                 
@@ -166,7 +176,7 @@
                 $color = $line[2];
                 $x = $line[3];
                 $y = $line[4];
-                $text = preg_replace("/string \d+ \d+ \d+ (-)?\d+ /", "", $rawline, 1);
+                $text = preg_replace("/string \d+ (\d|\w)+ \d+ (-)?\d+ /", "", $rawline, 1);
                 if ($y == 0) {
                     // this text gets drawn above a notechart
                     $e = array();

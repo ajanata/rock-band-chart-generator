@@ -14,6 +14,7 @@ user <username> <md5 hash of users's salt + shortname>
 comment <text...>
 option <name> <value>
 color <#> <r> <g> <b>
+coloralpha <#> <r> <g> <b> <a>
 colorname <#> <text...>
 string <size> <color> <x> <y> <text...>
 line <instrument> <color> <start> <end> <y> <height>
@@ -58,12 +59,17 @@ tempoprecision <d>: Specifies the number of decimal places to ROUND tempo values
 
 color command
 color <#> <r> <g> <b>
-The color command defines a color which can be used in subsequent commands. By default, no colors are defined. At least one color must be defined to draw any new information on the chart. Numbers need not be contiguous, and colors may NOT be redefined. The r, g, and b values are the red, green, and blue values of the color desired in base 10 format. See php imagecolorallocate for more details.
+The color command defines a color which can be used in subsequent commands. By default, no colors are defined. At least one color must be defined to draw any new information on the chart. Numbers need not be contiguous, and colors may NOT be redefined. (The number may also be a single word, if this is easier.) The r, g, and b values are the red, green, and blue values of the color desired in base 10 format. See php imagecolorallocate for more details.
 Example:
 comment Assign color 1 to be pure red
 color 1 255 0 0
 comment Assign color 2 to be black
 color 2 0 0 0
+
+
+coloralpha command
+coloralpha <#> <r> <g> <b> <a>
+Creates a color using php imagecolorallocate. <a> is the alpha level, 0 <= a <= 127.
 
 
 colorname command
