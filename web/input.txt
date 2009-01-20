@@ -1,0 +1,15 @@
+user ajanata 39d953873a60d79650aea959bf186d83
+color 1 255 0 0
+whammy guitar 1 10
+measscore guitar 1 9001
+totalscore guitar 1 9001
+bonusscore guitar 1 50000
+line guitar 1 0 1000 20 5
+color 5 0 255 0
+fill guitar 5 0 1000 15
+string 2 1 1000 0 guitar testing
+color 2 0 0 0
+string 5 2 100 100 hello there ladies and gentlemen
+string 5 2 100 -100 are you ready to rock
+string 3 2 0 1 this should be bumped down
+string 3 2 0 -1 this should be bumped up

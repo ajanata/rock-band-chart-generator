@@ -1,0 +1,101 @@
+/songname.php?<shortname>
+
+return the long name of the given short name, or an empty string if invalid.
+
+==========
+
+/chartgenapi.php?game=<game>&song=<shortname>(&(guitar|bass|drums|vocals)=<difficulty>)+(&input=<url>)?
+
+normal chartgen.php arguments above (except difficulty is value of instrument), also takes a bunch of data on POST or at <url>:
+
+list of commands (details below):
+
+user <username> <md5 hash of users's salt + shortname>
+comment <text...>
+color <#> <r> <g> <b>
+string <size> <color> <x> <y> <text...>
+line <instrument> <color> <start> <end> <y> <height>
+fill <instrument> <color> <start> <end> <height>
+measscore <instrument> <#> <score>
+totalscore <instrument> <#> <score>
+bonusscore <instrument> <#> <score>
+whammy <instrument> <#> <amount>
+
+==========
+
+NOTE: In all commands below that take pixel coordinates, the top 45 and bottom 60 rows of the image are reserved. Any attempt to draw into this area will result in the coordinates being shifted to fit within this restriction.
+
+user command
+user <username> <md5 hash of users's salt + shortname>
+This command allows some primitive user access control. Each user is given a user name and a password which is used as a salt to the MD5 function. The proper user command for a user with name "jsmith" and salt "pepper" for song "stillalive" would be:
+print "user jsmith " . MD5("pepper" . "stillalive")
+Each chart generation request is logged with the shortname of the song and the username of the accessor.
+Example:
+user jsmith 4730cf1cf07f2d0daddf5efdaf55c2cb
+
+
+comment command
+comment <text...>
+The remainder of the line is ignored.
+
+
+color command
+color <#> <r> <g> <b>
+The color command defines a color which can be used in subsequent commands. By default, no colors are defined. At least one color must be defined to draw any new information on the chart. Numbers need not be contiguous, and colors may NOT be redefined. The r, g, and b values are the red, green, and blue values of the color desired in base 10 format. See php imagecolorallocate for more details.
+Example:
+comment Assign color 1 to be pure red
+color 1 255 0 0
+comment Assign color 2 to be black
+color 2 0 0 0
+
+
+string command
+string <size> <color> <x> <y> <instrument>? <text...>
+Draws a string on the image. This command has a few different overloads depending on the parameters passed for the coordinates. Font <size> is specified as in php imagestring (1-5, 5 being largest). The <color> is a color number as defined above. Text that goes off the right side or bottom of the image is clipped.
+If <y> is positive, then <x> and <y> are absolute coordinates in the image. The top-left of the text will begin <x> pixels to the right of and <y> pixels below the top-left corner of the image.
+If <y> is negative, then <x> and <y> are relative to the bottom-left corner of the image. The top-left of the text will begin <x> pixels to the right of and <y> pixels above the bottom-left corner of the image.
+If <y> is zero, then <x> is the MIDI tick to draw the text at. This text would be drawn in the same location as drum fill delays, vocal phrase gaps, solo note counts, and BRE estimates are. <instrument> specifies which track to draw above.
+Example:
+string 5 1 200 50 This red text is at absolute coordinates (200, 50) in the largest font.
+string 1 2 0 -50 This black text is in the leftmost column 50 pixel above the bottom of the image in the smallest font.
+string 3 2 480 0 guitar This black text is in the medium font above the 1st beat on the guitar track
+
+
+line command
+line <instrument> <color> <start> <end> <y> <height>
+Draws a <height> pixel (<=5) tall line from <start> to <end> MIDI ticks <y> pixels (-48 <= y <= 30) above the note staff for <instrument> (guitar, bass, drums, vocals) using <color> as defined above. 
+Example:
+comment Draw a 3 pixel high red line 30 pixels above the first beat of the guitar track
+line guitar 1 0 480 30 3
+
+
+fill command
+fill <instrument> <color> <start> <end> <height>
+Draws a background fill in <color> from <start> to <end> MIDI ticks extending <height> (<=30) pixels above and below the note staff for <instrument>.
+Example:
+comment Draw a black box behind the first two beats of the guitar track, extending 10 pixels above and below the note track
+fill guitar 2 0 960 10
+
+
+score adjustment commands
+measscore <instrument> <#> <score>
+totalscore <instrument> <#> <score>
+bonusscore <instrument> <#> <score>
+These commands adjust the scores below the right side of measures. measscore sets the black number, totalscore sets the red number, and bonusscore sets the green number. If bonusscore does not exist, it is not drawn. bonusscore should only be updated after something which would affect it (a solo, for instance).
+measscore should not need set to remain consistent with debr's Guitar Hero optimal path images, but is provided for completeness.
+Measure numbers start at 1.
+Example:
+comment 500 points available in the 10th guitar measure
+measscore guitar 10 500
+comment Set both totalscore for the 10th guitar measure to 9001
+totalscore guitar 10 9001
+comment Set bonusscore to a different score than the totalscore for the 15th guitar measure so they are both drawn
+totalscore guitar 15 50000
+bonusscore guitar 15 90000
+
+
+whammy command
+whammy <instrument> <#> <amount>
+Overrides the whammy amount drawn at the bottom-right of measures (taking early whammy into account, for instance).
+comment Let's say there was .3 beats of early whammy in a measure with 2 beats of normal whammy
+whammy guitar 10 2.3
