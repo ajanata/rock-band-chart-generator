@@ -175,18 +175,22 @@
             // FIXME these 4 need to know what difficulty the individual instrument is using when I fix that above
             case "measscore":
                 //measscore <instrument> <#> <score>
+                if (!isset($measures[$line[1]][$line[2]-1])) break;
                 $measures[$line[1]][$line[2]-1]["mscore"][$diff] = $line[3];
                 break;
                 
             case "totalscore":
+                if (!isset($measures[$line[1]][$line[2]-1])) break;
                 $measures[$line[1]][$line[2]-1]["cscore"][$diff] = $line[3];
                 break;
                 
             case "bonusscore":
+                if (!isset($measures[$line[1]][$line[2]-1])) break;
                 $measures[$line[1]][$line[2]-1]["bscore"][$diff] = $line[3];
                 break;
                 
             case "whammy":
+                if (!isset($measures[$line[1]][$line[2]-1])) break;
                 // this isn't actually stored in the array presently, but we're sticking it there for the override
                 // chartlib has been updated to use this if present and fall back to default behavior if it isn't
                 $measures[$line[1]][$line[2]-1]["whammy"][$diff] = $line[3];
