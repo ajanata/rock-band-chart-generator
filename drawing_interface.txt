@@ -47,6 +47,7 @@ The remainder of the line is ignored.
 option command
 option <name> <value>
 Allows certain measurements of the chart to be adjusted. Any option commands must immediately follow the user command and my be interspersed with comment commands, however as soon as a non-comment and non-option command is encountered, no further option commands may be processed.
+All of these options default to the same values as used for the "wide" blank charts (that is, single-instrument charts and two-instrument combinations involving vocals).
 Available options:
 shift <y>: Shifts the chart down <y> pixels, allowing blank space to draw text. The header information at the top of the image is not shifted down. 0 <= y <= 1000. Defaults to 0.
 width <w>: Specifies the width of the image, <w> pixels. As many measures that wholly fit on a line will be drawn on every line. 1000 <= w <= 3000. Defaults to 1010.
