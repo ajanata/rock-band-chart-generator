@@ -69,7 +69,9 @@ color 2 0 0 0
 
 coloralpha command
 coloralpha <#> <r> <g> <b> <a>
-Creates a color using php imagecolorallocate. <a> is the alpha level, 0 <= a <= 127.
+Creates a color using php imagecolorallocatealpha. <a> is the alpha level, 0 <= a <= 127.
+Example:
+coloralpha blendedred 255 0 0 64
 
 
 colorname command

@@ -712,5 +712,15 @@
     $NAMES["megasus"] = "Megasus";
     $NAMES["mrcabdriver"] = "Mr. Cab Driver";
 
+    # 1/20
+    $NAMES["feedthetree"] = "Feed the Tree";
+    $NAMES["istandalone"] = "I Stand Alone";
+    $NAMES["spacecowboy"] = "Space Cowboy";
+    $NAMES["takethemoney"] = "Take the Money and Run";
+    $NAMES["thejoker"] = "The Joker";
+    $NAMES["typical"] = "Typical";
+    $NAMES["warzone"] = "War Zone";
+    $NAMES["windmeup"] = "Wind Me Up";
+
 
 ?>
