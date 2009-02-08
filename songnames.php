@@ -570,7 +570,7 @@
     $NAMES["hellsbells_live"] = "Hells Bells (Live)";
     $NAMES["highvoltage_live"] = "High Voltage (Live)";
     $NAMES["highwaytohell_live"] = "Highway to Hell (Live)";
-    $NAMES["jailbreak_live"] = "Jailbreak (Live)";
+    $NAMES["jailbreak_live"] = "Jailbreak (Live) (AC/DC)";
     $NAMES["letthereberock_live"] = "Let There Be Rock (Live)";
     $NAMES["moneytalks_live"] = "Moneytalks (Live)";
     $NAMES["shoottothrill_live"] = "Shoot to Thrill (Live)";
@@ -721,6 +721,22 @@
     $NAMES["typical"] = "Typical";
     $NAMES["warzone"] = "War Zone";
     $NAMES["windmeup"] = "Wind Me Up";
+    
+    # 1/27 and 2/3
+    $NAMES["boysarebackintown"] = "The Boys Are Back in Town (Live)";
+    $NAMES["breakmyheart"] = "Break My Heart";
+    $NAMES["coldrainandsnow"] = "Cold Rain & Snow";
+    $NAMES["cowboysong_live"] = "Cowboy Song (Live)";
+    $NAMES["dointhatrag"] = "Doin' That Rag";
+    $NAMES["donteasemein"] = "Don't Ease Me In";
+    $NAMES["donttellme"] = "Don't Tell Me";
+    $NAMES["fireonthemountain"] = "Fire on the Mountain";
+    $NAMES["hellinabucket"] = "Hell in a Bucket";
+    $NAMES["hitmewithyourbestshot"] = "Hit Me With Your Best Shot";
+    $NAMES["jailbreak_lizzy"] = "Jailbreak (Live) (Thin Lizzy)";
+    $NAMES["precious"] = "Precious";
+    $NAMES["unclejohnsband"] = "Uncle John's Band";
+
 
 
 ?>

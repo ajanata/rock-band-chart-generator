@@ -115,15 +115,16 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
     
     
     // make the colors for the API calls
-    foreach ($events_all["colors"] as $e) {
-        if ($e["type"] == "api-color") {
-            $APICOLORS[$e["n"]] = imagecolorallocate($im, $e["r"], $e["g"], $e["b"]);
-        }
-        else if ($e["type"] == "api-coloralpha") {
-            $APICOLORS[$e["n"]] = imagecolorallocatealpha($im, $e["r"], $e["g"], $e["b"], $e["a"]);
+    if (isset($events_all["colors"])) {
+        foreach ($events_all["colors"] as $e) {
+            if ($e["type"] == "api-color") {
+                $APICOLORS[$e["n"]] = imagecolorallocate($im, $e["r"], $e["g"], $e["b"]);
+            }
+            else if ($e["type"] == "api-coloralpha") {
+                $APICOLORS[$e["n"]] = imagecolorallocatealpha($im, $e["r"], $e["g"], $e["b"], $e["a"]);
+            }
         }
     }
-
 	
 	///////////
 	
