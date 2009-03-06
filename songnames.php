@@ -80,7 +80,7 @@
     $NAMES["blitzkriegbop"] = "Blitzkrieg Bop";
     $NAMES["blooddoll"] = "Blood Doll";
     $NAMES["brainpower"] = "Brainpower";
-    $NAMES["cantletgo"] = "Can't Let Go";
+    $NAMES["cantletgo"] = "Can't Let Go (Death of the Cool)";
     $NAMES["celebrityskin"] = "Celebrity Skin";
     $NAMES["cherubrock"] = "Cherub Rock";
     $NAMES["creep"] = "Creep";
@@ -214,7 +214,7 @@
     $NAMES["supremegirl"] = "Supreme Girl";
     $NAMES["tangledupinblue"] = "Tangled Up in Blue";
     $NAMES["teenageriot"] = "Teen Age Riot";
-    $NAMES["testify"] = "Testify";
+    $NAMES["testify"] = "Testify (Rage Against the Machine)";
     $NAMES["thatswhatyouget"] = "That's What You Get";
     $NAMES["themiddle"] = "The Middle";
     $NAMES["thetrees"] = "The Trees (Vault Edition)";
@@ -746,20 +746,25 @@
     $NAMES["wastedagain"] = "Wasted Again";
     
     # 2/24 and 3/3
-    $NAMES["dirtypool"] = "";
-    $NAMES["futures"] = "";
-    $NAMES["imcryin"] = "";
-    $NAMES["lenny"] = "";
-    $NAMES["lovestruckbaby"] = "";
-    $NAMES["luckydenvermint"] = "";
-    $NAMES["maryhadalittlelamb"] = "";
-    $NAMES["new"] = "";
-    $NAMES["prideandjoy"] = "";
-    $NAMES["rudemood"] = "";
-    $NAMES["sweetness"] = "";
-    $NAMES["tellme"] = "";
-    $NAMES["testify_srv"] = "";
-    $NAMES["texasflood"] = "";
+    $NAMES["dirtypool"] = "Dirty Pool";
+    $NAMES["futures"] = "Futures";
+    $NAMES["imcryin"] = "I'm Cryin";
+    $NAMES["lenny"] = "Lenny";
+    $NAMES["lovestruckbaby"] = "Love Struck Baby";
+    $NAMES["luckydenvermint"] = "Lucky Denver Mint";
+    $NAMES["maryhadalittlelamb"] = "Mary Had a Little Lamb";
+    $NAMES["new"] = "New";
+    $NAMES["prideandjoy"] = "Pride and Joy";
+    $NAMES["rudemood"] = "Rude Mood";
+    $NAMES["sweetness"] = "Sweetness";
+    $NAMES["tellme"] = "Tell Me";
+    $NAMES["testify_srv"] = "Testify (Stevie Ray Vaughan and Double Trouble)";
+    $NAMES["texasflood"] = "Texas Flood";
+    $NAMES["3dimesdown"] = "3 Dimes Down";
+    $NAMES["cantletgo_lucinda"] = "Can't Let Go (Lucinda Williams)";
+    $NAMES["peoplegotalotofnerve"] = "People Got a Lot of Nerve";
+    $NAMES["satelliteradio"] = "Satellite Radio";
+    $NAMES["timebomb"] = "Time Bomb (LIVE)";
 
 
 

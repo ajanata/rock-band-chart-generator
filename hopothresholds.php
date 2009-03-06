@@ -88,4 +88,7 @@
     # 1/13
     $HOPOS["RB"]["letloverule"] = 90;
 
+    # 3/3
+    $HOPOS["RB"]["lenny"] = 90;
+
 ?>
