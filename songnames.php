@@ -737,6 +737,30 @@
     $NAMES["precious"] = "Precious";
     $NAMES["unclejohnsband"] = "Uncle John's Band";
 
+    # 2/10 and 2/17 (dumped by me :D)
+    $NAMES["blacksunshine"] = "Black Sunshine";
+    $NAMES["creepinupthebackstairs"] = "Creepin' Up the Back Stairs";
+    $NAMES["flathead"] = "Flathead";
+    $NAMES["henrietta"] = "Henrietta";
+    $NAMES["morehumanthanhuman"] = "More Human Than Human";
+    $NAMES["wastedagain"] = "Wasted Again";
+    
+    # 2/24 and 3/3
+    $NAMES["dirtypool"] = "";
+    $NAMES["futures"] = "";
+    $NAMES["imcryin"] = "";
+    $NAMES["lenny"] = "";
+    $NAMES["lovestruckbaby"] = "";
+    $NAMES["luckydenvermint"] = "";
+    $NAMES["maryhadalittlelamb"] = "";
+    $NAMES["new"] = "";
+    $NAMES["prideandjoy"] = "";
+    $NAMES["rudemood"] = "";
+    $NAMES["sweetness"] = "";
+    $NAMES["tellme"] = "";
+    $NAMES["testify_srv"] = "";
+    $NAMES["texasflood"] = "";
+
 
 
 ?>
