@@ -766,6 +766,30 @@
     $NAMES["satelliteradio"] = "Satellite Radio";
     $NAMES["timebomb"] = "Time Bomb (LIVE)";
 
+    # 3/10, 3/17, 3/24
+    $NAMES["alliwant"] = "All I Want";
+    $NAMES["allthethingsthatgo"] = "All the Things That Go to Make Heaven and Earth";
+    $NAMES["black"] = "Black";
+    $NAMES["deep"] = "Deep";
+    $NAMES["evenflow"] = "Even Flow";
+    $NAMES["garden"] = "Garden";
+    $NAMES["getup"] = "Get Up (I Feel Like Being a) Sex Machine - Pt. 1";
+    $NAMES["jeremy"] = "Jeremy";
+    $NAMES["lastresort"] = "Last Resort";
+    $NAMES["lifeline"] = "Lifeline";
+    $NAMES["losingmyreligion"] = "Losing My Religion";
+    $NAMES["masterslave"] = "Master/Slave";
+    $NAMES["oceans"] = "Oceans";
+    $NAMES["once"] = "Once";
+    $NAMES["pickupthepieces"] = "Pick Up the Pieces";
+    $NAMES["porch"] = "Porch";
+    $NAMES["release"] = "Release";
+    $NAMES["shiningstar"] = "Shining Star";
+    $NAMES["thekidsarentalright"] = "The Kids Aren't Alright";
+    $NAMES["thewaythatitshows"] = "The Way That It Shows";
+    $NAMES["thrashunreal"] = "Thrash Unreal";
+    $NAMES["useit"] = "Use It";
+    $NAMES["whygo"] = "Why Go";
 
 
 ?>
