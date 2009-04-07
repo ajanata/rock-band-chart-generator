@@ -800,5 +800,16 @@
     $NAMES["icanttakemyeyes"] = "I Can't Keep My Eyes Off of You";
     $NAMES["wheresgary"] = "Where's Gary?";
 
+    # 4/7
+    $NAMES["beerformyhorses"] = "Beer for My Horses";
+    $NAMES["howdoyoulikemenow"] = "How Do You Like Me Now?!";
+    $NAMES["ilovethisbar"] = "I Love This Bar";
+    $NAMES["newslang"] = "New Slang";
+    $NAMES["shesahottie"] = "She's a Hottie";
+    $NAMES["shouldvebeenacowboy"] = "Should've Been a Cowboy";
+    $NAMES["wakingthedemon"] = "Waking the Demon";
+    $NAMES["warriorsoftime"] = "Warriors of Time";
+    $NAMES["whosyourdaddy"] = "Who's Your Daddy?";
+
 
 ?>
