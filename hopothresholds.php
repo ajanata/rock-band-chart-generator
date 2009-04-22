@@ -94,5 +94,10 @@
     # 3/10, 3/17, 3/24
     $HOPOS["RB"]["garden"] = 90;
     $HOPOS["RB"]["lastresort"] = 90;
+    
+    # 4/14 and 4/21
+    $HOPOS["RB"]["catcherintherye"] = 90;
+    $HOPOS["RB"]["therewasatime"] = 90;
+    $HOPOS["RB"]["takeitontherun"] = 70;
 
 ?>

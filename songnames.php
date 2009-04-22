@@ -811,5 +811,30 @@
     $NAMES["warriorsoftime"] = "Warriors of Time";
     $NAMES["whosyourdaddy"] = "Who's Your Daddy?";
 
+    # 4/14 and 4/21
+    $NAMES["aloneinmyhead"] = "Alone in My Head";
+    $NAMES["better"] = "Better";
+    $NAMES["bluecollarman"] = "Blue Collar Man (Long Nights)";
+    $NAMES["cantstoprockin"] = "Can't Stop Rockin'";
+    $NAMES["catcherintherye"] = "Catcher in the Rye";
+    $NAMES["chinesedemocracy"] = "Chinese Democracy";
+    $NAMES["iftheworld"] = "If the World";
+    $NAMES["iknowwhereyou"] = "I Know Where You Came From";
+    $NAMES["irs"] = "I.R.S.";
+    $NAMES["madagascar"] = "Madagascar";
+    $NAMES["prostitute"] = "Prostitute";
+    $NAMES["renegade"] = "Renegade";
+    $NAMES["riadnthebedouins"] = "Riad N' the Bedouins";
+    $NAMES["ridinthestormout"] = "Ridin' the Storm Out";
+    $NAMES["rollwiththechanges"] = "Roll with the Changes";
+    $NAMES["scraped"] = "Scraped";
+    $NAMES["sorry"] = "Sorry";
+    $NAMES["stopstartagain"] = "Stop Start Again";
+    $NAMES["streetofdreams"] = "Street of Dreams";
+    $NAMES["takeitontherun"] = "Take It on the Run";
+    $NAMES["therewasatime"] = "There Was a Time";
+    $NAMES["thisilove"] = "This I Love";
+    $NAMES["toomuchtimeonmyhands"] = "Too Much Time On My Hands";
+
 
 ?>
