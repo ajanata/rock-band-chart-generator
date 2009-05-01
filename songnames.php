@@ -836,5 +836,17 @@
     $NAMES["thisilove"] = "This I Love";
     $NAMES["toomuchtimeonmyhands"] = "Too Much Time On My Hands";
 
+    # 4/28
+    $NAMES["hadadad"] = "Had a Dad";
+    $NAMES["idiotsrule"] = "Idiots Rule";
+    $NAMES["janesays"] = "Jane Says";
+    $NAMES["oceansize"] = "Ocean Size";
+    $NAMES["pigsinzen"] = "Pig's in Zen";
+    $NAMES["standingintheshower"] = "Standing in the Shower... Thinking";
+    $NAMES["summertimerolls"] = "Summertime Rolls";
+    $NAMES["tedjustadmitit"] = "Ted, Just Admit It...";
+    $NAMES["thankyouboys"] = "Thank You Boys";
+    $NAMES["upthebeach"] = "Up the Beach";
+
 
 ?>

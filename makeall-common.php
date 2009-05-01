@@ -41,7 +41,7 @@ EOT
 </p>
 <p>Significant changes recently:
 <ul>
-<li>Sorry for the delay in updating. I recently moved, and it took a couple weeks to get AT&amp;T to actually hook up my DSL line. Not having an Internet connection at home meant I was unable to download the DLC, which of course means I wasn't able to dump the .mids from it.</li>
+<li>Fixed a typo which was causing Jesus Christ Pose to use the wrong HOPO threshold. All charts with guitar and/or bass have been recreated for that song.</li>
 <li>I refuse to buy anything at Best Buy, so I'm going to be unable to make charts for <b>Brother</b>, <b>Alive (Live: Drop in the Park)</b>, and <b>State of Love and Trust (Live: Drop in the Park)</b> unless somebody gives me a code to download them. Sorry, but I absolutely hate their business practices (similar to how I'm never buying anything that has "Sony" on it anywhere ever again).</li>
 </ul></p>
 <p>These charts are blank. They have not been verified against the game and may be faulty. If you see something horribly wrong please <a href="http://rockband.scorehero.com/forum/privmsg.php?mode=post&u=52545">send me a message</a> on ScoreHero. Relevant discussion threads for <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=4773">drums/drums+vocals</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=5062">guitar/bass/guitar+bass</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7625">vocals</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7626">vocaltar</a>, and <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7627">full band</a>.</p>

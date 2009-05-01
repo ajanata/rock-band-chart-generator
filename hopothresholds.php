@@ -69,9 +69,9 @@
     $HOPOS["RB"]["swamped"] = 90;
     
     # 11/25
-    $HOPOS["RB"]["jesuschristpost"] = 90;
+    $HOPOS["RB"]["jesuschristpose"] = 90;
     
-    #12/9
+    # 12/9
     $HOPOS["RB"]["dontspeak"] = 90;
     $HOPOS["RB"]["justagirl"] = 90;
 
@@ -99,5 +99,8 @@
     $HOPOS["RB"]["catcherintherye"] = 90;
     $HOPOS["RB"]["therewasatime"] = 90;
     $HOPOS["RB"]["takeitontherun"] = 70;
+    
+    # 4/28
+    $HOPOS["RB"]["tedjustadmitit"] = 70;
 
 ?>
