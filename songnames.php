@@ -848,5 +848,17 @@
     $NAMES["thankyouboys"] = "Thank You Boys";
     $NAMES["upthebeach"] = "Up the Beach";
 
+    # 5/7
+    $NAMES["bluesky"] = "";
+    $NAMES["doyouwantto"] = "";
+    $NAMES["draintheblood"] = "";
+    $NAMES["idealistictypes"] = "";
+    $NAMES["luciddreams"] = "";
+    $NAMES["midnightrider"] = "";
+    $NAMES["nakedeye"] = "";
+    $NAMES["smoothcriminalaaf"] = "";
+    $NAMES["takemeout"] = "";
+    $NAMES["thebanishment"] = "";
+
 
 ?>
