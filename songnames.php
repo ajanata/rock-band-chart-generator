@@ -849,16 +849,16 @@
     $NAMES["upthebeach"] = "Up the Beach";
 
     # 5/7
-    $NAMES["bluesky"] = "";
-    $NAMES["doyouwantto"] = "";
-    $NAMES["draintheblood"] = "";
-    $NAMES["idealistictypes"] = "";
-    $NAMES["luciddreams"] = "";
-    $NAMES["midnightrider"] = "";
-    $NAMES["nakedeye"] = "";
-    $NAMES["smoothcriminalaaf"] = "";
-    $NAMES["takemeout"] = "";
-    $NAMES["thebanishment"] = "";
+    $NAMES["bluesky"] = "Blue Sky";
+    $NAMES["doyouwantto"] = "Do You Want To";
+    $NAMES["draintheblood"] = "Drain the Blood";
+    $NAMES["idealistictypes"] = "Idealistic Types";
+    $NAMES["luciddreams"] = "Lucid Dreams";
+    $NAMES["midnightrider"] = "Midnight Rider";
+    $NAMES["nakedeye"] = "Naked Eye";
+    $NAMES["smoothcriminalaaf"] = "Smooth Criminal";
+    $NAMES["takemeout"] = "Take Me Out";
+    $NAMES["thebanishment"] = "The Banishment";
 
 
 ?>
