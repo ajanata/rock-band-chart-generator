@@ -848,7 +848,7 @@
     $NAMES["thankyouboys"] = "Thank You Boys";
     $NAMES["upthebeach"] = "Up the Beach";
 
-    # 5/7
+    # 5/5
     $NAMES["bluesky"] = "Blue Sky";
     $NAMES["doyouwantto"] = "Do You Want To";
     $NAMES["draintheblood"] = "Drain the Blood";
@@ -859,6 +859,37 @@
     $NAMES["smoothcriminalaaf"] = "Smooth Criminal";
     $NAMES["takemeout"] = "Take Me Out";
     $NAMES["thebanishment"] = "The Banishment";
-
+    
+    # 5/12 5/19 5/26 6/2
+    $NAMES["afavorhouseatlantic"] = "A Favor House Atlantic";
+    $NAMES["badluck"] = "Bad Luck";
+    $NAMES["billiondollarlive"] = "Billion Dollar Babies (Live)";
+    $NAMES["blackfriday"] = "Black Friday";
+    $NAMES["cuzurnext"] = "Cuz U R Next";
+    $NAMES["imeighteenlive"] = "I'm Eighteen (Live)";
+    $NAMES["kidsdontfollow"] = "Kids Don't Follow";
+    $NAMES["liar"] = "Liar";
+    $NAMES["lieslieslies"] = "LiesLiesLies";
+    $NAMES["linger"] = "Linger";
+    $NAMES["makedamnsure"] = "MakeDamnSure";
+    $NAMES["myoldschool"] = "My Old School";
+    $NAMES["poison"] = "Poison";
+    $NAMES["radioradio"] = "Radio Radio";
+    $NAMES["ringoffire"] = "Ring of Fire";
+    $NAMES["schoolsoutlive"] = "School's Out (Live)";
+    $NAMES["shesnotthere"] = "She's Not There";
+    $NAMES["shimmerandshine"] = "Shimmer &amp; Shine";
+    $NAMES["steadyatthewheel"] = "Steady at the Wheel";
+    $NAMES["storyofmylife"] = "Story of My Life";
+    $NAMES["stricken"] = "Stricken";
+    $NAMES["stupify"] = "Stupify";
+    $NAMES["tellherno"] = "Tell Her No";
+    $NAMES["thegreatsatan"] = "The Great Satan";
+    $NAMES["therunningfree"] = "The Running Free";
+    $NAMES["undermywheelslive"] = "Under My Wheels (Live)";
+    $NAMES["vengeanceismine"] = "Vengeance is Mine";
+    $NAMES["whatsitfeellike"] = "What's It Feel Like to Be a Ghost?";
+    $NAMES["wilsonlive"] = "Wilson (Live)";
+    $NAMES["wolflikeme"] = "Wolf Like Me";
 
 ?>
