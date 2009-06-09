@@ -892,4 +892,18 @@
     $NAMES["wilsonlive"] = "Wilson (Live)";
     $NAMES["wolflikeme"] = "Wolf Like Me";
 
+    # 6/9
+    $NAMES["2minutestomidnight"] = "2 Minutes to Midnight";
+    $NAMES["aceshigh_live"] = "Aces High (Live)";
+    $NAMES["caniplaywithmadness"] = "Can I Play With Madness";
+    $NAMES["fearofthedarklive"] = "Fear of the Dark (Live)";
+    $NAMES["hallowedbethyname"] = "Hallowed Be The Name (Live)";
+    $NAMES["ironmaidenlive"] = "Iron Maiden (Live)";
+    $NAMES["numberofthebeast2"] = "The Number of the Beast (Original Version)";
+    $NAMES["powerslave"] = "Powerslave";
+    $NAMES["runtothehills2"] = "Run to the Hills (Original Version)";
+    $NAMES["theclairvoyant"] = "The Clairvoyant";
+    $NAMES["thetrooper"] = "The Trooper";
+    $NAMES["wastedyears"] = "Wasted Years";
+
 ?>
