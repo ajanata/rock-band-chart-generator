@@ -62,6 +62,11 @@
         die("Unable to open file " . OUTDIR . "rb/vocaldrums/index.html for writing.\n");
     }
 
+    $idx["voxbass"] = null;
+    if (false === ($idx["voxbass"] = fopen(OUTDIR . "rb/vocalbass/index.html", "w"))) {
+        die("Unable to open file " . OUTDIR . "rb/vocalbass/index.html for writing.\n");
+    }
+
     $idx["drums"] = null;
     if (false === ($idx["drums"] = fopen(OUTDIR . "rb/drums/index.html", "w"))) {
         die("Unable to open file " . OUTDIR . "rb/drums/index.html for writing.\n");
@@ -110,8 +115,9 @@
     
     // put the header into every file
     index_header($idx["vox"], "Vocals");
-    index_header($idx["voxtar"], "Vocaltar");
+    index_header($idx["voxtar"], "Vocals+guitar");
     index_header($idx["voxdrums"], "Vocals+drums");
+    index_header($idx["voxbass"], "Vocals+bass");
     index_header($idx["drums"], "Drums");
     foreach ($idx["guitar"] as $foo => $bar) { index_header($bar, "$foo guitar"); }
     foreach ($idx["bass"] as $foo => $bar) { index_header($bar, "$foo bass"); }
@@ -124,6 +130,7 @@
     fwrite($idx["drums"], "<table border=\"1\">");
     fwrite($idx["voxtar"], "<table border=\"1\">");
     fwrite($idx["voxdrums"], "<table border=\"1\">");
+    fwrite($idx["voxbass"], "<table border=\"1\">");
     
     // everything else gets the complex table
     foreach (array($idx["guitar"], $idx["bass"]/*, $idx["guitarbass"]*/) as $foo) {
@@ -402,6 +409,30 @@ EOT
         } // voxdrums diffs
         fwrite($idx["voxdrums"], "</tr>\n");
 
+
+        // voxbass
+        echo " [voxbass]";
+        
+        fwrite($idx["voxbass"], "<tr><td>" . $realname . "</td>");
+        foreach ($DIFFICULTIES as $diff) {
+            echo " ($diff)";
+        	if (isset($cache[$shortname]["voxbass"][$diff]) && $cache[$shortname]["voxbass"][$diff]["version"] >= CHARTVERSION) {
+        	   // we already have a valid image for this
+        	   echo " {cached}";
+    	    }
+          	else {
+                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ false,
+                       /* bass*/ true, /* drums */ false, /* vocals */ true, $realname, $beat);
+                imagepng($im, OUTDIR . "rb/vocalbass/" . $shortname . "_vocalbass_" . $diff . "_blank.png");
+                imagedestroy($im);
+                
+                $cache[$shortname]["voxbass"][$diff]["version"] = CHARTVERSION;
+          	}
+            
+            fwrite($idx["voxbass"], "<td><a href=\"" . $shortname . "_vocalbass_" . $diff . "_blank.png\">" . $diff . "</a></td>");            
+        } // voxtar diffs
+        fwrite($idx["voxbass"], "</tr>\n");
+        
         echo "\n";
     } // foreach file
 
@@ -410,6 +441,7 @@ EOT
     fwrite($idx["vox"], "</body>\n</html>");
     fwrite($idx["voxtar"], "</table>\n</body>\n</html>");
     fwrite($idx["voxdrums"], "</table>\n</body>\n</html>");
+    fwrite($idx["voxbass"], "</table>\n</body>\n</html>");
     fwrite($idx["drums"], "</table>\n</body>\n</html>");
     foreach ($idx["guitar"] as $bar => $foo) {
         if ($bar != "idx") fwrite($foo, "</table>\n");

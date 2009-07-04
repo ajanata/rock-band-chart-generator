@@ -905,5 +905,33 @@
     $NAMES["theclairvoyant"] = "The Clairvoyant";
     $NAMES["thetrooper"] = "The Trooper";
     $NAMES["wastedyears"] = "Wasted Years";
+    
+    # 6/16 6/23 6/30
+    $NAMES["21stcentdigiboy"] = "21st Century Digital Boy";
+    $NAMES["alivelive"] = "Alive (Live: Drop in the Park)";
+    $NAMES["backfromthedead"] = "Back from the Dead";
+    $NAMES["bluemorningblueday"] = "Blue Morning, Blue Day";
+    $NAMES["bringmetolife"] = "Bring Me to Life";
+    $NAMES["brother"] = "Brother";
+    $NAMES["callmewhenyouresober"] = "Call Me When You're Sober";
+    $NAMES["feelslikethefirsttime"] = "Feels Like the First Time";
+    $NAMES["headknocker"] = "Headknocker";
+    $NAMES["heyjohnwhatsyournameagain"] = "Hey John, What's Your Name Again?";
+    $NAMES["ididntsayiwas"] = "I Didn't Say I Was Powerful, I Said I Was a Wizard";
+    $NAMES["imageoftheinvisible"] = "Image of the Invisible";
+    $NAMES["littleofyourtime"] = "Little of Your Time";
+    $NAMES["makesmewonder"] = "Makes Me Wonder";
+    $NAMES["reinventingyourexit"] = "Reinventing Your Exit";
+    $NAMES["rocknrollnightmare"] = "Rock 'n' Roll Nightmare";
+    $NAMES["saucyjack"] = "Saucy Jack";
+    $NAMES["stateofloveandtrustlive"] = "State of Love and Trust (Live: Drop in the Park)";
+    $NAMES["sweettalk"] = "Sweet Talk";
+    $NAMES["thedownfallofusall"] = "The Downfall of Us All";
+    $NAMES["theflood"] = "The Flood";
+    $NAMES["wakeupcall"] = "Wake Up Call";
+    $NAMES["warmerthanhell"] = "Warmer Than Hell";
+    $NAMES["weaponofchoice"] = "Weapon of Choice";
+    $NAMES["weightoftheworld"] = "Weight of the World";
+
 
 ?>
