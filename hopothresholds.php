@@ -104,9 +104,13 @@
     $HOPOS["RB"]["tedjustadmitit"] = 70;
     
     # 5/12 5/19 5/26 6/2
-    $HOPOS["RB"]["storyofmylife"] = 260;
+    $HOPOS["RB"]["storyofmylife"] = 250;
     $HOPOS["RB"]["stricken"] = 70;
     
     $HOPOS["RB"]["sweettalk"] = 90;
+    
+    # july
+    $HOPOS["RB"]["crawl"] = 90;
+    $HOPOS["RB"]["whatahorriblenight"] = 250;
 
 ?>

@@ -368,7 +368,7 @@
     $NAMES["goodtimesroll"] = "Good Times Roll";
     $NAMES["indestructible"] = "Indestructible";
     $NAMES["insidethefire"] = "Inside the Fire";
-    $NAMES["intouch"] = "In Touch";
+    $NAMES["intouch"] = "I'm in Touch with Your World";
     $NAMES["justwhatineeded"] = "Just What I Needed";
     $NAMES["margaritaville"] = "Margaritaville";
     $NAMES["movinginstereo"] = "Moving in Stereo";
@@ -764,7 +764,7 @@
     $NAMES["cantletgo_lucinda"] = "Can't Let Go (Lucinda Williams)";
     $NAMES["peoplegotalotofnerve"] = "People Got a Lot of Nerve";
     $NAMES["satelliteradio"] = "Satellite Radio";
-    $NAMES["timebomb"] = "Time Bomb (LIVE)";
+    $NAMES["timebomb"] = "Time Bomb (LIVE) (Old 97s)";
 
     # 3/10, 3/17, 3/24
     $NAMES["alliwant"] = "All I Want";
@@ -932,6 +932,41 @@
     $NAMES["warmerthanhell"] = "Warmer Than Hell";
     $NAMES["weaponofchoice"] = "Weapon of Choice";
     $NAMES["weightoftheworld"] = "Weight of the World";
+
+    # 7/7
+    $NAMES["21guns"] = "21 Guns";
+    $NAMES["blackmagic"] = "Black Magic";
+    $NAMES["conquerall"] = "Conquer All";
+    $NAMES["disposableteens"] = "Disposable Teens";
+    $NAMES["eastjesusnowhere"] = "East Jesus Nowhere";
+    $NAMES["embedded"] = "Embedded";
+    $NAMES["empireofthegun"] = "Empire of the Gun";
+    $NAMES["hammersmashedface"] = "Hammer Smashed Face";
+    $NAMES["knowyourenemy"] = "Know Your Enemy";
+    $NAMES["thisisexile"] = "This Is Exile";
+    $NAMES["whatahorriblenight"] = "What a Horrible Night to Have a Curse";
+
+
+    # 7/14 7/21
+    $NAMES["allgoingouttogether"] = "All Going Out Together";
+    $NAMES["crawl"] = "Crawl";
+    $NAMES["dissidentaggressor_live"] = "Dissident Aggressor (Live)";
+    $NAMES["eatmealivelive"] = "Eat Me Alive (Live)";
+    $NAMES["hangyoufromtheheavens"] = "Hang You From the Heavens";
+    $NAMES["lastonetodie"] = "Last One to Die";
+    $NAMES["mollychambers"] = "Molly's Chambers";
+    $NAMES["nohasslenight"] = "No Hassle Night";
+    $NAMES["prayeroftherefugee"] = "Prayer of the Refugee";
+    $NAMES["prophecylive"] = "Prophecy (Live)";
+    $NAMES["reeducation"] = "Re-Education (Through Labor)";
+    $NAMES["rubysoho"] = "Ruby Soho";
+    $NAMES["savior"] = "Savior";
+    $NAMES["sexonfire"] = "Sex on Fire";
+    $NAMES["shesfetching"] = "She's Fetching";
+    $NAMES["sweetnessandlight"] = "Sweetness & Light";
+    $NAMES["timebomb2"] = "Time Bomb (Rancid)";
+    $NAMES["treatmelikeyourmother"] = "Treat Me Like Your Mother";
+    $NAMES["youngerbums"] = "Younger Bums";
 
 
 ?>

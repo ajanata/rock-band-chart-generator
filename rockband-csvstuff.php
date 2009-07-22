@@ -196,7 +196,7 @@
 
         // song length
         echo " [length]";
-        fwrite($idx["stuff"], "," . getClockTimeBetweenPulses($timetrack, 0, max($notetracks["guitar"]["TrkEnd"], $notetracks["bass"]["TrkEnd"], $notetracks["drumm"]["TrkEnd"], $vocals["TrkEnd"])));
+        fwrite($idx["stuff"], "," . getClockTimeBetweenPulses($timetrack, 0, max($notetracks["guitar"]["TrkEnd"], $notetracks["bass"]["TrkEnd"], $notetracks["drums"]["TrkEnd"], $vocals["TrkEnd"])));
 
 
 /*
