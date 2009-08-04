@@ -968,5 +968,28 @@
     $NAMES["treatmelikeyourmother"] = "Treat Me Like Your Mother";
     $NAMES["youngerbums"] = "Younger Bums";
 
+    # 7/28 8/4
+    $NAMES["100000years"] = "100,000 Years (Live)";
+    $NAMES["america"] = "America";
+    $NAMES["bigbottom"] = "Big Bottom";
+    $NAMES["cupsandcakes"] = "Cups and Cakes";
+    $NAMES["deuce"] = "Deuce (Live)";
+    $NAMES["down"] = "Down";
+    $NAMES["feelingthis"] = "Feeling This";
+    $NAMES["flowerpeople"] = "(Listen to the) Flower People (Reggae Stylee)";
+    $NAMES["funkysexfarm"] = "(Funky) Sex Farm";
+    $NAMES["gimmesomemoney"] = "Gimme Some Money";
+    $NAMES["heavyduty"] = "Heavy Duty";
+    $NAMES["hellhole"] = "Hell Hole";
+    $NAMES["mynameisjonas"] = "My Name Is Jonas";
+    $NAMES["outhereallnight"] = "Out Here All Night";
+    $NAMES["parasitelive"] = "Parasite (Live)";
+    $NAMES["porkandbeans"] = "Pork and Beans";
+    $NAMES["rockandrollcreation"] = "Rock 'n' Roll Creation";
+    $NAMES["stonehenge"] = "Stonehenge";
+    $NAMES["therockshow"] = "The Rock Show";
+    $NAMES["tonightimgonna"] = "Tonight I'm Gonna Rock You Tonight";
+    $NAMES["undone"] = "Undone - The Sweater Song";
+
 
 ?>
