@@ -1133,7 +1133,7 @@ function dealWithNote($time, $type, $note, $vel, $gameNotes, $hopoThreshold, &$n
     }
     
     // regular note
-    if ($type== "On" && $vel > 0) {
+    if ($type == "On" && $vel > 0) {
         if (!isset($notetrack[$index]["time"])) $notetrack[$index]["time"] = $time;
 
         $notetrack[$index]["count"] = $chord;
@@ -1149,7 +1149,7 @@ function dealWithNote($time, $type, $note, $vel, $gameNotes, $hopoThreshold, &$n
         else if (isset($notetrack[$lastRealNote])
             && ($notetrack[$index]["time"] - $notetrack[$lastRealNote]["time"] <= $hopoThreshold)) {
                 // check each of the notes in the last note
-                // a note in the last chord cannoy be hopoed,
+                // a note in the last chord cannot be hopoed,
                 // but other notes can be
                 $notetrack[$index]["hopo"] = true;
                 foreach ($notetrack[$lastRealNote]["note"] as $checkNote) {
@@ -1172,6 +1172,7 @@ function dealWithNote($time, $type, $note, $vel, $gameNotes, $hopoThreshold, &$n
                 else {
                     // it's long enough to be a real note
                     // now see if it's a sustain
+                    // isn't this supposed to be SUSTAIN == 160?
                     if ($time - $notetrack[$lastRealNote]["time"] <= 240) {
                         // not a sustain
                         $notetrack[$lastRealNote]["duration"] = 0;

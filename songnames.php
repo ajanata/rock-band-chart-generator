@@ -990,6 +990,31 @@
     $NAMES["therockshow"] = "The Rock Show";
     $NAMES["tonightimgonna"] = "Tonight I'm Gonna Rock You Tonight";
     $NAMES["undone"] = "Undone - The Sweater Song";
+    
+    # 8/11 8/18 8/35
+    $NAMES["allmylife"] = "All My Life";
+    $NAMES["chestfeverlive"] = "Chest Fever (Live)";
+    $NAMES["clinteastwood"] = "Clint Eastwood";
+    $NAMES["dontstop"] = "Don't Stop";
+    $NAMES["feelgoodinc"] = "Feel Good Inc";
+    $NAMES["illstickaround"] = "I'll Stick Around";
+    $NAMES["imshippingup"] = "I'm Shipping Up to Boston";
+    $NAMES["insideout"] = "Inside Out";
+    $NAMES["ipredictariot"] = "I Predict a Riot";
+    $NAMES["iwontbackdown"] = "I Won't Back Down";
+    $NAMES["lonelyasyou"] = "Lonely as You";
+    $NAMES["magicbuslive"] = "Magic Bus (Live at Leeds)";
+    $NAMES["monymony"] = "Mony Mony";
+    $NAMES["norain"] = "No Rain";
+    $NAMES["pieceofmyheart"] = "Piece of My Heart";
+    $NAMES["rebelyell"] = "Rebel Yell";
+    $NAMES["rehash"] = "Re-Hash";
+    $NAMES["runnindownadream"] = "Runnin' Down a Dream";
+    $NAMES["shesagenius"] = "She's a Genius";
+    $NAMES["theresnootherway"] = "There's No Other Way";
+    $NAMES["whiterabbit"] = "White Rabbit";
+    $NAMES["worldturning"] = "World Turning";
+
 
 
 ?>

@@ -112,5 +112,8 @@
     # july
     $HOPOS["RB"]["crawl"] = 90;
     $HOPOS["RB"]["whatahorriblenight"] = 250;
+    
+    # august
+    $HOPOS["RB"]["lonelyasyou"] = 90;
 
 ?>
