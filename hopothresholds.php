@@ -116,4 +116,8 @@
     # august
     $HOPOS["RB"]["lonelyasyou"] = 90;
 
+    # 9/1 9/8
+    $HOPOS["RB"]["guerrillaradio"] = 90;
+    $HOPOS["RB"]["originofthespecies"] = 90;
+
 ?>
