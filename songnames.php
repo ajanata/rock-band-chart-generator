@@ -1016,21 +1016,21 @@
     $NAMES["worldturning"] = "World Turning";
 
     # 9/1 9/8
-    $NAMES["andshewas.mid"] = "And She Was";
-    $NAMES["crosseyedandpainless.mid"] = "Crosseyed & Painless";
-    $NAMES["getready2rokk.mid"] = "Get Ready 2 Rokk";
-    $NAMES["girlfriendisbetter.mid"] = "Girlfriend Is Better";
-    $NAMES["goingunderground.mid"] = "Going Underground";
-    $NAMES["guerrillaradio.mid"] = "Guerilla Radio";
-    $NAMES["lesstalkmorerokk.mid"] = "Less Talk More Rokk";
-    $NAMES["onceinalifetime.mid"] = "Once In a Lifetime";
-    $NAMES["openingband.mid"] = "Opening Band";
-    $NAMES["originofthespecies.mid"] = "Origin of Species";
-    $NAMES["reyourbrains.mid"] = "Re: Your Brains";
-    $NAMES["sciencegeniusgirl.mid"] = "Science Genius Girl";
-    $NAMES["supersoniclive.mid"] = "Supersonic (Live)";
-    $NAMES["takemetotheriver.mid"] = "Take Me to the River";
-    $NAMES["towncalledmalice.mid"] = "A Town Called Malice";
+    $NAMES["andshewas"] = "And She Was";
+    $NAMES["crosseyedandpainless"] = "Crosseyed & Painless";
+    $NAMES["getready2rokk"] = "Get Ready 2 Rokk";
+    $NAMES["girlfriendisbetter"] = "Girlfriend Is Better";
+    $NAMES["goingunderground"] = "Going Underground";
+    $NAMES["guerrillaradio"] = "Guerilla Radio";
+    $NAMES["lesstalkmorerokk"] = "Less Talk More Rokk";
+    $NAMES["onceinalifetime"] = "Once In a Lifetime";
+    $NAMES["openingband"] = "Opening Band";
+    $NAMES["originofthespecies"] = "Origin of Species";
+    $NAMES["reyourbrains"] = "Re: Your Brains";
+    $NAMES["sciencegeniusgirl"] = "Science Genius Girl";
+    $NAMES["supersoniclive"] = "Supersonic (Live)";
+    $NAMES["takemetotheriver"] = "Take Me to the River";
+    $NAMES["towncalledmalice"] = "A Town Called Malice";
 
 
 ?>
