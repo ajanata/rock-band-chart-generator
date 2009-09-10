@@ -38,6 +38,7 @@ function parseFile($file, $game, $ignoreCache = false) {
     $game = strtoupper($game);
     
     $eventsTrack = $guitarTrack = $guitarCoopTrack = $bassTrack = $drumsTrack = $vocalsTrack = $beatTrack = 0;
+    $harm1Track = $harm2Track = 0;
     for ($i = 1; $i < $mid->getTrackCount(); $i++) {
         $temp = $mid->getMsg($i, 0);
         #echo substr($temp, 16) . "\n";
@@ -58,6 +59,12 @@ function parseFile($file, $game, $ignoreCache = false) {
         }
         if (substr($temp, 16) == "PART VOCALS\"") {
             $vocalsTrack = $i;
+        }
+        if (substr($temp, 16) == "PART HARM1\"") {
+            $harm1Track = $i;
+        }
+        if (substr($temp, 16) == "PART HARM2\"") {
+            $harm2Track = $i;
         }
         if (substr($temp, 16) == "EVENTS\"") {
             $eventsTrack = $i;
@@ -97,6 +104,7 @@ function parseFile($file, $game, $ignoreCache = false) {
     $vocals = ($game == "RB" ? array() : null);
 
     switch ($game) {
+        case "TBRB":
         case "RB":
             $hopoThreshold = $CONFIG["RB"]["hopo_threshold"];
             if (isset($HOPOS["RB"][$songname])) $hopoThreshold = $HOPOS["RB"][$songname];
@@ -111,12 +119,32 @@ function parseFile($file, $game, $ignoreCache = false) {
             $events["vocals"] = parsePhraseEvents($mid->getTrackTxt($vocalsTrack), $NOTES["RB"], true);
             
             $vocals = parseVocals($mid->getTrackTxt($vocalsTrack));
+            $harm1 = $harm2 = null;
+            if ($game == "TBRB") {
+                if ($harm1Track !=0 ) {
+                    $harm1 = parseVocals($mid->getTrackTxt($harm1Track);
+                    $events["harm1"] = parsePhraseEvents($mid->getTrackTxt($harm1Track), $NOTES["RB"], true);
+                }
+                if ($harm2Track !=0 ) {
+                    $harm2 = parseVocals($mid->getTrackTxt($harm2Track);
+                    $events["harm2"] = parsePhraseEvents($mid->getTrackTxt($harm2Track), $NOTES["RB"], true);
+                }
+            }
 
             list ($notetracks, $events) = applyEventsToNoteTracks($notetracks, $events, $timetrack);
             
             $beat = parseBeat($mid->getTrackTxt($beatTrack));
 
             $events["vocals"] = fixVocalEvents($vocals, $events["vocals"], $timetrack);
+
+            if ($game == "TBRB") {
+                if ($harm1Track !=0 ) {
+                    $events["harm1"] = fixVocalEvents($harm1, $events["harm1"], $timetrack);
+                }
+                if ($harm2Track !=0 ) {
+                    $events["harm2"] = fixVocalEvents($harm2, $events["harm2"], $timetrack);
+                }
+            }
             
             $endOfSong = max($notetracks["guitar"]["TrkEnd"], $notetracks["bass"]["TrkEnd"], $notetracks["drums"]["TrkEnd"],
                                 $vocals["TrkEnd"]);

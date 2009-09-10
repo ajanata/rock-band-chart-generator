@@ -1,6 +1,6 @@
 <?php
 
-    define('REVISION', 245);
+    define('REVISION', 247);
     
     /*
     global $REVISION;
@@ -73,6 +73,12 @@
     $CONFIG["RB"]["ticks_at_new_multi"] = false;            // check
     $CONFIG["RB"]["hopo_threshold"] = 170;              // pulses    
     
+
+    $CONFIG["TBRB"] = &$CONFIG["RB"];
+
+
+
+
 
     $NOTES["GH1"]["EASY"]["G"] = 60;
     $NOTES["GH1"]["EASY"]["R"] = 61;
@@ -181,6 +187,7 @@
     $NOTES["RB"]["MEDIUM"]["SOLO"] = $NOTES["RB"]["EXPERT"]["SOLO"];
     $NOTES["RB"]["HARD"]["SOLO"] = $NOTES["RB"]["EXPERT"]["SOLO"];
 
+    $NOTES["TBRB"] = &$NOTES["RB"];
     
     // notes 120-124 denote the free-fill sections (GRYBO -- they always seem identical to me)
     
