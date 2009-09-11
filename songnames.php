@@ -1061,7 +1061,7 @@
     $NAMES["imlookingthroughyou"] = "I'm Looking Through You";
     $NAMES["isawherstandingthere"] = "I Saw Her Standing There";
     $NAMES["ivegotafeeling"] = "I've Got a Feeling";
-    $NAMES["iwannabeyourman2"] = "I Wanna Be";
+    $NAMES["iwannabeyourman2"] = "I Wanna Be Your Man";
     $NAMES["iwanttoholdyourhand"] = "I Want to Hold Your Hand";
     $NAMES["iwantyou"] = "I Want You (She's So Heavy)";
     $NAMES["lucyinthesky"] = "Lucy in the Sky with Diamonds";

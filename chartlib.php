@@ -191,7 +191,7 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
         if ($do_vocals && ($game == "RB" || $game == "TBRB")) {
 	        // draw vocals measure
             drawMeasureBackground($im, $x, $y, $meas, $events_all["vocals"], $sections, "vocals", "expert", $game);
-            drawVocals($im, $x, $y, $meas, $vocals, $events_all["vocals"], $harm1, $events_all["harm1"], $harm2, $events_all["harm2"]);
+            drawVocals($im, $x, $y, $meas, $vocals, $events_all["vocals"], $harm1, (isset($events_all["harm1"]) ? $events_all["harm1"] : array()), $harm2, (isset($events_all["harm2"]) ? $events_all["harm2"] : array()));
             
             $y += 7 * (STAFFHEIGHT/2) + 55;
         }

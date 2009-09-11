@@ -30,6 +30,8 @@
     }
     
     function index_header($fhand, $title) {
+    	date_default_timezone_set('America/New_York');
+    	
         fwrite($fhand, "<html>\n<head>\n<title>Blank Charts for Rock Band and Rock Band 2 $title</title>\n</head>\n");
         fwrite($fhand, <<<EOT
 <body>

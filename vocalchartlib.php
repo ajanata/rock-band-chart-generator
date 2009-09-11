@@ -6,6 +6,10 @@ function drawVocals($im, $x, $y, $meas, $vox, $events, $harm1 = array(), $harm1E
 	static $leftovers;
 	// UGLY
 	// HAX
+	
+	if (!isset($harm1) && !is_array($harm1)) $harm1 = array();
+	if (!isset($harm2) && !is_array($harm2)) $harm2 = array();
+		
 	if ($meas["number"] == 1) {
 		$leftovers = array();
 		$leftovers["vox"] = array();
@@ -35,7 +39,7 @@ function drawVocals($im, $x, $y, $meas, $vox, $events, $harm1 = array(), $harm1E
             $nEX += $x;
             
             imagesetthickness($im, 2);
-            imageline($im, $x, $y + $leftovers["harm2"]["where"], $nEX, $y + $leftovers["harm2"]["where"], $yellow);
+            imageline($im, $x, $y + $leftovers["harm2"]["where"], $nEX, $y + $leftovers["harm2"]["where"], $red);
             
             $leftovers["harm2"] = array();
         }

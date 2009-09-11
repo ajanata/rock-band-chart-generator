@@ -22,7 +22,7 @@
     if (isset($argv[1]) && $argv[1] == "--version") do_version();
 
     if (!isset($argv[1]) && $argv[1] != "rb" && $argv[1] != "tbrb") die ("specify rb or tbrb on command line");
-    $dir = $argv[1];
+    $game = $argv[1];
 
     $files = array();
     
@@ -47,6 +47,10 @@
 
     if (!file_exists(OUTDIR . $game . "/guitarbass")) {
         if (!mkdir(OUTDIR . $game . "/guitarbass", 0777, true)) die("Unable to create output directory " . OUTDIR . $game . "/guitarbass\n");
+    }
+    
+    if (!file_exists(OUTDIR . $game . "/vocalbass")) {
+        if (!mkdir(OUTDIR . $game . "/vocalbass", 0777, true)) die("Unable to create output directory " . OUTDIR . $game . "/vocalbass\n");
     }
 
     if (!file_exists(OUTDIR . $game . "/guitardrums")) {
@@ -138,7 +142,7 @@ EOT
     	    }
           	else {
                 $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /* guitar */ true,
-                       /* bass*/ true, /* drums */ true, /* vocals */ true, $realname, $beat, $harm1, $harm2);
+                       /* bass*/ true, /* drums */ true, /* vocals */ true, $realname, $beat, 0, $harm1, $harm2);
                 imagepng($im, OUTDIR . $game . "/fullband/" . $shortname . "_fullband_" . $diff . "_blank.png");
                 imagedestroy($im);
                 
