@@ -1031,6 +1031,56 @@
     $NAMES["supersoniclive"] = "Supersonic (Live)";
     $NAMES["takemetotheriver"] = "Take Me to the River";
     $NAMES["towncalledmalice"] = "A Town Called Malice";
+    
+    # Beatles
+    $NAMES["aharddaysnight"] = "A Hard Day's Night";
+    $NAMES["andyourbirdcansing"] = "And Your Bird Can Sing";
+    $NAMES["backintheussr"] = "Back in the U.S.S.R.";
+    $NAMES["birthday"] = "Birthday";
+    $NAMES["boys"] = "Boys";
+    $NAMES["cantbuymelove"] = "Can't Buy Me Love";
+    $NAMES["cometogether"] = "Come Together";
+    $NAMES["daytripper"] = "Day Tripper";
+    $NAMES["dearprudence"] = "Dear Prudence";
+    $NAMES["digapony"] = "Dig a Pony";
+    $NAMES["dontletmedown"] = "Don't Let Me Down";
+    $NAMES["doyouwanttoknowasecret"] = "Do You Want to Know a Secret";
+    $NAMES["drivemycar"] = "Drive My Car";
+    $NAMES["eightdaysaweek"] = "Eight Days a Week";
+    $NAMES["getback"] = "Get Back";
+    $NAMES["gettingbetter"] = "Getting Better";
+    $NAMES["goodmorning"] = "Good Morning Good Morning";
+    $NAMES["hellogoodbye"] = "Hello Goodbye";
+    $NAMES["helterskelter"] = "Helter Skelter";
+    $NAMES["herecomesthesun"] = "Here Comes the Sun";
+    $NAMES["heybulldog"] = "Hey Bulldog";
+    $NAMES["iamthewalrus"] = "I Am the Walrus";
+    $NAMES["ifeelfine"] = "I Feel Fine";
+    $NAMES["ifineededsomeone"] = "If I Needed Someone";
+    $NAMES["imemine"] = "I Me Mine";
+    $NAMES["imlookingthroughyou"] = "I'm Looking Through You";
+    $NAMES["isawherstandingthere"] = "I Saw Her Standing There";
+    $NAMES["ivegotafeeling"] = "I've Got a Feeling";
+    $NAMES["iwannabeyourman2"] = "I Wanna Be";
+    $NAMES["iwanttoholdyourhand"] = "I Want to Hold Your Hand";
+    $NAMES["iwantyou"] = "I Want You (She's So Heavy)";
+    $NAMES["lucyinthesky"] = "Lucy in the Sky with Diamonds";
+    $NAMES["octopusgarden"] = "Octopus's Garden";
+    $NAMES["paperbackwriter"] = "Paperback Writer";
+    $NAMES["revolution"] = "Revolution";
+    $NAMES["sgtpepperlittlehelp"] = "Sgt. Pepper's Lonely Hearts Club Band";
+    $NAMES["something"] = "Something";
+    $NAMES["taxman"] = "Taxman";
+    $NAMES["theend"] = "The End";
+    $NAMES["tickettoride"] = "Ticket to Ride";
+    $NAMES["tomorrowwithin"] = "Within You Without You / Tomorrow Never Knows";
+    $NAMES["twistandshout"] = "Twist and Shout";
+    $NAMES["whilemyguitargentlyweeps"] = "While My Guitar Gently Weeps";
+    $NAMES["yellowsubmarine"] = "Yellow Submarine";
+
+    # 9/9
+    $NAMES["allyouneedislove"] = "All You Need is Love";
+
 
 
 ?>

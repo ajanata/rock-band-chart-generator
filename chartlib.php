@@ -9,10 +9,12 @@
  
 
 function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals, $diff, $game,
-    $do_guitar, $do_bass, $do_drums, $do_vocals, $songname, $beat, $shift_down = 0) {
+    $do_guitar, $do_bass, $do_drums, $do_vocals, $songname, $beat, $shift_down = 0, $harm1 = array(), $harm2 = array()) {
     
     global $NAMES, $APICOLORS;
 	$APICOLORS = array();
+	
+	date_default_timezone_set("America/New_York");
 	
     $game = strtoupper($game);
 	
@@ -75,6 +77,8 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
  	global $black; $black = imagecolorallocate($im, 0, 0, 0);
 	global $red; $red = imagecolorallocate($im, 255, 0, 0);
 	global $gray; $gray = imagecolorallocate($im, 134, 134, 134);
+	global $orange; $orange = imagecolorallocate($im, 255, 127, 0);
+	global $yellow; $yellow = imagecolorallocate($im, 253, 233, 16);
 
 	global $downbeatline; $downbeatline = imagecolorallocate($im, 150, 150, 150);
 	global $upbeatline; $upbeatline = imagecolorallocate($im, 224, 224, 224);
@@ -107,9 +111,9 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
     $noteColors = array();
     $noteColors[] = imagecolorallocate($im, 0, 192, 0);
     $noteColors[] = &$red; //imagecolorallocate($im, 255, 0, 0);
-    $noteColors[] = imagecolorallocate($im, 253, 233, 16);
+    $noteColors[] = &$yellow;
     $noteColors[] = &$blue;
-    $noteColors[] = imagecolorallocate($im, 255, 127, 0);
+    $noteColors[] = &$orange;
     $silver = imagecolorallocate($im, 168, 168, 168);
     $lightsilver = imagecolorallocate($im, 212, 212, 212);
     
@@ -146,7 +150,7 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
 	imagefilledrectangle($im, WIDTH-185, 0, WIDTH, 15 + SHOWFORCED*15 + DRAWPLAYERLINES*15, $silver);
     imagestring($im, 3, WIDTH-180, 0, "Color Key", $black);
     imagestring($im, 3, WIDTH-110, 0, "Phrase", $phrase);
-    if ($game == "RB" ) {
+    if ($game == "RB" || $game == "TBRB") {
         imagestring($im, 3, WIDTH-64, 0, "Solo", $solo);
         imagestring($im, 3, WIDTH-30, 0, "Fill", $fill);
         if (SHOWFORCED) {
@@ -184,10 +188,10 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
 	    
 	    $measScore = 0;
 	    
-        if ($do_vocals && $game == "RB") {
+        if ($do_vocals && ($game == "RB" || $game == "TBRB")) {
 	        // draw vocals measure
             drawMeasureBackground($im, $x, $y, $meas, $events_all["vocals"], $sections, "vocals", "expert", $game);
-            drawVocals($im, $x, $y, $meas, $vocals, $events_all["vocals"]);
+            drawVocals($im, $x, $y, $meas, $vocals, $events_all["vocals"], $harm1, $events_all["harm1"], $harm2, $events_all["harm2"]);
             
             $y += 7 * (STAFFHEIGHT/2) + 55;
         }
@@ -211,7 +215,7 @@ function makeChart($notetracks, $measures_all, $timetrack, $events_all, $vocals,
             
             $measScore += ($game == "RB" ? 6 : 4) * $measures_all["bass"][$index]["mscore"][$diff];
         }
-        if ($do_drums && $game == "RB") {
+        if ($do_drums && ($game == "RB" || $game == "TBRB")) {
             // draw drums measure
             drawMeasureBackground($im, $x, $y, $measures_all["drums"][$index], $events_all["drums"], $sections, /*"drums"*/ "drums", $diff, $game);
             drawMeasureNotes($im, $x, $y, $measures_all["drums"][$index], $notetracks["drums"][$diff], $game, /*"drums"*/ "drums", $diff);
@@ -860,7 +864,7 @@ function drawNote($im, $x, $y, $meas, $note, $game, $drums = false) {
             
             $drawColor = 0;
             
-            if (strtolower($game) == "rb") {
+            if (strtolower($game) == "rb" || strtolower($game) == "tbrb") {
                 if ($note["phrase"] != 0) {
                     // OD phrase, so make it silver
                     $drawColor = $silver;

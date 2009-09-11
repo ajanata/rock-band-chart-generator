@@ -10,7 +10,7 @@ require_once 'classes/midi.class.php';
 require_once 'songnames.php';
 
 
-// returns (songname, events[guitar...vocals], timetrack, measures[guitar...drums]notes[easy...expert], notetracks[guitar...drums][easy...expert], vocals, beat)
+// returns (songname, events[guitar...vocals], timetrack, measures[guitar...drums]notes[easy...expert], notetracks[guitar...drums][easy...expert], vocals, beat, harm1, harm2)
 // measures has one or more of guitar, coop, bass, drums.
 // vocals will be null if not rock band
 function parseFile($file, $game, $ignoreCache = false) {
@@ -121,12 +121,12 @@ function parseFile($file, $game, $ignoreCache = false) {
             $vocals = parseVocals($mid->getTrackTxt($vocalsTrack));
             $harm1 = $harm2 = null;
             if ($game == "TBRB") {
-                if ($harm1Track !=0 ) {
-                    $harm1 = parseVocals($mid->getTrackTxt($harm1Track);
+                if ($harm1Track != 0) {
+                    $harm1 = parseVocals($mid->getTrackTxt($harm1Track));
                     $events["harm1"] = parsePhraseEvents($mid->getTrackTxt($harm1Track), $NOTES["RB"], true);
                 }
-                if ($harm2Track !=0 ) {
-                    $harm2 = parseVocals($mid->getTrackTxt($harm2Track);
+                if ($harm2Track != 0) {
+                    $harm2 = parseVocals($mid->getTrackTxt($harm2Track));
                     $events["harm2"] = parsePhraseEvents($mid->getTrackTxt($harm2Track), $NOTES["RB"], true);
                 }
             }
@@ -138,10 +138,10 @@ function parseFile($file, $game, $ignoreCache = false) {
             $events["vocals"] = fixVocalEvents($vocals, $events["vocals"], $timetrack);
 
             if ($game == "TBRB") {
-                if ($harm1Track !=0 ) {
+                if ($harm1Track != 0) {
                     $events["harm1"] = fixVocalEvents($harm1, $events["harm1"], $timetrack);
                 }
-                if ($harm2Track !=0 ) {
+                if ($harm2Track != 0) {
                     $events["harm2"] = fixVocalEvents($harm2, $events["harm2"], $timetrack);
                 }
             }
@@ -198,12 +198,12 @@ function parseFile($file, $game, $ignoreCache = false) {
     if (!$ignoreCache) {
         $cache = fopen($file . ".parsecache", 'w');
         if ($cache) {
-            fwrite($cache, serialize(array($timebase, array($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat))));
+            fwrite($cache, serialize(array($timebase, array($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat, $harm1, $harm2))));
         }
         fclose($cache);
     }
 
-    return array($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat);
+    return array($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat, $harm1, $harm2);
 }
 
 

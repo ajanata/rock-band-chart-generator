@@ -21,11 +21,13 @@
     if (isset($argv[1]) && $argv[1] == "--help") do_help();
     if (isset($argv[1]) && $argv[1] == "--version") do_version();
 
+    if (!isset($argv[1]) && $argv[1] != "rb" && $argv[1] != "tbrb") die ("specify rb or tbrb on command line");
+    $dir = $argv[1];
 
     $files = array();
     
-    $dir = opendir(MIDIPATH . "rb/");
-    if ($dir === false) die("Unable to open directory " . MIDIPATH . "rb/ for reading.\n");
+    $dir = opendir(MIDIPATH . $game . "/");
+    if ($dir === false) die("Unable to open directory " . MIDIPATH . $game . "/ for reading.\n");
     while (false !== ($file = readdir($dir))) {
         if ($file == "." || $file == "..") continue;
         if (substr($file, -11) == ".parsecache") continue;
@@ -39,16 +41,16 @@
         
     umask(0);
     
-    if (!file_exists(OUTDIR . "rb/fullband")) {
-        if (!mkdir(OUTDIR . "rb/fullband", 0777, true)) die("Unable to create output directory " . OUTDIR . "rb/fullband\n");
+    if (!file_exists(OUTDIR . $game . "/fullband")) {
+        if (!mkdir(OUTDIR . $game . "/fullband", 0777, true)) die("Unable to create output directory " . OUTDIR . $game . "/fullband\n");
     }
 
-    if (!file_exists(OUTDIR . "rb/guitarbass")) {
-        if (!mkdir(OUTDIR . "rb/guitarbass", 0777, true)) die("Unable to create output directory " . OUTDIR . "rb/guitarbass\n");
+    if (!file_exists(OUTDIR . $game . "/guitarbass")) {
+        if (!mkdir(OUTDIR . $game . "/guitarbass", 0777, true)) die("Unable to create output directory " . OUTDIR . $game . "/guitarbass\n");
     }
 
-    if (!file_exists(OUTDIR . "rb/guitardrums")) {
-        if (!mkdir(OUTDIR . "rb/guitardrums", 0777, true)) die("Unable to create output directory " . OUTDIR . "rb/guitardrums\n");
+    if (!file_exists(OUTDIR . $game . "/guitardrums")) {
+        if (!mkdir(OUTDIR . $game . "/guitardrums", 0777, true)) die("Unable to create output directory " . OUTDIR . $game . "/guitardrums\n");
     }
 
 
@@ -56,24 +58,24 @@
     $idx = array();
     
     $idx["fullband"] = null;
-    if (false === ($idx["fullband"] = fopen(OUTDIR . "rb/fullband/index.html", "w"))) {
-        die("Unable to open file " . OUTDIR . "rb/fullband/index.html for writing.\n");
+    if (false === ($idx["fullband"] = fopen(OUTDIR . $game . "/fullband/index.html", "w"))) {
+        die("Unable to open file " . OUTDIR . $game . "/fullband/index.html for writing.\n");
     }
 
     $idx["guitardrums"] = null;
-    if (false === ($idx["guitardrums"] = fopen(OUTDIR . "rb/guitardrums/index.html", "w"))) {
-        die("Unable to open file " . OUTDIR . "rb/guitardrums/index.html for writing.\n");
+    if (false === ($idx["guitardrums"] = fopen(OUTDIR . $game . "/guitardrums/index.html", "w"))) {
+        die("Unable to open file " . OUTDIR . $game . "/guitardrums/index.html for writing.\n");
     }
     
     $idx["guitarbass"] = array();
     $idx["guitarbass"]["idx"] = null;
-    if (false === ($idx["guitarbass"]["idx"] = fopen(OUTDIR . "rb/guitarbass/index.html", "w"))) {
-        die("Unable to open file " . OUTDIR . "rb/guitarbass/index.html for writing.\n");
+    if (false === ($idx["guitarbass"]["idx"] = fopen(OUTDIR . $game . "/guitarbass/index.html", "w"))) {
+        die("Unable to open file " . OUTDIR . $game . "/guitarbass/index.html for writing.\n");
     }    
     foreach ($DIFFICULTIES as $diff) {
         $idx["guitarbass"][$diff] = null;
-        if (false === ($idx["guitarbass"][$diff] = fopen(OUTDIR . "rb/guitarbass/index_" . $diff . ".html", "w"))) {
-            die("Unable to open file " . OUTDIR . "rb/guitarbass/index_" . $diff . "_.html for writing.\n");
+        if (false === ($idx["guitarbass"][$diff] = fopen(OUTDIR . $game . "/guitarbass/index_" . $diff . ".html", "w"))) {
+            die("Unable to open file " . OUTDIR . $game . "/guitarbass/index_" . $diff . "_.html for writing.\n");
         }
     }
     
@@ -118,7 +120,7 @@ EOT
         $shortname = substr($file, 0, strlen($file) - 4);
         echo "File " . ($i + 1) . " of " . count($files) . " ($shortname) [parsing]";
         
-    	list ($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat) = parseFile(MIDIPATH . "rb/" . $file, "rb");
+    	list ($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat, $harm1, $harm2) = parseFile(MIDIPATH . $game . "/" . $file, $game);
     	if ($CACHED) echo " [cached]";
     	    	
     	$realname = (isset($NAMES[$songname]) ? $NAMES[$songname] : $songname);
@@ -135,9 +137,9 @@ EOT
         	   echo " {cached}";
     	    }
           	else {
-                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ true,
-                       /* bass*/ true, /* drums */ true, /* vocals */ true, $realname, $beat);
-                imagepng($im, OUTDIR . "rb/fullband/" . $shortname . "_fullband_" . $diff . "_blank.png");
+                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /* guitar */ true,
+                       /* bass*/ true, /* drums */ true, /* vocals */ true, $realname, $beat, $harm1, $harm2);
+                imagepng($im, OUTDIR . $game . "/fullband/" . $shortname . "_fullband_" . $diff . "_blank.png");
                 imagedestroy($im);
                 
                 $cache[$shortname]["fullband"][$diff]["version"] = CHARTVERSION+DRUMSVERMOD;
@@ -166,9 +168,9 @@ EOT
                 // have to re-generate the chart and get all the numbers and stuff
 
             
-                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ true,
+                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /* guitar */ true,
                        /* bass*/ true, /* drums */ false, /* vocals */ false, $realname, $beat);
-                imagepng($im, OUTDIR . "rb/guitarbass/" . $shortname . "_guitarbass_" . $diff . "_blank.png");
+                imagepng($im, OUTDIR . $game . "/guitarbass/" . $shortname . "_guitarbass_" . $diff . "_blank.png");
                 imagedestroy($im);
 
                 // ugly score kludges
@@ -228,9 +230,9 @@ EOT
         	   echo " {cached}";
     	    }
           	else {
-                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, "rb", /* guitar */ true,
+                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /* guitar */ true,
                        /* bass*/ false, /* drums */ true, /* vocals */ false, $realname, $beat);
-                imagepng($im, OUTDIR . "rb/guitardrums/" . $shortname . "_guitardrums_" . $diff . "_blank.png");
+                imagepng($im, OUTDIR . $game . "/guitardrums/" . $shortname . "_guitardrums_" . $diff . "_blank.png");
                 imagedestroy($im);
                 
                 $cache[$shortname]["guitardrums"][$diff]["version"] = CHARTVERSION+DRUMSVERMOD;

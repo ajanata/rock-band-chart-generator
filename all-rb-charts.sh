@@ -1,6 +1,6 @@
 #!/bin/sh
 
-php rockband-narrowcharts.php
-php rockband-widecharts.php
-php rockband-csvstuff.php
+php rockband-narrowcharts.php rb
+php rockband-widecharts.php rb
+php rockband-csvstuff.php rb
 

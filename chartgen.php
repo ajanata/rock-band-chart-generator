@@ -3,9 +3,9 @@
     define("DRAWPULSES", false);
     define("SHOWFORCED", false);
 
-	define("WIDTH", 1024);
+	define("WIDTH", 1024 /*2000*/);
 	define("BPMPRECISION", 1);
-	define("PXPERBEAT", /*70*/ 45 /*275*/);
+	define("PXPERBEAT", /*70*/ 45 /*275*/ /*480*/);
 	define("STAFFHEIGHT", 12);
 	define("DRAWPLAYERLINES", 0);
 
@@ -33,8 +33,8 @@
 	}
 	//global $game;
 	$game = strtolower($_GET["game"]);
-	if (!($game == "gh1" || $game == "gh2" || $game == "gh3" || $game == "rb" || $game == "ghot")) {
-	   die("Invalid game -- specify one of gh1, gh2, gh3, ghot, or rb.");
+	if (!($game == "gh1" || $game == "gh2" || $game == "gh3" || $game == "rb" || $game == "ghot" || $game == "tbrb")) {
+	   die("Invalid game -- specify one of gh1, gh2, gh3, ghot, tbrb, or rb.");
 	}
 	
 	
@@ -56,10 +56,10 @@
 	// call to makeChart here
 	
 	
-	list ($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat) = parseFile("mids/" . $game . "/" . $file . ".mid", $game, true);
+	list ($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat, $harm1, $harm2) = parseFile("mids/" . $game . "/" . $file . ".mid", $game, true);
 	
 	$im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, isset($_GET["guitar"]),
-           isset($_GET["bass"]), isset($_GET["drums"]), isset($_GET["vocals"]), (isset($NAMES[$file]) ? $NAMES[$file] : $file), $beat);
+           isset($_GET["bass"]), isset($_GET["drums"]), isset($_GET["vocals"]), (isset($NAMES[$file]) ? $NAMES[$file] : $file), $beat, 0, $harm1, $harm2);
 
 	
 	header("Content-type: image/png");

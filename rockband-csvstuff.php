@@ -1,7 +1,7 @@
 <?php
 
 	define("MIDIPATH", "mids/");
-	define("OUTDIR", "charts/rb/");
+	define("OUTDIR", "charts/");
 
 	require_once "parselib.php";
 	require_once "notevalues.php";
@@ -12,10 +12,12 @@
     if (isset($argv[1]) && $argv[1] == "--help") do_help();
     if (isset($argv[1]) && $argv[1] == "--version") do_version();
 
+    if (!isset($argv[1]) && $argv[1] != "rb" && $argv[1] != "tbrb") die ("specify rb or tbrb on command line");
+    $game = $argv[1];
 
     $files = array();
     
-    $dir = opendir(MIDIPATH . "rb/");
+    $dir = opendir(MIDIPATH . $game . "/");
     while (false !== ($file = readdir($dir))) {
         if ($file == "." || $file == "..") continue;
         if (substr($file, -11) == ".parsecache") continue;
@@ -25,30 +27,30 @@
         $files[] = $file;
     }
     
-    $dir = opendir(MIDIPATH . "rb/");
-    if ($dir === false) die("Unable to open directory " . MIDIPATH . "rb/ for reading.\n");
+    $dir = opendir(MIDIPATH . $game . "/");
+    if ($dir === false) die("Unable to open directory " . MIDIPATH . $game . "/ for reading.\n");
     
     umask(0);
     
-    if (!file_exists(OUTDIR . "csv-scores/")) {
-        if (!mkdir(OUTDIR . "csv-scores/", 0777, true)) die("Unable to create output directory " . OUTDIR . "csv-scores/\n");
+    if (!file_exists(OUTDIR . $game . "csv-scores/")) {
+        if (!mkdir(OUTDIR . $game . "csv-scores/", 0777, true)) die("Unable to create output directory " . OUTDIR . $game . "csv-scores/\n");
     }
     
     
     $idx = array();
     $idx["fullband"] = null;
-    if (false === ($idx["fullband"] = fopen(OUTDIR . "csv-scores/index.html", "w"))) {
-        die("Unable to open file " . OUTDIR . "index.html for writing.\n");
+    if (false === ($idx["fullband"] = fopen(OUTDIR . $game . "csv-scores/index.html", "w"))) {
+        die("Unable to open file " . OUTDIR . $game . "index.html for writing.\n");
     }
 
     $idx["stuff"] = null;
-    if (false === ($idx["stuff"] = fopen(OUTDIR . "useful_stuff.csv", "w"))) {
-        die("Unable to open file " . OUTDIR . "useful_stuff.csv for writing.\n");
+    if (false === ($idx["stuff"] = fopen(OUTDIR . $game . "useful_stuff.csv", "w"))) {
+        die("Unable to open file " . OUTDIR . $game . "useful_stuff.csv for writing.\n");
     }
     
     $idx["bonuses"] = null;
-    if (false === ($idx["bonuses"] = fopen(OUTDIR . "bonuses.csv", "w"))) {
-        die("Unable to open file " . OUTDIR . "bonuses.csv for writing.\n");
+    if (false === ($idx["bonuses"] = fopen(OUTDIR . $game . "bonuses.csv", "w"))) {
+        die("Unable to open file " . OUTDIR . $game . "bonuses.csv for writing.\n");
     }
 
     
@@ -66,7 +68,7 @@
         $shortname = substr($file, 0, strlen($file) - 4);
         echo "File " . ($i + 1) . " of " . count($files) . " ($shortname) [parsing]";
         
-    	list ($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat) = parseFile(MIDIPATH . "rb/" . $file, "rb");
+    	list ($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat, $harm1, $harm2) = parseFile(MIDIPATH . $game . "/" . $file, $game);
     	if ($CACHED) echo " [cached]";
     	    	
     	$realname = (isset($NAMES[$songname]) ? $NAMES[$songname] : $songname);
@@ -80,8 +82,8 @@
             echo " ($diff)";
 
             $csv = null;
-            if (false === ($csv = fopen(OUTDIR . "csv-scores/" . $shortname . "_fullband_" . $diff . "_scores.csv", "w"))) {
-                die("Unable to open file " . OUTDIR . "csv-scores/" . $shortname . "_fullband_" . $diff . "_scores.csv for writing.\n");
+            if (false === ($csv = fopen(OUTDIR . $game . "csv-scores/" . $shortname . "_fullband_" . $diff . "_scores.csv", "w"))) {
+                die("Unable to open file " . OUTDIR . $game . "csv-scores/" . $shortname . "_fullband_" . $diff . "_scores.csv for writing.\n");
             }
             
             fwrite($csv, "meas,vocals,guitar,bass,drums,base,,vocals mult,guitar mult,bass mult,drums mult,mult,16 BEAT,24 BEAT,32 BEAT\n");

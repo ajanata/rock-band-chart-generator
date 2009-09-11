@@ -41,9 +41,9 @@ EOT
 </p>
 <p>Significant changes recently:
 <ul>
-<li>Trying to stop falling several weeks behind at a time.</li>
-<li>Added vocalbass charts. I may add bassdrum charts in the coming weeks.</li>
+<li>Added The Beatles: Rock Band charts. Includes support for vocal harmonies, though it's rather ugly.</li>
 </ul></p>
+<p><a href="http://rockband.scorehero.com/images/notecharts/contrib/ajanata/">Rock Band 1/2 and DLC charts</a> <a href="http://rockband.scorehero.com/images/notecharts/contrib/ajanata/tbrb/">The Beatles: Rock Band and DLC charts</a></p>
 <p>These charts are blank. They have not been verified against the game and may be faulty. If you see something horribly wrong please <a href="http://rockband.scorehero.com/forum/privmsg.php?mode=post&u=52545">send me a message</a> on ScoreHero. Relevant discussion threads for <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=4773">drums/drums+vocals</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=5062">guitar/bass/guitar+bass</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7625">vocals</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7626">vocaltar</a>, and <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7627">full band</a>.</p>
 <p>They are in alphabetical order by .mid file name (this normally doesn't mean anything, but "the" is often left out). Probably easier to find a song this way anyway.</p>
 <p>Solo note counts and estimated upperbound Big Rock Ending bonuses listed above where the solo or ending ends. To the bottom right of each measure are numbers relating to that measure. Black is the measure score (no multiplier taken into account). Red is the cumulative score to that point (with multipliers) without solo bonuses. Green (on guitar parts only) is cumulative score to that point counting solo bonuses. Blue is the number of whammy beats (no early whammy taken into account) in that measure. Between groups of lines on multiple-instrument parts is the band measure score. This score currently does not take vocals into account, and assumes that every instrument is always at the maximum multiplier. I intend on making this better at some point, but even just having this makes pathing easier.</p>
