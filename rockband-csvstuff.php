@@ -32,25 +32,25 @@
     
     umask(0);
     
-    if (!file_exists(OUTDIR . $game . "csv-scores/")) {
-        if (!mkdir(OUTDIR . $game . "csv-scores/", 0777, true)) die("Unable to create output directory " . OUTDIR . $game . "csv-scores/\n");
+    if (!file_exists(OUTDIR . $game . "/csv-scores/")) {
+        if (!mkdir(OUTDIR . $game . "/csv-scores/", 0777, true)) die("Unable to create output directory " . OUTDIR . $game . "/csv-scores/\n");
     }
     
     
     $idx = array();
     $idx["fullband"] = null;
-    if (false === ($idx["fullband"] = fopen(OUTDIR . $game . "csv-scores/index.html", "w"))) {
-        die("Unable to open file " . OUTDIR . $game . "index.html for writing.\n");
+    if (false === ($idx["fullband"] = fopen(OUTDIR . $game . "/csv-scores/index.html", "w"))) {
+        die("Unable to open file " . OUTDIR . $game . "/csv-scores/index.html for writing.\n");
     }
 
     $idx["stuff"] = null;
-    if (false === ($idx["stuff"] = fopen(OUTDIR . $game . "useful_stuff.csv", "w"))) {
-        die("Unable to open file " . OUTDIR . $game . "useful_stuff.csv for writing.\n");
+    if (false === ($idx["stuff"] = fopen(OUTDIR . $game . "/useful_stuff.csv", "w"))) {
+        die("Unable to open file " . OUTDIR . $game . "/useful_stuff.csv for writing.\n");
     }
     
     $idx["bonuses"] = null;
-    if (false === ($idx["bonuses"] = fopen(OUTDIR . $game . "bonuses.csv", "w"))) {
-        die("Unable to open file " . OUTDIR . $game . "bonuses.csv for writing.\n");
+    if (false === ($idx["bonuses"] = fopen(OUTDIR . $game . "/bonuses.csv", "w"))) {
+        die("Unable to open file " . OUTDIR . $game . "/bonuses.csv for writing.\n");
     }
 
     
@@ -82,8 +82,8 @@
             echo " ($diff)";
 
             $csv = null;
-            if (false === ($csv = fopen(OUTDIR . $game . "csv-scores/" . $shortname . "_fullband_" . $diff . "_scores.csv", "w"))) {
-                die("Unable to open file " . OUTDIR . $game . "csv-scores/" . $shortname . "_fullband_" . $diff . "_scores.csv for writing.\n");
+            if (false === ($csv = fopen(OUTDIR . $game . "/csv-scores/" . $shortname . "_fullband_" . $diff . "_scores.csv", "w"))) {
+                die("Unable to open file " . OUTDIR . $game . "/csv-scores/" . $shortname . "_fullband_" . $diff . "_scores.csv for writing.\n");
             }
             
             fwrite($csv, "meas,vocals,guitar,bass,drums,base,,vocals mult,guitar mult,bass mult,drums mult,mult,16 BEAT,24 BEAT,32 BEAT\n");
