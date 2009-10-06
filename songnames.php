@@ -1028,7 +1028,7 @@
     $NAMES["originofthespecies"] = "Origin of Species";
     $NAMES["reyourbrains"] = "Re: Your Brains";
     $NAMES["sciencegeniusgirl"] = "Science Genius Girl";
-    $NAMES["supersoniclive"] = "Supersonic (Live)";
+    $NAMES["supersoniclive"] = "Supersonic (Live) (Oasis)";
     $NAMES["takemetotheriver"] = "Take Me to the River";
     $NAMES["towncalledmalice"] = "A Town Called Malice";
     
@@ -1071,7 +1071,7 @@
     $NAMES["sgtpepperlittlehelp"] = "Sgt. Pepper's Lonely Hearts Club Band";
     $NAMES["something"] = "Something";
     $NAMES["taxman"] = "Taxman";
-    $NAMES["theend"] = "The End";
+    $NAMES["theend"] = "The End (The Beatles)";
     $NAMES["tickettoride"] = "Ticket to Ride";
     $NAMES["tomorrowwithin"] = "Within You Without You / Tomorrow Never Knows";
     $NAMES["twistandshout"] = "Twist and Shout";
@@ -1081,6 +1081,52 @@
     # 9/9
     $NAMES["allyouneedislove"] = "All You Need is Love";
 
+	# 9/8 9/15 9/22 9/29 10/6
+	$NAMES["abc"] = "ABC";
+	$NAMES["alookinginview"] = "A Looking in View";
+	$NAMES["amongstthewaves"] = "Amongst the Waves";
+	$NAMES["batcountry"] = "Bat Country";
+	$NAMES["checkmybrain"] = "Check My Brain";
+	$NAMES["danceepidemic"] = "Dance Epidemic";
+	$NAMES["diaryofjane"] = "The Diary of Jane";
+	$NAMES["forceofnature"] = "Force of Nature";
+	$NAMES["gasoline"] = "Gasoline";
+	$NAMES["gaybar"] = "Gay Bar";
+	$NAMES["gonnaseemyfriend"] = "Gonna See My Friend";
+	$NAMES["gotsome"] = "Got Some";
+	$NAMES["handlebars"] = "Handlebars";
+	$NAMES["handmedownworld"] = "Hand Me Down World";
+	$NAMES["headoverfeet"] = "Head Over Feet";
+	$NAMES["heydude"] = "Hey Dude";
+	$NAMES["idontlikeyou"] = "I Don't Like You";
+	$NAMES["ironic"] = "Ironic";
+	$NAMES["iwillnotbow"] = "I Will Not Bow";
+	$NAMES["johnnyguitar"] = "Johnny Guitar";
+	$NAMES["justbreathe"] = "Just Breathe";
+	$NAMES["knightonthetown"] = "Knight on the Town";
+	$NAMES["kryptonite"] = "Kryptonite";
+	$NAMES["manyshadesofblack"] = "Many Shades of Black";
+	$NAMES["metalonmetal"] = "Metal on Metal";
+	$NAMES["missmurder"] = "Miss Murder";
+	$NAMES["noexcuses"] = "No Excuses";
+	$NAMES["notime"] = "No Time";
+	$NAMES["pickmeup"] = "Pick Me Up";
+	$NAMES["rockyoursocks"] = "Rock Your Socks";
+	$NAMES["rooster"] = "Rooster";
+	$NAMES["saluteyoursolution"] = "Salute Your Solution";
+	$NAMES["sixsixsix"] = "666";
+	$NAMES["socold"] = "So Cold";
+	$NAMES["speedofsound"] = "Speed of Sound";
+	$NAMES["steadyasshegoes"] = "Steady, As She Goes";
+	$NAMES["supersonic"] = "Supersonic (Pearl Jam)";
+	$NAMES["theend2"] = "The End (Pearl Jam)";
+	$NAMES["thefixer"] = "The Fixer";
+	$NAMES["thewagon"] = "The Wagon";
+	$NAMES["thisisthirteen"] = "This is Thirteen";
+	$NAMES["tribute"] = "Tribute";
+	$NAMES["unthoughtknown"] = "Unthought Known";
+	$NAMES["usuck"] = "U Suck";
+	$NAMES["would"] = "Would?";
 
 
 ?>

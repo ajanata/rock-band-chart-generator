@@ -119,5 +119,10 @@
     # 9/1 9/8
     $HOPOS["RB"]["guerrillaradio"] = 90;
     $HOPOS["RB"]["originofthespecies"] = 90;
+    
+    # 9/8 9/15 9/22 9/29 10/6
+    $HOPOS["RB"]["would"] = 90;
+    $HOPOS["RB"]["handmedownworld"] = 90;
+    $HOPOS["RB"]["headoverfeet"] = 90;
 
 ?>
