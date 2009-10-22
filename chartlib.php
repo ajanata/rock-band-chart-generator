@@ -802,7 +802,7 @@ function drawMeasureNotes($im, $x, $y, $meas, $notes, $game, $inst, $diff) {
 	if ($whammies > 0 || isset($meas["whammy"][$diff])) {
 	   $whammies = round($whammies, 3);
 	   if (isset($meas["whammy"][$diff])) $whammies = $meas["whammy"][$diff];
-	   $whammies .= " " . ($game == "RB" ? "OD" : "SP");
+	   $whammies .= " " . (($game == "RB" || $game == "TBRB") ? "OD" : "SP");
 	   imagestring($im, 2, $x + (PXPERBEAT * $meas["num"] * 4 / $meas["denom"]) - (strlen($whammies) * 6), $y + (STAFFHEIGHT*(4-($game == "GHOT"))) + 20, $whammies, $whammy);
 	}
 }

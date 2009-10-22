@@ -43,7 +43,8 @@ EOT
 </p>
 <p>Significant changes recently:
 <ul>
-<li>Added The Beatles: Rock Band charts. Includes support for vocal harmonies, though it's rather ugly.</li>
+<li>I had some difficulties extracting the .mids for Abbey Road. I know hermajesty.mid was entirely worthless. There may be some issues with some of the other ones, or some may be missing. I'll try to fix it this weekend.</li>
+<li>Added The Beatles: Rock Band charts. Includes support for vocal harmonies, though it's rather ugly -- and wrong, actually, so don't path around it.</li>
 </ul></p>
 <p><a href="http://rockband.scorehero.com/images/notecharts/contrib/ajanata/">Rock Band 1/2 and DLC charts</a> <a href="http://rockband.scorehero.com/images/notecharts/contrib/ajanata/tbrb/">The Beatles: Rock Band and DLC charts</a></p>
 <p>These charts are blank. They have not been verified against the game and may be faulty. If you see something horribly wrong please <a href="http://rockband.scorehero.com/forum/privmsg.php?mode=post&u=52545">send me a message</a> on ScoreHero. Relevant discussion threads for <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=4773">drums/drums+vocals</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=5062">guitar/bass/guitar+bass</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7625">vocals</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7626">vocaltar</a>, and <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7627">full band</a>.</p>
