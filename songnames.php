@@ -1129,4 +1129,37 @@
 	$NAMES["would"] = "Would?";
 
 
+	# 10/13 10/20 abbey road
+	$NAMES["andres"] = "Andres";
+	$NAMES["anotheronebitesthedust"] = "Another One Bites the Dust";
+	$NAMES["crazylittlething"] = "Crazy Little Thing Called Love";
+	$NAMES["fatbottomedgirls"] = "Fat Bottomed Girls";
+	$NAMES["icarus"] = "Icarus (Borne on the Wings of Steel)";
+	$NAMES["iwantitall"] = "I Want It All";
+	$NAMES["iwanttobreakfree"] = "I Want to Break Free";
+	$NAMES["killerqueen"] = "Killer Queen";
+	$NAMES["morethanmeetstheeye"] = "More Than Meets the Eye";
+	$NAMES["onevision"] = "One Vision";
+	$NAMES["pointofknowreturn"] = "Point of Know Return";
+	$NAMES["satchboogie"] = "Satch Boogie";
+	$NAMES["showmetheway"] = "Show Me the Way";
+	$NAMES["somebodytolove"] = "Somebody to Love";
+	$NAMES["surfingwiththealien"] = "Surfing with the Alien";
+	$NAMES["themetal"] = "The Metal";
+	$NAMES["tieyourmotherdown"] = "Tie Your Mother Down";
+	$NAMES["underpressure"] = "Under Pressure";
+	$NAMES["wearetheroadcrew"] = "(We Are) The Road Crew '08";
+	$NAMES["whatsmyageagain"] = "What's My Age Again";
+	
+	$NAMES["abbeyroadmedley"] = "Abbey Road Medley";
+	$NAMES["because"] = "Because";
+	$NAMES["goldencarrytheend"] = "Golden Slumbers/Carry That Weight/The End";
+	$NAMES["hermajesty"] = "Her Majesty";
+	$NAMES["maxwells"] = "Maxwell's Silver Hammer";
+	$NAMES["ohdarling"] = "Oh! Darling";
+	$NAMES["polythenebathroom"] = "Polythene Pam/She Came in Through the Bathroom Window";
+	$NAMES["sunkingmeanmr"] = "Sun King/Mean Mr. Mustard";
+	$NAMES["younevergive"] = "You Never Give Me Your Money";
+
+
 ?>

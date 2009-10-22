@@ -124,5 +124,8 @@
     $HOPOS["RB"]["would"] = 90;
     $HOPOS["RB"]["handmedownworld"] = 90;
     $HOPOS["RB"]["headoverfeet"] = 90;
+    
+    # 10/13 10/20 abbey road
+    $HOPOS["RB"]["somebodytolove"] = 90;
 
 ?>
