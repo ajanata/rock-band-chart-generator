@@ -127,5 +127,12 @@
     
     # 10/13 10/20 abbey road
     $HOPOS["RB"]["somebodytolove"] = 90;
+    
+    # 10/27 11/3 LEGO Rock Band
+    $HOPOS["RB"]["dreamingofyou"] = 250;
+    $HOPOS["RB"]["wearethechampions"] = 90;
+    $HOPOS["RB"]["valerie"] = 90;
+    $HOPOS["RB"]["thunder"] = 90;
+    $HOPOS["RB"]["dig"] = 90;
 
 ?>

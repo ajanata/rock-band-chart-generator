@@ -1,6 +1,6 @@
 <?php
 
-    define('REVISION', 253);
+    define('REVISION', 254);
     
     /*
     global $REVISION;

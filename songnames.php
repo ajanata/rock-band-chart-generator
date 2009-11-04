@@ -431,7 +431,7 @@
     $NAMES["youngmanblues"] = "Young Man Blues (Live at Leeds)";
 
     # 7/22 and 7/29
-    $NAMES["burn"] = "Burn";
+    $NAMES["burn"] = "Burn (Nine Inch Nails)";
     $NAMES["capitalg"] = "Capital G";
     $NAMES["devour"] = "Devour";
     $NAMES["electriccrown"] = "Electric Crown";
@@ -1160,6 +1160,72 @@
 	$NAMES["polythenebathroom"] = "Polythene Pam/She Came in Through the Bathroom Window";
 	$NAMES["sunkingmeanmr"] = "Sun King/Mean Mr. Mustard";
 	$NAMES["younevergive"] = "You Never Give Me Your Money";
+
+	# 10/27 11/3/ LEGO Rock Band
+	$NAMES["aboutagirl"] = "About a Girl";
+	$NAMES["accidentallyinlove"] = "Accidentally In Love";
+	$NAMES["aliensexist"] = "Aliens Exist";
+	$NAMES["apunk"] = "A-Punk";
+	$NAMES["bestofme"] = "Best of Me";
+	$NAMES["bestofyou"] = "Best of You";
+	$NAMES["blew"] = "Blew";
+	$NAMES["breakout"] = "Breakout";
+	$NAMES["burnrz"] = "Burn (Rob Zombie)";
+	$NAMES["checkyesjuliet"] = "Check Yes Juliet";
+	$NAMES["crash"] = "Crash";
+	$NAMES["crocodilerock"] = "Crocodile Rock";
+	$NAMES["dig"] = "Dig";
+	$NAMES["dragula"] = "Dragula";
+	$NAMES["dreamingofyou"] = "Dreaming of You";
+	$NAMES["everylittlething"] = "Every Little Thing She Does is Magic";
+	$NAMES["fakefriends"] = "Fake Friends";
+	$NAMES["fire"] = "Fire";
+	$NAMES["freefallin"] = "Free Fallin'";
+	$NAMES["ghostbusters"] = "Ghostbusters";
+	$NAMES["girlsandboys"] = "Girls and Boys";
+	$NAMES["grace"] = "Grace";
+	$NAMES["intoodeep"] = "In Too Deep";
+	$NAMES["iwantyouback"] = "I Want You Back";
+	$NAMES["kungfufighting"] = "Kung Fu Fighting";
+	$NAMES["letsdance"] = "Let's Dance";
+	$NAMES["lifeisahighway"] = "Life is a Highway";
+	$NAMES["makemesmile"] = "Make Me Smile (Come Up and See Me)";
+	$NAMES["monster"] = "Monster";
+	$NAMES["naive"] = "Naïve";
+	$NAMES["newmoonrising"] = "New Moon Rising";
+	$NAMES["pilgrim"] = "Pilgrim";
+	$NAMES["realwildchild"] = "Real Wild Child";
+	$NAMES["rideawhiteswan"] = "Ride a White Swan";
+	$NAMES["rockme"] = "Rock Me";
+	$NAMES["rooftops"] = "Rooftops (A Liberation Broadcast)";
+	$NAMES["ruby"] = "Ruby";
+	$NAMES["school"] = "School";
+	$NAMES["shortandsweet"] = "Short and Sweet";
+	$NAMES["song2"] = "Song 2";
+	$NAMES["sowhat"] = "So What";
+	$NAMES["stumbleandfall"] = "Stumble and Fall";
+	$NAMES["suddenlyisee"] = "Suddenly I See";
+	$NAMES["sugarbaby"] = "Sugarbaby";
+	$NAMES["summerof69"] = "Summer of '69";
+	$NAMES["sundial"] = "Sundial";
+	$NAMES["superbeast"] = "Superbeast";
+	$NAMES["swingswing"] = "Swing, Swing";
+	$NAMES["thefinalcountdown"] = "The Final Countdown";
+	$NAMES["thepassenger"] = "The Passenger";
+	$NAMES["thepretender"] = "The Pretender";
+	$NAMES["thunder"] = "Thunder";
+	$NAMES["ticktickboom"] = "Tick Tick Boom";
+	$NAMES["twoprinces"] = "Two Princes";
+	$NAMES["valerie"] = "Valerie";
+	$NAMES["walkingonsunshine"] = "Walking on Sunshine";
+	$NAMES["wearethechampions"] = "We Are the Champions";
+	$NAMES["wewillrockyou1"] = "We Will Rock You";
+	$NAMES["wheels"] = "Wheels";
+	$NAMES["whiteunicorn"] = "White Unicorn";
+	$NAMES["woman"] = "Woman";
+	$NAMES["wordforward"] = "Word Forward";
+	$NAMES["wordup"] = "Word Up!";
+	$NAMES["yougiveloveabadname"] = "You Give Love a Bad Name";
 
 
 ?>
