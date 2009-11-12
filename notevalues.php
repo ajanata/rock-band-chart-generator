@@ -2,15 +2,6 @@
 
     define('REVISION', 256);
     
-    /*
-    global $REVISION;
-    $rev = array();
-    #exec("/usr/bin/svnversion /Users/ajanata/Development/SPOpt/phpspopt2", &$rev);
-    exec("printenv", &$rev);
-    $REVISION = $rev[0];
-    print_r($rev);
-    */
-
     define('EPS', 1.0e-10);
 
     // notes closer than 15 pulses are a chord
