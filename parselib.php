@@ -172,8 +172,8 @@ function parseFile($file, $game, $ignoreCache = false) {
             // also ghot
             // gh3 should be, too, but I'm not worrying about it now
             
-            $notetracks["guitar"] = ($guitarTrack > 0 ? parseNoteTrack($mid->getTrackTxt($guitarTrack), $NOTES[$game]) : null);
-            $notetracks["bass"] = ($bassTrack > 0 ? parseNoteTrack($mid->getTrackTxt($bassTrack), $NOTES[$game]) : null);
+            $notetracks["guitar"] = ($guitarTrack > 0 ? parseNoteTrack($mid->getTrackTxt($guitarTrack), $NOTES[$game], 170) : null);
+            $notetracks["bass"] = ($bassTrack > 0 ? parseNoteTrack($mid->getTrackTxt($bassTrack), $NOTES[$game], 170) : null);
 
             $events["guitar"] = ($guitarTrack > 0 ? parsePhraseEvents($mid->getTrackTxt($guitarTrack), $NOTES[$game]) : null);
             $events["bass"] = ($bassTrack > 0 ? parsePhraseEvents($mid->getTrackTxt($bassTrack), $NOTES[$game]) : null);
