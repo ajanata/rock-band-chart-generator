@@ -37,6 +37,8 @@
         $files[] = $file;
     }
     
+    sort($files, SORT_STRING);
+    
     closedir($dir);
         
     umask(0);

@@ -1,7 +1,7 @@
 <?php
 
-    define('REVISION', 258);
-    
+    define('REVISION', 261);
+
     define('EPS', 1.0e-10);
 
     // notes closer than 15 pulses are a chord

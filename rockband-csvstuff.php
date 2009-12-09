@@ -27,6 +27,8 @@
         $files[] = $file;
     }
     
+    sort($files, SORT_STRING);
+    
     $dir = opendir(MIDIPATH . $game . "/");
     if ($dir === false) die("Unable to open directory " . MIDIPATH . $game . "/ for reading.\n");
     
