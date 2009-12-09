@@ -134,5 +134,9 @@
     $HOPOS["RB"]["valerie"] = 90;
     $HOPOS["RB"]["thunder"] = 90;
     $HOPOS["RB"]["dig"] = 90;
+    
+   	# 11/10 11/17 11/24 12/1 12/8
+	$HOPOS["RB"]["theleavingpt2"] = 90
+	$HOPOS["RB"]["beautifulthieves"] = 90
 
 ?>

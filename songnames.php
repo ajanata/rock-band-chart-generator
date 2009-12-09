@@ -1227,5 +1227,40 @@
 	$NAMES["wordup"] = "Word Up!";
 	$NAMES["yougiveloveabadname"] = "You Give Love a Bad Name";
 
+	# 11/10 11/17 11/24 12/1 12/8
+	$NAMES["adaylikethis"] = "A Day Like This";
+	$NAMES["americangirl"] = "American Girl (Live)";
+	$NAMES["athingaboutyou"] = "A Thing About You (Live)";
+	$NAMES["beautifulthieves"] = "Beautiful Theives";
+	$NAMES["clubfoot"] = "Club Foot";
+	$NAMES["comeasyouarelive"] = "Come As You Are (Live from MTV Unplugged)";
+	$NAMES["deadleavesdirtyground"] = "Dead Leaves and the Dirty Ground";
+	$NAMES["donttellmeyouloveme"] = "Don't Tell Me You Love Me";
+	$NAMES["dreamingoflove"] = "Dreaming of Love";
+	$NAMES["duality"] = "Duality";
+	$NAMES["employeeofthemonth"] = "Employee of the Month";
+	$NAMES["endtransmission"] = "End Transmission";
+	$NAMES["eventhelosers"] = "Even the Losers (Live)";
+	$NAMES["girlyouhavenofaith"] = "Girl, You Have No Faith in Medicine";
+	$NAMES["herecomesmygirl"] = "Here Comes My Girl (Live)";
+	$NAMES["iamarock"] = "I Am a Rock";
+	$NAMES["ickythump"] = "Icky Thump";
+	$NAMES["lithiumlive"] = "Lithium (Live at Reading)";
+	$NAMES["lovelikewinter"] = "Love Like Winter";
+	$NAMES["maryjane"] = "Mary Jane's Last Dance (Live)";
+	$NAMES["medicate"] = "Medicate";
+	$NAMES["newfang"] = "New Fang";
+	$NAMES["psychosocial"] = "Psychosocial";
+	$NAMES["refugee"] = "Refugee (Live)";
+	$NAMES["ridinthehook"] = "Ridin' the Hook";
+	$NAMES["rockinamerica"] = "(You Can Still) Rock in America";
+	$NAMES["smashitup"] = "Smash It Up (Part II)";
+	$NAMES["smellsliketeen"] = "Smells Like Teen Spirit";
+	$NAMES["soundsofsilence"] = "The Sounds of Silence";
+	$NAMES["sulpher"] = "Sulfur";
+	$NAMES["theleavingpt2"] = "The Leaving Song, Pt II";
+	$NAMES["walklikeanegyptian"] = "Walk Like an Egyptian";
+	$NAMES["youregonnahearfromme"] = "You're Gonna Hear From Me";
+
 
 ?>

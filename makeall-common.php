@@ -43,6 +43,7 @@ EOT
 </p>
 <p>Significant changes recently:
 <ul>
+<li>Starting in 2010, new charts are likely to only be available at <a href="http://charts.ajanata.com/">http://charts.ajanata.com/<a/> due to increasing laziness.</li>
 <li>I had some difficulties extracting the .mids for Abbey Road. I know hermajesty.mid was entirely worthless. There may be some issues with some of the other ones, or some may be missing. I'll try to fix it this weekend.</li>
 <li>Added The Beatles: Rock Band charts. Includes support for vocal harmonies, though it's rather ugly -- and wrong, actually, so don't path around it.</li>
 </ul></p>
