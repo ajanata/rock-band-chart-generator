@@ -103,8 +103,8 @@ function drawVocals($im, $x, $y, $meas, $vox, $events, $harm1 = array(), $harm1E
     }
     
     
-    
-        foreach ($harm2 as $lyricIndex => $lyric) {
+    /*
+    foreach ($harm2 as $lyricIndex => $lyric) {
         
         if ($lyric["time"] >= $meas["time"] && $lyric["time"] < $meas["time"]+$timebase*$meas["num"]*4/$meas["denom"]) {
         
@@ -214,7 +214,9 @@ function drawVocals($im, $x, $y, $meas, $vox, $events, $harm1 = array(), $harm1E
             }            
         }    
     } // foreach harm1
-    
+
+	*/
+	    
     foreach ($vox as $lyricIndex => $lyric) {
         
         if ($lyric["time"] >= $meas["time"] && $lyric["time"] < $meas["time"]+$timebase*$meas["num"]*4/$meas["denom"]) {
