@@ -138,5 +138,8 @@
    	# 11/10 11/17 11/24 12/1 12/8
 	$HOPOS["RB"]["theleavingpt2"] = 90;
 	$HOPOS["RB"]["beautifulthieves"] = 90;
+	
+	# 12/ 15 12/22 Country Track Pack exclusives
+	$HOPOS["RB"]["buildabridge"] = 90;
 
 ?>

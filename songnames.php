@@ -1161,7 +1161,7 @@
 	$NAMES["sunkingmeanmr"] = "Sun King/Mean Mr. Mustard";
 	$NAMES["younevergive"] = "You Never Give Me Your Money";
 
-	# 10/27 11/3/ LEGO Rock Band
+	# 10/27 11/3 LEGO Rock Band
 	$NAMES["aboutagirl"] = "About a Girl";
 	$NAMES["accidentallyinlove"] = "Accidentally In Love";
 	$NAMES["aliensexist"] = "Aliens Exist";
@@ -1261,6 +1261,58 @@
 	$NAMES["theleavingpt2"] = "The Leaving Song, Pt II";
 	$NAMES["walklikeanegyptian"] = "Walk Like an Egyptian";
 	$NAMES["youregonnahearfromme"] = "You're Gonna Hear From Me";
+
+	# 12/15 12/22 Country Track Pack exclusives
+	$NAMES["alotlikeme"] = "A Lot Like Me";
+	$NAMES["anymanofmine"] = "Any Man of Mine";
+	$NAMES["beverlyhills"] = "Beverly Hills";
+	$NAMES["buildabridge"] = "Build a Bridge";
+	$NAMES["crylonely"] = "Cry Lonely";
+	$NAMES["givesyouhell"] = "Gives You Hell";
+	$NAMES["gone_mg"] = "Gone (Montgomery Gentry)";
+	$NAMES["goodtime"] = "Good Time";
+	$NAMES["itoldyouso"] = "I Told You So";
+	$NAMES["iwantyouto"] = "(If You're Wondering if I want You To) I Want You To";
+	$NAMES["kingsandqueens"] = "Kings & Queens";
+	$NAMES["letitallhangout"] = "Let it All Hang Out";
+	$NAMES["meandmygang"] = "Me and My Gang";
+	$NAMES["missindependent"] = "Miss Independent";
+	$NAMES["oceanavenue"] = "Ocean Avenue";
+	$NAMES["ontheroadagain"] = "On the Road Again";
+	$NAMES["ourlipsaresealed"] = "Our Lips Are Sealed";
+	$NAMES["shescountry"] = "She's Country";
+	$NAMES["shethinksmytractorssexy"] = "She Thinks My Tractor's Sexy";
+	$NAMES["sudsinabucket"] = "Suds in the Bucket";
+	$NAMES["swing"] = "Swing";
+	$NAMES["thegambler"] = "The Gambler";
+	$NAMES["thisiswar"] = "This is War";
+	$NAMES["thisonesforthegirls"] = "This One's for the Girls";
+	$NAMES["whoknew"] = "Who Knew";
+	$NAMES["christiansinferno"] = "Christian's Inferno";
+	$NAMES["lastoftheamerican"] = "Last of the American Girls";
+	$NAMES["vivalagloria"] = "¡Viva La Gloria!";
+
+	# Sgt. Pepper's, Rubber Soul
+	$NAMES["adayinthelife"] = "A Day in the Life";
+	$NAMES["beingformrkite"] = "Being for the Benefit of Mr. Kite!";
+	$NAMES["fixingahole"] = "Fixing a Hole";
+	$NAMES["girl"] = "Girl";
+	$NAMES["inmylife"] = "In My Life";
+	$NAMES["lovelyrita"] = "Lovely Rita";
+	$NAMES["michelle"] = "Michelle";
+	$NAMES["norwegianwood"] = "Norwegian Wood (This Bird Has Flown)";
+	$NAMES["nowhereman"] = "Nowhere Man";
+	$NAMES["runforyourlife"] = "Run For Your Life";
+	$NAMES["sgtpepperreprise"] = "Sgt. Pepper's Lonely Hearts Band (Reprise)";
+	$NAMES["shesleavinghome"] = "She's Leaving Home";
+	$NAMES["theword"] = "The Word";
+	$NAMES["thinkforyourself"] = "Think for Yourself";
+	$NAMES["wait"] = "Wait";
+	$NAMES["whatgoeson"] = "What Goes On";
+	$NAMES["whenim64"] = "When I'm Sixty-Four";
+	$NAMES["withinyouwithoutyou"] = "Within You Without You";
+	$NAMES["youwontseeme"] = "You Won't See Me";
+
 
 
 ?>
