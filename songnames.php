@@ -629,7 +629,7 @@
     $NAMES["californiauberalles"] = "California Über Alles";
     $NAMES["closer"] = "Closer";
     $NAMES["forever"] = "Forever";
-    $NAMES["gone"] = "Gone";
+    $NAMES["gone"] = "Gone (Crooked X)";
     $NAMES["holidayincambodia"] = "Holiday in Cambodia";
     $NAMES["mica"] = "Mica";
     $NAMES["policetruck"] = "Police Truck";
