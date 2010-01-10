@@ -1313,6 +1313,17 @@
 	$NAMES["withinyouwithoutyou"] = "Within You Without You";
 	$NAMES["youwontseeme"] = "You Won't See Me";
 
+	# 2010
 
+	# 1/5
+	$NAMES["adamssong"] = "Adam's Song";
+	$NAMES["bandontherunlive"] = "Band on the Run (Live)";
+	$NAMES["firstdate"] = "First Date";
+	$NAMES["imissyou"] = "I Miss You";
+	$NAMES["jetlive"] = "Jet (Live)";
+	$NAMES["lovemyway"] = "Love My Way";
+	$NAMES["rocknrollhighschool"] = "Rock `n' Roll High School";
+	$NAMES["singthechanges"] = "Sing the Changes (Live)";
+	$NAMES["sistereurope"] = "Sister Europe";
 
 ?>

@@ -141,5 +141,10 @@
 	
 	# 12/ 15 12/22 Country Track Pack exclusives
 	$HOPOS["RB"]["buildabridge"] = 90;
+	
+	# 2010
+	
+	# 1/5
+	$HOPOS["RB"]["bandontherunlive"] = 90;
 
 ?>
