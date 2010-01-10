@@ -50,14 +50,16 @@
     
     // FIXME need to make the back-end work with different difficulties first, then we can do the same here
     // for now just use the first of guitar, bass, drums, vocals
-    $diff = "";
-    if (isset($_GET["guitar"])) $diff = $_GET["guitar"];
-    else if (isset($_GET["bass"])) $diff = $_GET["bass"];
-    else if (isset($_GET["drums"])) $diff = $_GET["drums"];
-    else $diff = $_GET["vocals"];
+    $diff = array();
+    if (isset($_GET["guitar"])) $diff["guitar"] = $_GET["guitar"];
+    if (isset($_GET["bass"])) $diff["bass"] = $_GET["bass"];
+    if (isset($_GET["drums"])) $diff["drums"] = $_GET["drums"];
+    //else $diff = $_GET["vocals"];
     
-    if ($diff != "easy" && $diff != "medium" && $diff != "hard" && $diff != "expert") {
-       die("Invalid difficulty $diff -- choose one of easy, medium, hard, or expert.");
+    foreach ($diff as $d) {
+	    if ($d != "easy" && $d != "medium" && $d != "hard" && $d != "expert") {
+	       die("Invalid difficulty $d -- choose one of easy, medium, hard, or expert.");
+	    }
     }
     
     if (isset($_GET["input"])) {
@@ -235,24 +237,24 @@
             case "measscore":
                 //measscore <instrument> <#> <score>
                 if (!isset($measures[$line[1]][$line[2]-1])) break;
-                $measures[$line[1]][$line[2]-1]["mscore"][$diff] = $line[3];
+                $measures[$line[1]][$line[2]-1]["mscore"][$diff[$line[1]]] = $line[3];
                 break;
                 
             case "totalscore":
                 if (!isset($measures[$line[1]][$line[2]-1])) break;
-                $measures[$line[1]][$line[2]-1]["cscore"][$diff] = $line[3];
+                $measures[$line[1]][$line[2]-1]["cscore"][$diff[$line[1]]] = $line[3];
                 break;
                 
             case "bonusscore":
                 if (!isset($measures[$line[1]][$line[2]-1])) break;
-                $measures[$line[1]][$line[2]-1]["bscore"][$diff] = $line[3];
+                $measures[$line[1]][$line[2]-1]["bscore"][$diff[$line[1]]] = $line[3];
                 break;
                 
             case "whammy":
                 if (!isset($measures[$line[1]][$line[2]-1])) break;
                 // this isn't actually stored in the array presently, but we're sticking it there for the override
                 // chartlib has been updated to use this if present and fall back to default behavior if it isn't
-                $measures[$line[1]][$line[2]-1]["whammy"][$diff] = $line[3];
+                $measures[$line[1]][$line[2]-1]["whammy"][$diff[$line[1]]] = $line[3];
                 break;
         }
        
@@ -293,7 +295,7 @@
 
     // draw the chart api information
     $gray = imagecolorallocate($im, 134, 134, 134);
-    imagestring($im, 3, 0, imagesy($im) - 40, "Generated with chartgen API by user " . $user . " -- see http://ajanata.com/projects/phpspopt/api for more information.", $gray);
+    imagestring($im, 3, 0, imagesy($im) - 40, "Generated with chartgen API by user " . $user . " -- see http://charts.ajanata.com/api/ for more information.", $gray);
     
     header("Content-type: image/png");
     imagepng($im);

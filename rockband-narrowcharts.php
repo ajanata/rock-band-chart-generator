@@ -16,7 +16,13 @@
 	require_once "songnames.php";
 	require_once "chartlib.php";
 
-    $DIFFICULTIES = array("easy", "medium", "hard", "expert");
+    //$DIFFICULTIES = array("easy", "medium", "hard", "expert");
+    $DIFFICULTIES = array(
+    	array("guitar" => "easy", "bass" => "easy", "drums" => "easy"),
+    	array("guitar" => "medium", "bass" => "medium", "drums" => "medium"),
+    	array("guitar" => "hard", "bass" => "hard", "drums" => "hard"),
+    	array("guitar" => "expert", "bass" => "expert", "drums" => "expert")
+ 	);
 
     if (isset($argv[1]) && $argv[1] == "--help") do_help();
     if (isset($argv[1]) && $argv[1] == "--version") do_version();
@@ -78,7 +84,8 @@
     if (false === ($idx["guitarbass"]["idx"] = fopen(OUTDIR . $game . "/guitarbass/index.html", "w"))) {
         die("Unable to open file " . OUTDIR . $game . "/guitarbass/index.html for writing.\n");
     }    
-    foreach ($DIFFICULTIES as $diff) {
+    foreach ($DIFFICULTIES as $d) {
+    	$diff = $d["guitar"];
         $idx["guitarbass"][$diff] = null;
         if (false === ($idx["guitarbass"][$diff] = fopen(OUTDIR . $game . "/guitarbass/index_" . $diff . ".html", "w"))) {
             die("Unable to open file " . OUTDIR . $game . "/guitarbass/index_" . $diff . "_.html for writing.\n");
@@ -136,14 +143,15 @@ EOT
         // full band
         echo " [fullband]";
         fwrite($idx["fullband"], "<tr><td>" . $realname . "</td>");
-        foreach ($DIFFICULTIES as $diff) {
+        foreach ($DIFFICULTIES as $d) {
+        	$diff = $d["guitar"];
             echo " ($diff)";
         	if (isset($cache[$shortname]["fullband"][$diff]) && $cache[$shortname]["fullband"][$diff]["version"] >= CHARTVERSION+DRUMSVERMOD) {
         	   // we already have a valid image for this
         	   echo " {cached}";
     	    }
           	else {
-                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /* guitar */ true,
+                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $d, $game, /* guitar */ true,
                        /* bass*/ true, /* drums */ true, /* vocals */ true, $realname, $beat, 0, $harm1, $harm2);
                 imagepng($im, OUTDIR . $game . "/fullband/" . $shortname . "_fullband_" . $diff . "_blank.png");
                 imagedestroy($im);
@@ -158,7 +166,8 @@ EOT
         
         // guitarbass
         echo " [guitarbass]";
-        foreach ($DIFFICULTIES as $diff) {
+        foreach ($DIFFICULTIES as $d) {
+        	$diff = $d["guitar"];
             echo " ($diff)";
             $absbasescore = $basescore = $bonusscore = $brescore = 0;
         	if (isset($cache[$shortname]["guitarbass"][$diff]) && $cache[$shortname]["guitarbass"][$diff]["version"] >= CHARTVERSION) {
@@ -174,7 +183,7 @@ EOT
                 // have to re-generate the chart and get all the numbers and stuff
 
             
-                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /* guitar */ true,
+                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $d, $game, /* guitar */ true,
                        /* bass*/ true, /* drums */ false, /* vocals */ false, $realname, $beat);
                 imagepng($im, OUTDIR . $game . "/guitarbass/" . $shortname . "_guitarbass_" . $diff . "_blank.png");
                 imagedestroy($im);
@@ -228,7 +237,8 @@ EOT
         // guitardrums
         echo " [guitardrums]";
         fwrite($idx["guitardrums"], "<tr><td>" . $realname . "</td>");
-        foreach ($DIFFICULTIES as $diff) {
+        foreach ($DIFFICULTIES as $d) {
+        	$diff = $d["guitar"];
             echo " ($diff)";
             
         	if (isset($cache[$shortname]["guitardrums"][$diff]) && $cache[$shortname]["guitardrums"][$diff]["version"] >= CHARTVERSION+DRUMSVERMOD) {
@@ -236,7 +246,7 @@ EOT
         	   echo " {cached}";
     	    }
           	else {
-                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /* guitar */ true,
+                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $d, $game, /* guitar */ true,
                        /* bass*/ false, /* drums */ true, /* vocals */ false, $realname, $beat);
                 imagepng($im, OUTDIR . $game . "/guitardrums/" . $shortname . "_guitardrums_" . $diff . "_blank.png");
                 imagedestroy($im);

@@ -39,17 +39,29 @@
 	
 	
 
-	if ((isset($_GET["guitar"]) || isset($_GET["bass"]) || isset($_GET["drums"])) && !isset($_GET["difficulty"])) {
-		echo "Difficulty not specified - Use query string paramenter, i.e., chartgen.php?difficulty=expert";
-		exit;
-	}
+//	if ((isset($_GET["guitar"]) || isset($_GET["bass"]) || isset($_GET["drums"])) && !isset($_GET["difficulty"])) {
+//		echo "Difficulty not specified - Use query string paramenter, i.e., chartgen.php?difficulty=expert";
+//		exit;
+//	}
+//	
+//	$diff = (isset($_GET["difficulty"]) ? strtolower($_GET["difficulty"]) : "");
+//	// don't ask why I typed those out of order
+//	if ((isset($_GET["guitar"]) || isset($_GET["bass"]) || isset($_GET["drums"])) && !($diff == "easy" || $diff == "medium"
+//	       || $diff == "expert" || $diff == "hard")) {
+//	   die("Invalid difficulty -- specify one of easy, medium, hard, or expert.");
+//	}
 	
-	$diff = (isset($_GET["difficulty"]) ? strtolower($_GET["difficulty"]) : "");
-	// don't ask why I typed those out of order
-	if ((isset($_GET["guitar"]) || isset($_GET["bass"]) || isset($_GET["drums"])) && !($diff == "easy" || $diff == "medium"
-	       || $diff == "expert" || $diff == "hard")) {
-	   die("Invalid difficulty -- specify one of easy, medium, hard, or expert.");
-	}
+	$diff = array();
+    if (isset($_GET["guitar"])) $diff["guitar"] = $_GET["guitar"];
+    if (isset($_GET["bass"])) $diff["bass"] = $_GET["bass"];
+    if (isset($_GET["drums"])) $diff["drums"] = $_GET["drums"];
+    //else $diff = $_GET["vocals"];
+    
+    foreach ($diff as $d) {
+	    if ($d != "easy" && $d != "medium" && $d != "hard" && $d != "expert") {
+	       die("Invalid difficulty $d -- choose one of easy, medium, hard, or expert.");
+	    }
+    }
 	
 	
 	//////////

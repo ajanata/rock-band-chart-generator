@@ -16,7 +16,13 @@
 	require_once "songnames.php";
 	require_once "chartlib.php";
 
-    $DIFFICULTIES = array("easy", "medium", "hard", "expert");
+    //$DIFFICULTIES = array("easy", "medium", "hard", "expert");
+    $DIFFICULTIES = array(
+    	array("guitar" => "easy", "bass" => "easy", "drums" => "easy"),
+    	array("guitar" => "medium", "bass" => "medium", "drums" => "medium"),
+    	array("guitar" => "hard", "bass" => "hard", "drums" => "hard"),
+    	array("guitar" => "expert", "bass" => "expert", "drums" => "expert")
+ 	);
 
     if (isset($argv[1]) && $argv[1] == "--help") do_help();
     if (isset($argv[1]) && $argv[1] == "--version") do_version();
@@ -81,7 +87,8 @@
     if (false === ($idx["guitar"]["idx"] = fopen(OUTDIR . $game ."/guitar/index.html", "w"))) {
         die("Unable to open file " . OUTDIR . $game ."/guitar/index.html for writing.\n");
     }    
-    foreach ($DIFFICULTIES as $diff) {
+    foreach ($DIFFICULTIES as $d) {
+    	$diff = $d["guitar"];
         $idx["guitar"][$diff] = null;
         if (false === ($idx["guitar"][$diff] = fopen(OUTDIR . $game ."/guitar/index_" . $diff . ".html", "w"))) {
             die("Unable to open file " . OUTDIR . $game ."/guitar/index_" . $diff . "_.html for writing.\n");
@@ -93,7 +100,8 @@
     if (false === ($idx["bass"]["idx"] = fopen(OUTDIR . $game ."/bass/index.html", "w"))) {
         die("Unable to open file " . OUTDIR . $game ."/bass/index.html for writing.\n");
     }    
-    foreach ($DIFFICULTIES as $diff) {
+    foreach ($DIFFICULTIES as $d) {
+    	$diff = $d["guitar"];
         $idx["bass"][$diff] = null;
         if (false === ($idx["bass"][$diff] = fopen(OUTDIR . $game ."/bass/index_" . $diff . ".html", "w"))) {
             die("Unable to open file " . OUTDIR . $game ."/bass/index_" . $diff . "_.html for writing.\n");
@@ -190,14 +198,15 @@ EOT
         echo " [drums]";
         fwrite($idx["drums"], "<tr><td>" . $realname . "</td>");
         
-        foreach ($DIFFICULTIES as $diff) {
+        foreach ($DIFFICULTIES as $d) {
+        	$diff = $d["guitar"];
             echo " ($diff)";
         	if (isset($cache[$shortname]["drums"][$diff]) && $cache[$shortname]["drums"][$diff]["version"] >= CHARTVERSION+DRUMSVERMOD) {
         	   // we already have a valid image for this
         	   echo " {cached}";
     	    }
           	else {
-                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /* guitar */ false,
+                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $d, $game, /* guitar */ false,
                      /* bass*/ false, /* drums */ true, /* vocals */ false, $realname, $beat);
                 imagepng($im, OUTDIR . $game ."/drums/" . $shortname . "_drums_" . $diff . "_blank.png");
                 imagedestroy($im);
@@ -211,7 +220,8 @@ EOT
         
         // guitar
         echo " [guitar]";
-        foreach ($DIFFICULTIES as $diff) {
+        foreach ($DIFFICULTIES as $d) {
+        	$diff = $d["guitar"];
             echo " ($diff)";
 
             $absbasescore = $basescore = $bonusscore = $brescore = 0;
@@ -225,7 +235,7 @@ EOT
         	}
         	else {
                 // have to re-generate the chart and get all the numbers and stuff
-                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /* guitar */ true,
+                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $d, $game, /* guitar */ true,
                        /* bass*/ false, /* drums */ false, /* vocals */ false, $realname, $beat);
                 imagepng($im, OUTDIR . $game ."/guitar/" . $shortname . "_guitar_" . $diff . "_blank.png");
                 imagedestroy($im);
@@ -267,6 +277,7 @@ EOT
         // bass
         echo " [bass]";
         foreach ($DIFFICULTIES as $diff) {
+        	$diff = $d["guitar"];
             echo " ($diff)";
             $absbasescore = $basescore = $bonusscore = $brescore = 0;
         	if (isset($cache[$shortname]["bass"][$diff]) && $cache[$shortname]["bass"][$diff]["version"] >= CHARTVERSION) {
@@ -280,7 +291,7 @@ EOT
         	else {
                 // have to re-generate the chart and get all the numbers and stuff
     
-                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /* guitar */ false,
+                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $d, $game, /* guitar */ false,
                        /* bass*/ true, /* drums */ false, /* vocals */ false, $realname, $beat);
                 imagepng($im, OUTDIR . $game ."/bass/" . $shortname . "_bass_" . $diff . "_blank.png");
                 imagedestroy($im);
@@ -323,7 +334,7 @@ EOT
         /*
         echo " [guitarbass]";
         foreach ($DIFFICULTIES as $diff) {
-            echo " ($diff)";
+            echo " (" . $diff["guitar"] . ")";
             $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /* guitar * / true,
                    /* bass* / true, /* drums * / false, /* vocals * / false, $realname, $beat);
             imagepng($im, OUTDIR . $game ."/guitarbass/" . $shortname . "_guitarbass_" . $diff . "_blank.png");
@@ -370,14 +381,15 @@ EOT
         echo " [voxtar]";
         
         fwrite($idx["voxtar"], "<tr><td>" . $realname . "</td>");
-        foreach ($DIFFICULTIES as $diff) {
+        foreach ($DIFFICULTIES as $d) {
+        	$diff = $d["guitar"];
             echo " ($diff)";
         	if (isset($cache[$shortname]["voxtar"][$diff]) && $cache[$shortname]["voxtar"][$diff]["version"] >= CHARTVERSION) {
         	   // we already have a valid image for this
         	   echo " {cached}";
     	    }
           	else {
-                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /* guitar */ true,
+                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $d, $game, /* guitar */ true,
                        /* bass*/ false, /* drums */ false, /* vocals */ true, $realname, $beat, 0, $harm1, $harm2);
                 imagepng($im, OUTDIR . $game ."/vocaltar/" . $shortname . "_vocaltar_" . $diff . "_blank.png");
                 imagedestroy($im);
@@ -394,14 +406,15 @@ EOT
         echo " [voxdrums]";
         
         fwrite($idx["voxdrums"], "<tr><td>" . $realname . "</td>");
-        foreach ($DIFFICULTIES as $diff) {
+        foreach ($DIFFICULTIES as $d) {
+        	$diff = $d["guitar"];
             echo " ($diff)";
         	if (isset($cache[$shortname]["voxdrums"][$diff]) && $cache[$shortname]["voxdrums"][$diff]["version"] >= CHARTVERSION+DRUMSVERMOD+1) {
         	   // we already have a valid image for this
         	   echo " {cached}";
     	    }
           	else {
-                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /* guitar */ false,
+                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $d, $game, /* guitar */ false,
                        /* bass*/ false, /* drums */ true, /* vocals */ true, $realname, $beat, 0, $harm1, $harm2);
                 imagepng($im, OUTDIR . $game ."/vocaldrums/" . $shortname . "_vocaldrums_" . $diff . "_blank.png");
                 imagedestroy($im);
@@ -418,14 +431,15 @@ EOT
         echo " [voxbass]";
         
         fwrite($idx["voxbass"], "<tr><td>" . $realname . "</td>");
-        foreach ($DIFFICULTIES as $diff) {
+        foreach ($DIFFICULTIES as $d) {
+        	$diff = $d["guitar"];
             echo " ($diff)";
         	if (isset($cache[$shortname]["voxbass"][$diff]) && $cache[$shortname]["voxbass"][$diff]["version"] >= CHARTVERSION) {
         	   // we already have a valid image for this
         	   echo " {cached}";
     	    }
           	else {
-                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /* guitar */ false,
+                $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $d, $game, /* guitar */ false,
                        /* bass*/ true, /* drums */ false, /* vocals */ true, $realname, $beat, 0, $harm1, $harm2);
                 imagepng($im, OUTDIR . $game ."/vocalbass/" . $shortname . "_vocalbass_" . $diff . "_blank.png");
                 imagedestroy($im);
