@@ -28,8 +28,8 @@
     }
 
     $game = strtolower($_GET["game"]);
-    if (!($game == "gh1" || $game == "gh2" || $game == "gh3" || $game == "rb" || $game == "ghot")) {
-       die("Invalid game -- specify one of gh1, gh2, gh3, ghot, or rb (use rb for rb2).");
+    if (!($game == "gh1" || $game == "gh2" || $game == "gh3" || $game == "rb" || $game == "ghot" || $game == "tbrb")) {
+       die("Invalid game -- specify one of gh1, gh2, gh3, ghot, tbrb, or rb (use rb for rb2).");
     }
     
     
