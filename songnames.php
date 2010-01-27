@@ -1326,4 +1326,28 @@
 	$NAMES["singthechanges"] = "Sing the Changes (Live)";
 	$NAMES["sistereurope"] = "Sister Europe";
 
+	# 1/19 1/26
+	$NAMES["awomaninlovelive"] = "";
+	$NAMES["bluejeans"] = "";
+	$NAMES["breakdownlive"] = "";
+	$NAMES["bullsonparade"] = "";
+	$NAMES["centurycitylive"] = "";
+	$NAMES["godzilla"] = "";
+	$NAMES["grind"] = "";
+	$NAMES["hairofthedog"] = "";
+	$NAMES["heavenbesideyou"] = "";
+	$NAMES["jamminme"] = "";
+	$NAMES["killedbydeath"] = "";
+	$NAMES["lastofmykind"] = "";
+	$NAMES["levitate"] = "";
+	$NAMES["lisztomania"] = "";
+	$NAMES["mastersoftheuniverse"] = "";
+	$NAMES["nightwatchmanlive"] = "";
+	$NAMES["nineteenohone"] = "";
+	$NAMES["thewaitinglive"] = "";
+	$NAMES["transmaniaconmc"] = "";
+	$NAMES["wedieyoung"] = "";
+	$NAMES["yourdecision"] = "";
+
+
 ?>
