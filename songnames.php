@@ -1326,28 +1326,28 @@
 	$NAMES["singthechanges"] = "Sing the Changes (Live)";
 	$NAMES["sistereurope"] = "Sister Europe";
 
-	# 1/19 1/26
-	$NAMES["awomaninlovelive"] = "";
-	$NAMES["bluejeans"] = "";
-	$NAMES["breakdownlive"] = "";
-	$NAMES["bullsonparade"] = "";
-	$NAMES["centurycitylive"] = "";
-	$NAMES["godzilla"] = "";
-	$NAMES["grind"] = "";
-	$NAMES["hairofthedog"] = "";
-	$NAMES["heavenbesideyou"] = "";
-	$NAMES["jamminme"] = "";
-	$NAMES["killedbydeath"] = "";
-	$NAMES["lastofmykind"] = "";
-	$NAMES["levitate"] = "";
-	$NAMES["lisztomania"] = "";
-	$NAMES["mastersoftheuniverse"] = "";
-	$NAMES["nightwatchmanlive"] = "";
-	$NAMES["nineteenohone"] = "";
-	$NAMES["thewaitinglive"] = "";
-	$NAMES["transmaniaconmc"] = "";
-	$NAMES["wedieyoung"] = "";
-	$NAMES["yourdecision"] = "";
+	# 1/12 1/19 1/26
+	$NAMES["awomaninlovelive"] = "A Woman in Love (Live)";
+	$NAMES["bluejeans"] = "Blue Jeans";
+	$NAMES["breakdownlive"] = "Breakdown (Live)";
+	$NAMES["bullsonparade"] = "Bulls on Parade";
+	$NAMES["centurycitylive"] = "Century City (Live)";
+	$NAMES["godzilla"] = "Godzilla";
+	$NAMES["grind"] = "Grind";
+	$NAMES["hairofthedog"] = "Hair of the Dog (2008 re-recording)";
+	$NAMES["heavenbesideyou"] = "Heaven Beside You";
+	$NAMES["jamminme"] = "Jammin' Me (Live)";
+	$NAMES["killedbydeath"] = "Killed by Death '08";
+	$NAMES["lastofmykind"] = "Last of My Kind";
+	$NAMES["levitate"] = "Levitate";
+	$NAMES["lisztomania"] = "Lisztomania";
+	$NAMES["mastersoftheuniverse"] = "Master of the Universe";
+	$NAMES["nightwatchmanlive"] = "Nightwatchman (Live)";
+	$NAMES["nineteenohone"] = "1901";
+	$NAMES["thewaitinglive"] = "The Waiting (Live)";
+	$NAMES["transmaniaconmc"] = "Transmaniacon MC";
+	$NAMES["wedieyoung"] = "We Die Young";
+	$NAMES["yourdecision"] = "Your Decision";
 
 
 ?>
