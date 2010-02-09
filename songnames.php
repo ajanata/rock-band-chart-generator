@@ -1349,5 +1349,17 @@
 	$NAMES["wedieyoung"] = "We Die Young";
 	$NAMES["yourdecision"] = "Your Decision";
 
+	# 2/7 2/9
+	$NAMES["dawnpatrol"] = "Dawn Patrol";
+	$NAMES["fivemagics"] = "Five Magics";
+	$NAMES["hangar18"] = "Hangar 18";
+	$NAMES["holywars"] = "Holy Wars... The Punishment Due";
+	$NAMES["lucretia"] = "Lucretia";
+	$NAMES["poisonwasthecure"] = "Poison Was the Cure";
+	$NAMES["rustinpeace"] = "Rust in Peace... Polaris";
+	$NAMES["superbowlmedley"] = "The Who Super Bowl S-mashup";
+	$NAMES["takenoprisoners"] = "Take No Prisoners";
+	$NAMES["tornadoofsouls"] = "Tornado of Souls";
+
 
 ?>
