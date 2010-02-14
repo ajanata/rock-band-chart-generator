@@ -276,7 +276,7 @@ EOT
 
         // bass
         echo " [bass]";
-        foreach ($DIFFICULTIES as $diff) {
+        foreach ($DIFFICULTIES as $d) {
         	$diff = $d["guitar"];
             echo " ($diff)";
             $absbasescore = $basescore = $bonusscore = $brescore = 0;
