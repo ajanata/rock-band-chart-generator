@@ -27,7 +27,8 @@
     if (isset($argv[1]) && $argv[1] == "--help") do_help();
     if (isset($argv[1]) && $argv[1] == "--version") do_version();
 
-    if (!isset($argv[1]) && $argv[1] != $game && $argv[1] != "tbrb") die ("specify rb or tbrb on command line");
+//    if (!isset($argv[1]) || ($argv[1] != "rb" && $argv[1] != "tbrb")) die ("specify rb or tbrb on command line");
+    if (!isset($argv[1]) && $argv[1] != "rb" && $argv[1] != "tbrb") die ("specify rb or tbrb on command line");
     $game = $argv[1];
 
     $files = array();

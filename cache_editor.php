@@ -5,6 +5,19 @@
 	require_once "notevalues.php";
 	require_once "songnames.php";
 
+/*
+    $cache = loadCache("_rockband_chartgen.cache");
+
+foreach ($cache as $song => $data) {
+    foreach ($data as $inst => $junk) {
+	if ($inst != "bass") continue;
+	unset($cache[$song][$inst]);
+    }
+}
+        saveCache("_rockband_chartgen.cache", $cache);
+exit;
+*/
+
     if (!isset($_SERVER["HTTP_HOST"])) die("This program must be run through a web server.\n");
 
     $cache = loadCache("_rockband_chartgen.cache");
