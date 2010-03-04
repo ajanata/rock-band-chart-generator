@@ -1362,4 +1362,31 @@
 	$NAMES["tornadoofsouls"] = "Tornado of Souls";
 
 
+	# 2/16 2/23 3/2
+	$NAMES["distracted"] = "Distracted";
+	$NAMES["dockofthebay"] = "(Sittin' on) The Dock of the Bay";
+	$NAMES["downfall"] = "Downfall";
+	$NAMES["fafafafafa"] = "Fa-Fa-Fa-Fa-Fa (Sad Song)";
+	$NAMES["fascination"] = "Fascination";
+	$NAMES["heartkiller"] = "Heartkiller";
+	$NAMES["imsickyall"] = "I'm Sick Y'all";
+	$NAMES["ivegotdreams"] = "I've Got Dreams to Remember";
+	$NAMES["justfortonight"] = "Just For Tonight";
+	$NAMES["letforeverbe"] = "Let Forever Be";
+	$NAMES["loveman"] = "Love Man";
+	$NAMES["meaningoflife"] = "Meaning of Life";
+	$NAMES["odetosolitude"] = "Ode to Solitude";
+	$NAMES["panicswitch"] = "Panic Switch";
+	$NAMES["sortof"] = "Sort Of";
+	$NAMES["straycatstrut"] = "Stray Cat Strut";
+	$NAMES["thedopeshow"] = "The Dope Show";
+	$NAMES["thegame"] = "The Game";
+	$NAMES["thirdfloorstory"] = "Third Floor Story";
+	$NAMES["voices"] = "Voices";
+	$NAMES["walkingonthemoon"] = "Walking On the Moon";
+	$NAMES["weightless"] = "Weightless";
+	$NAMES["whitefalconfuzz"] = "White Falcon Fuzz";
+	$NAMES["wingsofabutterfly"] = "Wings of a Butterfly";
+
+
 ?>

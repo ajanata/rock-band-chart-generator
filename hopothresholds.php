@@ -147,4 +147,7 @@
 	# 1/5
 	$HOPOS["RB"]["bandontherunlive"] = 90;
 
+	# 2/16
+	$HOPOS["RB"]["imsickyall"] = 90;
+
 ?>

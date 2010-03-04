@@ -61,7 +61,7 @@
     // open the tables
     fwrite($idx["fullband"], "<table border=\"1\">");
     fwrite($idx["stuff"], "short_name,guitar_easy,guitar_medium,guitar_hard,guitar_expert,bass_easy,bass_medium,bass_hard,bass_expert,drums_easy,drums_medium,drums_hard,drums_expert,guitar_base_easy,guitar_base_medium,guitar_base_hard,guitar_base_expert,bass_base_easy,bass_base_medium,bass_base_hard,bass_base_expert,drums_base_easy,drums_base_medium,drums_base_hard,drums_base_expert,drums_allfills_easy,drums_allfills_medium,drums_allfills_hard,drums_allfills_expert,percussion_hits,nonpercussion_phrases,length\n");
-    fwrite($idx["bonuses"], "short_name,easy_solos,medium_solos,hard_solos,expert_solos,big_rock_ending\n");
+    fwrite($idx["bonuses"], "short_name,gtr_easy_solos,gtr_medium_solos,gtr_hard_solos,gtr_expert_solos,drums_easy_solos,drums_medium_solos,drums_hard_solos,drums_expert_solos,big_rock_ending\n");
 
 
     echo "Making .csv files for " . count($files) . " files...\n";
@@ -230,6 +230,19 @@
             echo " ($diff)";
             $solonotes = 0;
             foreach ($events["guitar"] as $e) {
+                if ($e["type"] == "solo" && $e["difficulty"] == $diff) {
+                    $solonotes += $e["notes"];
+                }
+            }
+            fwrite($idx["bonuses"], "," . $solonotes);
+        } // solos diffs
+
+        // drum solos
+        echo " [solo bonuses]";
+        foreach ($DIFFICULTIES as $diff) {
+            echo " ($diff)";
+            $solonotes = 0;
+            foreach ($events["drums"] as $e) {
                 if ($e["type"] == "solo" && $e["difficulty"] == $diff) {
                     $solonotes += $e["notes"];
                 }
