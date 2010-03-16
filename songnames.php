@@ -80,7 +80,7 @@
     $NAMES["blitzkriegbop"] = "Blitzkrieg Bop";
     $NAMES["blooddoll"] = "Blood Doll";
     $NAMES["brainpower"] = "Brainpower";
-    $NAMES["cantletgo"] = "Can't Let Go (Death of the Cool)";
+    $NAMES["cantletgo"] = "Can't Let Go [Death of the Cool]";
     $NAMES["celebrityskin"] = "Celebrity Skin";
     $NAMES["cherubrock"] = "Cherub Rock";
     $NAMES["creep"] = "Creep";
@@ -98,7 +98,7 @@
     $NAMES["gimmeshelter"] = "Gimme Shelter";
     $NAMES["gowiththeflow"] = "Go With the Flow";
     $NAMES["greengrass"] = "Green Grass and High Tides";
-    $NAMES["greengrass_short"] = "Green Grass and High Tides (short)";
+    $NAMES["greengrass_short"] = "Green Grass and High Tides (Short)";
     $NAMES["hereitgoesagain"] = "Here It Goes Again";
     $NAMES["highwaystar"] = "Highway Star";
     $NAMES["igetby"] = "I Get By";
@@ -214,7 +214,7 @@
     $NAMES["supremegirl"] = "Supreme Girl";
     $NAMES["tangledupinblue"] = "Tangled Up in Blue";
     $NAMES["teenageriot"] = "Teen Age Riot";
-    $NAMES["testify"] = "Testify (Rage Against the Machine)";
+    $NAMES["testify"] = "Testify [Rage Against the Machine]";
     $NAMES["thatswhatyouget"] = "That's What You Get";
     $NAMES["themiddle"] = "The Middle";
     $NAMES["thetrees"] = "The Trees (Vault Edition)";
@@ -431,7 +431,7 @@
     $NAMES["youngmanblues"] = "Young Man Blues (Live at Leeds)";
 
     # 7/22 and 7/29
-    $NAMES["burn"] = "Burn (Nine Inch Nails)";
+    $NAMES["burn"] = "Burn [Nine Inch Nails]";
     $NAMES["capitalg"] = "Capital G";
     $NAMES["devour"] = "Devour";
     $NAMES["electriccrown"] = "Electric Crown";
@@ -629,7 +629,7 @@
     $NAMES["californiauberalles"] = "California Über Alles";
     $NAMES["closer"] = "Closer";
     $NAMES["forever"] = "Forever";
-    $NAMES["gone"] = "Gone (Crooked X)";
+    $NAMES["gone"] = "Gone [Crooked X]";
     $NAMES["holidayincambodia"] = "Holiday in Cambodia";
     $NAMES["mica"] = "Mica";
     $NAMES["policetruck"] = "Police Truck";
@@ -733,7 +733,7 @@
     $NAMES["fireonthemountain"] = "Fire on the Mountain";
     $NAMES["hellinabucket"] = "Hell in a Bucket";
     $NAMES["hitmewithyourbestshot"] = "Hit Me With Your Best Shot";
-    $NAMES["jailbreak_lizzy"] = "Jailbreak (Live) (Thin Lizzy)";
+    $NAMES["jailbreak_lizzy"] = "Jailbreak (Live) [Thin Lizzy]";
     $NAMES["precious"] = "Precious";
     $NAMES["unclejohnsband"] = "Uncle John's Band";
 
@@ -758,13 +758,13 @@
     $NAMES["rudemood"] = "Rude Mood";
     $NAMES["sweetness"] = "Sweetness";
     $NAMES["tellme"] = "Tell Me";
-    $NAMES["testify_srv"] = "Testify (Stevie Ray Vaughan and Double Trouble)";
+    $NAMES["testify_srv"] = "Testify [Stevie Ray Vaughan and Double Trouble]";
     $NAMES["texasflood"] = "Texas Flood";
     $NAMES["3dimesdown"] = "3 Dimes Down";
-    $NAMES["cantletgo_lucinda"] = "Can't Let Go (Lucinda Williams)";
+    $NAMES["cantletgo_lucinda"] = "Can't Let Go [Lucinda Williams]";
     $NAMES["peoplegotalotofnerve"] = "People Got a Lot of Nerve";
     $NAMES["satelliteradio"] = "Satellite Radio";
-    $NAMES["timebomb"] = "Time Bomb (LIVE) (Old 97s)";
+    $NAMES["timebomb"] = "Time Bomb (LIVE) [Old 97s]";
 
     # 3/10, 3/17, 3/24
     $NAMES["alliwant"] = "All I Want";
@@ -964,7 +964,7 @@
     $NAMES["sexonfire"] = "Sex on Fire";
     $NAMES["shesfetching"] = "She's Fetching";
     $NAMES["sweetnessandlight"] = "Sweetness & Light";
-    $NAMES["timebomb2"] = "Time Bomb (Rancid)";
+    $NAMES["timebomb2"] = "Time Bomb [Rancid]";
     $NAMES["treatmelikeyourmother"] = "Treat Me Like Your Mother";
     $NAMES["youngerbums"] = "Younger Bums";
 
@@ -1028,7 +1028,7 @@
     $NAMES["originofthespecies"] = "Origin of Species";
     $NAMES["reyourbrains"] = "Re: Your Brains";
     $NAMES["sciencegeniusgirl"] = "Science Genius Girl";
-    $NAMES["supersoniclive"] = "Supersonic (Live) (Oasis)";
+    $NAMES["supersoniclive"] = "Supersonic (Live) [Oasis]";
     $NAMES["takemetotheriver"] = "Take Me to the River";
     $NAMES["towncalledmalice"] = "A Town Called Malice";
     
@@ -1071,7 +1071,7 @@
     $NAMES["sgtpepperlittlehelp"] = "Sgt. Pepper's Lonely Hearts Club Band";
     $NAMES["something"] = "Something";
     $NAMES["taxman"] = "Taxman";
-    $NAMES["theend"] = "The End (The Beatles)";
+    $NAMES["theend"] = "The End [The Beatles]";
     $NAMES["tickettoride"] = "Ticket to Ride";
     $NAMES["tomorrowwithin"] = "Within You Without You / Tomorrow Never Knows";
     $NAMES["twistandshout"] = "Twist and Shout";
@@ -1118,8 +1118,8 @@
 	$NAMES["socold"] = "So Cold";
 	$NAMES["speedofsound"] = "Speed of Sound";
 	$NAMES["steadyasshegoes"] = "Steady, As She Goes";
-	$NAMES["supersonic"] = "Supersonic (Pearl Jam)";
-	$NAMES["theend2"] = "The End (Pearl Jam)";
+	$NAMES["supersonic"] = "Supersonic [Pearl Jam]";
+	$NAMES["theend2"] = "The End [Pearl Jam]";
 	$NAMES["thefixer"] = "The Fixer";
 	$NAMES["thewagon"] = "The Wagon";
 	$NAMES["thisisthirteen"] = "This is Thirteen";
@@ -1170,7 +1170,7 @@
 	$NAMES["bestofyou"] = "Best of You";
 	$NAMES["blew"] = "Blew";
 	$NAMES["breakout"] = "Breakout";
-	$NAMES["burnrz"] = "Burn (Rob Zombie)";
+	$NAMES["burnrz"] = "Burn [Rob Zombie]";
 	$NAMES["checkyesjuliet"] = "Check Yes Juliet";
 	$NAMES["crash"] = "Crash";
 	$NAMES["crocodilerock"] = "Crocodile Rock";
@@ -1190,7 +1190,7 @@
 	$NAMES["letsdance"] = "Let's Dance";
 	$NAMES["lifeisahighway"] = "Life is a Highway";
 	$NAMES["makemesmile"] = "Make Me Smile (Come Up and See Me)";
-	$NAMES["monster"] = "Monster";
+	$NAMES["monster"] = "Monster [The Automatic]";
 	$NAMES["naive"] = "Naïve";
 	$NAMES["newmoonrising"] = "New Moon Rising";
 	$NAMES["pilgrim"] = "Pilgrim";
@@ -1269,7 +1269,7 @@
 	$NAMES["buildabridge"] = "Build a Bridge";
 	$NAMES["crylonely"] = "Cry Lonely";
 	$NAMES["givesyouhell"] = "Gives You Hell";
-	$NAMES["gone_mg"] = "Gone (Montgomery Gentry)";
+	$NAMES["gone_mg"] = "Gone [Montgomery Gentry]";
 	$NAMES["goodtime"] = "Good Time";
 	$NAMES["itoldyouso"] = "I Told You So";
 	$NAMES["iwantyouto"] = "(If You're Wondering if I want You To) I Want You To";
@@ -1387,6 +1387,27 @@
 	$NAMES["weightless"] = "Weightless";
 	$NAMES["whitefalconfuzz"] = "White Falcon Fuzz";
 	$NAMES["wingsofabutterfly"] = "Wings of a Butterfly";
+
+	# 3/9 3/16
+	$NAMES["allofthis"] = "All of This";
+	$NAMES["badromance"] = "Bad Romance";
+	$NAMES["control"] = "Control";
+	$NAMES["decentdaysandnights"] = "Decent Days & Nights";
+	$NAMES["fellinlovewithagirl"] = "Fell in Love with a Girl";
+	$NAMES["hockeytheme"] = "The Hockey Theme";
+	$NAMES["houndsoflove"] = "Hounds of Love";
+	$NAMES["itsnotmytime"] = "It's Not My Time";
+	$NAMES["justdance"] = "Just Dance";
+	$NAMES["monstergaga"] = "Monster [Lady Gaga]";
+	$NAMES["ohyeah"] = "Oh Yeah";
+	$NAMES["pokerfacecartman"] = "Lady GaGa's Poker Face (South Park Version) [Eric Cartman]";
+	$NAMES["pokerface"] = "Poker Face [Lady Gaga]";
+	$NAMES["rocknrollqueen"] = "Rock & Roll Queen";
+	$NAMES["sevennationarmy"] = "Seven Nation Army";
+	$NAMES["tieyoudown"] = "Tie You Down";
+	$NAMES["walkaway"] = "Walk Away";
+	$NAMES["youdontknowwhatloveis"] = "You Don't Know What Love Is (You Just Do As You're Told)";
+
 
 
 ?>

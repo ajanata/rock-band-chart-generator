@@ -150,4 +150,7 @@
 	# 2/16
 	$HOPOS["RB"]["imsickyall"] = 90;
 
+	# march
+	$HOPOS["RB"]["youdontknowwhatloveis"] = 90;
+
 ?>
