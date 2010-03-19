@@ -101,7 +101,7 @@ function parseFile($file, $game, $ignoreCache = false) {
     $measures = array();
     $notetracks = array();
     $beat = array();
-    $vocals = ($game == "RB" ? array() : null);
+    $vocals = (($game == "RB" || $game == "TBRB") ? array() : null);
 
     switch ($game) {
         case "TBRB":
@@ -1701,7 +1701,7 @@ function calcScores($measures, $notetracks, $events, $config, $game, $songname =
                                 // multiplier change
                                 $mult++;
                             }
-                            if ($game == "rb" && $inst == "bass" && ($streak == $config["multi"][3] || $streak == $config["multi"][4])) {
+                            if (($game == "rb" || $game == "tbrb") && $inst == "bass" && ($streak == $config["multi"][3] || $streak == $config["multi"][4])) {
                                 $mult++;
                             }
                             

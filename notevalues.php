@@ -1,6 +1,6 @@
 <?php
 
-    define('REVISION', 275);
+    define('REVISION', 277);
 
     define('EPS', 1.0e-10);
 
