@@ -153,4 +153,5 @@
 	# march
 	$HOPOS["RB"]["youdontknowwhatloveis"] = 90;
 
+	$HOPOS["RB"]["hungrywolf"] = 90;
 ?>

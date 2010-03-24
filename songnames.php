@@ -1408,6 +1408,16 @@
 	$NAMES["walkaway"] = "Walk Away";
 	$NAMES["youdontknowwhatloveis"] = "You Don't Know What Love Is (You Just Do As You're Told)";
 
-
+	# 3/23
+	$NAMES["allamericangirl"] = "All-American Girl";
+	$NAMES["amicrazy"] = "Am I Crazy";
+	$NAMES["bangbang"] = "Bang Bang";
+	$NAMES["bluespark"] = "Blue Spark";
+	$NAMES["darlingdear"] = "Darling Dear";
+	$NAMES["hungrywolf"] = "The Hungry Worf";
+	$NAMES["imustnotthink"] = "I Must Not Think Bad Thoughts";
+	$NAMES["losangeles"] = "Los Angeles";
+	$NAMES["outerspaceaf"] = "Outer Space";
+	$NAMES["stopandstare"] = "Stop & Stare";
 
 ?>
