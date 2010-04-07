@@ -1420,4 +1420,25 @@
 	$NAMES["outerspaceaf"] = "Outer Space";
 	$NAMES["stopandstare"] = "Stop & Stare";
 
+	# 3/30 4/6
+	$NAMES["aintnotelling"] = "Ain't No Telling";
+	$NAMES["boldaslove"] = "Bold as Love";
+	$NAMES["castlesmadeofsand"] = "Castles Made of Sane";
+	$NAMES["feelgooddrag"] = "Feel Good Drag";
+	$NAMES["fireitup"] = "Fire It Up";
+	$NAMES["if6was9"] = "If 6 Was 9";
+	$NAMES["littlemisslover"] = "Little Miss Lover";
+	$NAMES["littlewing"] = "Little Wing";
+	$NAMES["livelifeloud"] = "Live Life Loud";
+	$NAMES["meanttolive"] = "Meant to Live";
+	$NAMES["monsterskillet"] = "Monster [Skillet]";
+	$NAMES["onerainywish"] = "One Rainy Wish";
+	$NAMES["shessofine"] = "She's So Fine";
+	$NAMES["spanishcastlemagic"] = "Spanish Castle Magic";
+	$NAMES["standintherain"] = "Stand in the Rain";
+	$NAMES["upfromtheskies"] = "Up From the Skies";
+	$NAMES["valleysofneptune"] = "Valleys of Neptune";
+	$NAMES["waituntiltomorrow"] = "Wait Until Tomorrow";
+	$NAMES["yougotmefloatin"] = "You Got Me Floatin'";
+
 ?>

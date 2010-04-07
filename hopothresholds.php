@@ -154,4 +154,9 @@
 	$HOPOS["RB"]["youdontknowwhatloveis"] = 90;
 
 	$HOPOS["RB"]["hungrywolf"] = 90;
+
+	$HOPOS["RB"]["upfromtheskies"] = 90;
+	$HOPOS["RB"]["littlewing"] = 90;
+	$HOPOS["RB"]["castlesmadeofsand"] = 90;
+
 ?>
