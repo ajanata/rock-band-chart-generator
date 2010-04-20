@@ -1441,4 +1441,18 @@
 	$NAMES["waituntiltomorrow"] = "Wait Until Tomorrow";
 	$NAMES["yougotmefloatin"] = "You Got Me Floatin'";
 
+	# 4/13 4/20 except Sun Hits the Sky
+	$NAMES["allstar"] = "All Star";
+	$NAMES["americanmusic"] = "American Music";
+	$NAMES["bloodonmyhands"] = "Blood on My Hands";
+	$NAMES["borntoquit"] = "Born to Quit";
+	$NAMES["emptywalls"] = "Empty Walls";
+	$NAMES["gunsofsummer"] = "Guns of Summer";
+	$NAMES["herewearejuggernaut"] = "Here We Are Juggernaut";
+	$NAMES["peekaboo"] = "Peek-a-Boo";
+	$NAMES["skyisover"] = "Sky is Over";
+	$NAMES["thebroken"] = "The Broken";
+	$NAMES["thetasteofink"] = "The Taste of Ink";
+
+
 ?>
