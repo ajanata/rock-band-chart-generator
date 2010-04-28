@@ -570,7 +570,7 @@
     $NAMES["hellsbells_live"] = "Hells Bells (Live)";
     $NAMES["highvoltage_live"] = "High Voltage (Live)";
     $NAMES["highwaytohell_live"] = "Highway to Hell (Live)";
-    $NAMES["jailbreak_live"] = "Jailbreak (Live) (AC/DC)";
+    $NAMES["jailbreak_live"] = "Jailbreak (Live) [AC/DC]";
     $NAMES["letthereberock_live"] = "Let There Be Rock (Live)";
     $NAMES["moneytalks_live"] = "Moneytalks (Live)";
     $NAMES["shoottothrill_live"] = "Shoot to Thrill (Live)";
@@ -764,7 +764,7 @@
     $NAMES["cantletgo_lucinda"] = "Can't Let Go [Lucinda Williams]";
     $NAMES["peoplegotalotofnerve"] = "People Got a Lot of Nerve";
     $NAMES["satelliteradio"] = "Satellite Radio";
-    $NAMES["timebomb"] = "Time Bomb (LIVE) [Old 97s]";
+    $NAMES["timebomb"] = "Time Bomb (Live) [Old 97s]";
 
     # 3/10, 3/17, 3/24
     $NAMES["alliwant"] = "All I Want";
