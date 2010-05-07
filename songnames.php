@@ -1454,5 +1454,22 @@
 	$NAMES["thebroken"] = "The Broken";
 	$NAMES["thetasteofink"] = "The Taste of Ink";
 
+	# 4/27 5/4 and Sun Hits the Sky
+	$NAMES["accordingtoyou"] = "According to You";
+	$NAMES["again"] = "Again";
+	$NAMES["dearestimsosorry"] = "Dearest (I'm So Sorry)";
+	$NAMES["differentpeople"] = "Different People";
+	$NAMES["enditonthis"] = "End It on This";
+	$NAMES["happynow"] = "Happy Now?";
+	$NAMES["heyyou"] = "Hey You";
+	$NAMES["sixteen"] = "Sixteen";
+	$NAMES["sunhitsthesky"] = "Sun Hits the Sky";
+	$NAMES["theclimb"] = "The Climb";
+	$NAMES["thunderbirdsarego"] = "Thunderbirds Are Go!";
+	$NAMES["tomorrow"] = "Tomorrow";
+	$NAMES["tragickingdom"] = "Tragic Kingdom";
+	$NAMES["worldgoround"] = "World Go `Round";
+	$NAMES["youcandoit"] = "You Can Do It";
+
 
 ?>
