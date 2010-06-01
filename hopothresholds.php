@@ -163,4 +163,9 @@
 	$HOPOS["RB"]["again"] = 90;
 	$HOPOS["RB"]["theclimb"] = 90;
 
+	# may/june
+	$HOPOS["RB"]["alivepod"] = 90;
+	$HOPOS["RB"]["throwingstones"] = 90;
+
+
 ?>

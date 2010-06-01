@@ -146,7 +146,7 @@
     $NAMES["ajaggedgorgeouswinter"] = "A Jagged Gorgeous Winter";
     $NAMES["alabamagetaway"] = "Alabama Getaway";
     $NAMES["alexchilton"] = "Alex Chilton";
-    $NAMES["alive"] = "Alive";
+    $NAMES["alive"] = "Alive [Pearl Jam]";
     $NAMES["almosteasy"] = "Almost Easy";
     $NAMES["americanwoman"] = "American Woman";
     $NAMES["anywayyouwantit"] = "Any Way You Want It";
@@ -1414,7 +1414,7 @@
 	$NAMES["bangbang"] = "Bang Bang";
 	$NAMES["bluespark"] = "Blue Spark";
 	$NAMES["darlingdear"] = "Darling Dear";
-	$NAMES["hungrywolf"] = "The Hungry Worf";
+	$NAMES["hungrywolf"] = "The Hungry Wolf";
 	$NAMES["imustnotthink"] = "I Must Not Think Bad Thoughts";
 	$NAMES["losangeles"] = "Los Angeles";
 	$NAMES["outerspaceaf"] = "Outer Space";
@@ -1470,6 +1470,40 @@
 	$NAMES["tragickingdom"] = "Tragic Kingdom";
 	$NAMES["worldgoround"] = "World Go `Round";
 	$NAMES["youcandoit"] = "You Can Do It";
+
+	# 5/11 5/18 5/25 6/1
+	$NAMES["10s"] = "10's";
+	$NAMES["13stepstonowhere"] = "13 Steps to Nowhere";
+	$NAMES["agirllikeyou"] = "A Girl Like You";
+	$NAMES["alivepod"] = "Alive [P.O.D.]";
+	$NAMES["beatitondowntheline"] = "Beat It on Down the Line";
+	$NAMES["breakingthelawlive"] = "Breaking the Law (Live)";
+	$NAMES["cumberlandblues"] = "Cumberland Blues";
+	$NAMES["dontyouevah"] = "Don't You Evah";
+	$NAMES["dragthewaters"] = "Drag the Waters";
+	$NAMES["floods"] = "Floods";
+	$NAMES["gotnuffin"] = "Got Nuffin";
+	$NAMES["grinderlive"] = "Grinder (Live)";
+	$NAMES["iturnmycameraon"] = "I Turn My Camera On";
+	$NAMES["livingaftermidnightlive"] = "Living After Midnight (Live)";
+	$NAMES["livingthroughme"] = "Living Through Me (Hell's Wrath)";
+	$NAMES["metalgodslive"] = "Metal Gods (Live)";
+	$NAMES["onlyamemory"] = "Only a Memory";
+	$NAMES["rapidfirelive"] = "Rapid Fire (Live)";
+	$NAMES["sandblastedskin"] = "(Reprise) Sandblasted Skin";
+	$NAMES["scarletbegonias"] = "Scarlet Begonias";
+	$NAMES["steelerlive"] = "Steeler (Live)";
+	$NAMES["suicidenotept2"] = "Suicide Note Pt. II";
+	$NAMES["thegreatsoutherntrendkill"] = "The Great Southern Trendkill";
+	$NAMES["theragelive"] = "The Rage (Live)";
+	$NAMES["throwingstones"] = "Throwing Stones";
+	$NAMES["touchofgrey"] = "Touch of Grey";
+	$NAMES["troublecomesrunning"] = "Trouble Comes Running";
+	$NAMES["undergroundinamerica"] = "The Underground in America";
+	$NAMES["unitedlive"] = "United (Live)";
+	$NAMES["usblues"] = "U.S. Blues";
+	$NAMES["warnerve"] = "War Nerve";
+	$NAMES["youdonthavetobeoldlive"] = "You Don't Have to Be Old to Be Wise (Live)";
 
 
 ?>
