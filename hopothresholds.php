@@ -167,5 +167,11 @@
 	$HOPOS["RB"]["alivepod"] = 90;
 	$HOPOS["RB"]["throwingstones"] = 90;
 
+	# GDRB
+	$HOPOS["RB"]["whenicomearound"] = 90;
+	$HOPOS["RB"]["goodriddance"] = 90;
+	$HOPOS["RB"]["novacaineshesarebel"] = 90;
+	$HOPOS["RB"]["lastnightonearth"] = 90;
+	$HOPOS["RB"]["littlegirl"] = 90;
 
 ?>

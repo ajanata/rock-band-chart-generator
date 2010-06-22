@@ -17,7 +17,7 @@
     require_once "chartlib.php";
     
     require_once "opt_drums.php";
-    require_once "opt_guitar.php";
+//    require_once "opt_guitar.php";
     
     if (isset($_SERVER["SERVER_NAME"])) {
         die("This script needs to be run from a command line, not from a web browser.\n");

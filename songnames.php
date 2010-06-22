@@ -1505,5 +1505,51 @@
 	$NAMES["warnerve"] = "War Nerve";
 	$NAMES["youdonthavetobeoldlive"] = "You Don't Have to Be Old to Be Wise (Live)";
 
+	# green day rock band
+	$NAMES["21stcenturybreakdown"] = "21st Century Breakdown";
+	$NAMES["americaneulogy"] = "American Eulogy";
+	$NAMES["americanidiot"] = "American Idiot";
+	$NAMES["arewethewaitingstjimmy"] = "Are We the Waiting/St. Jimmy";
+	$NAMES["basketcase"] = "Basket Case";
+	$NAMES["boulevardof"] = "Boulevard of Broken Dreams";
+	$NAMES["brainstewjaded"] = "Brain Stew/Jaded";
+	$NAMES["burnout"] = "Burnout";
+	$NAMES["chump"] = "Chump";
+	$NAMES["comingclean"] = "Coming Clean";
+	$NAMES["emeniussleepus"] = "Emenius Sleepus";
+	$NAMES["extraordinarygirl"] = "Extraordinary Girl";
+	$NAMES["fod"] = "F.O.D.";
+	$NAMES["geekstink"] = "Geek Stink Breath";
+	$NAMES["goodriddance"] = "Good Riddance (Time of Your Life)";
+	$NAMES["havingablast"] = "Having a Blast";
+	$NAMES["hitchinaride"] = "Hitchin' a Ride";
+	$NAMES["holiday"] = "Holiday";
+	$NAMES["homecoming"] = "Homecoming";
+	$NAMES["horseshoes"] = "Horseshoes and Handgrenades";
+	$NAMES["intheend"] = "In the End";
+	$NAMES["jesusofsuburbia"] = "Jesus of Suburbia";
+	$NAMES["lastnightonearth"] = "Last Night On Earth";
+	$NAMES["letterbomb"] = "Letterbomb";
+	$NAMES["littlegirl"] = "¿Viva La Gloria? (Little Girl)";
+	$NAMES["lobotomy"] = "Before the Lobotomy";
+	$NAMES["longview"] = "Longview";
+	$NAMES["minority"] = "Minority";
+	$NAMES["murdercity"] = "Murder City";
+	$NAMES["niceguys"] = "Nice Guys Finish Last";
+	$NAMES["novacaineshesarebel"] = "Give Me Novacaine/She's a Rebel";
+	$NAMES["peacemaker"] = "Peacemaker";
+	$NAMES["pullingteeth"] = "Pulling Teeth";
+	$NAMES["restlessheart"] = "Restless Heart Syndrome";
+	$NAMES["sassafrasroots"] = "Sassafras Roots";
+	$NAMES["seethelight"] = "See the Light";
+	$NAMES["she"] = "She";
+	$NAMES["songofthecentury"] = "Song of the Century";
+	$NAMES["thestaticage"] = "The Static Age";
+	$NAMES["wakemeup"] = "Wake Me Up When September Ends";
+	$NAMES["warning"] = "Warning";
+	$NAMES["welcometoparadise"] = "Welcome to Paradise";
+	$NAMES["whatsername"] = "Whatsername";
+	$NAMES["whenicomearound"] = "When I Come Around";
+
 
 ?>

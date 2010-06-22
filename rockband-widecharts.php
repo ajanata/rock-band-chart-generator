@@ -39,6 +39,7 @@
         if ($file == "." || $file == "..") continue;
         if (substr($file, -11) == ".parsecache") continue;
         if (substr($file, -9) == ".voxfills") continue;
+        if (strpos($file, "HEADER") !== false) continue;
         if ($file == ".svn") continue;
         if (substr($file, 0, 1) == "_") continue;
         $files[] = $file;
