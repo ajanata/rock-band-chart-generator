@@ -174,4 +174,11 @@
 	$HOPOS["RB"]["lastnightonearth"] = 90;
 	$HOPOS["RB"]["littlegirl"] = 90;
 
+	# june/july
+	$HOPOS["RB"]["thisafternoon"] = 90;
+	$HOPOS["RB"]["figuredyouout"] = 90;
+	$HOPOS["RB"]["photograph"] = 90;
+	$HOPOS["RB"]["nomoretears"] = 90;
+
+
 ?>

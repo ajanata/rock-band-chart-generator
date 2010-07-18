@@ -1551,5 +1551,42 @@
 	$NAMES["whatsername"] = "Whatsername";
 	$NAMES["whenicomearound"] = "When I Come Around";
 
+	# june and july
+	$NAMES["7things"] = "7 Things";
+	$NAMES["badmoonrising"] = "Bad Moon Rising";
+	$NAMES["bornonthebayou"] = "Born on the Bayou";
+	$NAMES["burnittotheground"] = "Burn It to the Ground";
+	$NAMES["cantbetamed"] = "Can't Be Tamed";
+	$NAMES["cherrywaves"] = "Cherry Waves";
+	$NAMES["crazybabies"] = "Crazy Babies";
+	$NAMES["digginmedown"] = "Diggin' Me Down";
+	$NAMES["downonthecorner"] = "Down on the Corner";
+	$NAMES["figuredyouout"] = "Figured You Out";
+	$NAMES["flyonthewall"] = "Fly On the Wall";
+	$NAMES["fortunateson2"] = "Fortunate Son (Original Version)";
+	$NAMES["futureperfecttense"] = "Future Perfect Tense";
+	$NAMES["greenriver"] = "Green River";
+	$NAMES["holeintheearth"] = "Hole in the Earth";
+	$NAMES["idontwannastop"] = "I Don't Wanna Stop";
+	$NAMES["ihearditthrough"] = "I Heard It Through the Grapevine";
+	$NAMES["letmehearyouscream"] = "Let Me Hear You Scream";
+	$NAMES["lookingoutmybackdoor"] = "Lookin' Out My Back Door";
+	$NAMES["minerva"] = "Minerva";
+	$NAMES["neveragain"] = "Never Again";
+	$NAMES["nomoretears"] = "No More Tears";
+	$NAMES["photograph"] = "Photograph";
+	$NAMES["proudmary2"] = "Proud Mary";
+	$NAMES["rockready"] = "Rock Ready";
+	$NAMES["rockstar"] = "Rockstar";
+	$NAMES["runthroughthejungle"] = "Run Through the Jungle";
+	$NAMES["seeyouagain"] = "See You Again";
+	$NAMES["soulsucker"] = "Soul Sucker";
+	$NAMES["startallover"] = "Start All Over";
+	$NAMES["thegreatescape"] = "The Great Escape";
+	$NAMES["thisafternoon"] = "This Afternoon";
+	$NAMES["travellingband"] = "Travelen' Band";
+	$NAMES["uparoundthebend"] = "Up Around the Bend";
+	$NAMES["whollstoptherain"] = "Who'll Stop the Rain";
+
 
 ?>
