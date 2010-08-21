@@ -180,5 +180,7 @@
 	$HOPOS["RB"]["photograph"] = 90;
 	$HOPOS["RB"]["nomoretears"] = 90;
 
+	$ july/august
+	$HOPOS["RB"]["igotmine"] = 90;
 
 ?>

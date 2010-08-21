@@ -110,7 +110,7 @@
     $NAMES["maps"] = "Maps";
     $NAMES["missqueen"] = "Mississippi Queen";
     $NAMES["nexttoyou"] = "Next To You";
-    $NAMES["nightmare"] = "Nightmare";
+    $NAMES["nightmare"] = "Nightmare [Crooked X]";
     $NAMES["orangecrush"] = "Orange Crush";
     $NAMES["outside"] = "Outside";
     # duplicate from GH3
@@ -1587,6 +1587,40 @@
 	$NAMES["travellingband"] = "Travelen' Band";
 	$NAMES["uparoundthebend"] = "Up Around the Bend";
 	$NAMES["whollstoptherain"] = "Who'll Stop the Rain";
+
+	# july and august
+	$NAMES["adioslepido"] = "A Dios le Pido";
+	$NAMES["animal"] = "Animal";
+	$NAMES["bulletproof"] = "Bulletproof";
+	$NAMES["fijatebien"] = "Fíjate Bien";
+	$NAMES["gotasdeaguadulce"] = "Gotas de Agua Dulce";
+	$NAMES["igotmine"] = "I Got Mine";
+	$NAMES["ionlywantyou"] = "I Only Want You";
+	$NAMES["iwannabeyourdog"] = "I Wanna Be Your Dog";
+	$NAMES["jesusbuiltmyhotrod"] = "Jesus Built My Hotrod";
+	$NAMES["jesusfreak"] = "Jesus Freak";
+	$NAMES["lacamisanegra"] = "La Camisa Negra";
+	$NAMES["loveaddict"] = "Love Addict";
+	$NAMES["malagente"] = "Mala Gente";
+	$NAMES["newdarkages"] = "New Dark Ages";
+	$NAMES["nightmare2"] = "Nightmare [Avenged Sevenfold]";
+	$NAMES["nineteeneightythree"] = "1983";
+	$NAMES["nineteensixtynine"] = "1969";
+	$NAMES["nocontrol"] = "No Control";
+	$NAMES["nofun"] = "No Fun";
+	$NAMES["rapture"] = "Rapture";
+	$NAMES["saturdaymorning"] = "Saturday Morning";
+	$NAMES["scream"] = "Scream";
+	$NAMES["seizetheday"] = "Seize the Day";
+	$NAMES["sinsofmyyouth"] = "Sins of My Youth";
+	$NAMES["stigmata"] = "Stigmata";
+	$NAMES["strangetimes"] = "Strange Times";
+	$NAMES["sturmunddrang"] = "Sturm & Drang";
+	$NAMES["theperfectcrimeno2"] = "The Perfect Crime #2";
+	$NAMES["thieves"] = "Thieves";
+	$NAMES["yerbatero"] = "Yerbatero";
+	$NAMES["yourtouch"] = "Your Touch";
+
 
 
 ?>
