@@ -43,7 +43,8 @@ EOT
 </p>
 <p>Significant changes recently:
 <ul>
-<li><span style="color:red">Explanation for delay:</span> I spent the last month and a half moving across the country and getting settled at a new job, having next to no spare cash (or even a stable Internet connection to use). I should be able to keep to my "10 new songs then do an update" goal now, but the updates may only come on weekends.</li>
+<li>I'm lazy. This actually isn't a new thing, it's just why I keep not getting around to updating.</li>
+<li>I'm not sure what my plans will be after Rock Band 3 is released. It depends on how much the file format changes (if anything) for the "traditional" parts. I am likely <b>not</b> going to be doing any Pro support anytime soon. Neither am I likely to fix harmonies.</li>
 <li>This is expensive for me to do. Please consider donating via the Donate button <a href="http://charts.ajanata.com/">here</a>.</li>
 </ul></p>
 <p><a href="http://charts.ajanata.com/rb/">Rock Band 1/2 and DLC charts</a> <a href="http://charts.ajanata.com/tbrb/">The Beatles: Rock Band and DLC charts</a></p>
