@@ -18,7 +18,7 @@
 
   /* */
     $mid = new Midi;
-    $mid->importMid("mids/rb/stonehenge.mid");
+    $mid->importMid("mids/rb/evenflow.mid");
 
     #echo "Time Signature Track\n";
     #echo $mid->getTrackTxt(0);

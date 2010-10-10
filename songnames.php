@@ -1621,6 +1621,75 @@
 	$NAMES["yerbatero"] = "Yerbatero";
 	$NAMES["yourtouch"] = "Your Touch";
 
+	# august and september
+	$NAMES["amongtheliving"] = "Among the Living";
+	$NAMES["anotherwaytodie"] = "Another Way to Die";
+	$NAMES["asylum"] = "Asylum";
+	$NAMES["beautiful"] = "Beautiful";
+	$NAMES["burymealive"] = "Bury Me Alive";
+	$NAMES["childrenoftherevolution"] = "Children of the Revolution";
+	$NAMES["closertotheedge"] = "Closer to the Edge";
+	$NAMES["cosmicdancer"] = "Cosmic Dancer";
+	$NAMES["daysgoby"] = "Days Go By";
+	$NAMES["dropitlikeitshot"] = "Drop It Like It's Hot";
+	$NAMES["fancy"] = "Fancy";
+	$NAMES["hellontheheart"] = "Hell on the Heart";
+	$NAMES["holydiver"] = "Holy Diver";
+	$NAMES["imtheman"] = "I'm the Man";
+	$NAMES["indians"] = "Indians";
+	$NAMES["irishbloodenglishheart"] = "Irish Blood, English Heart";
+	$NAMES["ithappens"] = "It Happens";
+	$NAMES["jeepster"] = "Jeepster";
+	$NAMES["listentothemusic"] = "Listen to the Music";
+	$NAMES["lookinforagoodtime"] = "Lookin' For a Good Time";
+	$NAMES["madhouselive"] = "Madhouse (Live)";
+	$NAMES["metalthrashingmadlive"] = "Metal Thrasing Mad";
+	$NAMES["mountainman"] = "Mountan Man";
+	$NAMES["outofline"] = "Out of Line";
+	$NAMES["rebound"] = "Rebound";
+	$NAMES["ridininmychevy"] = "Ridin' In My Chevy";
+	$NAMES["seasons"] = "Seasons";
+	$NAMES["sensualseduction"] = "Sensual Seduction";
+	$NAMES["snoopsupsideyahead"] = "Snoop's Upside Ya Head";
+	$NAMES["standupandshout"] = "Stand Up and Shout";
+	$NAMES["thashiznit"] = "Tha Shiznit";
+	$NAMES["thatsthahomie"] = "That's Tha Homie";
+	$NAMES["theanimal"] = "The Animal";
+	$NAMES["theblackparade"] = "Welcome to the Black Parade";
+	$NAMES["thischarmingman"] = "This Charming Man";
+	$NAMES["whatwasithinkin"] = "What Was I Thinkin'";
+	$NAMES["whoamiwhatsmyname"] = "Who Am I (What's My Name)?";
+	$NAMES["women"] = "Women";
+	$NAMES["wouldyougowithme"] = "Would You Go With Me";
+	$NAMES["writingonthewall"] = "Writing on the Walls";
+	# part 2
+	$NAMES["buffalosoldier"] = "Buffalo Soldier";
+	$NAMES["coffinnails"] = "Coffin Nails";
+	$NAMES["couldyoubeloved"] = "Could You Be Loved";
+	$NAMES["driver8"] = "Driver 8";
+	$NAMES["exodus"] = "Exodus";
+	$NAMES["imnotokay"] = "I'm Not Okay (I Promise)";
+	$NAMES["ishotthesheriff"] = "I Shot the Sheriff";
+	$NAMES["isthislove"] = "Is This Love";
+	$NAMES["itstheendoftheworld"] = "It's the End of the World As We Know It (And I Feel Fine)";
+	$NAMES["jamming"] = "Jamming";
+	$NAMES["livingwell"] = "Living Well is the Best Revenge";
+	$NAMES["longtrainrunnin"] = "Long Train Runnin'";
+	$NAMES["nirvana"] = "Nirvana";
+	$NAMES["nowomannocry"] = "No Woman No Cry";
+	$NAMES["onelove"] = "One Love/People Get Ready";
+	$NAMES["radiofreeeurope"] = "Radio Free Europe";
+	$NAMES["redemptionsong"] = "Redemption Song";
+	$NAMES["satisfymysoul"] = "Satisfy My Soul";
+	$NAMES["stand"] = "Stand";
+	$NAMES["stiritup"] = "Stir It Up";
+	$NAMES["straightlines"] = "Straight Lines";
+	$NAMES["superman"] = "Superman";
+	$NAMES["thesedays"] = "These Days";
+	$NAMES["threelittlebirds"] = "Three Little Birds";
+	$NAMES["waitinginvain"] = "Waiting in Vain";
+	$NAMES["whatsthefrequencykenneth"] = "What's the Frequency, Kenneth?";
+
 
 
 ?>
