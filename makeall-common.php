@@ -43,8 +43,8 @@ EOT
 </p>
 <p>Significant changes recently:
 <ul>
+<li><b>Rock Band 3</b> charts. At this time, only in instrument combinations I have been doing for the DLC. I may be able to add keys support relatively soon. I am likely <b>not</b> going to be doing any Pro support (on any instrument) in the near future. Neither am I likely to fix harmonies.</li>
 <li>I'm lazy. This actually isn't a new thing, it's just why I keep not getting around to updating.</li>
-<li>I'm not sure what my plans will be after Rock Band 3 is released. It depends on how much the file format changes (if anything) for the "traditional" parts. I am likely <b>not</b> going to be doing any Pro support anytime soon. Neither am I likely to fix harmonies.</li>
 <li>This is expensive for me to do. Please consider donating via the Donate button <a href="http://charts.ajanata.com/">here</a>.</li>
 </ul></p>
 <p><a href="http://charts.ajanata.com/rb/">Rock Band 1/2 and DLC charts</a> <a href="http://charts.ajanata.com/tbrb/">The Beatles: Rock Band and DLC charts</a></p>

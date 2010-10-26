@@ -10,7 +10,7 @@ require_once 'classes/midi.class.php';
 require_once 'songnames.php';
 
 
-// returns (songname, events[guitar...vocals], timetrack, measures[guitar...drums]notes[easy...expert], notetracks[guitar...drums][easy...expert], vocals, beat, harm1, harm2)
+// returns (songname, events[guitar...vocals], timetrack, measures[guitar...drums]notes[easy...expert], notetracks[guitar...drums][easy...expert], vocals, beat, harm1, harm2, harm3)
 // measures has one or more of guitar, coop, bass, drums.
 // vocals will be null if not rock band
 function parseFile($file, $game, $ignoreCache = false) {
@@ -22,7 +22,7 @@ function parseFile($file, $game, $ignoreCache = false) {
         $CACHED = true;
         $cache = fopen($file . ".parsecache", 'r');
         $stat = fstat($cache);
-        $serialized = fread($cache, $stat["size"]);
+        $serialized = gzuncompress(fread($cache, $stat["size"]));
         fclose($cache);
         list ($timebase, $unserialized) = unserialize($serialized);
         return $unserialized;
@@ -38,7 +38,7 @@ function parseFile($file, $game, $ignoreCache = false) {
     $game = strtoupper($game);
     
     $eventsTrack = $guitarTrack = $guitarCoopTrack = $bassTrack = $drumsTrack = $vocalsTrack = $beatTrack = 0;
-    $harm1Track = $harm2Track = 0;
+    $harm1Track = $harm2Track = $harm3Track = 0;
     for ($i = 1; $i < $mid->getTrackCount(); $i++) {
         $temp = $mid->getMsg($i, 0);
         #echo substr($temp, 16) . "\n";
@@ -60,11 +60,14 @@ function parseFile($file, $game, $ignoreCache = false) {
         if (substr($temp, 16) == "PART VOCALS\"") {
             $vocalsTrack = $i;
         }
-        if (substr($temp, 16) == "PART HARM1\"") {
+        if (substr($temp, 16) == "PART HARM1\"" || substr($temp, 16) =="HARM1\"") {
             $harm1Track = $i;
         }
-        if (substr($temp, 16) == "PART HARM2\"") {
+        if (substr($temp, 16) == "PART HARM2\"" || substr($temp, 16) =="HARM2\"") {
             $harm2Track = $i;
+        }
+        if (substr($temp, 16) == "PART HARM3\"" || substr($temp, 16) =="HARM3\"") {
+            $harm3Track = $i;
         }
         if (substr($temp, 16) == "EVENTS\"") {
             $eventsTrack = $i;
@@ -119,7 +122,7 @@ function parseFile($file, $game, $ignoreCache = false) {
             $events["vocals"] = parsePhraseEvents($mid->getTrackTxt($vocalsTrack), $NOTES["RB"], true);
             
             $vocals = parseVocals($mid->getTrackTxt($vocalsTrack));
-            $harm1 = $harm2 = null;
+            $harm1 = $harm2 = $harm3 = null;
             if ($game == "TBRB") {
                 if ($harm1Track != 0) {
                     $harm1 = parseVocals($mid->getTrackTxt($harm1Track));
@@ -128,6 +131,10 @@ function parseFile($file, $game, $ignoreCache = false) {
                 if ($harm2Track != 0) {
                     $harm2 = parseVocals($mid->getTrackTxt($harm2Track));
                     $events["harm2"] = parsePhraseEvents($mid->getTrackTxt($harm2Track), $NOTES["RB"], true);
+                }
+                if ($harm3Track != 0) {
+                    $harm3 = parseVocals($mid->getTrackTxt($harm3Track));
+                    $events["harm3"] = parsePhraseEvents($mid->getTrackTxt($harm3Track), $NOTES["RB"], true);
                 }
             }
 
@@ -143,6 +150,9 @@ function parseFile($file, $game, $ignoreCache = false) {
                 }
                 if ($harm2Track != 0) {
                     $events["harm2"] = fixVocalEvents($harm2, $events["harm2"], $timetrack);
+                }
+                if ($harm3Track != 0) {
+                    $events["harm3"] = fixVocalEvents($harm3, $events["harm3"], $timetrack);
                 }
             }
             
@@ -198,12 +208,12 @@ function parseFile($file, $game, $ignoreCache = false) {
     if (!$ignoreCache) {
         $cache = fopen($file . ".parsecache", 'w');
         if ($cache) {
-            fwrite($cache, serialize(array($timebase, array($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat, $harm1, $harm2))));
+            fwrite($cache, gzcompress(serialize(array($timebase, array($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat, $harm1, $harm2, $harm3)))), 9);
         }
         fclose($cache);
     }
 
-    return array($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat, $harm1, $harm2);
+    return array($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat, $harm1, $harm2, $harm3);
 }
 
 

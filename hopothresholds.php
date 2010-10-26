@@ -183,4 +183,8 @@
 	# july/august
 	$HOPOS["RB"]["igotmine"] = 90;
 
+	$HOPOS["RB"]["heyjoelive"] = 90;
+	$HOPOS["RB"]["areyouexperienced"] = 90;
+	$HOPOS["RB"]["deadandbloated"] = 90;
+
 ?>
