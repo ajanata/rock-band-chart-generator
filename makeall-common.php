@@ -50,6 +50,7 @@ EOT
 <ul>
 <li>I will update these at least through the end of March.</li>
 <li>I have removed the donate link because of this. Thank you to those of you who have sent me money for this (about $150 overall), it has kept me motivated to actually do this, and it would force me to get caught up to date as soon as humanly possible. :)</li>
+</ul>
 </ul></p>
 <p><a href="http://charts.ajanata.com/rb/">Rock Band 1/2/3/LEGO/Green Day and DLC charts</a> <a href="http://charts.ajanata.com/tbrb/">The Beatles: Rock Band and DLC charts</a></p>
 <p>These charts are blank. They have not been verified against the game and may be faulty. If you see something horribly wrong please <a href="http://rockband.scorehero.com/forum/privmsg.php?mode=post&u=52545">send me a message</a> on ScoreHero. Relevant discussion threads for <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=4773">drums/drums+vocals</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=5062">guitar/bass/guitar+bass</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7625">vocals</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7626">vocaltar</a>, and <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7627">full band</a>.</p>
