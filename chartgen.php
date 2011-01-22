@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(0);
+
     define("DRAWPULSES", false);
     define("SHOWFORCED", false);
 

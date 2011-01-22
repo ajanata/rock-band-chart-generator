@@ -18,7 +18,8 @@
     $HOPOS["RB"]["ramblinman"] = 250;
     $HOPOS["RB"]["action"] = 250;
     # this is in the wrong spot in the song's .dta so it isn't processed
-    #$HOPOS["RB"]["aestheticsofhate"] = 250;
+    # rb3 updates this to be correct so I'll indicate it now
+    $HOPOS["RB"]["aestheticsofhate"] = 250;
     $HOPOS["RB"]["badtothebone"] = 90;
     $HOPOS["RB"]["blindedbyfear"] = 250;
     $HOPOS["RB"]["bloodsugarsexmagik"] = 90;
@@ -186,5 +187,14 @@
 	$HOPOS["RB"]["heyjoelive"] = 90;
 	$HOPOS["RB"]["areyouexperienced"] = 90;
 	$HOPOS["RB"]["deadandbloated"] = 90;
+
+	# rb3
+	$HOPOS["RB"]["yoshimibattles"] = 90;
+
+	$HOPOS["RB"]["blazeofglory"] = "100";
+	$HOPOS["RB"]["folsomprisonblues"] = "90";
+	$HOPOS["RB"]["loveme2x"] = "120";
+	$HOPOS["RB"]["roadhouseblues"] = "90";
+	$HOPOS["RB"]["wearethechampions2"] = "90";
 
 ?>

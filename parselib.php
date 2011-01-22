@@ -20,7 +20,7 @@ function parseFile($file, $game, $ignoreCache = false) {
     
     if (!$ignoreCache && file_exists($file . ".parsecache")) {
         $CACHED = true;
-        $cache = fopen($file . ".parsecache", 'r');
+        $cache = fopen($file . ".parsecache", 'rb');
         $stat = fstat($cache);
         $serialized = gzuncompress(fread($cache, $stat["size"]));
         fclose($cache);
@@ -42,7 +42,8 @@ function parseFile($file, $game, $ignoreCache = false) {
     for ($i = 1; $i < $mid->getTrackCount(); $i++) {
         $temp = $mid->getMsg($i, 0);
         #echo substr($temp, 16) . "\n";
-        if (substr($temp, 16) == "PART GUITAR\"") {
+       if (substr($temp, 16) == "PART GUITAR\"") {
+       // if (substr($temp, 16) == "PART KEYS\"") {
             $guitarTrack = $i;
         }
         if (substr($temp, 16) == "PART GUITAR COOP\"") {
@@ -206,9 +207,9 @@ function parseFile($file, $game, $ignoreCache = false) {
 // stick beat at the end of that
 
     if (!$ignoreCache) {
-        $cache = fopen($file . ".parsecache", 'w');
+        $cache = fopen($file . ".parsecache", 'wb');
         if ($cache) {
-            fwrite($cache, gzcompress(serialize(array($timebase, array($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat, $harm1, $harm2, $harm3)))), 9);
+            fwrite($cache, gzcompress(serialize(array($timebase, array($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat, $harm1, $harm2, $harm3)))));
         }
         fclose($cache);
     }

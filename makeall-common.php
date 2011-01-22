@@ -43,11 +43,15 @@ EOT
 </p>
 <p>Significant changes recently:
 <ul>
-<li><b>Rock Band 3</b> charts. At this time, only in instrument combinations I have been doing for the DLC. I may be able to add keys support relatively soon. I am likely <b>not</b> going to be doing any Pro support (on any instrument) in the near future. Neither am I likely to fix harmonies.</li>
-<li>I'm lazy. This actually isn't a new thing, it's just why I keep not getting around to updating.</li>
-<li>This is expensive for me to do. Please consider donating via the Donate button <a href="http://charts.ajanata.com/">here</a>.</li>
+<li>Keys charts aren't going to happen until I do an entire rewrite. This may or may not ever happen. :)</li>
+<li>I'm not indicating unison bonuses on the solo charts. If you're pathing for Rock Band 3, use a co-op chart so you know when unison bonuses are. Again, this is unlikely to be addressed without an entire rewrite.</li>
+<li><b>Rock Band 3</b> charts. At this time, only in instrument combinations I have been doing for the DLC. <strike>I may be able to add keys support relatively soon.</strike> I am likely <b>not</b> going to be doing any Pro support (on any instrument) in the near future. Neither am I likely to fix harmonies.</li>
+<li>I may stop updating these charts at some point in the future. DarylZero has a <a href="http://site.tmullin.net:81/ipather/">nice chart program</a> that he's actively maintaining and adding RB3-specific features to. Already it handles pro drums, keys, and unison bonuses. Go check it out, it's really quite nice.</li>
+<ul>
+<li>I will update these at least through the end of March.</li>
+<li>I have removed the donate link because of this. Thank you to those of you who have sent me money for this (about $150 overall), it has kept me motivated to actually do this, and it would force me to get caught up to date as soon as humanly possible. :)</li>
 </ul></p>
-<p><a href="http://charts.ajanata.com/rb/">Rock Band 1/2 and DLC charts</a> <a href="http://charts.ajanata.com/tbrb/">The Beatles: Rock Band and DLC charts</a></p>
+<p><a href="http://charts.ajanata.com/rb/">Rock Band 1/2/3/LEGO/Green Day and DLC charts</a> <a href="http://charts.ajanata.com/tbrb/">The Beatles: Rock Band and DLC charts</a></p>
 <p>These charts are blank. They have not been verified against the game and may be faulty. If you see something horribly wrong please <a href="http://rockband.scorehero.com/forum/privmsg.php?mode=post&u=52545">send me a message</a> on ScoreHero. Relevant discussion threads for <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=4773">drums/drums+vocals</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=5062">guitar/bass/guitar+bass</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7625">vocals</a>, <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7626">vocaltar</a>, and <a href="http://rockband.scorehero.com/forum/viewtopic.php?t=7627">full band</a>.</p>
 <p>They are in alphabetical order by .mid file name (this normally doesn't mean anything, but "the" is often left out). Probably easier to find a song this way anyway.</p>
 <p>Solo note counts and estimated upperbound Big Rock Ending bonuses listed above where the solo or ending ends. To the bottom right of each measure are numbers relating to that measure. Black is the measure score (no multiplier taken into account). Red is the cumulative score to that point (with multipliers) without solo bonuses. Green (on guitar parts only) is cumulative score to that point counting solo bonuses. Blue is the number of whammy beats (no early whammy taken into account) in that measure. Between groups of lines on multiple-instrument parts is the band measure score. This score currently does not take vocals into account, and assumes that every instrument is always at the maximum multiplier. I intend on making this better at some point, but even just having this makes pathing easier.</p>
