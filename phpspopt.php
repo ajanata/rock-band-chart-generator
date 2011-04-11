@@ -48,7 +48,8 @@
 
 
     echo "Parsing file " . $song . "...\n";
-    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat)
+//(songname, events[guitar...vocals], timetrack, measures[guitar...drums]notes[easy...expert], notetracks[guitar...drums][easy...expert], vocals, beat, harm1, harm2, harm3)
+    list ($songname, $events, $timetrack, $measures, $notetracks, $vocals, $beat, $harm1, $harm2, $harm3)
             = parseFile("mids/" . $game . "/" . $song . ".mid", strtoupper($game), false);
 
 
@@ -60,7 +61,7 @@
 
             echo "Generating image...\n";
 
-            $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, $diff, $game, /*guitar*/ false,
+            $im = makeChart($notetracks, $measures, $timetrack, $events, $vocals, array("drums" => $diff), $game, /*guitar*/ false,
                     /*bass*/ false, /*drums*/ true, /*vocals*/ false, $songname, $beat);
 	
 	        global $activated, $black;

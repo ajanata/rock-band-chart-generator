@@ -197,4 +197,6 @@
 	$HOPOS["RB"]["roadhouseblues"] = "90";
 	$HOPOS["RB"]["wearethechampions2"] = "90";
 
+	$HOPOS["RB"]["rudiecantfail"] = 90;
+
 ?>
