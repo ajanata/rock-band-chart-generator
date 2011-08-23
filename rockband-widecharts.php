@@ -178,6 +178,16 @@ EOT
     	$realname = (isset($NAMES[$songname]) ? $NAMES[$songname] : $songname);
     	echo " ($realname)";
 
+        $pid = pcntl_fork();
+        if (-1 == $pid) {
+                die('could not fork');
+        } else if ($pid) {
+                echo " [fork " . $pid . "]";
+                pcntl_wait($status);
+                continue;
+        }
+
+
     	// vocals first
     	echo " [vocals]";
     	if (isset($cache[$shortname]["vocals"]) && $cache[$shortname]["vocals"]["version"] >= CHARTVERSION) {
@@ -454,6 +464,9 @@ EOT
         fwrite($idx["voxbass"], "</tr>\n");
         
         echo "\n";
+
+	// we're in the fork()ed process
+	exit;
     } // foreach file
 
 

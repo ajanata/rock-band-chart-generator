@@ -141,6 +141,15 @@ EOT
     	$realname = (isset($NAMES[$songname]) ? $NAMES[$songname] : $songname);
     	echo " ($realname)";
 
+	$pid = pcntl_fork();
+	if (-1 == $pid) {
+		die('could not fork');
+	} else if ($pid) {
+		echo " [fork " . $pid . "]";
+		pcntl_wait($status);
+		continue;
+	}
+
 
         // full band
         echo " [fullband]";
@@ -261,6 +270,9 @@ EOT
         fwrite($idx["guitardrums"], "</tr>\n");
         
         echo "\n";
+
+	// because we're in the fork()ed process
+	exit;
     } // foreach file
 
 
