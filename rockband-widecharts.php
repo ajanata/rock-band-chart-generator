@@ -178,6 +178,9 @@ EOT
     	$realname = (isset($NAMES[$songname]) ? $NAMES[$songname] : $songname);
     	echo " ($realname)";
 
+        if ($i % 10 == 0) $cache = loadCache(RB_CACHE);
+
+
         $pid = pcntl_fork();
         if (-1 == $pid) {
                 die('could not fork');
@@ -464,6 +467,9 @@ EOT
         fwrite($idx["voxbass"], "</tr>\n");
         
         echo "\n";
+
+
+        if ($i % 10 == 0) saveCache(RB_CACHE, $cache);
 
 	// we're in the fork()ed process
 	exit;

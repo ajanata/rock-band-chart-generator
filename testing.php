@@ -16,12 +16,13 @@
     
     
 
-  /* * /
+  /* */
     $mid = new Midi;
-    $mid->importMid("mids/rb/evenflow.mid");
+    $mid->importMid("mids/rb/solonely.mid");
 
-    #echo "Time Signature Track\n";
-    #echo $mid->getTrackTxt(0);
+    echo "Time Signature Track\n";
+    echo $mid->getTrackTxt(0);
+exit;
     
     #echo "\n\n\n\n\nGuitar Track\n";
     #echo $mid->getTrackTxt(4);

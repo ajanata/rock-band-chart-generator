@@ -18,6 +18,7 @@
         $stat = fstat($cache);
         $serialized = fread($cache, $stat["size"]);
         $unserialized = unserialize($serialized);
+        fclose($cache);
         return $unserialized;
     }
     
@@ -26,6 +27,7 @@
         $cache = fopen($file, 'w');
         if ($cache) {
             fwrite($cache, serialize($array));
+            fclose($cache);
         }
     }
     
